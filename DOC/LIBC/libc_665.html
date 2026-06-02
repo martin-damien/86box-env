@@ -1,0 +1,68 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_665.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_664.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_666.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> rindex </H2>
+<!--docid::SEC3430::-->
+<A NAME="SEC3431"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC3431::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;strings.h&#62;
+
+char *rindex(const char *string, int ch);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3432"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC3432::-->
+<P>
+
+Returns a pointer to the last occurrence of <VAR>ch</VAR> in <VAR>string</VAR>. 
+Note that the <CODE>NULL</CODE> character counts, so if you pass zero as
+<VAR>ch</VAR> you'll get a pointer to the end of the string back. 
+</P><P>
+
+<A NAME="SEC3433"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC3433::-->
+<P>
+
+A pointer to the character, or <CODE>NULL</CODE> if it wasn't found.
+</P><P>
+
+<A NAME="SEC3434"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC3434::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3435"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC3435::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>char *last_slash = rindex(filename, '/');
+</pre></td></tr></table></P><P>
+
+<A NAME="rmdir"></A>
+<!--#perl sub="trailer" -->

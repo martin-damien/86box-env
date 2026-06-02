@@ -1,0 +1,117 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_847.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_846.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_848.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> v2loadimage </H2>
+<!--docid::SEC4448::-->
+<P>
+
+<A NAME="SEC4449"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC4449::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;debug/v2load.h&#62;
+
+int v2loadimage (const char *program, const char *cmdline,
+                 jmp_buf load_state);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC4450"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC4450::-->
+<P>
+
+This function loads an executable image of a DJGPP v2.x program and
+prepares it for debugging.  <VAR>program</VAR> should point to the file name
+of the executable program.  <CODE>v2loadimage</CODE> does <STRONG>not</STRONG> search
+the <CODE>PATH</CODE> and does <STRONG>not</STRONG> try any executable extensions, so
+<VAR>program</VAR> should point to a fully-qualified path, complete with the
+drive, directory, and file-name extension; otherwise the call will fail.
+</P><P>
+
+<VAR>cmdline</VAR> should point to the command-line arguments to be passed to
+the program.  A command line up to 126 characters long can be formatted
+exactly like the command tail DOS passes to programs: the first byte gives
+the length of the command tail, the tail itself begins with the second byte,
+and the tail is terminated by a CR character (decimal code 13); the length
+byte does not include the CR.  Longer command lines require a different
+format: the first byte is 255, the command-line starting with the second byte
+which is terminated by a NUL character (decimal code 0).  Regardless of the
+method used, the command-line arguments should look as if they were to be
+passed to the library function <CODE>system</CODE>.  In particular, all special
+characters like wildcards and whitespace should be quoted as if they were
+typed at the DOS prompt.
+</P><P>
+
+After the function loads the image and sets up the necessary memory
+segments for it to be able to run, it sets <VAR>load_state</VAR> so that it
+can be used to <CODE>longjmp</CODE> to the debuggee's entry point.  This
+information is typically used by <CODE>run_child</CODE> (see section <A HREF="libc_667.html">run_child</A>).
+</P><P>
+
+<A NAME="SEC4451"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC4451::-->
+<P>
+
+Zero in case of success, non-zero otherwise.
+</P><P>
+
+<A NAME="SEC4452"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC4452::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC4453"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC4453::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre> cmdline = (char *) alloca (strlen (args) + 4);
+ cmdline[0] = strlen (args);
+ strcpy (cmdline + 1, args);
+ cmdline[strlen (args) + 1] = 13;
+
+ if (v2loadimage (exec_file, cmdline, start_state))
+  {
+    printf ("Load failed for image %s\n", exec_file);
+    exit (1);
+  }
+
+  edi_init (start_state);
+</pre></td></tr></table></P><P>
+
+<A NAME="valloc"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_846.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_848.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

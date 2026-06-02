@@ -1,0 +1,226 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_373.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_372.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_374.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _get_dev_info </H2>
+<!--docid::SEC1848::-->
+<A NAME="SEC1849"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC1849::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;io.h&#62;
+
+short _get_dev_info(int handle);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1850"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC1850::-->
+<P>
+
+Given a file handle in <VAR>handle</VAR>, this function returns the info word
+from DOS IOCTL function 0 (Int 21h/AX=4400h).  <VAR>handle</VAR> must refer
+to an open file or device, otherwise the call will fail (and set
+<CODE>errno</CODE> to <CODE>EBADF</CODE>).
+</P><P>
+
+In case of success, the returned value is the coded information from the
+system about the character device or the file which is referenced by the
+file handle <VAR>handle</VAR>.  The header <CODE>&#60;libc/getdinfo.h&#62;</CODE> defines
+constants for the individual bits in the return value.  The following table
+shows the meaning of the individual bits in the return value:
+</P><P>
+
+For a character device:
+</P><P>
+
+<TABLE>
+<TR><TD>Bit(s)</TD>
+</TD><TD> Constant
+</TD><TD> Description
+
+</TR>
+<TR><TD>14</TD>
+</TD><TD> <CODE>_DEV_IOCTRL</CODE>
+</TD><TD> Device can process IOCTL functions 02h and 03h
+
+</TR>
+<TR><TD>13</TD>
+</TD><TD>
+</TD><TD> Device supports output-until-busy
+
+</TR>
+<TR><TD>11</TD>
+</TD><TD>
+</TD><TD> Device supports OPEN/CLOSE calls
+
+</TR>
+<TR><TD>8</TD>
+</TD><TD>
+</TD><TD> Unknown; set by MS-DOS 6.2x <TT>`KEYB<VAR>xx</VAR>.COM'</TT>
+
+</TR>
+<TR><TD>7</TD>
+</TD><TD> <CODE>_DEV_CDEV</CODE>
+</TD><TD> Always set for character devices
+
+</TR>
+<TR><TD>6</TD>
+</TD><TD>
+</TD><TD> End of file on input
+
+</TR>
+<TR><TD>5</TD>
+</TD><TD> <CODE>_DEV_RAW</CODE>
+</TD><TD> If set, device is in <STRONG>raw</STRONG> (binary) mode
+
+</TR>
+<TR><TD>5</TD>
+</TD><TD> <CODE>_DEV_RAW</CODE>
+</TD><TD> If clear, device is in <STRONG>cooked</STRONG> (text) mode
+
+</TR>
+<TR><TD>4</TD>
+</TD><TD>
+</TD><TD> Device uses Int 29h
+
+</TR>
+<TR><TD>3</TD>
+</TD><TD> <CODE>_DEV_CLOCK</CODE>
+</TD><TD> Clock device
+
+</TR>
+<TR><TD>2</TD>
+</TD><TD> <CODE>_DEV_NUL</CODE>
+</TD><TD> NUL device
+
+</TR>
+<TR><TD>1</TD>
+</TD><TD> <CODE>_DEV_STDOUT</CODE>
+</TD><TD> Standard output device
+
+</TR>
+<TR><TD>0</TD>
+</TD><TD> <CODE>_DEV_STDIN</CODE>
+</TD><TD> Standard input device
+</TR></TABLE>
+<P>
+
+For a block device (a disk file):
+</P><P>
+
+<TABLE>
+<TR><TD>Bit(s)</TD>
+</TD><TD> Constant
+</TD><TD> Description
+
+</TR>
+<TR><TD>15</TD>
+</TD><TD> <CODE>_DEV_REMOTE</CODE>
+</TD><TD> Device is remote (networked drive)
+
+</TR>
+<TR><TD>14</TD>
+</TD><TD>
+</TD><TD> Don't set file time stamp on close
+
+</TR>
+<TR><TD>11</TD>
+</TD><TD>
+</TD><TD> If set, non-removable media
+
+</TR>
+<TR><TD>11</TD>
+</TD><TD>
+</TD><TD> If clear, media is removable (e.g. floppy disk)
+
+</TR>
+<TR><TD>8</TD>
+</TD><TD>
+</TD><TD> Generate Int 24h if full disk or read past EOF
+
+</TR>
+<TR><TD>7</TD>
+</TD><TD> <CODE>_DEV_CDEV</CODE>
+</TD><TD> Always clear for disk files
+
+</TR>
+<TR><TD>6</TD>
+</TD><TD>
+</TD><TD> File has not been written to
+
+</TR>
+<TR><TD>5-0</TD>
+</TD><TD>
+</TD><TD> Drive number (0 = <TT>`A:'</TT>)
+</TR></TABLE>
+<P>
+
+Note that the functionality indicated by bit 8 for the block devices is
+only supported by DOS version 4.
+</P><P>
+
+<EM>Cooked</EM> mode means that on input <KBD>C-<KBD>C</KBD></KBD>, <KBD>C-<KBD>P</KBD></KBD>,
+<KBD>C-<KBD>S</KBD></KBD> and <KBD>C-<KBD>Z</KBD></KBD> are processed, on output <SAMP>`TAB'</SAMP>s
+are expanded into spaces and <SAMP>`CR'</SAMP> character is added before each
+<SAMP>`LF'</SAMP>, and input is terminated when the <KBD>RET</KBD> key is pressed.
+In contrast, in <EM>raw</EM> mode, all the special characters are passed
+verbatim, and the read operation waits until the specified number of
+characters has been read.
+</P><P>
+
+<A NAME="SEC1851"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC1851::-->
+<P>
+
+The device information word described above.  In case of error, -1 is
+returned and <CODE>errno</CODE> is set to <CODE>EBADF</CODE>.
+</P><P>
+
+<A NAME="SEC1852"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC1852::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1853"></A>
+<H3> Example                                                                                                                                                               </H3>
+<!--docid::SEC1853::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre> int fd = open ("CLOCK$", O_RDONLY | O_BINARY);
+ int clock_info = _get_dev_info (fd);
+</pre></td></tr></table><A NAME="_get_dos_version"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_372.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_374.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,68 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_302.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_301.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_303.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> expm1 </H2>
+<!--docid::SEC1453::-->
+<A NAME="SEC1454"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC1454::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+
+double expm1(double x);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1455"></A>
+<H3> Description                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC1455::-->
+<P>
+
+This function computes the value of <EM>e^x - 1</EM>, the exponential of
+<VAR>x</VAR> minus 1, where <B>e</B> is the base of the natural system of
+logarithms, approximately 2.718281828.  The result is more accurate than
+<CODE>exp(x) - 1</CODE> for small values of <VAR>x</VAR>, where the latter method
+would lose many significant digits.
+</P><P>
+
+<A NAME="SEC1456"></A>
+<H3> Return Value                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC1456::-->
+<P>
+
+<B>e</B> raised to the power <VAR>x</VAR>, minus 1.  If the value of <VAR>x</VAR> is
+finite, but so large that its exponent would overflow a <CODE>double</CODE>,
+the return value is <CODE>Inf</CODE>, and <CODE>errno</CODE> is set to
+<CODE>ERANGE</CODE>.  If <VAR>x</VAR> is either a positive or a negative infinity,
+the result is either <CODE>+Inf</CODE> or -1, respectively, and <CODE>errno</CODE>
+is not changed.  If <VAR>x</VAR> is a <CODE>NaN</CODE>, the return value is
+<CODE>NaN</CODE> and <CODE>errno</CODE> is set to <CODE>EDOM</CODE>.
+</P><P>
+
+<A NAME="SEC1457"></A>
+<H3> Portability                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC1457::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="fabs"></A>
+<!--#perl sub="trailer" -->

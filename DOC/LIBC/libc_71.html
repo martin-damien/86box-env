@@ -1,0 +1,133 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_71.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_70.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_72.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> biosdisk </H2>
+<!--docid::SEC238::-->
+<A NAME="SEC239"></A>
+<H3> Syntax                                     </H3>
+<!--docid::SEC239::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;bios.h&#62;
+
+int biosdisk(int cmd, int drive, int head, int track,
+	     int sector, int nsects, void *buffer);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC240"></A>
+<H3> Description                                    </H3>
+<!--docid::SEC240::-->
+<P>
+
+This function interfaces with the BIOS disk service (interrupt 0x13).
+Please refer to a BIOS reference manual for detailed information about
+the parameters of this call.  The function assumes a sector size of 512
+bytes.
+</P><P>
+
+The following functions of Int 13h are currently supported:
+</P><P>
+
+<DL COMPACT>
+<DT>0 - reset disk subsystem
+<DD><DT>1 - get status of last operation (see <A HREF="libc_63.html">_bios_disk</A>, for possible values)
+<DD><DT>2 - read one or more sectors
+<DD><DT>3 - write one or more sectors
+<DD><DT>5 - format a track
+<DD><DT>6 - format a cylinder and set bad sector flag
+<DD><DT>7 - format drive from specified cylinder
+<DD><DT>8 - get drive parameters
+<DD><DT>9 - initialize drive parameters
+<DD><DT>10 - read long sectors
+<DD><DT>11 - write long sectors
+<DD><DT>12 - seek to cylinder
+<DD><DT>13 - alternate fixed disk reset
+<DD><DT>14 - read sector buffer
+<DD><DT>15 - write sector buffer
+<DD><DT>16 - test for drive ready
+<DD><DT>17 - recalibrate drive
+<DD><DT>18 - controller RAM diagnostic
+<DD><DT>19 - controller drive diagnostic
+<DD><DT>20 - controller internal diagnostic
+<DD><DT>21 - get DASD type
+<DD><DT>22 - read disk change line status
+<DD><DT>23 - set DASD type (pass DASD code in <VAR>nsects</VAR>)
+<DD><DT>24 - set media type for format
+<DD></DL>
+<P>
+
+The first request with more sectors than will fit in the transfer
+buffer will cause a DOS buffer to be allocated.  This buffer is
+automatically freed when your application exits.  Requests for more
+sectors than 18 sectors (9K) will fail.
+</P><P>
+
+Function 8 returns values in <VAR>buffer</VAR> as follows:
+</P><P>
+
+<DL COMPACT>
+<DT>byte 0 = sectors per track (bits 0..5), top two bits of cylinder (in bits 6..7)
+<DD><DT>byte 1 = cylinders (bits 0..7)
+<DD><DT>byte 2 = number of drives
+<DD><DT>byte 3 = number of heads
+<DD></DL>
+<P>
+
+<A NAME="SEC241"></A>
+<H3> Return Value                                   </H3>
+<!--docid::SEC241::-->
+<P>
+
+The value of AH returned by the BIOS.  See <A HREF="libc_63.html">_bios_disk</A>, for a
+detailed list of possible status and error codes.
+</P><P>
+
+<A NAME="SEC242"></A>
+<H3> Portability                                     </H3>
+<!--docid::SEC242::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC243"></A>
+<H3> Example                           </H3>
+<!--docid::SEC243::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>char buffer[512];
+if (biosdisk(2, 0x80, 0, 0, 0, 1, buffer))
+  error("disk");
+</pre></td></tr></table></P><P>
+
+<A NAME="biosequip"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_70.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_72.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

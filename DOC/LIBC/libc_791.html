@@ -1,0 +1,77 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_791.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_790.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_792.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> syms_init </H2>
+<!--docid::SEC4141::-->
+<P>
+
+<A NAME="SEC4142"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC4142::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;debug/syms.h&#62;
+
+void syms_init (char *file);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC4143"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC4143::-->
+<P>
+
+This function reads debugging symbols from the named <VAR>file</VAR>, which
+should be an executable program (either a <TT>`.exe'</TT> file or a raw COFF
+image created by <TT>`ld.exe'</TT>, the linker).  It then processes the
+symbols: classifies them by type, sorts them by name and value, and
+stores them in internal data structures used by other symbol-related
+functions, such as <CODE>syms_val2name</CODE>, <CODE>syms_val2line</CODE>, etc.
+</P><P>
+
+You <STRONG>must</STRONG> call <CODE>syms_init</CODE> before calling the other
+<CODE>syms_*</CODE> functions.
+</P><P>
+
+Currently, <CODE>syms_init</CODE> only supports COFF and AOUT debugging
+format, so programs compiled with <SAMP>`-gstabs'</SAMP> cannot be processed by
+it.
+</P><P>
+
+<A NAME="SEC4144"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC4144::-->
+<P>
+
+None.
+</P><P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC4145"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC4145::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>  syms_init("c:/foo/bar/baz.exe");
+</pre></td></tr></table></P><P>
+
+<A NAME="syms_line2val"></A>
+<!--#perl sub="trailer" -->

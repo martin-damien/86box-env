@@ -1,0 +1,79 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_118.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_117.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_119.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _creat </H2>
+<!--docid::SEC496::-->
+<A NAME="SEC497"></A>
+<H3> Syntax                                                                                    </H3>
+<!--docid::SEC497::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;io.h&#62;
+
+int _creat(const char *path, int attrib);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC498"></A>
+<H3> Description                                                                                   </H3>
+<!--docid::SEC498::-->
+<P>
+
+This is a direct connection to the MS-DOS creat function call, int 0x21,
+%ah = 0x3c, on versions of DOS earlier than 7.0. On DOS version
+7.0 or later <CODE>_creat</CODE> calls function int 0x21, %ax = 0x6c00
+</P><P>
+
+On platforms where the LFN API (see section <A HREF="libc_843.html">LFN</A>) is available,
+<CODE>_creat</CODE> calls function 0x716C of Interrupt 21h, to support long
+file names.
+</P><P>
+
+On FAT32 file systems file sizes up to 2^32-2 are supported. Note
+that WINDOWS 98 has a bug which only lets you create these big files
+if LFN is enabled. In plain DOS mode it plainly works.
+</P><P>
+
+The file is set to binary mode.  
+</P><P>
+
+This function can be hooked by File System Extensions
+(see section <A HREF="libc_321.html">File System Extensions</A>).  If you don't want this, you should use
+<CODE>_dos_creat</CODE> (see section <A HREF="libc_164.html">_dos_creat</A>) or <CODE>_dos_creatnew</CODE>
+(see section <A HREF="libc_165.html">_dos_creatnew</A>).
+</P><P>
+
+<A NAME="SEC499"></A>
+<H3> Return Value                                                                               </H3>
+<!--docid::SEC499::-->
+<P>
+
+The new file descriptor, else -1 on error.
+</P><P>
+
+<A NAME="SEC500"></A>
+<H3> Portability                                                                                   </H3>
+<!--docid::SEC500::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="_creatnew"></A>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,94 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_836.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_835.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_837.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> uname </H2>
+<!--docid::SEC4386::-->
+<A NAME="SEC4387"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC4387::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;sys/utsname.h&#62;
+
+int uname(struct utsname *u);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC4388"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC4388::-->
+<P>
+
+Fills in the structure with information about the system.  
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct utsname {
+  char machine[9];
+  char nodename[32];
+  char release[9];
+  char sysname[9];
+  char version[9];
+};
+</pre></td></tr></table></P><P>
+
+<DL COMPACT>
+
+<DT><CODE>machine</CODE>
+<DD>The CPU family type: <CODE>"i386"</CODE>, <CODE>"i486"</CODE>, <CODE>"i586"</CODE>
+(Pentium), <CODE>"i686"</CODE> (PentiumPro, Pentium II, Pentium III), or
+<CODE>"i786"</CODE> (Pentium 4).
+<P>
+
+<DT><CODE>nodename</CODE>
+<DD>The name of your PC (if networking is installed), else <CODE>"pc"</CODE>.
+<P>
+
+<DT><CODE>release</CODE>
+<DD>The major version number of DOS.  For example, DOS 1.23 would return
+<CODE>"1"</CODE> here.
+<P>
+
+<DT><CODE>sysname</CODE>
+<DD>The flavor of the OS.  
+<P>
+
+<DT><CODE>version</CODE>
+<DD>The minor version number of DOS.  For example, DOS 1.23 would return
+<CODE>"23"</CODE> here.
+</DL>
+<P>
+
+<A NAME="SEC4389"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC4389::-->
+<P>
+
+Zero on success, else nonzero.  
+</P><P>
+
+<A NAME="SEC4390"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC4390::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="ungetc"></A>
+<!--#perl sub="trailer" -->

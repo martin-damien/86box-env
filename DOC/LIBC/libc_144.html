@@ -1,0 +1,134 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_144.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_143.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_145.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __djgpp_set_sigint_key </H2>
+<!--docid::SEC631::-->
+<A NAME="SEC632"></A>
+<H3> Syntax                                                                                                              </H3>
+<!--docid::SEC632::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>
+#include &#60;sys/exceptn.h&#62;
+
+void __djgpp_set_sigint_key(int new_key);
+
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC633"></A>
+<H3> Description                                                                                                             </H3>
+<!--docid::SEC633::-->
+<P>
+
+This function changes the INTR key that generates the signal
+<CODE>SIGINT</CODE>.  By default, <KBD>Ctrl-C</KBD> is set as the INTR key.  To
+replace it with another key, put the <EM>scan code</EM> of the new INTR
+key into the bits 0-7 and the required keyboard status byte into bits
+8-15 of <VAR>new_key</VAR>, and call this function.  Here's how the keyboard
+status bits are defined:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>
+   Bit
+ 76543210    Meaning
+
+ .......X    Right Shift key
+ ......X.    Left Shift key
+ .....X..    Ctrl key
+ ....X...    Alt key
+ ...X....    Scroll Lock key
+ ..X.....    Num Lock key
+ .X......    Caps Lock key
+ X.......    Insert
+
+</pre></td></tr></table></P><P>
+
+A 1 in any of the above bits means that the corresponding key should be
+pressed; a zero means it should be released.  Currently, all but the
+lower 4 bits are always ignored by the DJGPP keyboard handler when
+you set the INTR key using this function.
+</P><P>
+
+For example, the default <KBD>Ctrl-C</KBD> key should be passed as
+<CODE>0x042e</CODE>, since the scan code of the <KBD>C</KBD> key is 2Eh, and when
+the <KBD>Ctrl</KBD> key is pressed, the keyboard status byte is 04h.
+</P><P>
+
+To disable <CODE>SIGINT</CODE> generation, pass zero as the argument (since no
+key has a zero scan code).
+</P><P>
+
+This function will set things up so that the left <KBD>Shift</KBD> key
+doesn't affect Ctrl- and Alt-modified keys; the right <KBD>Shift</KBD> key
+won't affect them either, unless its bit is explicitly set in
+<VAR>new_key</VAR>.  This means that <KBD>Ctrl-C</KBD> and <KBD>Ctrl-c</KBD> will both
+trigger <CODE>SIGINT</CODE> if <CODE>0x042e</CODE> is passed to this function.
+</P><P>
+
+The DJGPP built-in keyboard handler pretends that when the right
+<KBD>Shift</KBD> key is pressed, so is the left <KBD>Shift</KBD> key (but not vice
+versa).
+</P><P>
+
+For getting similar effects via the POSIX <CODE>termios</CODE> functions, see
+<A HREF="libc_811.html">tcsetattr</A>.
+</P><P>
+
+<A NAME="SEC634"></A>
+<H3> Return Value                                                                                               </H3>
+<!--docid::SEC634::-->
+<P>
+
+The previous INTR key (scan code in bits 0-7, keyboad status in bits
+8-15).
+</P><P>
+
+<A NAME="SEC635"></A>
+<H3> Portability                                                                                                             </H3>
+<!--docid::SEC635::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC636"></A>
+<H3> Example                                                           </H3>
+<!--docid::SEC636::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>
+  __djgpp_set_sigint_key(0x0422);  /* make Ctrl-g generate SIGINT's */
+
+</pre></td></tr></table></P><P>
+
+<A NAME="__djgpp_set_sigquit_key"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_143.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_145.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,67 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_772.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_771.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_773.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> strrchr </H2>
+<!--docid::SEC4029::-->
+<A NAME="SEC4030"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC4030::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;string.h&#62;
+
+char *strrchr(const char *s1, int c);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC4031"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC4031::-->
+<P>
+
+This function finds the last occurrence of <CODE>c</CODE> in <CODE>s1</CODE>.
+</P><P>
+
+<A NAME="SEC4032"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC4032::-->
+<P>
+
+A pointer to the last match, or <CODE>NULL</CODE> if the character isn't in
+the string. 
+</P><P>
+
+<A NAME="SEC4033"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC4033::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C89; C99
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC4034"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC4034::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>char *last_slash = strrchr(filename, '/');
+</pre></td></tr></table></P><P>
+
+<A NAME="strsep"></A>
+<!--#perl sub="trailer" -->

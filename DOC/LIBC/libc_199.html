@@ -1,0 +1,198 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_199.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_198.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_200.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> DPMI Overview </H2>
+<!--docid::SEC935::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>extern unsigned short __dpmi_error;
+</pre></td></tr></table></P><P>
+
+For most functions, the error returned from the DPMI server is stored
+in this variable.
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>typedef struct {
+  unsigned short offset16;
+  unsigned short segment;
+} __dpmi_raddr;
+</pre></td></tr></table></P><P>
+
+This structure is used to hold a real-mode address, which consists of
+a segment:offset pair.
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>typedef struct {
+  unsigned long  offset32;
+  unsigned short selector;
+} __dpmi_paddr;
+</pre></td></tr></table></P><P>
+
+This structure is used to hold a protected-mode address, which consists of
+a selector:offset pair.
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>typedef struct {
+  unsigned long handle;			/* 0, 2 */
+  unsigned long size; 	/* or count */	/* 4, 6 */
+  unsigned long address;		/* 8, 10 */
+} __dpmi_meminfo;
+</pre></td></tr></table></P><P>
+
+This structure is used by many functions that need to refer to blocks
+of 32-bit memory.  The <CODE>size</CODE> field doubles as a count for those
+operations that want a count of something, or return a count.
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>typedef union {
+  struct {
+    unsigned long edi;
+    unsigned long esi;
+    unsigned long ebp;
+    unsigned long res;
+    unsigned long ebx;
+    unsigned long edx;
+    unsigned long ecx;
+    unsigned long eax;
+  } d;
+  struct {
+    unsigned short di, di_hi;
+    unsigned short si, si_hi;
+    unsigned short bp, bp_hi;
+    unsigned short res, res_hi;
+    unsigned short bx, bx_hi;
+    unsigned short dx, dx_hi;
+    unsigned short cx, cx_hi;
+    unsigned short ax, ax_hi;
+    unsigned short flags;
+    unsigned short es;
+    unsigned short ds;
+    unsigned short fs;
+    unsigned short gs;
+    unsigned short ip;
+    unsigned short cs;
+    unsigned short sp;
+    unsigned short ss;
+  } x;
+  struct {
+    unsigned char edi[4];
+    unsigned char esi[4];
+    unsigned char ebp[4];
+    unsigned char res[4];
+    unsigned char bl, bh, ebx_b2, ebx_b3;
+    unsigned char dl, dh, edx_b2, edx_b3;
+    unsigned char cl, ch, ecx_b2, ecx_b3;
+    unsigned char al, ah, eax_b2, eax_b3;
+  } h;
+} __dpmi_regs;
+</pre></td></tr></table></P><P>
+
+This structure is used by functions that pass register information,
+such as simulating real-mode calls.
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>typedef struct {
+  unsigned char  major;
+  unsigned char  minor;
+  unsigned short flags;
+  unsigned char  cpu;
+  unsigned char  master_pic;
+  unsigned char  slave_pic;
+} __dpmi_version_ret;
+</pre></td></tr></table></P><P>
+
+This structure is used to return version information to the program.
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>typedef struct {
+  unsigned long largest_available_free_block_in_bytes;
+  unsigned long maximum_unlocked_page_allocation_in_pages;
+  unsigned long maximum_locked_page_allocation_in_pages;
+  unsigned long linear_address_space_size_in_pages;
+  unsigned long total_number_of_unlocked_pages;
+  unsigned long total_number_of_free_pages;
+  unsigned long total_number_of_physical_pages;
+  unsigned long free_linear_address_space_in_pages;
+  unsigned long size_of_paging_file_partition_in_pages;
+  unsigned long reserved[3];
+} __dpmi_free_mem_info;
+</pre></td></tr></table></P><P>
+
+This structure is used to return information about the state of
+virtual memory in the system.
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>typedef struct {
+  unsigned long total_allocated_bytes_of_physical_memory_host;
+  unsigned long total_allocated_bytes_of_virtual_memory_host;
+  unsigned long total_available_bytes_of_virtual_memory_host;
+  unsigned long total_allocated_bytes_of_virtual_memory_vcpu;
+  unsigned long total_available_bytes_of_virtual_memory_vcpu;
+  unsigned long total_allocated_bytes_of_virtual_memory_client;
+  unsigned long total_available_bytes_of_virtual_memory_client;
+  unsigned long total_locked_bytes_of_memory_client;
+  unsigned long max_locked_bytes_of_memory_client;
+  unsigned long highest_linear_address_available_to_client;
+  unsigned long size_in_bytes_of_largest_free_memory_block;
+  unsigned long size_of_minimum_allocation_unit_in_bytes;
+  unsigned long size_of_allocation_alignment_unit_in_bytes;
+  unsigned long reserved[19];
+} __dpmi_memory_info;
+</pre></td></tr></table></P><P>
+
+This is also used to return memory information, but by a different
+function.
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>typedef struct {
+  unsigned long data16[2];
+  unsigned long code16[2];
+  unsigned short ip;
+  unsigned short reserved;
+  unsigned long data32[2];
+  unsigned long code32[2];
+  unsigned long eip;
+} __dpmi_callback_info;
+</pre></td></tr></table></P><P>
+
+This structure is used to install TSR programs.
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>typedef struct {
+  unsigned long size_requested;
+  unsigned long size;
+  unsigned long handle;
+  unsigned long address;
+  unsigned long name_offset;
+  unsigned short name_selector;
+  unsigned short reserved1;
+  unsigned long reserved2;
+} __dpmi_shminfo;
+</pre></td></tr></table></P><P>
+
+This structure is used to manipulate shared memory regions.
+<A NAME="DPMI Specification"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_198.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_200.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

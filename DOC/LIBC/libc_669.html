@@ -1,0 +1,77 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_669.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_668.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_670.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> sbrk </H2>
+<!--docid::SEC3452::-->
+<A NAME="SEC3453"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC3453::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;unistd.h&#62;
+
+void *sbrk(int delta)
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3454"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC3454::-->
+<P>
+
+This function changes the "break" of the program by adding <VAR>delta</VAR>
+to it.  This is the highest address that your program can access without
+causing a violation.  Since the heap is the region under the break, you
+can expand the heap (where <CODE>malloc</CODE> gets memory from) by increasing
+the break. 
+</P><P>
+
+This function is normally accessed only by <CODE>malloc</CODE> (see section <A HREF="libc_551.html">malloc</A>).
+</P><P>
+
+<A NAME="SEC3455"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC3455::-->
+<P>
+
+The address of the first byte outside of the previous valid address
+range, or -1 if no more memory could be accessed.  In other words, a
+pointer to the chunk of heap you just allocated, if you had passed a
+positive number.
+</P><P>
+
+<A NAME="SEC3456"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC3456::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3457"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC3457::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>char *buf;
+buf = sbrk(1000); /* allocate space */
+</pre></td></tr></table></P><P>
+
+<A NAME="scanf"></A>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,99 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_641.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_640.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_642.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _rdtsc </H2>
+<!--docid::SEC3292::-->
+<A NAME="SEC3293"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC3293::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;time.h&#62;
+
+unsigned long long _rdtsc(void);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3294"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC3294::-->
+<P>
+
+This function invokes the hardware instruction <CODE>rdtsc</CODE> which is
+only supported on some processors.  It is incremented once per clock
+cycle on the main processor.  It is a high precision timer which is
+useful for timing code for optimization.  You should not use this 
+function in distributed programs without protecting for processors 
+which do not support the instruction.  For a general purpose high
+precision timer see <CODE>uclock</CODE> (see section <A HREF="libc_834.html">uclock</A>).
+</P><P>
+
+<A NAME="SEC3295"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC3295::-->
+<P>
+
+The number of processor cycles.
+</P><P>
+
+<A NAME="SEC3296"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC3296::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3297"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC3297::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdio.h&#62;
+#include &#60;time.h&#62;
+#include &#60;signal.h&#62;
+#include &#60;setjmp.h&#62;
+#include &#60;sys/exceptn.h&#62;
+
+/* Catch rdtsc exception and always return 0LL */
+void catch_rdtsc(int val)
+{
+  short *eip = (short *)__djgpp_exception_state-&#62;__eip;
+  if(*eip == 0x310f) {
+    __djgpp_exception_state-&#62;__eip += 2;
+    __djgpp_exception_state-&#62;__edx = 0;
+    longjmp(__djgpp_exception_state, 0);
+  }
+  return;
+}
+
+int main(void)
+{
+  unsigned long long t;
+  
+  signal(SIGILL, catch_rdtsc);
+  t = _rdtsc();
+  printf("Timer value: %llu\n",t);
+  
+  return 0;
+}
+</pre></td></tr></table></P><P>
+
+<A NAME="read"></A>
+<!--#perl sub="trailer" -->

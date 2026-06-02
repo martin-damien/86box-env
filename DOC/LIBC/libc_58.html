@@ -1,0 +1,79 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_58.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_57.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_59.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> basename </H2>
+<!--docid::SEC161::-->
+<A NAME="SEC162"></A>
+<H3> Syntax                        </H3>
+<!--docid::SEC162::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;unistd.h&#62;
+
+char * basename (const char *fname);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC163"></A>
+<H3> Description                       </H3>
+<!--docid::SEC163::-->
+<P>
+
+This function returns the <EM>basename</EM> of the file, which is the last
+part of its full name given by <VAR>fname</VAR>, with the drive letter and
+leading directories stripped off.  For example, the basename of
+<CODE>c:/foo/bar/file.ext</CODE> is <CODE>file.ext</CODE>, and the basename of
+<CODE>a:foo</CODE> is <CODE>foo</CODE>.  Trailing slashes and backslashes are
+significant: the basename of <CODE>c:/foo/bar/</CODE> is an empty string after
+the rightmost slash.
+</P><P>
+
+This function treats both forward- and backslashes like directory
+separators, so it can handle file names with mixed styles of slashes.
+</P><P>
+
+<A NAME="SEC164"></A>
+<H3> Return Value                       </H3>
+<!--docid::SEC164::-->
+<P>
+
+A pointer into the original file name where the basename starts.  Note
+that this is <STRONG>not</STRONG> a new buffer allocated with <CODE>malloc</CODE>.  If
+<VAR>fname</VAR> is a NULL pointer, the function will return a NULL pointer.
+</P><P>
+
+<A NAME="SEC165"></A>
+<H3> Portability                        </H3>
+<!--docid::SEC165::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC166"></A>
+<H3> Example              </H3>
+<!--docid::SEC166::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>  if (strcmp (basename (file_name), "gcc.exe") == 0)
+    printf ("The file %s is the GNU C/C++ compiler\n", file_name);
+</pre></td></tr></table></P><P>
+
+<A NAME="bcmp"></A>
+<!--#perl sub="trailer" -->

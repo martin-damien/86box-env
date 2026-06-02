@@ -1,0 +1,80 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_192.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_191.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_193.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> dosmemgetl </H2>
+<!--docid::SEC893::-->
+<A NAME="SEC894"></A>
+<H3> Syntax                                                                                                                                                              </H3>
+<!--docid::SEC894::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;sys/movedata.h&#62;
+
+void _dosmemgetl(unsigned long offset, size_t xfers, void *buffer);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC895"></A>
+<H3> Description                                                                                                                                                           </H3>
+<!--docid::SEC895::-->
+<P>
+
+This function transfers data from MS-DOS's conventional memory space
+to the program's virtual address space, using only long-word (32-bit)
+transfers.  The <VAR>offset</VAR> is a physical address, which can be
+computed from a real-mode segment/offset pair as follows:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>offset = segment * 16 + offset;
+</pre></td></tr></table></P><P>
+
+The <VAR>count</VAR> is the number of long-words to transfer, and
+<VAR>buffer</VAR> is a pointer to somewhere in your virtual address space
+(such as memory obtained from <CODE>malloc</CODE>) where the data will go.
+</P><P>
+
+<A NAME="SEC896"></A>
+<H3> Return Value                                                                                                                                        </H3>
+<!--docid::SEC896::-->
+<P>
+
+None.
+</P><P>
+
+<A NAME="SEC897"></A>
+<H3> Portability                                                                                                                                                             </H3>
+<!--docid::SEC897::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC898"></A>
+<H3> Example                                                                                          </H3>
+<!--docid::SEC898::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>unsigned long shift_state;
+_dosmemgetl(0x417, 1, &#38;shift_state);
+if (shift_state &#38; 0x0004)
+  /* Ctrl key pressed */;
+</pre></td></tr></table></P><P>
+
+<A NAME="dosmemgetw"></A>
+<!--#perl sub="trailer" -->

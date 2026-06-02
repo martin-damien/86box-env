@@ -1,0 +1,72 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_758.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_757.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_759.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> strdup </H2>
+<!--docid::SEC3945::-->
+<A NAME="SEC3946"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC3946::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;string.h&#62;
+
+char * strdup (const char *source);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3947"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC3947::-->
+<P>
+
+Returns a newly allocated area of memory that contains a duplicate of
+the string pointed to by <VAR>source</VAR>.  The memory returned by this
+call must be freed by the caller.
+</P><P>
+
+<A NAME="SEC3948"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC3948::-->
+<P>
+
+Returns the newly allocated string, or <VAR>NULL</VAR> if there
+is no more memory.
+</P><P>
+
+<A NAME="SEC3949"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC3949::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3950"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC3950::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>char *foo()
+{
+  return strdup("hello");
+}
+</pre></td></tr></table></P><P>
+
+<A NAME="strerror"></A>
+<!--#perl sub="trailer" -->

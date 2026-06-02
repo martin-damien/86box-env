@@ -1,0 +1,87 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_637.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_636.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_638.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> rand </H2>
+<!--docid::SEC3268::-->
+<A NAME="SEC3269"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC3269::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdlib.h&#62;
+
+int rand(void);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3270"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC3270::-->
+<P>
+
+Returns a pseudo-random number between zero and <CODE>RAND_MAX</CODE> (defined
+on <TT>`stdlib.h'</TT>).
+</P><P>
+
+By default, this function always generates the same sequence of numbers
+each time you run the program.  (This is usually desirable when
+debugging, or when comparing two different runs.)  If you need to
+produce a different sequence on every run, you must seed <CODE>rand</CODE> by
+calling <CODE>srand</CODE> (see section <A HREF="libc_739.html">srand</A>) before the first call to
+<CODE>rand</CODE>, and make sure to use a different argument to <CODE>srand</CODE>
+each time.  The usual technique is to get the argument to <CODE>srand</CODE>
+from a call to the <CODE>time</CODE> library function (see section <A HREF="libc_821.html">time</A>), whose
+return value changes every second.
+</P><P>
+
+To get a random number in the range 0..N, use <CODE>rand()%(N+1)</CODE>.  Note
+that the low bits of the <CODE>rand</CODE>'s return value are not very random,
+so <CODE>rand()%N</CODE> for small values of <VAR>N</VAR> could be not enough
+random.  The alternative, but non-ANSI, function <CODE>random</CODE> is
+better if <VAR>N</VAR> is small.  See section <A HREF="libc_639.html">random</A>.
+</P><P>
+
+<A NAME="SEC3271"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC3271::-->
+<P>
+
+The number.
+</P><P>
+
+<A NAME="SEC3272"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC3272::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C89; C99
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3273"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC3273::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>/* random pause */
+srand(time(0));
+for (i=rand(); i; i--);
+</pre></td></tr></table></P><P>
+
+<A NAME="rand48"></A>
+<!--#perl sub="trailer" -->

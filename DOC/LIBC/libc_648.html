@@ -1,0 +1,88 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_648.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_647.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_649.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> realloc </H2>
+<!--docid::SEC3331::-->
+<A NAME="SEC3332"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC3332::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdlib.h&#62;
+
+void *realloc(void *ptr, size_t size);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3333"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC3333::-->
+<P>
+
+This function changes the size of the region pointed to by <VAR>ptr</VAR>. 
+If it can, it will reuse the same memory space, but it may have to
+allocate a new memory space to satisfy the request.  In either case, it
+will return the pointer that you should use to refer to the (possibly
+new) memory area.  The pointer passed may be <CODE>NULL</CODE>, in which case
+this function acts just like <CODE>malloc</CODE> (see section <A HREF="libc_551.html">malloc</A>).
+</P><P>
+
+An application that wants to be robust in the face of a possible failure
+of <CODE>realloc</CODE> to enlarge a buffer should save a copy of the old
+pointer in a local variable, to be able to use the original buffer in
+case <CODE>realloc</CODE> returns <CODE>NULL</CODE>.  See the example below for
+details.
+</P><P>
+
+<A NAME="SEC3334"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC3334::-->
+<P>
+
+On success, a pointer is returned to the memory you should now refer
+to.  On failure, <CODE>NULL</CODE> is returned and the memory pointed to by
+<VAR>ptr</VAR> prior to the call is not freed.
+</P><P>
+
+<A NAME="SEC3335"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC3335::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C89; C99
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3336"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC3336::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>if (now+new &#62; max)
+{
+  char *old = p;
+
+  max = now+new;
+  p = realloc(p, max);
+  if (p == NULL)
+    p = old;  /* retain the old pointer */
+}
+</pre></td></tr></table></P><P>
+
+<A NAME="realpath"></A>
+<!--#perl sub="trailer" -->

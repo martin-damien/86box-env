@@ -1,0 +1,63 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_332.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_331.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_333.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> fmod </H2>
+<!--docid::SEC1618::-->
+<A NAME="SEC1619"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC1619::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+
+double fmod(double x, double y);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1620"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC1620::-->
+<P>
+
+This function computes the remainder of <CODE><VAR>x</VAR>/<VAR>y</VAR></CODE>, which is
+<EM><VAR>x</VAR> - i<VAR>y</VAR></EM> for some integer i such that
+<EM>i<VAR>y</VAR> &#60; <VAR>x</VAR> &#60; (i+1)<VAR>y</VAR></EM>.
+</P><P>
+
+<A NAME="SEC1621"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC1621::-->
+<P>
+
+The remainder of <VAR>x</VAR>/<VAR>y</VAR>.  If <VAR>x</VAR> is <CODE>Inf</CODE> or
+<CODE>NaN</CODE>, the return value is <CODE>NaN</CODE> and <CODE>errno</CODE> is set to
+<CODE>EDOM</CODE>.  If <VAR>y</VAR> is zero, the return value is zero (but
+<CODE>errno</CODE> is not changed).
+</P><P>
+
+<A NAME="SEC1622"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC1622::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C89; C99
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="_fmode"></A>
+<!--#perl sub="trailer" -->

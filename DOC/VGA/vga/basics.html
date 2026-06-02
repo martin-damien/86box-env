@@ -1,0 +1,362 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+  <meta name="keywords" content="VGA, VGA programming, game programming, C, mouse, lines, circles, rectangles, polygons,  bitmaps, vertical retrace, animation, 256 color, pixel plotting, mode 13, mode x, double buffering, page flipping, unchained mode, flicker-free" />
+  <meta name="description" content="VGA basics, lines and shapes, bitmaps, mouse, double buffering, page flipping, unchained mode, and more" />
+  <link rel="stylesheet" type="text/css" media="all" href="default.css" />
+  <link rel="stylesheet" type="text/css" media="print" href="print.css" />
+  <title>256-Color VGA Programming in C - VGA Basics</title>
+</head>
+
+<body>
+<div id="nav">
+  <a href="http://www.brackeen.com/"><img src="../images/logo.png" alt="David Brackeen" /></a>
+</div>
+
+<div id="header">
+  <a href="index.html">256-Color VGA Programming in C</a>
+  <h1>VGA Basics</h1>
+  
+  <p>Contents in this section:</p>
+  <ul>
+    <li><a href="#1">What is VGA?</a></li>
+    <li><a href="#2">Structure of mode 0x13</a></li>
+    <li><a href="#3">Setting the video mode</a></li>
+    <li><a href="#4">Plotting a pixel</a></li>
+    <li><a href="#5">Mode 0x13 memory</a></li>
+    <li><a href="#6">Plotting a pixel quickly</a></li>
+    <li><a href="#7">Program: pixel.c</a></li>
+    <li><a href="#8">Shifting</a></li>
+  </ul>
+  <p><a href="http://www.designcontest.com/show/basics-be">View the Belorussian translation of this tutorial</a></p>
+</div>
+
+<div id="content">
+
+  <h2><a name="1">What is VGA?</a></h2>
+
+  <p>VGA stands for Video Graphics Array, sometimes referred to as
+  Video Graphics Adapter. It is a video card, which is an interface
+  between a computer and its corresponding monitor. The VGA card is
+  the most common video card &mdash; nearly every video card has VGA
+  compatibility &mdash; and it is fairly easy to program. It offers many
+  different video modes, from 2 color to 256 color, and resolutions
+  from 320<tt>x</tt>200 to 640<tt>x</tt>480. This tutorial pays close
+  attention to the VGA's only 256-color mode, known as mode 0x13. </p>
+  
+  <h2><a name="2">Structure of mode 0x13</a></h2>
+  
+  <p>In mode 0x13, the screen dimensions are 320 pixels in width
+  and 200 pixels in height. This is mapped 0 to 319 on the <i>x</i>
+  axis and 0 to 199 on the <i>y</i> axis, with the origin (0,0) at
+  the top-left corner (Figure 1). Since this is a 256-color mode,
+  each pixel represents 8 bits (2<sup>8</sup>=256) or one byte, so
+  the memory needed is 320*200 or 64,000 bytes. </p>
+  
+  <dl class="image">
+    <dt>
+      <img src="images/img00001.gif" alt="Structure of Mode 0x13" width="310" height="228" />
+    </dt>
+    <dd>
+      <b>Figure 1.</b>
+      Structure of Mode 0x13.
+    </dd>
+  </dl>
+  
+  <h2><a name="3">Setting the video mode</a></h2>
+
+  <p>To set the video mode, call interrupt 0x10 (BIOS video
+  functions) with 0 (zero) in the <code>AH</code> register and the
+  desired mode number in the <code>AL</code> register. For mode
+  0x13, the code (Borland C) would be as follows: </p>
+  
+<pre>union REGS regs;
+
+regs.h.ah = 0x00;  /* function 00h = mode set */
+regs.h.al = 0x13;  /* 256-color */
+int86(0x10,&amp;regs,&amp;regs); /* do it! */
+</pre>
+  
+  <p>To return to text mode after the program finishes, simply set
+  the mode number to 3. </p>
+  
+<pre>union REGS regs;
+
+regs.h.ah = 0x00;
+regs.h.al = 0x03; /* text mode is mode 3 */
+int86(0x10,&amp;regs,&amp;regs);
+</pre>
+
+  <h2><a name="4">Plotting a pixel</a></h2>
+  
+  <p>An easy way to plot a pixel is by using function 0x0C under
+  BIOS interrupt 0x10. For this function, set <code>CX</code> and <code>DX</code>
+  to the pixel <i>x</i> and <i>y</i> location. The color displayed
+  depends on the value in <code>AL</code>. See Table I for a list
+  of common colors. </p>
+  
+<pre>union REGS regs;
+
+regs.h.ah = 0x0C;   /* function 0Ch = pixel plot */
+regs.h.al = color;
+regs.x.cx = x;      /* x location, from 0..319  */
+regs.x.dx = y;      /* y location, from 0..199  */
+int86(0x10,&amp;regs,&amp;regs);
+</pre>
+  
+  <p>This pixel-plotting method is easy, but it is also very slow.
+  BIOS will do certain checks to make sure that the input is valid,
+  and then it will test to see if the (<i>x</i>,<i>y</i>)
+  coordinates are within the screen boundaries, and finally it will
+  calculate the offset to video memory. A faster way to plot a
+  pixel is to write directly to video memory. </p>
+  
+  <h2><a name="5">Mode 0x13 memory</a></h2>
+
+  <p>As mentioned before, the memory needed for mode 0x13 is 64,000
+  bytes. This memory is located at segment 0xA000 in the computer's
+  memory. Simply writing to that area in memory will also write to
+  the screen. The color displayed depends on the byte value written
+  to memory. </p>
+  
+  <div class="table">
+    <table>
+      <tr>
+          <th>Value</th>
+          <th>Color</th>
+      </tr>
+      <tr>
+          <td>0</td>
+          <td style="background: #000000 !important; color: #ffffff !important;">Black</td>
+      </tr>
+      <tr>
+          <td>1</td>
+          <td style="background: #000080 !important; color: #ffffff !important;">Blue</td>
+      </tr>
+      <tr>
+          <td>2</td>
+          <td style="background: #008000 !important; color: #ffffff !important;">Green</td>
+      </tr>
+      <tr>
+          <td>3</td>
+          <td style="background: #008080 !important; color: #ffffff !important;">Cyan</td>
+      </tr>
+      <tr>
+          <td>4</td>
+          <td style="background: #800000 !important; color: #ffffff !important;">Red</td>
+      </tr>
+      <tr>
+          <td>5</td>
+          <td style="background: #800080 !important; color: #ffffff !important;">Magenta</td>
+      </tr>
+      <tr>
+          <td>6</td>
+          <td style="background: #808000 !important; color: #ffffff !important;">Brown</td>
+      </tr>
+      <tr>
+          <td>7</td>
+          <td style="background: #C0C0C0 !important; color: #000000 !important;">Light Gray</td>
+      </tr>
+      <tr>
+          <td>8</td>
+          <td style="background: #808080 !important; color: #ffffff !important;">Dark Gray</td>
+      </tr>
+      <tr>
+          <td>9</td>
+          <td style="background: #0000FF !important; color: #ffffff !important;">Light Blue</td>
+      </tr>
+      <tr>
+          <td>10</td>
+          <td style="background: #00FF00 !important; color: #000000 !important;">Light Green</td>
+      </tr>
+      <tr>
+          <td>11</td>
+          <td style="background: #00FFFF; color: #000000; !important">Light Cyan</td>
+      </tr>
+      <tr>
+          <td>12</td>
+          <td style="background: #FF0000; color: #000000; !important">Light Red</td>
+      </tr>
+      <tr>
+          <td>13</td>
+          <td style="background: #FF00FF; color: #000000; !important">Light Magenta</td>
+      </tr>
+      <tr>
+          <td>14</td>
+          <td style="background: #ffff00; color: #000000; !important">Yellow</td>
+      </tr>
+      <tr>
+          <td>15</td>
+          <td style="background: #ffffff; color: #000000; !important">White</td>
+      </tr>
+    </table>
+      <p><b>Table I.</b>
+      The first 16 VGA colors.</p>
+  </div>
+  
+  <p>Since memory is linear (unlike the computer screen, which has
+  both an <i>x</i> and a <i>y</i> dimension), the offset into
+  computer memory must be calculated to plot a pixel. To do this
+  the <i>y</i> value is multiplied by the width of the screen, or
+  320, and the <i>x</i> value is added to that. Thus to plot a
+  pixel at location (256,8), first calculate 256+8*320=2816 or
+  0xB00, then write to segment 0xA000, offset 0xB00. The following
+  program segment creates a pointer to address 0xA000:0000,
+  computes the offset from two variables, and then writes to the
+  calculated memory location. </p>
+  
+  <h2><a name="6">Plotting a pixel quickly</a></h2>
+  
+<pre>typedef unsigned char byte;
+byte far *VGA = (byte far*)0xA0000000L;     
+unsigned short offset;
+...
+offset = 320*y + x;
+VGA[offset] = color;
+</pre>
+  
+  <p>The previous code has the following characteristics: </p>
+  
+  <ul>
+      <li>The variable <code>offset</code> must be an <code>unsigned
+          short</code> data type (16 bits with a range from 0 to
+          65,535) because the size of memory needed for mode 0x13 is
+          64,000 bytes. Using an <code>unsigned short</code> data
+          type helps insure that we won't accidently write to an
+          area of memory that isn't part of the video memory, which
+          might cause our program to crash.</li>
+      <li>If <code>y</code> were 5 and <code>x</code> were 340, the
+          pixel would be displayed at (20,6), since video memory in
+          mode 0x13 is linear, and the width of the screen is only
+          320. The BIOS function would not display a pixel on the
+          screen for (340,5) since it clips to the screen
+          boundaries. </li>
+      <li>The pointer to the VGA memory segment must be <code>far</code>
+          when compiled in the smaller memory modules. If the
+          memory module used is COMPACT, LARGE, or HUGE, then the <code>far</code>
+          keyword can be removed. </li>
+      <li>In most DOS extenders, the 32-bit protected mode pointer
+          to video memory would be <code>0xA0000</code> instead of
+          the segment-offset pointer <code>0xA0000000L</code>.</li>
+  </ul>
+  
+  <h2><a name="7">Program: pixel.c</a></h2>
+
+  <p>The following program demonstrates how much faster writing
+  directly to video memory is. It plots 50,000 pixels using BIOS,
+  then does the same by writing directly to video memory, and then
+  displays the results. </p>
+  
+  <div class="download">
+  
+    <dl>
+      <dt>DJGPP 2.0</dt>
+      <dd><a href="source/djgpp20/pixel.c.html">View pixel.c</a><br />
+      <a href="download/djgpp20/pixel.zip">Download pixel.zip</a> (Contains pixel.c, pixel.exe)</dd>
+    
+      <dt>Borland C, Turbo C, etc.</dt>
+      <dd><a href="source/bc31/pixel.c.html">View pixel.c</a><br />
+      <a href="download/bc31/pixel.zip">Download pixel.zip</a> (Contains pixel.c, pixel.exe)</dd>
+      
+    </dl>
+  
+    <p>Having trouble compiling or running the program? 
+    See the <a href="trouble.html">Troubleshooting</a> page.</p>
+  </div>
+  
+  <dl class="image">
+    <dt>
+      <img src="images/img00002.gif" alt="Screenshot of pixel.exe" width="320" height="200" />
+    </dt>
+    <dd>
+      <b>Figure 2.</b>
+      Screenshot of <code>pixel.exe</code>.
+    </dd>
+  </dl>
+
+  <p>This program, along with all other programs in this tutorial,
+  ran on a 486dx 33Mhz with 8MB of memory, 128KB cache, and a
+  16-bit ISA SVGA card. The results from <code>pixel.exe</code> on
+  this computer were as follows: </p>
+  
+<pre>Slow pixel plotting took 3.846154 seconds.
+Fast pixel plotting took 0.989011 seconds.
+Fast pixel plotting was 3.888889 times faster.</pre>
+
+  <h2><a name="8">Shifting</a></h2>
+
+  <p>A way to further speed up pixel plotting is to use shifting
+  instead of multiplication when calculating the offset. Shifting a
+  number to the left means to move all the bits in the number to
+  the left, which produces the effect of multiplying by two (Figure
+  3). </p>
+  
+  <dl class="image">
+    <dt>
+      <img src="images/img00003.gif" alt="Shifting a number to the left." width="254" height="139" />
+    </dt>
+    <dd>
+      <b>Figure 3.</b>
+      Shifting a number to the left.
+    </dd>
+  </dl>
+  
+  <p>If a number <i>n</i> was shifted to the left three times, the
+  result would be 2<sup>3</sup><i>n</i> or 8<i>n</i>. In C, this is
+  done by using the <code>&lt;&lt;</code> operator: </p>
+  
+<pre>a = 6&lt;&lt;3; /* same as 6*8 */
+</pre>
+  
+  <p>To multiply by 320, which is not a power of two, break the
+  number down into powers of two: 256 and 64. For example, </p>
+  
+  <p class="formula">320<i>y </i>= 256<i>y </i>+ 64<i>y</i>, </p>
+  
+  <p>so calculate the offset as follows: </p>
+  
+<pre>offset = (y&lt;&lt;8) + (y&lt;&lt;6) + x;
+</pre>
+  
+  <p>The next section, which deals with basic drawing elements,
+  uses this technique frequently. </p>
+
+  <div class="linkprev"><a href="intro.html">&laquo; Previous: Introduction</a></div>
+  <div class="linknext"><a href="shapes.html">Next: Primitive Shapes &amp; Lines &raquo;</a></div>
+</div>
+
+<div id="footer">
+  <hr />
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="intro.html">Introduction</a></li>
+    <li class="youarehere">VGA Basics</li>
+    <li><a href="shapes.html">Primitive Shapes &amp; Lines</a></li>
+    <li><a href="bitmaps.html">Bitmaps &amp; Palette Manipulation</a></li>
+    <li><a href="mouse.html">Mouse Support &amp; Animation</a></li>
+    <li><a href="unchain.html">Double Buffering, Page Flipping, &amp; Unchained Mode</a></li>
+  </ul>
+  <ul>
+    <li><a href="resource.html">Links and Other Resources</a></li>
+    <li><a href="download.html">Download</a></li>
+    <li><a href="trouble.html">FAQ and Troubleshooting</a></li>
+  </ul>
+  
+  <div id="license">
+    <!--Creative Commons License-->
+    <a rel="license" href="http://creativecommons.org/licenses/by-sa/2.5/"><img alt="Creative Commons License" src="http://creativecommons.org/images/public/somerights20.png"/></a><br/>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/2.5/">Creative Commons Attribution-ShareAlike 2.5 License</a>.
+    <!--/Creative Commons License-->
+    <!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+        <Work rdf:about="">
+          <license rdf:resource="http://creativecommons.org/licenses/by-sa/2.5/" />
+      <dc:type rdf:resource="http://purl.org/dc/dcmitype/Text" />
+        </Work>
+        <License rdf:about="http://creativecommons.org/licenses/by-sa/2.5/"><permits rdf:resource="http://web.resource.org/cc/Reproduction"/><permits rdf:resource="http://web.resource.org/cc/Distribution"/><requires rdf:resource="http://web.resource.org/cc/Notice"/><requires rdf:resource="http://web.resource.org/cc/Attribution"/><permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/><requires rdf:resource="http://web.resource.org/cc/ShareAlike"/></License></rdf:RDF> -->
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_526.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_525.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_527.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _lfn_gen_short_fname </H2>
+<!--docid::SEC2672::-->
+<A NAME="SEC2673"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC2673::-->
+ 
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;fcntl.h&#62;
+
+char * _lfn_gen_short_fname (const char *long_fname, char *short_fname);
+</pre></td></tr></table><P>
+
+<A NAME="SEC2674"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC2674::-->
+<P>
+
+This function generates a short (8+3) filename alias for the long
+filename pointed to by <VAR>long_fname</VAR> and puts it into the buffer
+pointed to by <VAR>short_fname</VAR>.  It uses the same algorithm that
+Windows 9x uses, with the exception that the returned short name will
+never have a numeric tail, because this function doesn't check the
+directory to see whether the generated short name will collide with
+any other file in the directory.  Note that <VAR>long_fname</VAR> must
+contain only the name part of a file; elements of a full pathname
+(like <KBD>:</KBD> or <KBD>/</KBD> are not allowed (they will cause the
+function to fail).  <VAR>short_fname</VAR> will be returned upper-cased,
+since that is how 8+3 filenames are stored in directory entries.
+</P><P>
+
+When the LFN API is not supported (see section <A HREF="libc_843.html">_use_lfn</A>), the function
+simply converts up to 12 characters of <VAR>long_fname</VAR> to upper-case
+and returns that.  It will do the same if <VAR>long_fname</VAR> includes any
+characters illegal in a filename.
+</P><P>
+
+This function returns incorrect results on Windows 2000 and Windows XP
+due to bugs in the implementation of the DPMI call on those platforms.
+Do not use this function in those environments.
+</P><P>
+
+You might need to call this function if you want to know whether a given
+filename is valid on MSDOS: if a case-sensitive string comparison
+function such as <CODE>strcmp</CODE> (see section <A HREF="libc_754.html">strcmp</A>) returns a 0 when it
+compares the original long filename with the short one returned by
+<CODE>_lfn_gen_short_fname</CODE>, then the filename is a valid DOS name.
+(Note that if <VAR>long_fname</VAR> is in lower case, it might not compare
+equal with <VAR>short_fname</VAR> because of the case difference.)
+</P><P>
+
+<A NAME="SEC2675"></A>
+<H3> Return value    </H3>
+<!--docid::SEC2675::-->
+<P>
+
+The function returns a pointer to <VAR>short_fname</VAR>.
+</P><P>
+
+<A NAME="SEC2676"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC2676::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2677"></A>
+<H3> Example                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC2677::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdio.h&#62;
+#include &#60;string.h&#62;
+#include &#60;fcntl.h&#62;
+
+int dos_check (char *fname)
+{
+  char fshort[13];
+  int retval;
+
+  if (stricmp (_lfn_gen_short_fname (fname, fshort), fname) == 0)
+  {
+    printf ("%s is a valid MSDOS 8+3 filename\n", fname);
+    retval = 1;
+  }
+  else
+  {
+    printf ("%s will have to be changed for MSDOS\n", fname);
+    retval = 0;
+  }
+  return retval;
+}
+</pre></td></tr></table></P><P>
+
+<A NAME="_lfn_get_ftime"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_525.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_527.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

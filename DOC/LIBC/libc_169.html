@@ -1,0 +1,88 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_169.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_168.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_170.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _dos_getdiskfree </H2>
+<!--docid::SEC760::-->
+<A NAME="SEC761"></A>
+<H3> Syntax                                                                                                                                       </H3>
+<!--docid::SEC761::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dos.h&#62;
+
+unsigned int _dos_getdiskfree(unsigned int drive, 
+                              struct diskfree_t *diskspace);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC762"></A>
+<H3> Description                                                                                                                                    </H3>
+<!--docid::SEC762::-->
+<P>
+
+This function determines the free space on <VAR>drive</VAR> drive
+(0=default, 1=A:, 2=B:, etc.) and fills <VAR>diskspace</VAR> structure.
+The members of <CODE>struct diskfree_t</CODE> are defined by <CODE>&#60;dos.h&#62;</CODE> as
+follows:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct diskfree_t {
+  unsigned short total_clusters;
+  unsigned short avail_clusters;
+  unsigned short sectors_per_cluster;
+  unsigned short bytes_per_sector;
+};
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC763"></A>
+<H3> Return Value                                                                                                                  </H3>
+<!--docid::SEC763::-->
+<P>
+
+Returns with 0 if successful, non-zero on error (and sets <CODE>errno</CODE>
+to <CODE>EINVAL</CODE>).
+</P><P>
+
+<A NAME="SEC764"></A>
+<H3> Portability                                                                                                                                      </H3>
+<!--docid::SEC764::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC765"></A>
+<H3> Example                                                                       </H3>
+<!--docid::SEC765::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct diskfree_t df;
+unsigned long freebytes;
+
+if ( !_dos_getdiskfree(0, &#38;df) )
+{
+  freebytes = (unsigned long)df.avail_clusters *
+              (unsigned long)df.bytes_per_sector *
+              (unsigned long)df.sectors_per_cluster;
+  printf("There is %lu free bytes on the current drive.\n", freebytes);
+}
+else
+  printf("Unable to get free disk space.\n");
+</pre></td></tr></table><A NAME="_dos_getdrive"></A>
+<!--#perl sub="trailer" -->

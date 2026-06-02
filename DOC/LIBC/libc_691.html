@@ -1,0 +1,82 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_691.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_690.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_692.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _set_screen_lines </H2>
+<!--docid::SEC3581::-->
+<A NAME="SEC3582"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC3582::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;conio.h&#62;
+
+void _set_screen_lines(int nlines);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3583"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC3583::-->
+<P>
+
+This function sets the text screen width to 80 and its height to the
+value given by <VAR>nlines</VAR>, which can be one of the following: 25, 28,
+35, 40, 43 or 50.  On a CGA, only 25-line screen is supported.  On an
+EGA, you can use 25, 35 and 43.  VGA, PGA and MCGA support all of the
+possible dimensions.
+The number of columns (i.e., screen width) is 80 for all of the above
+resolutions, because the standard EGA/VGA has no way of changing it.
+After this function returns, calls to <CODE>gettextinfo()</CODE> will return
+the actual screen dimensions as set by <CODE>_set_screen_lines()</CODE>.
+That is, you can e.g. test whether <CODE>_set_screen_lines()</CODE> succeeded
+by checking the screen height returned by <CODE>gettextinfo()</CODE> against
+the desired height.
+This function has a side effect of erasing the screen contents, so
+application programs which use it should make their own arrangements to
+redisplay it.
+</P><P>
+
+<A NAME="SEC3584"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC3584::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3585"></A>
+<H3> Implementation Note                     </H3>
+<!--docid::SEC3585::-->
+<P>
+
+It's not safe to call this function inside static constructors, because
+conio needs to be initialized, and its initialization is done by a
+static constructor.  Since you don't have any control on the order in
+which static constructors are called (it's entirely up to the linker),
+you could have problems.
+</P><P>
+
+If you can detect the situation when one of the conio functions is
+called for the very first time since program start, you could work
+around this problem by calling the <CODE>gppconio_init</CODE> function
+manually (this is the function called by a static constructor).
+</P><P>
+
+<A NAME="setbuf"></A>
+<!--#perl sub="trailer" -->

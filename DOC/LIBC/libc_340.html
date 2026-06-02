@@ -1,0 +1,79 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_340.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_339.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_341.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> fpclassify </H2>
+<!--docid::SEC1661::-->
+<A NAME="SEC1662"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC1662::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1663"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC1663::-->
+<P>
+
+The macro <CODE>fpclassify</CODE> returns the kind of the floating point
+value supplied.
+</P><P>
+
+<A NAME="SEC1664"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC1664::-->
+<P>
+
+<CODE>FP_INFINITE</CODE>, <CODE>FP_NAN</CODE>, <CODE>FP_NORMAL</CODE>,
+<CODE>FP_SUBNORMAL</CODE>, <CODE>FP_ZERO</CODE> or <CODE>FP_UNNORMAL</CODE>.
+</P><P>
+
+<A NAME="SEC1665"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC1665::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C99; not C89
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1666"></A>
+<H3> Example                                                                                                                                       </H3>
+<!--docid::SEC1666::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>float f = 1;
+double d = INFINITY;
+long double ld = NAN;
+
+if( fpclassify(f) != FP_NORMAL )
+{
+  printf("Something is wrong with the implementation!\n");
+}
+if( fpclassify(d) != FP_INFINITE )
+{
+  printf("Something is wrong with the implementation!\n");
+}
+if( fpclassify(ld) != FP_NAN )
+{
+  printf("Something is wrong with the implementation!\n");
+}
+
+</pre></td></tr></table></P><P>
+
+<A NAME="__fpclassifyd"></A>
+<!--#perl sub="trailer" -->

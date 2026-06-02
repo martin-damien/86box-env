@@ -1,0 +1,106 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_39.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_38.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_40.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> access </H2>
+<!--docid::SEC55::-->
+<A NAME="SEC56"></A>
+<H3> Syntax     </H3>
+<!--docid::SEC56::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;unistd.h&#62;
+
+int access(const char *filename, int flags);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC57"></A>
+<H3> Description    </H3>
+<!--docid::SEC57::-->
+<P>
+
+This function determines what kind of access modes a given file allows. 
+The parameter <VAR>flags</VAR> is the logical <CODE>or</CODE> of one or more of the
+following flags:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>R_OK</CODE>
+<DD><P>
+
+Request if the file is readable.  Since all files are readable under
+MS-DOS, this access mode always exists. 
+</P><P>
+
+<DT><CODE>W_OK</CODE>
+<DD><P>
+
+Request if the file is writable.
+</P><P>
+
+<DT><CODE>X_OK</CODE>
+<DD><P>
+
+Request if the file is executable.
+</P><P>
+
+<DT><CODE>F_OK</CODE>
+<DD><P>
+
+Request if the file exists.
+</P><P>
+
+<DT><CODE>D_OK</CODE>
+<DD><P>
+
+Request if the file is really a directory.
+</P><P>
+
+</DL>
+<P>
+
+<A NAME="SEC58"></A>
+<H3> Return Value    </H3>
+<!--docid::SEC58::-->
+<P>
+
+Zero if the requested access mode is allowed, nonzero if not. 
+</P><P>
+
+<A NAME="SEC59"></A>
+<H3> Portability     </H3>
+<!--docid::SEC59::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC60"></A>
+<H3> Example   </H3>
+<!--docid::SEC60::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>if (access("file.ext", W_OK))
+  return ERROR_CANNOT_WRITE;
+open("file.ext", O_RDWR);
+</pre></td></tr></table></P><P>
+
+<A NAME="acos"></A>
+<!--#perl sub="trailer" -->

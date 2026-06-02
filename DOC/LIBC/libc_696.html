@@ -1,0 +1,71 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_696.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_695.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_697.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> setdate </H2>
+<!--docid::SEC3608::-->
+<A NAME="SEC3609"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC3609::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dos.h&#62;
+
+void setdate(struct date *ptr);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3610"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC3610::-->
+<P>
+
+This function sets the current time.
+</P><P>
+
+For the description of <CODE>struct date</CODE>, see <A HREF="libc_387.html">getdate</A>.  Also see
+<A HREF="libc_713.html">settime</A>.
+</P><P>
+
+<A NAME="SEC3611"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC3611::-->
+<P>
+
+None.
+</P><P>
+
+<A NAME="SEC3612"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC3612::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3613"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC3613::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct date d;
+setdate(&#38;d);
+</pre></td></tr></table></P><P>
+
+<A NAME="setdisk"></A>
+<!--#perl sub="trailer" -->

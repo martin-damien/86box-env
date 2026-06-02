@@ -1,0 +1,101 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_222.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_221.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_223.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __dpmi_get_coprocessor_status </H2>
+<!--docid::SEC1044::-->
+<A NAME="SEC1045"></A>
+<H3> Syntax                                                                                                                                                                                          </H3>
+<!--docid::SEC1045::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre>#include &#60;dpmi.h&#62;
+
+int __dpmi_get_coprocessor_status(void);
+</FONT></pre></td></tr></table></P><P>
+
+<A NAME="SEC1046"></A>
+<H3> Description                                                                                                                                                                                       </H3>
+<!--docid::SEC1046::-->
+<P>
+
+Please refer to <A HREF="libc_200.html">DPMI Specification</A>, for details on DPMI
+function call operation.  Also see <A HREF="libc_199.html">DPMI Overview</A>, for general
+information.
+</P><P>
+
+DPMI function AX = 0x0e00 (DPMI 1.0 only).  Not supported by CWSDPMI and
+Windows.
+</P><P>
+
+<A NAME="SEC1047"></A>
+<H3> Return Value                                                                                                                                                                    </H3>
+<!--docid::SEC1047::-->
+<P>
+
+-1 on error, else returns the processor status flags.  Here's the
+meaning of each set bit:
+</P><P>
+
+<DL COMPACT>
+<DT>bit 0
+<DD>If set, co-processor is enabled.  If reset, co-processor is disabled.
+<P>
+
+<DT>bit 1
+<DD>If set, the application is emulating the co-processor.
+<P>
+
+<DT>bit 2
+<DD>If set, the numeric co-processor is present.
+<P>
+
+<DT>bit 3
+<DD>If set, the DPMI host is emulating the co-processor.
+<P>
+
+<DT>bits 4-7
+<DD>The co-processor type:
+<P>
+
+<DL COMPACT>
+<DT><CODE>0000</CODE>
+<DD>none
+<DT><CODE>0010</CODE>
+<DD>80287
+<DT><CODE>0011</CODE>
+<DD>80387
+<DT><CODE>0100</CODE>
+<DD>80486 with a numeric processor
+</DL>
+<P>
+
+</DL>
+<P>
+
+<A NAME="SEC1048"></A>
+<H3> Portability                                                                                                                                                                                         </H3>
+<!--docid::SEC1048::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="__dpmi_get_descriptor"></A>
+<!--#perl sub="trailer" -->

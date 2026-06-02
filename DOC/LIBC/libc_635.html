@@ -1,0 +1,122 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_635.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_634.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_636.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> qsort </H2>
+<!--docid::SEC3257::-->
+<A NAME="SEC3258"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC3258::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdlib.h&#62;
+
+void qsort(void *base, size_t numelem, size_t size,
+           int (*cmp)(const void *e1, const void *e2));
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3259"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC3259::-->
+<P>
+
+This function sorts the given array in place.  <VAR>base</VAR> is the address
+of the first of <VAR>numelem</VAR> array entries, each of size <VAR>size</VAR>
+bytes.  <CODE>qsort</CODE> uses the supplied function <VAR>cmp</VAR> to determine
+the sort order for any two elements by passing the address of the two
+elements and using the function's return address. 
+</P><P>
+
+The return address of the function indicates the sort order:
+</P><P>
+
+<DL COMPACT>
+
+<DT>Negative
+<DD><P>
+
+Element <VAR>e1</VAR> should come before element <VAR>e2</VAR> in the resulting
+array. 
+</P><P>
+
+<DT>Positive
+<DD><P>
+
+Element <VAR>e1</VAR> should come after element <VAR>e2</VAR> in the resulting
+array. 
+</P><P>
+
+<DT>Zero
+<DD><P>
+
+It doesn't matter which element comes first in the resulting array. 
+</P><P>
+
+</DL>
+<P>
+
+<A NAME="SEC3260"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC3260::-->
+<P>
+
+None.
+</P><P>
+
+<A NAME="SEC3261"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC3261::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C89; C99
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3262"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC3262::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>typedef struct {
+  int size;
+  int sequence;
+} Item;
+
+int qsort_helper_by_size(const void *e1, const void *e2)
+{
+  return ((const Item *)e2)-&#62;size - ((const Item *)e1)-&#62;size;
+}
+
+Item list[100];
+
+qsort(list, 100, sizeof(Item), qsort_helper_by_size);
+
+int qsort_stringlist(const void *e1, const void *e2)
+{
+  return strcmp(*(char **)e1, *(char **)e2);
+}
+
+char *slist[10];
+
+/* alphabetical order */
+qsort(slist, 10, sizeof(char *), qsort_stringlist);
+
+</pre></td></tr></table></P><P>
+
+<A NAME="raise"></A>
+<!--#perl sub="trailer" -->

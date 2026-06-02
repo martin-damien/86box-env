@@ -1,0 +1,72 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_161.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_160.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_162.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _doprnt </H2>
+<!--docid::SEC713::-->
+<A NAME="SEC714"></A>
+<H3> Syntax                                                                                                                               </H3>
+<!--docid::SEC714::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdio.h&#62;
+
+int _doprnt(const char *format, void *params, FILE *file);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC715"></A>
+<H3> Description                                                                                                                            </H3>
+<!--docid::SEC715::-->
+<P>
+
+This is an internal function that is used by all the <CODE>printf</CODE> style
+functions, which simply pass their format, arguments, and stream to this
+function. 
+</P><P>
+
+See section <A HREF="libc_624.html">printf</A>, for a discussion of the allowed formats and arguments. 
+</P><P>
+
+<A NAME="SEC716"></A>
+<H3> Return Value                                                                                                          </H3>
+<!--docid::SEC716::-->
+<P>
+
+The number of characters generated is returned.
+</P><P>
+
+<A NAME="SEC717"></A>
+<H3> Portability                                                                                                                              </H3>
+<!--docid::SEC717::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC718"></A>
+<H3> Example                                                                </H3>
+<!--docid::SEC718::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>int args[] = { 1, 2, 3, 66 };
+_doprnt("%d %d %d %c\n", args, stdout);
+</pre></td></tr></table></P><P>
+
+<A NAME="_dos_close"></A>
+<!--#perl sub="trailer" -->

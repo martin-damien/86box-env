@@ -1,0 +1,80 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_62.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_61.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_63.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> bdosptr </H2>
+<!--docid::SEC185::-->
+<A NAME="SEC186"></A>
+<H3> Syntax                            </H3>
+<!--docid::SEC186::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dos.h&#62;
+
+int bdosptr(int func, void *ptr, unsigned al);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC187"></A>
+<H3> Description                           </H3>
+<!--docid::SEC187::-->
+<P>
+
+Calls function <VAR>func</VAR> of the software interrupt 0x21, passing it
+<VAR>al</VAR> as the subfunction and a pointer to a copy of the buffer contents
+whose address is in <VAR>ptr</VAR> through the <CODE>DX</CODE> register.  This
+function will only work for a subset of DOS which require an argument
+in the <CODE>AL</CODE> register and a pointer in <CODE>DX</CODE> register.  For
+functions which require non-pointer arguments in the <CODE>DX</CODE> register,
+use <CODE>bdos</CODE> (see section <A HREF="libc_61.html">bdos</A>).  To make the contents of <VAR>ptr</VAR>
+available to DOS, <CODE>bdosptr</CODE> copies it to the transfer buffer located
+in the low (below 1 Meg mark) memory.
+</P><P>
+
+Currently, some of the functions which take a pointer to a buffer in
+<CODE>DX</CODE> are <EM>NOT</EM> supported (notably, most of the FCB-based
+functions).  See section <A HREF="libc_486.html">int86</A>, for the list of supported functions.
+</P><P>
+
+<A NAME="SEC188"></A>
+<H3> Return Value                           </H3>
+<!--docid::SEC188::-->
+<P>
+
+Whatever the called function returns in the AX register.
+</P><P>
+
+<A NAME="SEC189"></A>
+<H3> Portability                            </H3>
+<!--docid::SEC189::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC190"></A>
+<H3> Example                  </H3>
+<!--docid::SEC190::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>/* print a string */
+bdosptr(9, "Hello, there$", 0);
+</pre></td></tr></table></P><P>
+
+<A NAME="_bios_disk"></A>
+<!--#perl sub="trailer" -->

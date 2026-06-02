@@ -1,0 +1,161 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_726.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_725.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_727.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> sigprocmask </H2>
+<!--docid::SEC3771::-->
+<A NAME="SEC3772"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC3772::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;signal.h&#62;
+
+int sigprocmask (int how, const sigset_t *new_set, sigset_t *old_set)
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3773"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC3773::-->
+<P>
+
+This function is used to examine and/or change the program's current
+signal mask.  The current signal mask determines which signals are
+blocked from being delivered to the program.  A signal is blocked if its
+bit in the mask is set.  (See section <A HREF="libc_722.html">sigismember</A>, See section <A HREF="libc_718.html">sigaddset</A>,
+See section <A HREF="libc_719.html">sigdelset</A>, See section <A HREF="libc_720.html">sigemptyset</A>, See section <A HREF="libc_721.html">sigfillset</A>, for information
+about functions to manipulate the signal masks.)  When a blocked signal
+happens, it is not delivered to the program until such time as that
+signal is unblocked by another call to <CODE>sigprocmask</CODE>.  Thus
+blocking a signal is an alternative to ignoring it (by setting its
+handler to <CODE>SIG_IGN</CODE>, see section <A HREF="libc_724.html">signal</A>), but has an advantage of not
+missing the signal entirely.
+</P><P>
+
+The value of the argument <VAR>how</VAR> determines the operation: if it is
+<CODE>SIG_BLOCK</CODE>, the set pointed to by the argument <VAR>new_set</VAR> is
+<EM>added</EM> to the current signal mask.  If the value is
+<CODE>SIG_UNBLOCK</CODE>, the set pointed to by <VAR>new_set</VAR> is
+<EM>removed</EM> from the current signal mask.  If the value is
+<CODE>SIG_SETMASK</CODE>, the current mask is <EM>replaced</EM> by the set
+pointed to by <VAR>new_set</VAR>.
+</P><P>
+
+If the argument <VAR>old_set</VAR> is not <CODE>NULL</CODE>, the previous mask is
+stored in the space pointed to by <VAR>old_set</VAR>.  If the value of the
+argument <VAR>new_set</VAR> is <CODE>NULL</CODE>, the value of <VAR>how</VAR> is not
+significant and the process signal mask is unchanged; thus, the call
+with a zero <VAR>new_set</VAR> can be used to inquire about currently blocked
+signals, without changing the current set.
+</P><P>
+
+If the new set defined by the call causes some pending signals to be
+unblocked, they are all delivered (by calling <CODE>raise</CODE>) before the
+call to <CODE>sigprocmask</CODE> returns.
+</P><P>
+
+The DJGPP implementation only records a single occurrence of any given
+signal, so when the signal is unblocked, its handler will be called at
+most once.
+</P><P>
+
+It is not possible to block CPU exceptions such as Page Fault, General
+Protection Fault etc. (mapped to <CODE>SIGSEGV</CODE> signal); for these, 
+<CODE>sigprocmask</CODE> will behave as if the call succeeded, but when an
+exception happens, the signal handler will be called anyway (the default
+handler will abort the program).
+</P><P>
+
+Also note that there are no provisions to save and restore any
+additional info about the signal beyond the fact that it happened.  A
+signal handler might need such info to handle the signal intelligently.
+For example, a handler for <CODE>SIGFPE</CODE> might need to examine the
+status word of the FPU to see what exactly went wrong.  But if the
+signal was blocked and is delivered after a call to <CODE>sigprocmask</CODE>
+has unblocked it, that information is lost.  Therefore, if you need
+access to such auxiliary information in the signal handler, don't block
+that signal.
+</P><P>
+
+<A NAME="SEC3774"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC3774::-->
+<P>
+
+0 on success, -1 for illegal value of <VAR>sig</VAR> or illegal address in
+<VAR>new_set</VAR> or <VAR>old_set</VAR>.
+</P><P>
+
+<A NAME="SEC3775"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC3775::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3776"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC3776::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>
+#include &#60;conio.h&#62;
+#include &#60;signal.h&#62;
+
+static void
+sig_catcher (int signo)
+{
+  cprintf ("\r\nGot signal %d\r\n", signo);
+}
+
+int
+main (void)
+{
+  sigset_t sigmask, prevmask;
+
+  signal (SIGINT, sig_catcher);
+
+  sigemptyset (&#38;sigmask);
+
+  sigaddset (&#38;sigmask, SIGINT);
+  if (sigprocmask (SIG_SETMASK, &#38;sigmask, &#38;prevmask) == 0)
+    cputs ("SIGINT blocked.  Try to interrupt me now.\r\n");
+  while (!kbhit ())
+    ;
+  cputs ("See?  I wasn't interrupted.\r\n");
+  cputs ("But now I will unblock SIGINT, and then get the signal.\r\n");
+  sigprocmask (SIG_UNBLOCK, &#38;sigmask, &#38;prevmask);
+  return 0;
+}
+
+</pre></td></tr></table><A NAME="sigsetjmp"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_725.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_727.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

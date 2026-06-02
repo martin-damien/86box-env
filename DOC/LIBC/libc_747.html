@@ -1,0 +1,120 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_747.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_746.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_748.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> statvfs </H2>
+<!--docid::SEC3883::-->
+<A NAME="SEC3884"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC3884::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;sys/types.h&#62;
+#include &#60;sys/statvfs.h&#62;
+
+int statvfs (const char *path, struct statvfs *sbuf);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3885"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC3885::-->
+<P>
+
+This function returns information about the "filesystem" (FS)
+containing <VAR>path</VAR> and stores it in <VAR>sbuf</VAR>, which has
+the structure below:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct statvfs {
+  unsigned long f_bsize;   /* FS block size */
+  unsigned long f_frsize;  /* fundamental block size */
+  fsblkcnt_t    f_blocks;  /* # of blocks on FS of size f_frsize */
+  fsblkcnt_t    f_bfree;   /* # of free blocks on FS of size f_frsize */
+  fsblkcnt_t    f_bavail;  /* # of free blocks on FS of size f_frsize
+                            * for unprivileged users */
+  fsfilcnt_t    f_files;   /* # of file serial numbers */
+  fsfilcnt_t    f_ffree;   /* # of free file serial numbers */
+  fsfilcnt_t    f_favail;  /* # of free file serial numbers
+                            * for unprivileged users */
+  unsigned long f_fsid;    /* FS identifier */
+  unsigned long f_flag;    /* FS flags: bitwise OR of ST_NOSUID,
+                            * ST_RDONLY */
+  unsigned long f_namemax; /* Maximum file name length on FS */
+};
+</pre></td></tr></table></P><P>
+
+Note that if INT 21h is hooked by a TSR, the total size is limited
+to approximately 2GB.  TSRs that hook INT 21h include:
+</P><P>
+
+<UL>
+<LI>CD-ROM drivers;
+<LI>command-line enhancers such as CMDEDIT and Microsoft's DOSEdit.
+</UL>
+<P>
+
+These may be loaded by <TT>`autoexec.bat'</TT> or <TT>`config.sys'</TT>.
+</P><P>
+
+The fundamental block size is considered to be a cluster.  Really
+the fundamental block is the sector of the physical media rather
+than the logical block of the filesystem, but the sector size
+cannot be determined in all cases.  So for consistency we return
+the cluster size.
+</P><P>
+
+<A NAME="SEC3886"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC3886::-->
+<P>
+
+Zero on success, nonzero on failure (and <CODE>errno</CODE> set).
+</P><P>
+
+<A NAME="SEC3887"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC3887::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001 (see note 1)
+</TR></TABLE>
+<P>
+
+Notes:
+</P><P>
+
+<OL>
+<LI>
+See the comments on the fundamental block size above.
+<P>
+
+</OL>
+<A NAME="_stklen"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_746.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_748.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

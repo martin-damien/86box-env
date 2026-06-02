@@ -1,0 +1,83 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_839.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_838.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_840.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> unlink </H2>
+<!--docid::SEC4403::-->
+<A NAME="SEC4404"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC4404::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;unistd.h&#62;
+
+int unlink(const char *file);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC4405"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC4405::-->
+<P>
+
+This function removes a file from the file system. 
+</P><P>
+
+<A NAME="SEC4406"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC4406::-->
+<P>
+
+Zero on success, nonzero on failure. 
+</P><P>
+
+<A NAME="SEC4407"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC4407::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992 (partial); 1003.1-2001 (partial) (see note 1)
+</TR></TABLE>
+<P>
+
+Notes:
+</P><P>
+
+<OL>
+<LI>
+The POSIX specification requires this removal to be delayed until the
+file is no longer open.  Due to problems with the underlying operating
+systems, this implementation of <CODE>unlink</CODE> does not fully comply with
+the specs; if the file you want to unlink is open, you're asking for
+trouble -- how much trouble depends on the underlying OS.  On Windows NT
+(and possibly on Windows 2000 as well), you get the behaviour POSIX
+expects.
+On Windows 9x and Windows ME (and possibly Windows XP as well), the removal
+will simply fail (<CODE>errno</CODE> gets set to <CODE>EACCES</CODE>).  On DOS, removing
+an open file could lead to filesystem corruption if the removed file is
+written to before it's closed.
+</OL>
+<P>
+
+<A NAME="SEC4408"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC4408::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>unlink("data.txt");
+</pre></td></tr></table><A NAME="unlock"></A>
+<!--#perl sub="trailer" -->

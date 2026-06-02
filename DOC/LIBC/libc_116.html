@@ -1,0 +1,76 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_116.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_115.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_117.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> cputs </H2>
+<!--docid::SEC484::-->
+<A NAME="SEC485"></A>
+<H3> Syntax                                                                                  </H3>
+<!--docid::SEC485::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;conio.h&#62;
+
+int cputs(const char *_str);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC486"></A>
+<H3> Description                                                                                 </H3>
+<!--docid::SEC486::-->
+<P>
+
+Puts the string onto the console.  The cursor position is updated.
+</P><P>
+
+<A NAME="SEC487"></A>
+<H3> Return Value                                                                             </H3>
+<!--docid::SEC487::-->
+<P>
+
+Zero on success.
+</P><P>
+
+<A NAME="SEC488"></A>
+<H3> Portability                                                                                 </H3>
+<!--docid::SEC488::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC489"></A>
+<H3> Implementation Note      </H3>
+<!--docid::SEC489::-->
+<P>
+
+It's not safe to call this function inside static constructors, because
+conio needs to be initialized, and its initialization is done by a
+static constructor.  Since you don't have any control on the order in
+which static constructors are called (it's entirely up to the linker),
+you could have problems.
+</P><P>
+
+If you can detect the situation when one of the conio functions is
+called for the very first time since program start, you could work
+around this problem by calling the <CODE>gppconio_init</CODE> function
+manually (this is the function called by a static constructor).
+</P><P>
+
+<A NAME="creat"></A>
+<!--#perl sub="trailer" -->

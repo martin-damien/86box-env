@@ -1,0 +1,85 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_717.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_716.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_718.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> sigaction </H2>
+<!--docid::SEC3724::-->
+<A NAME="SEC3725"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC3725::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;signal.h&#62;
+
+int sigaction (int sig, const struct sigaction *act,
+               struct sigaction *oact);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3726"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC3726::-->
+<P>
+
+This function allows to examine and/or change the action associated with
+a signal <VAR>sig</VAR>.  The <CODE>struct sigaction</CODE> structure, defined by
+the header file <TT>`signal.h'</TT>, is declared as follows:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre> struct sigaction {
+   int sa_flags;             /* flags for the action;
+                              * currently ignored */
+   void (*sa_handler)(int);  /* the handler for the signal */
+   sigset_t sa_mask;         /* additional signals to be blocked */
+ };
+</pre></td></tr></table></P><P>
+
+The <CODE>sa_handler</CODE> member is a signal handler, see <A HREF="libc_724.html">signal</A>.  The
+<CODE>sa_mask</CODE> member defines the signals, in addition to <VAR>sig</VAR>,
+which are to be blocked during the execution of <CODE>sa_handler</CODE>.
+</P><P>
+
+The <CODE>sigaction</CODE> function sets the structure pointed to by
+<CODE>oact</CODE> to the current action for the signal <VAR>sig</VAR>, and then
+sets the new action for <VAR>sig</VAR> as specified by <VAR>act</VAR>.  If the
+<VAR>act</VAR> argument is <CODE>NULL</CODE>, <CODE>sigaction</CODE> returns the current
+signal action in <VAR>oact</VAR>, but doesn't change it.  If the <VAR>oact</VAR>
+argument is a <CODE>NULL</CODE> pointer, it is ignored.  Thus, passing
+<CODE>NULL</CODE> pointers for both <CODE>act</CODE> and <CODE>oact</CODE> is a way to
+see if <VAR>sig</VAR> is a valid signal number on this system (if not,
+<CODE>sigaction</CODE> will return -1 and set <CODE>errno</CODE>).
+</P><P>
+
+<A NAME="SEC3727"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC3727::-->
+<P>
+
+0 on success, -1 for illegal value of <VAR>sig</VAR>.
+</P><P>
+
+<A NAME="SEC3728"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC3728::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="sigaddset"></A>
+<!--#perl sub="trailer" -->

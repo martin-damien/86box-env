@@ -1,0 +1,115 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_149.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_148.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_150.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _djstat_describe_lossage </H2>
+<!--docid::SEC658::-->
+<A NAME="SEC659"></A>
+<H3> Syntax                                                                                                                   </H3>
+<!--docid::SEC659::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdio.h&#62;
+
+void _djstat_describe_lossage(FILE *fp);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC660"></A>
+<H3> Description                                                                                                                  </H3>
+<!--docid::SEC660::-->
+<P>
+
+Accesses the global variable <CODE>_djstat_fail_bits</CODE>
+(see section <A HREF="libc_150.html">_djstat_fail_bits</A>) and prints to the stream
+given by <VAR>fp</VAR> a human-readable description of the undocumented
+DOS features which the last call to <CODE>stat()</CODE> or <CODE>fstat()</CODE> failed
+to use.  (If <VAR>fp</VAR> is zero, the function prints to stderr.)  If the
+last call to <CODE>f?stat()</CODE> didn't set any failure bits, an "all's
+well" message is printed.  This function is designed to help in debugging
+these functions in hostile environments (like DOS clones) and in adapting
+them to the future DOS versions.  If you ever have any strange results
+returned by <CODE>f?stat()</CODE>, please call this function and post the
+diagnostics it printed to the DJGPP mailing list.
+</P><P>
+
+The diagnostic messages this function prints are almost self-explanatory.
+Some explanations of terminology and abbreviations used by the printed
+messages will further clarify them.
+</P><P>
+
+  SDA (<EM>Swappable DOS Area</EM>) -- this is an internal DOS structure.
+<CODE>stat()</CODE> uses it to get the full directory entry (including the
+starting cluster number) of a file.  The pointer to SDA found by
+<CODE>stat()</CODE> is trusted only if we find the pathname of our file at a
+specific offset in that SDA.
+</P><P>
+
+  SFT (<EM>System File Table</EM>) -- another internal DOS structure, used
+in file operations.  <CODE>fstat()</CODE> uses it to get full information on a
+file given its handle.  An SFT entry which is found by <CODE>fstat()</CODE> is
+only trusted if it contains files size and time stamp like those
+returned by DOS functions 57h and 42h.  Novell NetWare 3.x traps DOS
+file operations in such a way they never get to SFT, so some failure
+messages refer specifically to Novell.
+</P><P>
+
+  Hashing -- the fall-back method of returning a unique inode number for
+each file.  It is used whenever the starting cluster of a file couldn't be
+reliably determined.
+</P><P>
+
+<A NAME="SEC661"></A>
+<H3> Return Value                                                                                                  </H3>
+<!--docid::SEC661::-->
+<P>
+
+None.
+</P><P>
+
+<A NAME="SEC662"></A>
+<H3> Portability                                                                                                                  </H3>
+<!--docid::SEC662::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC663"></A>
+<H3> Example                                                               </H3>
+<!--docid::SEC663::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>  if (stat(path, &#38;stat_buf))
+    _djstat_describe_lossage((FILE *)0);
+</pre></td></tr></table></P><P>
+
+<A NAME="_djstat_fail_bits"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_148.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_150.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,72 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_37.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_36.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_38.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> abort </H2>
+<!--docid::SEC44::-->
+<A NAME="SEC45"></A>
+<H3> Syntax   </H3>
+<!--docid::SEC45::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdlib.h&#62;
+
+void abort(void);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC46"></A>
+<H3> Description   </H3>
+<!--docid::SEC46::-->
+<P>
+
+When you call <CODE>abort</CODE>, the message "Abort!" is printed on stdout
+and the program is aborted by calling <CODE>raise (SIGABRT)</CODE>
+(see section <A HREF="libc_724.html">SIGABRT</A>).  By default, this causes the CPU registers
+and the call frame stack dump to be printed, and the program then exits
+with an exit code of -1 (255).  If the <CODE>SIGABRT</CODE> signal is caught
+by a handler that returns, the program exits with an exit code of 1.
+</P><P>
+
+<A NAME="SEC47"></A>
+<H3> Return Value  </H3>
+<!--docid::SEC47::-->
+<P>
+
+This function does not return.
+</P><P>
+
+<A NAME="SEC48"></A>
+<H3> Portability   </H3>
+<!--docid::SEC48::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C89; C99
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC49"></A>
+<H3> Example </H3>
+<!--docid::SEC49::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>if ((q = malloc(100)) == NULL)
+  abort();
+</pre></td></tr></table></P><P>
+
+<A NAME="abs"></A>
+<!--#perl sub="trailer" -->

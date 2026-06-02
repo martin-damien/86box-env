@@ -1,0 +1,170 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_550.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_549.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_551.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> mallinfo </H2>
+<!--docid::SEC2803::-->
+<A NAME="SEC2804"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC2804::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdlib.h&#62;
+
+struct mallinfo mallinfo(void);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2805"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC2805::-->
+<P>
+
+This function returns information about heap space usage.  It is
+intended to be used for debugging dynamic memory allocation and tracking
+heap usage.  The <CODE>struct mallinfo</CODE> structure is defined by
+<TT>`stdlib.h'</TT> as follows:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre> struct mallinfo {
+   int arena;
+   int ordblks;
+   int smblks;
+   int hblks;
+   int hblkhd;
+   int usmblks;
+   int fsmblks;
+   int uordblks;
+   int fordblks;
+   int keepcost;
+ };
+</pre></td></tr></table></P><P>
+
+whose members are:
+</P><P>
+
+<DL COMPACT>
+<DT><CODE>arena</CODE>
+<DD>The total amount of space, in bytes, handed by <CODE>sbrk</CODE> to
+<CODE>malloc</CODE>.  Note that this is not the same as <CODE>sbrk(0)</CODE>, since
+<CODE>sbrk</CODE> allocates memory in large chunks and then subdivides them
+and passes them to <CODE>malloc</CODE> as required.  In particular, the result
+of <CODE>sbrk(0)</CODE> might be much larger than the <CODE>arena</CODE> member of
+<CODE>struct mallinfo</CODE> when the DPMI host allocates memory in
+non-contiguous regions (happens on MS-Windows).
+<P>
+
+<DT><CODE>ordblks</CODE>
+<DD>The number of "ordinary blocks": the total number of allocated and
+free blocks maintained by <CODE>malloc</CODE>.
+<P>
+
+<DT><CODE>smblks</CODE>
+<DD>The number of "small blocks".  This is normally zero, unless
+<CODE>malloc</CODE> was compiled with the symbol <CODE>NUMSMALL</CODE> defined to a
+non-zero value.  Doing so activates an optional algorithm which serves
+small allocations quickly from a special pool.  If this option is
+activated, the <CODE>smblks</CODE> member returns the number of free small
+blocks (the allocated small blocks are included in the value of
+<CODE>ordblks</CODE>).
+<P>
+
+<DT><CODE>hblks</CODE>
+<DD><DT><CODE>hblkhd</CODE>
+<DD>Always zero, kept for compatibility with other systems.
+<P>
+
+<DT><CODE>usmblks</CODE>
+<DD>The space (in bytes) in "small blocks" that are in use.  This is
+always zero in the DJGPP implementation.
+<P>
+
+<DT><CODE>fsmblks</CODE>
+<DD>The space in free "small blocks".  Non-zero only of <CODE>malloc</CODE> was
+compiled with <CODE>NUMSMALL</CODE> defined to a non-zero value.  In that
+case, gives the amount of space in bytes in free small blocks.
+<P>
+
+<DT><CODE>uordblks</CODE>
+<DD>The amount of space, in bytes, in the heap space currently used by the
+application.  This does not include the small overhead (8 bytes per
+block) used by <CODE>malloc</CODE> to maintain its hidden information in each
+allocated block.
+<P>
+
+<DT><CODE>fordblks</CODE>
+<DD>The amount of free heap space maintained by <CODE>malloc</CODE> in its free
+list.
+<P>
+
+<DT><CODE>keepcost</CODE>
+<DD>Always zero, kept for compatibility.
+</DL>
+<P>
+
+<A NAME="SEC2806"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC2806::-->
+<P>
+
+The <CODE>mallinfo</CODE> structure filled with information.
+</P><P>
+
+<A NAME="SEC2807"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC2807::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No (see note 1)
+</TR></TABLE>
+<P>
+
+Notes:
+</P><P>
+
+<OL>
+<LI>
+This function is available on many Unix systems.
+</OL>
+<P>
+
+<A NAME="SEC2808"></A>
+<H3> Example                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC2808::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre> struct mallinfo info = mallinfo();
+
+ printf("Memory in use: %d bytes\n",
+        info.usmblks + info.uordblks);
+ printf("Total heap size: %d bytes\n", info.arena);
+</pre></td></tr></table></P><P>
+
+<A NAME="malloc"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_549.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_551.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

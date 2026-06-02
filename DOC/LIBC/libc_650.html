@@ -1,0 +1,74 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_650.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_649.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_651.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> redir_cmdline_delete </H2>
+<!--docid::SEC3343::-->
+<P>
+
+<A NAME="SEC3344"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC3344::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;debug/redir.h&#62;
+
+void redir_cmdline_delete (cmdline_t *cmd);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3345"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC3345::-->
+<P>
+
+For the rationale and general description of the debugger redirection
+issue, see <A HREF="libc_652.html">redir_debug_init</A>.
+</P><P>
+
+This function serves as a destructor for a <CODE>cmdline_t</CODE> object.  It
+frees storage used for the command-line arguments associated with
+<VAR>cmd</VAR>, closes any open handles stored in it, and frees memory used
+to store the file handles and the file names of the files where standard
+handles were redirected.
+</P><P>
+
+The function is safe to use even if <VAR>cmd</VAR> might be a <CODE>NULL</CODE>
+pointer, or if some of members of the <CODE>cmdline_t</CODE> structure are
+<CODE>NULL</CODE> pointers.  See section <A HREF="libc_652.html">redir_debug_init</A>, for detailed description
+of the <CODE>cmdline_t</CODE> structure.
+</P><P>
+
+<A NAME="SEC3346"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC3346::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3347"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC3347::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre> redir_cmdline_delete (&#38;child_cmd);
+</pre></td></tr></table></P><P>
+
+<A NAME="redir_cmdline_parse"></A>
+<!--#perl sub="trailer" -->

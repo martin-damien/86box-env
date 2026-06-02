@@ -1,0 +1,188 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_93.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_92.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_94.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _check_v2_prog </H2>
+<!--docid::SEC360::-->
+<A NAME="SEC361"></A>
+<H3> Syntax                                                           </H3>
+<!--docid::SEC361::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;sys/system.h&#62;
+
+const _v2_prog_type *_check_v2_prog(const char *program, int fd);
+
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC362"></A>
+<H3> Description                                                          </H3>
+<!--docid::SEC362::-->
+<P>
+
+This function checks a given program for various known types of
+executables and/or other things.  This function povides two differnt
+entry points.  One is to call the function with a not <CODE>NULL</CODE>
+pointer as <CODE>program</CODE> (in this case <CODE>fd</CODE> is ignored),
+then the file named by <CODE>program</CODE> is opened and closed by
+<CODE>_check_v2_prog</CODE>.
+</P><P>
+
+When you pass <CODE>NULL</CODE> as <CODE>program</CODE>, then you have to pass
+a valid file handle in <CODE>fd</CODE> and <CODE>_check_v2_prog</CODE> uses
+that handle and does also not close the file on return.
+</P><P>
+
+<A NAME="SEC363"></A>
+<H3> Return Value                                                        </H3>
+<!--docid::SEC363::-->
+<CODE>_v2_prog_type</CODE> is defined in <TT>`sys/system.h'</TT> like the following:
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>
+typedef struct {
+  char magic[16];
+  int struct_length;
+  char go32[16];
+  unsigned char buffer[0];
+} _v1_stubinfo;
+
+
+typedef struct {
+  union {
+    unsigned version:8; /* The version of DJGPP created that COFF exe */
+    struct {
+      unsigned minor:4; /* The minor version of DJGPP */
+      unsigned major:4; /* The major version of DJGPP */
+    } v;
+  } version;
+
+  unsigned object_format:4; /* What an object format */
+# define _V2_OBJECT_FORMAT_UNKNOWN 0x00
+# define _V2_OBJECT_FORMAT_COFF    0x01
+# define _V2_OBJECT_FORMAT_PE_COFF 0x02
+
+  unsigned exec_format:4; /* What an executable format */
+# define _V2_EXEC_FORMAT_UNKNOWN    0x00
+# define _V2_EXEC_FORMAT_COFF       0x01
+# define _V2_EXEC_FORMAT_STUBCOFF   0x02
+# define _V2_EXEC_FORMAT_EXE        0x03
+# define _V2_EXEC_FORMAT_UNIXSCRIPT 0x04
+
+  unsigned valid:1; /* Only when nonzero all the information is valid */
+
+  unsigned has_stubinfo:1; /* When nonzero the stubinfo info is valid */
+
+  unsigned unused:14;
+
+  _v1_stubinfo *stubinfo;
+} _v2_prog_type;
+
+</pre></td></tr></table></P><P>
+
+The macros shown above can be used to test the different members of that
+structure for known values.
+</P><P>
+
+<STRONG>Warning:</STRONG> Do not modify any of the data in this structure.
+</P><P>
+
+After calling <CODE>_check_v2_prog</CODE> you should check at first the member
+<CODE>valid</CODE>.  Only if this is nonzero you can be sure that all the other
+information in the struct is valid.
+</P><P>
+
+The same is for the <CODE>stubinfo</CODE> member of the above struct, it is
+valid only, when <CODE>has_stubinfo</CODE> is nonzero.
+</P><P>
+
+<A NAME="SEC364"></A>
+<H3> Portability                                                           </H3>
+<!--docid::SEC364::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC365"></A>
+<H3> Example                                       </H3>
+<!--docid::SEC365::-->
+<P>
+
+To use the information returned in the struct you can use code like
+the following:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>
+#include &#60;stdio.h&#62;
+#include &#60;sys/system.h&#62;
+
+int main()
+{
+  const _v2_prog_type *type;
+  /* Since we pass a valid name, we can use -1 as the second argument */
+  type = _check_v2_prog ("foo", -1);
+
+  /* There was something wrong */
+  if (!type-&#62;valid)
+  {
+    fprintf(stderr, "Could not check the file 'foo'. Giving up.\\n");
+    return 1;
+  }
+
+  /* Currently only the COFF format is valid to be a V2 executable */
+  if (type-&#62;object_format != _V2_OBJECT_FORMAT_COFF)
+  {
+    fprintf(stderr, "File 'foo' is not in COFF format\\n");
+    return 2;
+  }
+
+  /* The major version is not 2 */
+  if (type-&#62;version.v.major != 2)
+  {
+    fprintf(stderr, "File 'foo' is not from DJGPP 2.xx\\n");
+    return 3;
+  }
+
+  fprintf(stdout, "File 'foo' is a valid DJGPP 2.xx executable\\n");
+
+  if (type-&#62;exec_format == _V2_EXEC_FORMAT_STUBCOFF)
+  {
+    fprintf(stdout, "File 'foo' has a stub loader prepended\\n");
+  }
+
+  return 0;
+}
+
+</pre></td></tr></table></P><P>
+
+<A NAME="chmod"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_92.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_94.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,193 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_534.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_533.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_535.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> llockf </H2>
+<!--docid::SEC2715::-->
+<A NAME="SEC2716"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC2716::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;unistd.h&#62;
+
+int llockf (int fildes, int function, offset_t size);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2717"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC2717::-->
+<P>
+
+The <CODE>llockf</CODE> function is a simplified interface to the locking
+facilities of <CODE>fcntl</CODE> (see <A HREF="libc_309.html">fcntl</A>, for more detailed
+information).
+</P><P>
+
+The <CODE>llockf</CODE> function performs exactly the same functions as
+<CODE>lockf</CODE> (see section <A HREF="libc_541.html">lockf</A>), with exactly the same input commands
+and results, but the input <VAR>size</VAR> parameter is of type
+<CODE>offset_t</CODE> instead of <CODE>off_t</CODE>, and the <CODE>fcntl</CODE> calls are
+made using functions <CODE>F_GETLK64</CODE>, <CODE>F_SETLK64</CODE> and
+<CODE>F_SETLKW64</CODE>, where <CODE>lockf</CODE> uses functions <CODE>F_GETLK</CODE>,
+<CODE>F_SETLK</CODE> and <CODE>F_SETLKW</CODE>.
+</P><P>
+
+The <CODE>llockf</CODE> function is intended to permit using <CODE>fcntl</CODE>
+functions with <VAR>size</VAR> values greater than <EM>2^31 - 1</EM>.
+</P><P>
+
+<VAR>fildes</VAR> is an open file descriptor.
+</P><P>
+
+<VAR>function</VAR> is a control value which specifies the action to be
+taken.  The permissible values for function are defined in &#60;unistd.h&#62; as
+follows:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre>#define   F_ULOCK   0   /* Unlock a previously locked section */
+#define   F_LOCK    1   /* Lock a section for exclusive use */
+#define   F_TLOCK   2   /* Test and lock a section for exclusive use */
+#define   F_TEST    3   /* Test section for other locks */
+</FONT></pre></td></tr></table></P><P>
+
+All other values of <VAR>function</VAR> are reserved for future extensions
+and will result in an error return if not implemented, with <CODE>errno</CODE>
+set to <CODE>EINVAL</CODE>.
+</P><P>
+
+<VAR>size</VAR> is the number of contiguous bytes to be locked or unlocked.
+The resource to be locked starts at the current offset in the file and
+extends forward for a positive <VAR>size</VAR> and backward for a negative
+<VAR>size</VAR> (the preceding bytes up to but not including the current
+offset).  If <VAR>size</VAR> is zero, the section from the current offset
+through the largest file offset is locked (i.e. from the current offset
+through the end of file).
+</P><P>
+
+The functions defined for <CODE>llockf</CODE> are as follows:
+</P><P>
+
+<DL COMPACT>
+<DT><CODE>F_TEST</CODE>
+<DD>This function is used to detect if the specified section is already
+locked.
+<P>
+
+<DT><CODE>F_LOCK</CODE>
+<DD><DT><CODE>F_TLOCK</CODE>
+<DD><CODE>F_LOCK</CODE> and <CODE>F_TLOCK</CODE> both lock a section of a file, if the
+section is available.  These two function requests differ only by the
+action taken if the resource is not available.  <CODE>F_LOCK</CODE> will cause
+the calling program to wait until the resource is available.
+<CODE>F_TLOCK</CODE> will cause the function to return a -1 and set
+<CODE>errno</CODE> to <CODE>EACCES</CODE> if the section is already locked.
+<P>
+
+<DT><CODE>F_ULOCK</CODE>
+<DD><CODE>F_ULOCK</CODE> removes locks from a section of the file. This function
+will release locked sections controlled by the program.
+</DL>
+<P>
+
+The <CODE>llockf</CODE> function will fail, returning -1 and setting
+<CODE>errno</CODE> to the following error values if the associated condition
+is true:
+</P><P>
+
+<DL COMPACT>
+<DT><CODE>EBADF</CODE>
+<DD>Parameter <VAR>fildes</VAR> is not a valid open file.
+<P>
+
+<DT><CODE>EACCES</CODE>
+<DD>Parameter <VAR>function</VAR> is <CODE>F_TLOCK</CODE> or <CODE>F_TEST</CODE> and the
+section is already locked.
+<P>
+
+<DT><CODE>EINVAL</CODE>
+<DD>Parameter <VAR>function</VAR> is not one of the implemented functions.
+Or: An attempt was made to lock a directory, which is not supported.
+</DL>
+<P>
+
+All lock requests in this implementation are coded as exclusive locks
+(i.e. all locks use the <CODE>fcntl</CODE> request <CODE>F_WRLCK</CODE>).
+</P><P>
+
+It is therefore wise to code <CODE>llockf</CODE> by using function
+<CODE>F_TLOCK</CODE> with all lock requests, and to test the return value to
+determine if the lock was obtained or not.  Using <CODE>F_TLOCK</CODE> will
+cause the implementation to use <CODE>F_SETLK</CODE> instead of
+<CODE>F_SETLKW</CODE>, which will return an error if the lock cannot be
+obtained.
+</P><P>
+
+<A NAME="SEC2718"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC2718::-->
+<P>
+
+On success, zero is returned.  On error, -1 is returned, and
+<CODE>errno</CODE> is set appropriately, as described above.
+</P><P>
+
+<A NAME="SEC2719"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC2719::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2720"></A>
+<H3> Example                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC2720::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre> /* Request a lock on file handle fd from the current position to
+    the end of the file */
+  errno = 0;
+  retval = llockf(fd, F_LOCK, 0);
+
+ /* Request a non-blocking lock on file handle fd */
+  errno = 0;
+  retval = llockf(fd, F_TLOCK, 0);
+
+ /* Test a lock on file handle fd */
+  errno = 0;
+  retval = llockf(fd, F_TEST, 0);
+
+ /* Release a lock on file handle fd */
+  errno = 0;
+  retval = llockf(fd, F_ULOCK, 0);
+</pre></td></tr></table><A NAME="llseek"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_533.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_535.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

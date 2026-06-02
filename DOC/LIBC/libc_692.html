@@ -1,0 +1,79 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_692.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_691.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_693.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> setbuf </H2>
+<!--docid::SEC3586::-->
+<A NAME="SEC3587"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC3587::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdio.h&#62;
+
+void setbuf(FILE *file, char *buffer);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3588"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC3588::-->
+<P>
+
+This function modifies the buffering characteristics of <VAR>file</VAR>. 
+First, if the file already has a buffer, it is freed.  If there was any
+pending data in it, it is lost, so this function should only be used
+immediately after a call to <CODE>fopen</CODE>.
+</P><P>
+
+If the <VAR>buffer</VAR> passed is <CODE>NULL</CODE>, the file is set to
+unbuffered.  If a non-<CODE>NULL</CODE> buffer is passed, it must be at least
+<CODE>BUFSIZ</CODE> bytes in size, and the file is set to fully buffered. 
+</P><P>
+
+See section <A HREF="libc_693.html">setbuffer</A>.
+See section <A HREF="libc_704.html">setlinebuf</A>.
+See section <A HREF="libc_716.html">setvbuf</A>.
+</P><P>
+
+<A NAME="SEC3589"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC3589::-->
+<P>
+
+None.
+</P><P>
+
+<A NAME="SEC3590"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC3590::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C89; C99
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3591"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC3591::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>setbuf(stdout, malloc(BUFSIZ));
+</pre></td></tr></table></P><P>
+
+<A NAME="setbuffer"></A>
+<!--#perl sub="trailer" -->

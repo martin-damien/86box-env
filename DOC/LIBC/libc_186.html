@@ -1,0 +1,80 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_186.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_185.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_187.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _doscan </H2>
+<!--docid::SEC858::-->
+<A NAME="SEC859"></A>
+<H3> Syntax                                                                                                                                                        </H3>
+<!--docid::SEC859::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdarg.h&#62;
+#include &#60;stdio.h&#62;
+
+int _doscan(FILE *file, const char *format, va_list argp);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC860"></A>
+<H3> Description                                                                                                                                                     </H3>
+<!--docid::SEC860::-->
+<P>
+
+This is an internal function that is used by all the <CODE>scanf</CODE> style
+functions, which simply pass their format, arguments, and stream to this
+function. 
+</P><P>
+
+See section <A HREF="libc_670.html">scanf</A>, for a discussion of the allowed formats and arguments. 
+</P><P>
+
+<A NAME="SEC861"></A>
+<H3> Return Value                                                                                                                                   </H3>
+<!--docid::SEC861::-->
+<P>
+
+The number of characters successfully scanned is returned, or -1 on
+error. 
+</P><P>
+
+<A NAME="SEC862"></A>
+<H3> Portability                                                                                                                                                       </H3>
+<!--docid::SEC862::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC863"></A>
+<H3> Example                                                                                    </H3>
+<!--docid::SEC863::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>TODO: This example is bogus now!
+TODO: Rewrite this example!
+
+int x, y;
+int *args[2];
+args[0] = &#38;x;
+args[1] = &#38;y;
+_doscan(stdin, "%d %d", args);
+</pre></td></tr></table></P><P>
+
+<A NAME="_doserrno"></A>
+<!--#perl sub="trailer" -->

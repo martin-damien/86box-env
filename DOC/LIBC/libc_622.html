@@ -1,0 +1,75 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_622.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_621.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_623.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _preserve_fncase </H2>
+<!--docid::SEC3182::-->
+<A NAME="SEC3183"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC3183::-->
+ 
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;fcntl.h&#62;
+
+char _preserve_fncase (void);
+</pre></td></tr></table><P>
+
+<A NAME="SEC3184"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC3184::-->
+<P>
+
+This function returns a non-zero value if letter-case in filenames
+should be preserved.  It is used by library functions that get filenames
+from the operating system (like <CODE>readdir</CODE>, <CODE>_fixpath</CODE> and
+others).  The usual behavior of these functions (when
+<CODE>_preserve_fncase</CODE> returns zero) is to down-case 8+3 DOS-style
+filenames, but leave alone the letter-case in long filenames when these
+are supported (see section <A HREF="libc_843.html">_use_lfn</A>).  This can be changed by either setting
+<CODE>_CRT0_FLAG_PRESERVE_FILENAME_CASE</CODE> bit in the
+<CODE>_crt0_startup_flags</CODE> variable (see section <A HREF="libc_124.html">_crt0_startup_flags</A>), or by
+setting the <CODE>FNCASE</CODE> environment variable to <KBD>Y</KBD> at run time.
+You might need such a setup e.g. on Windows 95 if you want to see files
+with names like <TT>`README'</TT> and <TT>`FAQ'</TT> listed in upper-case (for
+this to work, you will have to manually rename all the other files with
+8+3 DOS-style names to lower-case names).  When the case in filenames is
+preserved, all filenames will be returned in upper case on MSDOS (and
+other systems that don't support long filenames), or if the environment
+variable <CODE>LFN</CODE> is set to <KBD>N</KBD> on systems that support LFN.  That
+is because this is how filenames are stored in the DOS directory entries.
+</P><P>
+
+<A NAME="SEC3185"></A>
+<H3> Return value      </H3>
+<!--docid::SEC3185::-->
+<P>
+
+Zero when 8+3 filenames should be converted to lower-case, non-zero
+otherwise.
+</P><P>
+
+<A NAME="SEC3186"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC3186::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="PRI"></A>
+<!--#perl sub="trailer" -->

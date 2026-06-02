@@ -1,0 +1,96 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_376.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_375.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_377.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _get_fat_size </H2>
+<!--docid::SEC1866::-->
+<A NAME="SEC1867"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC1867::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dos.h&#62;
+
+int _get_fat_size( const int drive );
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1868"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC1868::-->
+<P>
+
+This function tries to determine the number of bits used to enumerate
+the clusters by the FAT on drive number <VAR>drive</VAR>. 1 == A:, 2 == B:,
+etc., 0 == default drive.  
+</P><P>
+
+This function will not succeed on DOS version &#60; 4, setting
+<CODE>errno</CODE> to <CODE>ENOSYS</CODE>.  It is also known to have trouble
+detecting the file system type of disks formatted with a later version
+of DOS than the version it is run on.  E. g. floppies with LFN
+entries can cause this function to fail or detect the fat size as 16
+if used in plain DOS.  
+</P><P>
+
+If you are looking for a function that is able to detect other file
+systems, perhaps the function <CODE>_get_fs_type</CODE>
+(see section <A HREF="libc_379.html">_get_fs_type</A>) can be of use.  
+</P><P>
+
+<A NAME="SEC1869"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC1869::-->
+<P>
+
+The number of bits used by the FAT (12, 16 or 32).  0 if the drive was
+formatted with FAT but of unknown size (NT reports that on FAT16).  
+-1 on error. 
+</P><P>
+
+<A NAME="SEC1870"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC1870::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1871"></A>
+<H3> Example                                                                                                                                                                  </H3>
+<!--docid::SEC1871::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdio.h&#62;
+#include &#60;dos.h&#62;
+
+int main(void)
+{
+  int size;
+
+  size = _get_fat_size( 'C' - 'A' + 1 );
+  if( 0 &#60;= size )
+  {
+    printf("The size of FAT on C: is %d bits.\n", size);
+  }
+
+  exit(0);
+}
+
+</pre></td></tr></table><A NAME="__get_fd_flags"></A>
+<!--#perl sub="trailer" -->

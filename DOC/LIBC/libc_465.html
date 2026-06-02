@@ -1,0 +1,68 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_465.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_464.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_466.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> htons </H2>
+<!--docid::SEC2361::-->
+<A NAME="SEC2362"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC2362::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;netinet/in.h&#62;
+
+unsigned short htons(unsigned short val);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2363"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC2363::-->
+<P>
+
+This function converts from host formatted shorts to network formatted
+shorts.  For the i386 and higher processors, this means that the bytes
+are swapped from 12 order to 21 order.
+</P><P>
+
+<A NAME="SEC2364"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC2364::-->
+<P>
+
+The network-order value.
+</P><P>
+
+<A NAME="SEC2365"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC2365::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2366"></A>
+<H3> Example                                                                                                                                                                                                                     </H3>
+<!--docid::SEC2366::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>tcp.port = htons(port);
+</pre></td></tr></table></P><P>
+
+<A NAME="hypot"></A>
+<!--#perl sub="trailer" -->

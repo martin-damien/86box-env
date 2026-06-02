@@ -1,0 +1,74 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_698.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_697.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_699.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> setenv </H2>
+<!--docid::SEC3620::-->
+<A NAME="SEC3621"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC3621::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdlib.h&#62;
+
+int setenv(const char *name, const char *value, int rewrite);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3622"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC3622::-->
+<P>
+
+This function sets the environment variable <VAR>name</VAR> to <VAR>value</VAR>.
+If <VAR>rewrite</VAR> is set, then this function will replace any existing
+value.  If it is not set, it will only put the variable into the environment
+if that variable isn't already defined.
+</P><P>
+
+<A NAME="SEC3623"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC3623::-->
+<P>
+
+Zero on success, -1 on failure; <CODE>errno</CODE> is set to the reason for
+failure: <CODE>EINVAL</CODE> if the <VAR>name</VAR> parameter is <CODE>NULL</CODE> or points
+to an empty string, or <CODE>ENOMEM</CODE> if there was insufficient memory to
+add the variable to the environment.
+</P><P>
+
+<A NAME="SEC3624"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC3624::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001 (see note 1)
+</TR></TABLE>
+<P>
+
+Notes:
+</P><P>
+
+<OL>
+<LI>
+This function is new to the Posix 1003.1-200x draft.
+Our implementation allows <VAR>name</VAR> to contain a <SAMP>`='</SAMP>, while the
+POSIX spec does not; the portion of <VAR>name</VAR> up to but not including
+the <SAMP>`='</SAMP> will be used as the name for the environment variable.
+</OL>
+<A NAME="setftime"></A>
+<!--#perl sub="trailer" -->

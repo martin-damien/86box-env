@@ -1,0 +1,66 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_213.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_212.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_214.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __dpmi_free_memory </H2>
+<!--docid::SEC999::-->
+<A NAME="SEC1000"></A>
+<H3> Syntax                                                                                                                                                                                 </H3>
+<!--docid::SEC1000::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dpmi.h&#62;
+
+int __dpmi_free_memory(unsigned long _handle);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1001"></A>
+<H3> Description                                                                                                                                                                              </H3>
+<!--docid::SEC1001::-->
+<P>
+
+Please refer to the DPMI Specification (see section <A HREF="libc_200.html">DPMI Specification</A>)
+for details on DPMI function call operation.  Also see
+the DPMI Overview (see section <A HREF="libc_199.html">DPMI Overview</A>) for general information.
+</P><P>
+
+DPMI function AX = 0x0502
+</P><P>
+
+This frees a block of virtual memory.
+</P><P>
+
+<A NAME="SEC1002"></A>
+<H3> Return Value                                                                                                                                                           </H3>
+<!--docid::SEC1002::-->
+<P>
+
+-1 on error, else zero.
+</P><P>
+
+<A NAME="SEC1003"></A>
+<H3> Portability                                                                                                                                                                                </H3>
+<!--docid::SEC1003::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="__dpmi_free_physical_address_mapping"></A>
+<!--#perl sub="trailer" -->

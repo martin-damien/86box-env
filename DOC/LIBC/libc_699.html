@@ -1,0 +1,76 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_699.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_698.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_700.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> setftime </H2>
+<!--docid::SEC3625::-->
+<A NAME="SEC3626"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC3626::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dos.h&#62;
+
+int setftime(int handle, struct ftime *ftimep);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3627"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC3627::-->
+<P>
+
+This function sets the modification time of a file.  Note that since
+writing to a file and closing a file opened for writing also sets the
+modification time, you should only use this function on files opened for
+reading.
+</P><P>
+
+See section <A HREF="libc_394.html">getftime</A>, for the description of <CODE>struct ftime</CODE>.
+</P><P>
+
+<A NAME="SEC3628"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC3628::-->
+<P>
+
+Zero on success, nonzero on failure.
+</P><P>
+
+<A NAME="SEC3629"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC3629::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3630"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC3630::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>int q = open("data.txt", O_RDONLY);
+struct ftime f;
+f.ft_tsec = f.ft_min = f.ft_hour = f.ft_day = f.ft_month = f.ft_year = 0;
+setftime(q, &#38;f);
+close(q);
+</pre></td></tr></table></P><P>
+
+<A NAME="setgid"></A>
+<!--#perl sub="trailer" -->

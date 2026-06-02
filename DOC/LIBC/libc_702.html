@@ -1,0 +1,174 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_702.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_701.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_703.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> setitimer </H2>
+<!--docid::SEC3641::-->
+<A NAME="SEC3642"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC3642::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;sys/time.h&#62;
+
+extern long __djgpp_clock_tick_interval;
+
+struct timeval {
+  time_t tv_sec;
+  long tv_usec;
+};
+
+struct itimerval {
+  struct timeval it_interval;    /* timer interval */
+  struct timeval it_value;       /* current value */
+};
+
+int setitimer(int which, struct itimerval *value,
+              struct itimerval *ovalue);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3643"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC3643::-->
+<P>
+
+Each process has two interval timers, <CODE>ITIMER_REAL</CODE> and
+<CODE>ITIMER_PROF</CODE>, which raise the signals <CODE>SIGALRM</CODE> and
+<CODE>SIGPROF</CODE>, respectively.  These are typically used to provide
+<CODE>alarm</CODE> and profiling capabilities.
+</P><P>
+
+This function changes the current value of the interval timer specified by
+<VAR>which</VAR> to the values in structure <VAR>value</VAR>.  The previous value
+of the timer is returned in <VAR>ovalue</VAR> if it is not a <CODE>NULL</CODE>
+pointer.  When the timer expires, the appropriate signal is raised.
+</P><P>
+
+Please see the documentation for <CODE>signal</CODE> (see section <A HREF="libc_724.html">signal</A>)
+for restrictions on signal handlers.
+</P><P>
+
+If <VAR>value</VAR> is a <CODE>NULL</CODE> pointer, <CODE>setitimer</CODE> stores the
+previous timer value in <VAR>ovalue</VAR> (if it is non-<CODE>NULL</CODE>), like
+<CODE>getitimer</CODE> does, but otherwise does nothing.
+</P><P>
+
+A timer is defined by the <CODE>itimerval</CODE> structure.  If the
+<CODE>it_value</CODE> member is non-zero it specifies the time to the next
+timer expiration.  If <CODE>it_interval</CODE> is non-zero, it specifies the
+value with which to reload the timer upon expiration.  Setting
+<CODE>it_value</CODE> to zero disables a timer.  Setting <CODE>it_interval</CODE> to
+zero causes the timer to stop after the next expiration (assuming that
+<CODE>it_value</CODE> is non-zero).
+</P><P>
+
+Although times can be given with microsecond resolution, the granularity
+is determined by the timer interrupt frequency.  Time values smaller
+than the system clock granularity will be rounded up to that
+granularity, before they are used.  This means that passing a very small
+but non-zero value in <SAMP>`value-&#62;it_interval.tv_usec'</SAMP> will cause the
+system clock granularity to be stored and returned by the next call to
+<CODE>getitimer</CODE>.  See the example below.
+</P><P>
+
+If an application changes the system clock speed by reprogramming the
+timer chip, it should make the new clock speed known to
+<CODE>setitimer</CODE>, otherwise intervals smaller than the default PC clock
+speed cannot be set with a call to <CODE>setitimer</CODE> due to rounding up
+to clock granularity.  To this end, an external variable
+<CODE>__djgpp_clock_tick_interval</CODE> is provided, which should be set to
+the number of microseconds between two timer ticks that trigger
+Interrupt 8.  The default value of this variable is <CODE>-1</CODE>, which
+causes <CODE>setitimer</CODE> to work with 54926 microsecond granularity that
+corresponds to the standard 18.2Hz clock frequency.  The library
+never changes the value of <CODE>__djgpp_clock_tick_interval</CODE>.
+</P><P>
+
+<A NAME="SEC3644"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC3644::-->
+<P>
+
+Returns 0 on success, -1 on failure (and sets <CODE>errno</CODE>).
+</P><P>
+
+<A NAME="SEC3645"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC3645::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3646"></A>
+<H3> Bugs    </H3>
+<!--docid::SEC3646::-->
+<P>
+
+This version uses <CODE>uclock</CODE> (see section <A HREF="libc_834.html">uclock</A>) to determine the time
+of expiration.  Under Windows 3.X, this fails because the OS reprograms
+the timer.  Under Windows 9X, <CODE>uclock</CODE> sometimes reports
+erratic (non-increasing) time values; in these cases the timer might
+fire at a wrong time.
+</P><P>
+
+A misfeature of Windows 9X prevents the timer tick interrupt from being
+delivered to programs that are in the background (i.e. don't have the
+focus), even though the program itself might continue to run, if you
+uncheck the <CITE>Background: Always suspend</CITE> property in the Property
+Sheets.  Therefore, the timers will not work in background programs on
+Windows 9X.
+</P><P>
+
+Also, debuggers compiled with DJGPP v2.02 and earlier cannot cope with
+timers and report <CODE>SIGSEGV</CODE> or <CODE>SIGABRT</CODE>, since signals were
+not supported in a debugged program before DJGPP v2.03.
+</P><P>
+
+<A NAME="SEC3647"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC3647::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>/* Find out what is the system clock granularity.  */
+
+  struct itimerval tv;
+
+  tv.it_interval.tv_sec = 0;
+  tv.it_interval.tv_usec = 1;
+  tv.it_value.tv_sec = 0;
+  tv.it_value.tv_usec = 0;
+  setitimer (ITIMER_REAL, &#38;tv, 0);
+  setitimer (ITIMER_REAL, 0, &#38;tv);
+  printf ("System clock granularity: %ld microseconds.\n",
+	  tv.it_interval.tv_usec);
+</pre></td></tr></table><A NAME="setjmp"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_701.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_703.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

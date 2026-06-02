@@ -1,0 +1,61 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_542.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_541.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_543.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> log </H2>
+<!--docid::SEC2759::-->
+<A NAME="SEC2760"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC2760::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+
+double log(double x);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2761"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC2761::-->
+<P>
+
+This function computes the natural logarithm of <VAR>x</VAR>.
+</P><P>
+
+<A NAME="SEC2762"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC2762::-->
+<P>
+
+The natural logarithm of <VAR>x</VAR>.  If <VAR>x</VAR> is zero, a negative
+infinity is returned and <CODE>errno</CODE> is set to <CODE>ERANGE</CODE>.  If
+<VAR>x</VAR> is negative or <CODE>+Inf</CODE> or a <CODE>NaN</CODE>, the return value is
+<CODE>NaN</CODE> and <CODE>errno</CODE> is set to <CODE>EDOM</CODE>.
+</P><P>
+
+<A NAME="SEC2763"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC2763::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C89; C99
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="log10"></A>
+<!--#perl sub="trailer" -->

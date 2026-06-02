@@ -1,0 +1,67 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_775.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_774.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_776.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> strstr </H2>
+<!--docid::SEC4047::-->
+<A NAME="SEC4048"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC4048::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;string.h&#62;
+
+char *strstr(const char *s1, const char *s2);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC4049"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC4049::-->
+<P>
+
+This function finds the first occurrence of <VAR>s2</VAR> in <VAR>s1</VAR>. 
+</P><P>
+
+<A NAME="SEC4050"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC4050::-->
+<P>
+
+A pointer within <VAR>s1</VAR>, or <CODE>NULL</CODE> if <VAR>s2</VAR> wasn't found.
+</P><P>
+
+<A NAME="SEC4051"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC4051::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C89; C99
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC4052"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC4052::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>if (strstr(command, ".exe"))
+  do_exe();
+</pre></td></tr></table></P><P>
+
+<A NAME="strtod"></A>
+<!--#perl sub="trailer" -->

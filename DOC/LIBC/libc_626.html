@@ -1,0 +1,225 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_626.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_625.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_627.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _put_path </H2>
+<!--docid::SEC3204::-->
+<P>
+
+<A NAME="SEC3205"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC3205::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;libc/dosio.h&#62;
+
+int _put_path(const char *path);
+int _put_path2(const char *path, int offset);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3206"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC3206::-->
+<P>
+
+These functions are used internally by all low-level library functions
+that need to pass file names to DOS.  <CODE>_put_path</CODE> copies its
+argument <VAR>path</VAR> to the <EM>transfer buffer</EM>
+(see section <A HREF="libc_451.html">_go32_info_block</A>) starting at the beginning of the transfer
+buffer; <CODE>_put_path2</CODE> does the same except that it puts the file
+name starting at <VAR>offset</VAR> bytes from the beginning of the transfer
+buffer.
+</P><P>
+
+These functions are meant to be called by low-level library functions,
+not by applications.  You should only call them if you know what you are
+doing.  In particular, if you call any library function between a call
+to <CODE>_put_path</CODE> or <CODE>_put_path2</CODE> and the call to a DOS function
+that uses the file name, the file name in the transfer buffer could be
+wiped out, corrupted or otherwise changed.  You <EM>have</EM> been
+warned!
+</P><P>
+
+Some constructs in file names are transformed while copying them, to
+allow transparent support for nifty features.  Here's the list of these
+transformations:
+</P><P>
+
+<UL>
+<LI>Multiple forward slashes are collapsed into a single slash.
+<P>
+
+Unix treats multiple slashes as a single slash, so some ported programs
+pass names like <TT>`c:/foo//bar'</TT> to library functions.  DOS functions
+choke on such file names, so collapsing the slashes prevents these names
+from failing.
+</P><P>
+
+<LI>Trailing slashes are removed, except for root directories.
+<P>
+
+Various DOS calls cannot cope with file names like <TT>`c:/foo/'</TT>; this
+feature solves this problem.
+</P><P>
+
+<LI>Translation of Unix device names.
+<P>
+
+Unix <TT>`/dev/null'</TT> is mapped to DOS-standard <TT>`NUL'</TT>, and Unix
+<TT>`/dev/tty'</TT> to DOS-standard <TT>`CON'</TT>.  This provides for
+transparent support of these special devices, e.g. in Unix shell
+scripts.
+</P><P>
+
+<LI>Translation of DOS device names.
+<P>
+
+Any file name which begins with <TT>`/dev/'</TT> or <TT>`<VAR>x</VAR>:/dev/'</TT>
+(where <VAR>x</VAR>: is any valid DOS drive letter) has the <TT>`/dev/'</TT> or
+<TT>`<VAR>x</VAR>:/dev/'</TT> prefix removed (if the <TT>`/dev/'</TT> directory does
+not exist), and the rest is passed to DOS.
+This is because some DOS functions don't recognize device names unless
+they are devoid of the drive and directory specifications, and programs
+could add a drive and a directory if they convert a name like
+<TT>`/dev/con'</TT> to a fully-qualified path name.
+Because of the different behavior when the <TT>`/dev/'</TT> directory
+exists, you should only add the prefix <TT>`/dev/'</TT> to your DOS device 
+names if necessary and be sure that the <TT>`/dev/'</TT> does not exist.
+Due to the additional overhead of checking if <TT>`/dev/'</TT> exists, 
+functions working with DOS device names with the prefix will be slower.
+</P><P>
+
+<LI><TT>`/dev/x/'</TT> is translated into <TT>`x:/'</TT>.
+<P>
+
+This allows to use Unix-style absolute path names that begin with a
+slash, instead of DOS-style names with a drive letter.  Some Unix
+programs and shell scripts fail for file names that include colons,
+which are part of the drive letter specification; this feature allows to
+work around such problems by using e.g. <TT>`/dev/c/'</TT> where <TT>`c:/'</TT>
+would fail.
+</P><P>
+
+<LI><TT>`/dev/env/<VAR>foo</VAR>/'</TT> is replaced by the value of the environment
+variable <VAR>foo</VAR>.
+<P>
+
+(In other words, you can think of environment variables as if they were
+sub-directories of a fictitious directory <TT>`/dev/env'</TT>.)
+</P><P>
+
+This allows to use environment variable names inside path names compiled
+into programs, and have them transparently expanded at run time.  For
+example, <TT>`/dev/env/DJDIR/include'</TT> will expand to the exact path
+name of the DJGPP include directory, no matter where DJGPP is installed
+on the machine where the program runs.  (The value of <CODE>DJDIR</CODE> is
+computed by the DJGPP startup code and pushed into the environment of
+every DJGPP program before <CODE>main</CODE> is called.)
+</P><P>
+
+Note that environment variables are case-sensitive, so
+<TT>`/dev/env/foo'</TT> and <TT>`/dev/env/FOO'</TT> are <STRONG>not</STRONG> the same.
+DOS shells usually upcase the name of the environment variable if you
+set it with the built-in command <SAMP>`SET'</SAMP>, so if you type
+e.g. <SAMP>`SET foo=bar'</SAMP>, the shell defines a variable named <CODE>FOO</CODE>.
+</P><P>
+
+If the environment variable is undefined, it will expand into an empty
+string.  The expansion is done recursively, so environment variables may
+reference other environment variables using the same <TT>`/dev/env/'</TT>
+notation.  For example, if the variable <CODE>HOME</CODE> is set to
+<TT>`/dev/env/DJDIR/home'</TT>, and DJGPP is installed in
+<TT>`c:/software/djgpp'</TT>, then <TT>`/dev/env/HOME/sources'</TT> will expand
+to <TT>`c:/software/djgpp/home/sources'</TT>.
+</P><P>
+
+It is possible to supply a default value, to be used if the variable is
+not defined, or has an empty value.  To this end, put the default value
+after the name of the variable and delimit it by <SAMP>`~'</SAMP>, like in
+<TT>`/dev/env/DJDIR~c:/djgpp~/include'</TT>.
+</P><P>
+
+If you need to include a literal character <SAMP>`~'</SAMP> in either the
+environment variable name or in the default value that replaces it, use
+two <SAMP>`~'</SAMP>s in a row.  For example, <TT>`/dev/env/FOO~~'</TT> will expand
+to the value of the variable <CODE>FOO~</CODE>.  Likewise,
+<TT>`/dev/env/FOO~~BAR~foo~~baz~'</TT> will expand to the value of the
+variable <CODE>FOO~BAR</CODE> if it is defined and nonempty, and to
+<TT>`foo~baz'</TT> otherwise.  Leading <SAMP>`~'</SAMP> in the default value isn't
+supported (it is interpreted as part of the preceding variable name).
+</P><P>
+
+The default value may also reference (other) environment variables, but
+nested default values can get tricky.  For example,
+<TT>`/dev/env/foo~/dev/env/bar~'</TT> will work, but
+<TT>`/dev/env/foo~/dev/env/bar~baz~~'</TT> will <STRONG>not</STRONG>.  To use nested
+default values, you need to double the quoting of the <SAMP>`~'</SAMP>
+characters, like in <TT>`/dev/env/foo~/dev/env/bar~~baz~~~'</TT>.
+</UL>
+<P>
+
+<A NAME="SEC3207"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC3207::-->
+<P>
+
+Both functions return the offset into the transfer buffer of the
+terminating null character that ends the file name.
+</P><P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3208"></A>
+<H3> Example                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC3208::-->
+<P>
+
+These functions are meant to be called by low-level library functions,
+not by applications.  You should only call them if you know what you are
+doing.  In particular, if you call any library function between a call
+to <CODE>_put_path</CODE> or <CODE>_put_path2</CODE> and the call to a DOS function
+that uses the file name, the file name in the transfer buffer could be
+wiped out, corrupted and otherwise changed.  You <EM>have</EM> been
+warned!
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre> __dpmi_regs r;
+
+ _put_path("/dev/c/djgpp/bin/");
+ r.x.ax = 0x4300;  /* get file attributes */
+ r.x.ds = __tb &#62;&#62; 4;
+ r.x.dx = __tb &#38; 0x0f;
+ __dpmi_int(0x21, &#38;r);
+</pre></td></tr></table></P><P>
+
+<A NAME="putc"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_625.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_627.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

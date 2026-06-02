@@ -1,0 +1,132 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_601.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_600.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_602.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _open </H2>
+<!--docid::SEC3080::-->
+<A NAME="SEC3081"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC3081::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;io.h&#62;
+
+int _open(const char *path, int attrib);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3082"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC3082::-->
+<P>
+
+This is a direct connection to the MS-DOS open function call, int 0x21,
+%ah = 0x3d, on versions of DOS earlier than 7.0. On DOS version 7.0 or
+later <CODE>_open</CODE> calls function int 0x21, %ax = 0x6c00. When long
+file names are supported, <CODE>_open</CODE> calls function 0x716c of Int
+0x21.
+</P><P>
+
+On FAT32 file systems file sizes up to 2^32-2 are supported. Note
+that WINDOWS 98 has a bug which only lets you create these big files
+if LFN is enabled. In plain DOS mode it plainly works.
+</P><P>
+
+The file is set to binary mode.
+</P><P>
+
+The <VAR>attrib</VAR> parameter is a combination of one or more bits from the
+following:
+</P><P>
+
+<DL COMPACT>
+<DT><CODE>O_RDONLY</CODE>
+<DD>open for read only
+<P>
+
+<DT><CODE>O_WRONLY</CODE>
+<DD>open for write only
+<P>
+
+<DT><CODE>O_RDWR</CODE>
+<DD>open for read and write
+<P>
+
+<DT><CODE>O_NOINHERIT</CODE>
+<DD>file handle is not inherited by child processes
+<P>
+
+<DT><CODE>SH_COMPAT</CODE>
+<DD>open in compatibility mode
+<P>
+
+<DT><CODE>SH_DENYRW</CODE>
+<DD>deny requests by other processes to open the file for eaither reading or
+writing
+<P>
+
+<DT><CODE>SH_DENYWR</CODE>
+<DD>deny requests to open the file for writing
+<P>
+
+<DT><CODE>SH_DENYRD</CODE>
+<DD>deny requests to open the file for reading
+<P>
+
+<DT><CODE>SH_DENYNO</CODE>
+<DD>deny-none mode: allow other processes to open the file if their open
+mode doesn't conflict with the open mode of this process
+</DL>
+<P>
+
+This function can be hooked by File System Extensions
+(see section <A HREF="libc_321.html">File System Extensions</A>).  If you don't want this, you should
+use <CODE>_dos_open</CODE> (see section <A HREF="libc_176.html">_dos_open</A>) (but note that the latter
+doesn't support long file names).
+</P><P>
+
+<A NAME="SEC3083"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC3083::-->
+<P>
+
+The new file descriptor, else -1 on error.
+</P><P>
+
+<A NAME="SEC3084"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC3084::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="opendir"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_600.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_602.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

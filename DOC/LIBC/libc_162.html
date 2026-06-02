@@ -1,0 +1,73 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_162.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_161.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_163.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _dos_close </H2>
+<!--docid::SEC719::-->
+<A NAME="SEC720"></A>
+<H3> Syntax                                                                                                                                </H3>
+<!--docid::SEC720::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dos.h&#62;
+
+unsigned int _dos_close(int handle);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC721"></A>
+<H3> Description                                                                                                                             </H3>
+<!--docid::SEC721::-->
+<P>
+
+This is a direct connection to the MS-DOS close function call (%ah = 0x3E).
+This function closes the specified file.
+</P><P>
+
+See section <A HREF="libc_176.html">_dos_open</A>. See section <A HREF="libc_164.html">_dos_creat</A>. See section <A HREF="libc_165.html">_dos_creatnew</A>.
+See section <A HREF="libc_177.html">_dos_read</A>. See section <A HREF="libc_185.html">_dos_write</A>.
+</P><P>
+
+<A NAME="SEC722"></A>
+<H3> Return Value                                                                                                           </H3>
+<!--docid::SEC722::-->
+<P>
+
+Returns 0 if successful or DOS error code on error (and sets <CODE>errno</CODE>).
+</P><P>
+
+<A NAME="SEC723"></A>
+<H3> Portability                                                                                                                               </H3>
+<!--docid::SEC723::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC724"></A>
+<H3> Example                                                                 </H3>
+<!--docid::SEC724::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>int handle;
+
+_dos_creat("FOO.DAT", _A_ARCH, &#38;handle);
+...
+_dos_close(handle);
+</pre></td></tr></table><A NAME="_dos_commit"></A>
+<!--#perl sub="trailer" -->

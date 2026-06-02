@@ -1,0 +1,154 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_323.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_322.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_324.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __file_tree_walk </H2>
+<!--docid::SEC1567::-->
+<A NAME="SEC1568"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC1568::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dir.h&#62;
+
+int __file_tree_walk(const char *dir, 
+                     int (*func)(const char *path,
+                                 const struct ffblk *ff));
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1569"></A>
+<H3> Description                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC1569::-->
+<P>
+
+This function recursively descends the directory hierarchy which starts
+with <VAR>dir</VAR>.  For each file in the hierarchy, <CODE>__file_tree_walk</CODE>
+calls the user-defined function <VAR>func</VAR> which is passed a pointer to a
+<CODE>NULL</CODE>-terminated character array in <VAR>path</VAR> holding the full
+pathname of the file, a pointer to a <CODE>ffblk</CODE> structure
+(see section <A HREF="libc_326.html">findfirst</A>) <VAR>ff</VAR> with a DOS filesystem information about that
+file.
+</P><P>
+
+This function always visits a directory before any of its siblings.  The
+argument <VAR>dir</VAR> must be a directory, or <CODE>__file_tree_walk</CODE> will fail
+and set <CODE>errno</CODE> to <CODE>ENOTDIR</CODE>.  The directory <VAR>dir</VAR> itself is
+never passed to <VAR>func</VAR>.
+</P><P>
+
+The tree traversal continues until one of the following events:
+</P><P>
+
+(1)  The tree is exhausted (i.e., all descendants of <VAR>dir</VAR> are
+processed).  In this case, <CODE>__file_tree_walk</CODE> returns 0, meaning a
+success.
+</P><P>
+
+(2)  An invocation of <VAR>func</VAR> returns a non-zero value.  In this case,
+<CODE>__file_tree_walk</CODE> stops the tree traversal and returns whatever
+<VAR>func</VAR> returned.
+</P><P>
+
+(3)  An error is detected within <CODE>__file_tree_walk</CODE>.  In that case,
+<CODE>ftw</CODE> returns -1 and sets <CODE>errno</CODE> (see section <A HREF="libc_293.html">errno</A>) to a suitable
+value.
+</P><P>
+
+<A NAME="SEC1570"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC1570::-->
+<P>
+
+Zero in case the entire tree was successfully traversed, -1 if
+<CODE>__file_tree_walk</CODE> detected some error during its operation, or any
+other non-zero value which was returned by the user-defined function
+<VAR>func</VAR>.
+</P><P>
+
+<A NAME="SEC1571"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC1571::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1572"></A>
+<H3> Example                                                                                                                            </H3>
+<!--docid::SEC1572::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdlib.h&#62;
+
+int
+ff_walker(const char *path, const struct ffblk *ff)
+{
+  printf("%s:\t%lu\t", path, ff-&#62;ff_fsize);
+  if (ff-&#62;ff_attrib &#38; 1)
+    printf("R");
+  if (ff-&#62;ff_attrib &#38; 2)
+    printf("H");
+  if (ff-&#62;ff_attrib &#38; 4)
+    printf("S");
+  if (ff-&#62;ff_attrib &#38; 8)
+    printf("V");
+  if (ff-&#62;ff_attrib &#38; 0x10)
+    printf("D");
+  if (ff-&#62;ff_attrib &#38; 0x20)
+    printf("A");
+  printf("\n");
+
+  if (strcmp(ff-&#62;ff_name, "XXXXX") == 0)
+    return 42;
+  return 0;
+}
+
+int
+main(int argc, char *argv[])
+{
+  if (argc &#62; 1)
+    {
+      char msg[80];
+
+      sprintf(msg, "__file_tree_walk: %d",
+                   __file_tree_walk(argv[1], ff_walker));
+      if (errno)
+        perror(msg);
+      else
+        puts(msg);
+    }
+  else
+    printf("Usage: %s dir\n", argv[0]);
+
+  return 0;
+}
+</pre></td></tr></table><A NAME="filelength"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_322.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_324.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

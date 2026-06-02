@@ -1,0 +1,80 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_497.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_496.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_498.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _is_DOS83 </H2>
+<!--docid::SEC2518::-->
+<A NAME="SEC2519"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC2519::-->
+ 
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;fcntl.h&#62;
+
+int _is_DOS83 (const char *fname);
+</pre></td></tr></table><P>
+
+<A NAME="SEC2520"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC2520::-->
+<P>
+
+This function checks the filename pointed to by <VAR>fname</VAR> to 
+determine if it is a standard short (8+3) form file name.  The 
+filename should only include the name part of the file.  It is
+expected the filename will contain a valid long or short file
+name (no validation is done to exclude path characters or 
+characters always illegal in any file name).  Note: If the filename
+contains lower case characters the name is considered to be a
+long name and not a standard short name (and the function will
+return 0).
+</P><P>
+
+The function will return 0 (failure) if there are more than 8 
+characters before a period, more than 3 characters after a period, 
+more than one period, starts with a period, any lower case characters, 
+or any of the special characters <SAMP>`+'</SAMP> <SAMP>`,'</SAMP> <SAMP>`;'</SAMP> <SAMP>`='</SAMP> <SAMP>`['</SAMP> <SAMP>`]'</SAMP>, or a space.  The 
+special names <TT>`.'</TT> and <TT>`..'</TT> are exceptions and will return success.
+</P><P>
+
+This function could be called to determine if a filename is valid on 
+DOS before long file name support.  If this function returns 1 the 
+filename probably does not have a long name entry on a FAT file 
+system.  The library internally calls this function to determine
+if a file should have its name lower cased when see section <A HREF="libc_622.html">_preserve_fncase</A> is
+false.
+</P><P>
+
+<A NAME="SEC2521"></A>
+<H3> Return value   </H3>
+<!--docid::SEC2521::-->
+<P>
+
+The function returns an integer 0 (not DOS 8.3) or 1 (DOS 8.3)
+</P><P>
+
+<A NAME="SEC2522"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC2522::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="_is_executable"></A>
+<!--#perl sub="trailer" -->

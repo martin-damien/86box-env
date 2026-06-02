@@ -1,0 +1,67 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_869.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_868.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_870.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> write_sel_addr </H2>
+<!--docid::SEC4567::-->
+<P>
+
+<A NAME="SEC4568"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC4568::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;debug/dbgcom.h&#62;
+
+void write_sel_addr (unsigned sel, unsigned offset,
+                     void *buf, unsigned len);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC4569"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC4569::-->
+<P>
+
+This function transfers <VAR>len</VAR> bytes from the buffer pointed to by
+<VAR>buf</VAR> in the data segment whose selector is <VAR>sel</VAR>, at offset
+<VAR>offset</VAR>.  The companion function <CODE>read_sel_addr</CODE>
+(see section <A HREF="libc_645.html">read_sel_addr</A>) is usually called before <CODE>write_sel_addr</CODE>
+to save the original contents, if needed.
+</P><P>
+
+<A NAME="SEC4570"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC4570::-->
+<P>
+
+The function return zero if it has successfully transferred the data,
+non-zero otherwise (e.g., if the address in <VAR>offset</VAR> is outside
+the limits of the <VAR>sel</VAR>s segment).
+</P><P>
+
+<A NAME="SEC4571"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC4571::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="xfree"></A>
+<!--#perl sub="trailer" -->

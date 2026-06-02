@@ -1,0 +1,59 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_291.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_290.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_292.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> endmntent </H2>
+<!--docid::SEC1396::-->
+<A NAME="SEC1397"></A>
+<H3> Syntax                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC1397::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;mntent.h&#62;
+
+int endmntent(FILE *filep);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1398"></A>
+<H3> Description                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC1398::-->
+<P>
+
+This function should be called after the last call to <CODE>getmntent</CODE>
+(see section <A HREF="libc_405.html">getmntent</A>).
+</P><P>
+
+<A NAME="SEC1399"></A>
+<H3> Return Value                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC1399::-->
+<P>
+
+This function always returns one.
+</P><P>
+
+<A NAME="SEC1400"></A>
+<H3> Portability                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC1400::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="endpwent"></A>
+<!--#perl sub="trailer" -->

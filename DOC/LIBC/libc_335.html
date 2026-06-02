@@ -1,0 +1,77 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_335.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_334.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_336.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> fnmerge </H2>
+<!--docid::SEC1634::-->
+<A NAME="SEC1635"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC1635::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dir.h&#62;
+
+void fnmerge (char *path, const char *drive, const char *dir,
+		const char *name, const char *ext);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1636"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC1636::-->
+<P>
+
+This function constructs a file <VAR>path</VAR> from its components
+<VAR>drive</VAR>, <VAR>dir</VAR>, <VAR>name</VAR>, and <VAR>ext</VAR>.  If any of these is a
+<CODE>NULL</CODE> pointer, it won't be used.  Usually, the <VAR>drive</VAR> string
+should include the trailing colon <CODE>`:'</CODE>, the <VAR>dir</VAR> string should
+include the trailing slash <CODE>`/'</CODE> or backslash <CODE>`\'</CODE>, and the
+<VAR>ext</VAR> string should include the leading dot <CODE>`.'</CODE>.  However, if
+any of these isn't present, <CODE>fnmerge</CODE> will add them.
+</P><P>
+
+See section <A HREF="libc_336.html">fnsplit</A>.
+</P><P>
+
+<A NAME="SEC1637"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC1637::-->
+<P>
+
+None.
+</P><P>
+
+<A NAME="SEC1638"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC1638::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1639"></A>
+<H3> Example                                                                                                                                    </H3>
+<!--docid::SEC1639::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>char buf[MAXPATH];
+fnmerge(buf, "d:", "/foo/", "data", ".txt");
+</pre></td></tr></table></P><P>
+
+<A NAME="fnsplit"></A>
+<!--#perl sub="trailer" -->

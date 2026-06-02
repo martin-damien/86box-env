@@ -1,0 +1,138 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_638.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_637.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_639.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> rand48 </H2>
+<!--docid::SEC3274::-->
+<A NAME="SEC3275"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC3275::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdlib.h&#62;
+
+double drand48(void);
+double erand48(unsigned short state[3]);
+unsigned long lrand48(void);
+unsigned long nrand48(unsigned short state[3]);
+long mrand48(void);
+long jrand48(unsigned short state[3]);
+void srand48(long seed);
+unsigned short *seed48(unsigned short state_seed[3]);
+void lcong48(unsigned short param[7]);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3276"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC3276::-->
+<P>
+
+This is the family of <CODE>*rand48</CODE> functions.  The basis for these functions
+is the linear congruential formula <EM>X[n+1] = (a*X[n] + c) mod 2^48,
+n &#62;= 0</EM>.  a = 0x5deece66d and c = 0xb at start and after a call to either
+<CODE>srand48</CODE> or <CODE>seed48</CODE>.  A call to <CODE>lcong48</CODE>
+changes a and c (and the internal state). 
+</P><P>
+
+<CODE>drand48</CODE> and <CODE>erand48</CODE> return <CODE>double</CODE>s uniformly
+distributed in the interval [0.0, 1.0). 
+</P><P>
+
+<CODE>lrand48</CODE> and <CODE>nrand48</CODE> return <CODE>unsigned long</CODE>s
+uniformly distributed in the interval [0, 2^31).
+</P><P>
+
+<CODE>mrand48</CODE> and <CODE>jrand48</CODE> return <CODE>long</CODE>s uniformly
+distributed in the interval [-2^31, 2^31). 
+</P><P>
+
+<CODE>erand48</CODE>, <CODE>jrand48</CODE> and <CODE>nrand48</CODE> requires the
+state of the random generator to be passed.  
+</P><P>
+
+<CODE>drand48</CODE>, <CODE>lrand48</CODE> and <CODE>mrand48</CODE> uses an
+internal state (common with all three functions) which should be
+initialized with a call to one of the functions <CODE>srand48</CODE>,
+<CODE>seed48</CODE> or <CODE>lcong48</CODE>. 
+</P><P>
+
+<CODE>srand48</CODE> sets the high order 32 bits to the argument
+<VAR>seed</VAR>.  The low order 16 bits are set to the arbitrary value
+0x330e. 
+</P><P>
+
+<CODE>seed48</CODE> sets the internal state according to the argument
+<VAR>state_seed</VAR> (<CODE><VAR>state_seed</VAR>[0]</CODE> is least significant).
+The previous state of the random generator is saved in an internal
+(static) buffer, to which a pointer is returned. 
+</P><P>
+
+<CODE>lcong48</CODE> sets the internal state to <CODE><VAR>param</VAR>[0-2]</CODE>, a to 
+<CODE><VAR>param</VAR>[3-5]</CODE> (<CODE><VAR>param</VAR>[0]</CODE> and <CODE><VAR>param</VAR>[3]</CODE>
+are least significant) and c to <CODE><VAR>param</VAR>[6]</CODE>. 
+</P><P>
+
+<A NAME="SEC3277"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC3277::-->
+<P>
+
+A random number.
+</P><P>
+
+<A NAME="SEC3278"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC3278::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3279"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC3279::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdio.h&#62;
+#include &#60;stdlib.h&#62;
+#include &#60;time.h&#62;
+
+int main(void)
+{
+
+  srand48(time(NULL));
+  printf("%.12f is a random number in [0.0, 1.0).\n", drand48());
+
+  exit(0);
+}
+
+</pre></td></tr></table><A NAME="random"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_637.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_639.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,68 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_377.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_376.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_378.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __get_fd_flags </H2>
+<!--docid::SEC1872::-->
+<A NAME="SEC1873"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC1873::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;libc/fd_props.h&#62;
+
+unsigned long __get_fd_flags(int fd);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1874"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC1874::-->
+<P>
+
+This internal functions gets the flags associated with file descriptor
+<VAR>fd</VAR>, if any.  The flags are some properties that may be associated
+with a file descriptor (see section <A HREF="libc_690.html">__set_fd_properties</A>).
+</P><P>
+
+This function will return zero, if no flags are associated
+with <VAR>fd</VAR>.  The caller should first check that there are flags
+associated with <VAR>fd</VAR> using <CODE>__has_fd_properties</CODE>
+(see section <A HREF="libc_461.html">__has_fd_properties</A>), before calling <CODE>__get_fd_flags</CODE>.
+This will allow the cases of no flags and the flags being zero
+to be distinguished.
+</P><P>
+
+<A NAME="SEC1875"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC1875::-->
+<P>
+
+The flags, if any; otherwise zero.
+</P><P>
+
+<A NAME="SEC1876"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC1876::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="__get_fd_name"></A>
+<!--#perl sub="trailer" -->

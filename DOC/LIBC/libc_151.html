@@ -1,0 +1,147 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_151.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_150.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_152.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _djstat_flags </H2>
+<!--docid::SEC667::-->
+<A NAME="SEC668"></A>
+<H3> Syntax                                                                                                                     </H3>
+<!--docid::SEC668::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;sys/stat.h&#62;
+
+extern unsigned short   _djstat_flags;
+</pre></td></tr></table></P><P>
+
+This variable contains bits for some fields of <CODE>struct stat</CODE> which are
+expensive to compute under DOS.  Any such computation is only done by
+<CODE>stat</CODE> (see section <A HREF="libc_744.html">stat</A>) or <CODE>fstat</CODE> (see section <A HREF="libc_363.html">fstat</A>) if the
+corresponding bit in <CODE>_djstat_flags</CODE> is <EM>cleared</EM>.  By
+default, all the bits are cleared, so applications which don't care,
+automagically get a full version, possibly at a price of performance.
+To get the fastest possible version for your application, clear
+only the bits which you need and set all the others.
+</P><P>
+
+The following bits are currently defined:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>_STAT_INODE</CODE>
+<DD><P>
+
+Causes <CODE>stat</CODE> and <CODE>fstat</CODE> to compute the <CODE>st_ino</CODE> (inode
+number) field.
+</P><P>
+
+<DT><CODE>_STAT_EXEC_EXT</CODE>
+<DD><P>
+
+Tells <CODE>stat</CODE> and <CODE>fstat</CODE> to compute the execute access bit
+from the file-name extension.  <CODE>stat</CODE> and <CODE>fstat</CODE> know about
+many popular file-name extensions, to speed up the computation of the
+execute access bit.
+</P><P>
+
+<DT><CODE>_STAT_EXEC_MAGIC</CODE>
+<DD><P>
+
+Tells <CODE>stat</CODE> and <CODE>fstat</CODE> to compute the execute access bit from
+magic signature (the first two bytes of the file).  Use
+<CODE>_is_executable</CODE> (see section <A HREF="libc_498.html">_is_executable</A>),
+if the file-name extension is not enough for this.
+</P><P>
+
+Computing the execute access bit from the magic signature is by far the
+most expensive part of <CODE>stat</CODE> and <CODE>fstat</CODE> (because it requires
+to read the first two bytes of every file).  If your application doesn't
+care about execute access bit, setting <CODE>_STAT_EXEC_MAGIC</CODE> will
+significantly speed it up.
+</P><P>
+
+Note that if <CODE>_STAT_EXEC_MAGIC</CODE> is set, but <CODE>_STAT_EXEC_EXT</CODE>
+is not, some files which shouldn't be flagged as executables (e.g., COFF
+<TT>`*.o'</TT> object files) will have their execute bit set, because they
+have the magic number signature at their beginning.  Therefore, only use
+the above combination if you want to debug the list of extensions
+provided in <TT>`is_exec.c'</TT> file.
+</P><P>
+
+<DT><CODE>_STAT_DIRSIZE</CODE>
+<DD><P>
+
+Causes <CODE>stat</CODE> to compute directory size by counting the number of its
+entries (unless some friendly network redirector brought a true directory
+size with it).  Also computes the number of subdirectories and sets the
+number of links <CODE>st_nlink</CODE> field.
+</P><P>
+
+This computation is also quite expensive, especially for directories
+with large sub-directories.  If your application doesn't care about size
+of directories and the <CODE>st_nlink</CODE> member, you should set the
+<CODE>_STAT_DIRSIZE</CODE> bit in <CODE>_djstat_flags</CODE>.
+</P><P>
+
+<DT><CODE>_STAT_ROOT_TIME</CODE>
+<DD><P>
+
+Causes <CODE>stat</CODE> to try to get time stamp of root directory from its
+volume label entry, if there is one.
+</P><P>
+
+<DT><CODE>_STAT_WRITEBIT</CODE>
+<DD><P>
+
+Tells <CODE>fstat</CODE> that file's write access bit is required (this needs
+special treatment only under some versions of Novell Netware).
+</P><P>
+
+</DL>
+<P>
+
+Note that if you set a bit, some failure bits in
+<CODE>_djstat_fail_bits</CODE> (see section <A HREF="libc_150.html">_djstat_fail_bits</A>) might not be set,
+because some computations which report failures are only done when they
+are required.
+</P><P>
+
+<A NAME="SEC669"></A>
+<H3> Portability                                                                                                                    </H3>
+<!--docid::SEC669::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="dlclose"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_150.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_152.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

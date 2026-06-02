@@ -1,0 +1,75 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_732.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_731.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_733.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> snprintf </H2>
+<!--docid::SEC3803::-->
+<A NAME="SEC3804"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC3804::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdio.h&#62;
+
+int snprintf (char *<VAR>buffer</VAR>, size_t <VAR>n</VAR>, const char *<VAR>format</VAR>,
+              <small>...</small>);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3805"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC3805::-->
+<P>
+
+This function works similarly to <CODE>sprintf()</CODE> (see section <A HREF="libc_737.html">sprintf</A>), but
+the size <VAR>n</VAR> of the <VAR>buffer</VAR> is also taken into account.  This
+function will write <VAR>n</VAR> - 1 characters.  The <VAR>n</VAR>th character is used
+for the terminating nul.  If <VAR>n</VAR> is zero, <VAR>buffer</VAR> is not touched.
+</P><P>
+
+<A NAME="SEC3806"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC3806::-->
+<P>
+
+The number of characters that would have been written (excluding the trailing
+nul) is returned; otherwise -1 is returned to flag encoding or buffer space
+errors.
+</P><P>
+
+The maximum accepted value of <VAR>n</VAR> is <CODE>INT_MAX</CODE>.  <CODE>INT_MAX</CODE> is
+defined in <CODE>&#60;limits.h&#62;</CODE>.  -1 is returned and <CODE>errno</CODE> is set to
+<CODE>EFBIG</CODE>, if <VAR>n</VAR> is greater than this limit.
+</P><P>
+
+<A NAME="SEC3807"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC3807::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C89; C99 (see note 1)
+</TR></TABLE>
+<P>
+
+Notes:
+</P><P>
+
+<OL>
+<LI>
+The buffer size limit is imposed by DJGPP.  Other systems may not have this limitation.
+<P>
+
+</OL>
+<A NAME="__solve_dir_symlinks"></A>
+<!--#perl sub="trailer" -->

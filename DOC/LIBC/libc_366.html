@@ -1,0 +1,67 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_366.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_365.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_367.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> ftell </H2>
+<!--docid::SEC1805::-->
+<A NAME="SEC1806"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC1806::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdio.h&#62;
+
+long ftell(FILE *file);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1807"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC1807::-->
+<P>
+
+Returns the current file position for <CODE>file</CODE>.  This is suitable for
+a future call to <CODE>fseek</CODE>. 
+</P><P>
+
+<A NAME="SEC1808"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC1808::-->
+<P>
+
+The file position, or -1 on error. 
+</P><P>
+
+<A NAME="SEC1809"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC1809::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C89; C99
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1810"></A>
+<H3> Example                                                                                                                                                        </H3>
+<!--docid::SEC1810::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>long p = ftell(stdout);
+</pre></td></tr></table></P><P>
+
+<A NAME="ftime"></A>
+<!--#perl sub="trailer" -->

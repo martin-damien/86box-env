@@ -1,0 +1,68 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_60.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_59.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_61.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> bcopy </H2>
+<!--docid::SEC173::-->
+<A NAME="SEC174"></A>
+<H3> Syntax                          </H3>
+<!--docid::SEC174::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;string.h&#62;
+
+void bcopy(const void *source, void *dest, int length);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC175"></A>
+<H3> Description                         </H3>
+<!--docid::SEC175::-->
+<P>
+
+Copy <VAR>length</VAR> bytes from <VAR>source</VAR> to <VAR>dest</VAR>.  Overlapping
+regions are handled properly, although this behavior is not portable. 
+</P><P>
+
+<A NAME="SEC176"></A>
+<H3> Return Value                         </H3>
+<!--docid::SEC176::-->
+<P>
+
+No value is returned.
+</P><P>
+
+<A NAME="SEC177"></A>
+<H3> Portability                          </H3>
+<!--docid::SEC177::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC178"></A>
+<H3> Example                </H3>
+<!--docid::SEC178::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct s a, b;
+bcopy(a, b, sizeof(struct s));
+</pre></td></tr></table></P><P>
+
+<A NAME="bdos"></A>
+<!--#perl sub="trailer" -->

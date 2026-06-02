@@ -1,0 +1,297 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_309.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_308.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_310.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> fcntl </H2>
+<!--docid::SEC1491::-->
+<A NAME="SEC1492"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC1492::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;fcntl.h&#62;
+
+int fcntl (int fd, int cmd, ...);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1493"></A>
+<H3> Description                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC1493::-->
+<P>
+
+This function performs the operation specified by <VAR>cmd</VAR> on
+the file open on handle <VAR>fd</VAR>.  The following operations are defined
+by the header <CODE>fcntl.h</CODE>:
+</P><P>
+
+<DL COMPACT>
+<DT><CODE>F_DUPFD</CODE>
+<DD>Returns a file handle that duplicates <VAR>fd</VAR> like <CODE>dup</CODE> does
+(see section <A HREF="libc_281.html">dup</A>), except that <CODE>fcntl</CODE> also makes sure the returned
+handle is the lowest available handle greater than or equal to the
+integer value of the third argument.
+<P>
+
+<DT><CODE>F_GETFD</CODE>
+<DD>Get the <CODE>FD_CLOEXEC</CODE> close-on-exec (a.k.a. no-inherit) status of
+<VAR>fd</VAR>.  If the returned value has its least-significant bit set, the
+file will not be inherited by programs invoked by this process;
+otherwise, the file will remain open in the child processes.
+<P>
+
+Note that only the first 20 handles can be passed to child processes by
+DOS/Windows; handles beyond that cannot be inherited.  In addition, the
+stub loader of the child DJGPP program will forcibly close handles 19
+and 18 (since otherwise it will be unable to read the COFF executable
+information and enter protected mode).  Therefore, the current
+implementation always returns <CODE>FD_CLOEXEC</CODE> for handles 18 and
+above.
+</P><P>
+
+For handles less than 18, the call will try to determine the status of
+the <CODE>O_NOINHERIT</CODE> flag for that file and will return either
+<CODE>FD_CLOEXEC</CODE> if the flag is set, or 0 if the flag is not set.  If
+the status of the <CODE>O_NOINHERIT</CODE> flag cannot be determined, the call
+will return -1, setting <CODE>errno</CODE> to <CODE>ENOSYS</CODE>.
+</P><P>
+
+The no-inherit bit can be set when the file is opened by using the
+<CODE>O_NOINHERIT</CODE> in the open flags; see <A HREF="libc_600.html">open</A>.
+</P><P>
+
+<DT><CODE>F_SETFD</CODE>
+<DD>Set or unset the close-on-exec flag for the handle <VAR>fd</VAR> using the
+LSB of the integer value supplied as the third argument.  Since only the
+first 20 handles are passed to child programs, and since the stub loader
+of the child DJGPP program will forcibly close handles 19 and 18 (since
+otherwise it will be unable to read the COFF executable information and
+enter protected mode), the flag can only be set or unset on the first 18
+handles.  Attempts to set the flag for handles 18 or above will always
+return 0, and attempts to unset the flag for handles 18 or above will
+always return -1, setting <CODE>errno</CODE> to <CODE>ENOSYS</CODE>.
+<P>
+
+For handles less than 18, the call will try to set or unset the
+<CODE>O_NOINHERIT</CODE> flag for that file and will return 0 if the flag is
+changed.  If the <CODE>O_NOINHERIT</CODE> flag cannot be changed, the call
+will return -1, setting <CODE>errno</CODE> to <CODE>ENOSYS</CODE>.
+  
+<DT><CODE>F_GETFL</CODE>
+<DD>Get the open mode and status flags associated with the handle <VAR>fd</VAR>.
+The flags are those supported by <CODE>open</CODE> and <CODE>creat</CODE> functions,
+like <CODE>O_RDONLY</CODE>, <CODE>O_APPEND</CODE>, etc.
+<P>
+
+On Windows NT this cannot report the open mode correctly ---
+<CODE>O_RDONLY</CODE> is always returned.
+</P><P>
+
+<DT><CODE>F_SETFL</CODE>
+<DD>Set the open mode and status flags associated with the handle <VAR>fd</VAR>.
+This fails in all but one case, and sets <CODE>errno</CODE> to <CODE>ENOSYS</CODE>,
+since DOS and Windows don't allow changing the descriptor flags after
+the file is open.
+<P>
+
+The one allowed case is for <CODE>O_NONBLOCK</CODE>, since DJGPP doesn't
+support it anyway.  That is, calls using <CODE>F_SETFL</CODE> will fail for
+all flag values <STRONG>except</STRONG> <CODE>O_NONBLOCK</CODE>.
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;fcntl.h&#62;
+
+ret = fcntl(fd, F_SETFL, O_BINARY); /* This will fail, returning -1  */
+                                    /* and setting errno to ENOSYS.  */
+
+ret = fcntl(fd, F_SETFL, O_NONBLOCK); /* This will succeed          */
+                                      /* returning 0.               */
+</pre></td></tr></table></P><P>
+
+<DT><CODE>F_GETLK</CODE>
+<DD>Return the lock structure that prevents obtaining the lock pointed to by
+the third argument, or set the <CODE>l_type</CODE> field of the lock structure
+to <CODE>F_UNLCK</CODE> if there is no obstruction.  Currently, only the
+setting of the <CODE>l_type</CODE> field is provided.  This call will not
+return values in the <CODE>struct flock</CODE> parameter identifying what lock
+parameters prevent getting the requested lock, since there is no way to
+obtain this information from DOS/Windows.  If the lock cannot be
+obtained, -1 is returned and <CODE>errno</CODE> is set to the reason (which
+will be one of <CODE>EINVAL</CODE>, <CODE>EBADF</CODE>, <CODE>EACCES</CODE> or
+<CODE>ENOLCK</CODE>).
+<P>
+
+Locking of directories is not supported.
+</P><P>
+
+<DT><CODE>F_SETLK</CODE>
+<DD>Set or clear a file segment lock according to the structure pointed to
+by the third argument.  The lock is set when <CODE>l_type</CODE> is
+<CODE>F_RDLCK</CODE> (shared lock request) or <CODE>F_WRLCK</CODE> (exclusive lock
+request), and the lock is cleared when <CODE>l_type</CODE> is <CODE>F_UNLCK</CODE>.
+If the lock is already held, then this call returns -1 and sets
+<CODE>errno</CODE> to <CODE>EACCES</CODE>.
+<P>
+
+The <CODE>F_RDLCK</CODE> value for requesting a read lock is always treated as
+if it were <CODE>F_WRLCK</CODE> for a write lock.
+</P><P>
+
+This is because DOS/Win9x only supports one kind of lock, and it is the
+exclusive kind.
+</P><P>
+
+Locking of directories is not supported.
+</P><P>
+
+<DT><CODE>F_SETLKW</CODE>
+<DD>Same as <CODE>F_SETLK</CODE>, but if the lock is blocked, the call will wait
+(using <CODE>__dpmi_yield</CODE>, see see section <A HREF="libc_279.html">__dpmi_yield</A>) until it is
+unblocked and the lock can be applied.  This call will <STRONG>never
+exit</STRONG> if the program making the call is the program which already owns
+the lock.
+<P>
+
+Locking of directories is not supported.
+</P><P>
+
+<DT><CODE>F_GETLK64</CODE>
+<DD><DT><CODE>F_SETLK64</CODE>
+<DD><DT><CODE>F_SETLKW64</CODE>
+<DD>Each of these does exactly the same function as the non-"64" version,
+but the third argument must be of type <CODE>struct flock64</CODE>, which
+allows the <VAR>l_start</VAR> and <VAR>l_len</VAR> members to be <CODE>long long
+int</CODE> values.  The current code will only use these <CODE>long long int</CODE>
+values modulo <EM>2^32</EM>, which allows file locking positions up to 4
+gigabytes minus 1.  True 64-bit file locking is <STRONG>not</STRONG> supported.
+<P>
+
+The <CODE>struct flock64</CODE> members <VAR>l_start</VAR> and <VAR>l_len</VAR> are
+declared to be of type <CODE>offset_t</CODE>, which is in turn typedef'ed to
+be a <CODE>long long</CODE>.
+</P><P>
+
+Locking of directories is not supported.
+</DL>
+<P>
+
+This function can be hooked by the <EM>Filesystem extensions</EM>, see
+<A HREF="libc_321.html">File System Extensions</A>.  If you don't want this, and you are
+calling <CODE>fcntl</CODE> with the <CODE>F_DUPFD</CODE> command, you should use
+<CODE>dup2</CODE> instead, see <A HREF="libc_282.html">dup2</A>.
+</P><P>
+
+<A NAME="SEC1494"></A>
+<H3> Return Value                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC1494::-->
+<P>
+
+If an invalid or unsupported value is passed in <VAR>cmd</VAR>, or <VAR>fd</VAR>
+is an invalid file handle, the function returns -1 and sets <CODE>errno</CODE>
+to the appropriate value.  Unsupported values of <VAR>cmd</VAR> cause
+<CODE>ENOSYS</CODE> to be stored in <CODE>errno</CODE>.  If <VAR>cmd</VAR> is
+<CODE>F_DUPFD</CODE>, the function returns the new descriptor or -1 in case of
+a failure.
+</P><P>
+
+Lock requests which specify the open file's current <CODE>EOF</CODE> position
+as the value of <VAR>l_start</VAR> and zero as the <VAR>l_len</VAR> value will
+fail, returning -1 with <CODE>errno</CODE> set to <CODE>EACCES</CODE>.
+</P><P>
+
+<A NAME="SEC1495"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC1495::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001 (see note 1)
+</TR></TABLE>
+<P>
+
+Notes:
+</P><P>
+
+<OL>
+<LI>
+Contrary to Posix requirement, the handle returned by <CODE>F_DUPFD</CODE> shares the <CODE>FD_CLOEXEC</CODE> flag with <VAR>fd</VAR> (unless they are on different sides of the 20-handle mark), since DOS/Windows only maintain a single set of bits for all the handles associated with the same call to <CODE>open</CODE>.
+</OL>
+<P>
+
+<A NAME="SEC1496"></A>
+<H3> Example                                                                                                                  </H3>
+<!--docid::SEC1496::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre> /* Save the handle in a way that it won't be passed
+    to child processes.  */
+  int saved_fd = fcntl(fd, F_DUPFD, 20);
+
+ /* Set an advisory lock for the whole file.  */
+  struct flock flock;
+  int retval, fd;
+
+  flock.l_type = F_RDLCK;
+  flock.l_whence = SEEK_SET;
+  flock.l_start = flock.l_len = 0;
+  errno = 0;
+  retval = fcntl(fd, F_SETLK, &#38;flock);
+
+ /* Get the status of the lock we just obtained
+    (should return -1 with errno == EACCES).  */
+  errno = 0;
+  retval = fcntl(fd, F_GETLK, &#38;flock);
+
+ /* Release the lock.  */
+  errno = 0;
+  flock.l_type = F_UNLCK;
+  retval = fcntl(fd, F_SETLK, &#38;flock);
+
+ /* Get the status of the lock we just released
+    (should return 0).  */
+  errno = 0;
+  flock.l_type = F_RDLCK;
+  retval = fcntl(fd, F_GETLK, &#38;flock);
+
+ /* Try to set the O_BINARY flag on the open file
+    (should return -1 with errno == ENOSYS).  */
+  errno = 0;
+  retval = fcntl(fd, F_SETFL, O_BINARY);
+
+ /* Set the O_NONBLOCK flag on the open file
+    (should return 0).  */
+  errno = 0;
+  retval = fcntl(fd, F_SETFL, O_NONBLOCK);
+
+ /* Get the flags on the open file
+    (always returns 0).  */
+  errno = 0;
+  retval = fcntl(fd, F_GETFL);
+
+</pre></td></tr></table><A NAME="fcvt"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_308.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_310.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

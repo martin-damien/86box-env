@@ -1,0 +1,68 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_261.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_260.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_262.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __dpmi_set_debug_watchpoint </H2>
+<!--docid::SEC1241::-->
+<A NAME="SEC1242"></A>
+<H3> Syntax                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC1242::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dpmi.h&#62;
+
+int __dpmi_set_debug_watchpoint(__dpmi_meminfo *_info, int _type);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1243"></A>
+<H3> Description                                                                                                                                                                                                                              </H3>
+<!--docid::SEC1243::-->
+<P>
+
+Please refer to the DPMI Specification (see section <A HREF="libc_200.html">DPMI Specification</A>)
+for details on DPMI function call operation.  Also see
+the DPMI Overview (see section <A HREF="libc_199.html">DPMI Overview</A>) for general information.
+</P><P>
+
+DPMI function AX = 0x0b00
+</P><P>
+
+Set a debug breakpoint.  Type is 0 for execute, 1 for write, and 2 for
+access.  Fill in address and size (1,2,4 bytes).  Server fills in
+handle.
+</P><P>
+
+<A NAME="SEC1244"></A>
+<H3> Return Value                                                                                                                                                                                                           </H3>
+<!--docid::SEC1244::-->
+<P>
+
+-1 on error, else zero.
+</P><P>
+
+<A NAME="SEC1245"></A>
+<H3> Portability                                                                                                                                                                                                                                </H3>
+<!--docid::SEC1245::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="__dpmi_set_descriptor"></A>
+<!--#perl sub="trailer" -->

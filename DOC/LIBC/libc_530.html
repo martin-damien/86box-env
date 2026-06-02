@@ -1,0 +1,231 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_530.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_529.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_531.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> libm </H2>
+<!--docid::SEC2693::-->
+<A NAME="SEC2694"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC2694::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;libm/math.h&#62;
+
+enum fdversion {fdlibm_ieee = -1, fdlibm_svid, fdlibm_xopen,
+                fdlibm_posix};
+
+#define _LIB_VERSION_TYPE enum fdversion
+#define _LIB_VERSION _fdlib_version  
+
+extern  _LIB_VERSION_TYPE  _LIB_VERSION;
+
+#define _IEEE_  fdlibm_ieee
+#define _SVID_  fdlibm_svid
+#define _XOPEN_ fdlibm_xopen
+#define _POSIX_ fdlibm_posix
+
+_LIB_VERSION_TYPE _LIB_VERSION = _IEEE_;
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2695"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC2695::-->
+<P>
+
+The alternate math library, <TT>`libm.a'</TT>, originally written by
+<EM>Cygnus support</EM>, provides versions of mathematical functions which
+comply to several different standards of behavior in abnormal cases, and
+are sometimes more accurate than those included in the default
+<TT>`libc.a'</TT> library, in particular when elaborate argument reduction
+is required to avoid precision loss.  Functions in <TT>`libm.a'</TT> allow
+to create programs with well-defined and standard-compliant behavior
+when numerical errors occur, and provide the application with a means to
+control their behavior in abnormal cases via the <CODE>matherr</CODE>
+callback.  They almost never rely on the features specific to the x87
+FPU, and are thus slower and sometimes slightly less accurate than the
+functions from <TT>`libc.a'</TT>.
+</P><P>
+
+In contrast, the functions in the default <TT>`libc.a'</TT> library are
+written for maximum speed and exploitation of the x87 FPU features, do
+not call <CODE>matherr</CODE>, and are therefore much faster and sometimes
+more accurate (due to the extended 80-bit precision with which the x87
+FPU carries its calculations).
+</P><P>
+
+Another aspect of differences between functions in <TT>`libc.a'</TT> and in
+<TT>`libm.a'</TT> is the value returned when the result overflows a
+<CODE>double</CODE>.  The functions from <TT>`libc.a'</TT> always return a
+suitably signed infinity, <CODE>Inf</CODE>, whereas for functions from
+<TT>`libm.a'</TT> an application can arrange for a large but finite value to
+be returned.  Getting finite return values might be important in certain
+kinds of mathematical computations where the special rules defined for
+infinities (e.g., <EM>Inf + a = Inf</EM>) might be inappropriate.
+</P><P>
+
+Refer to section `Mathematical Functions' in <CITE>The Cygnus C Math Library</CITE>, for detailed
+documentation of the individual functions from <TT>`libm.a'</TT>.  This
+section explains the general setup of using those functions from DJGPP
+programs.
+</P><P>
+
+To use the alternate math library with your program, you need to do the
+following:
+</P><P>
+
+<UL>
+
+<LI>
+Include the header <CODE>&#60;libm/math.h&#62;</CODE>.  Alternatively, you can include
+<CODE>&#60;math.h&#62;</CODE> as usual and compile with <SAMP>`-D_USE_LIBM_MATH_H'</SAMP>
+option to <CODE>gcc</CODE>, which will cause it to use <TT>`libm/math.h'</TT>
+instead of the default <TT>`math.h'</TT>.  (The second possibility leaves
+the source ANSI-compliant.)
+<P>
+
+<LI>
+Set the global variable <CODE>_fdlib_version</CODE> to a value other than the
+default <CODE>_IEEE_</CODE>.  The possible values are listed and explained
+below.
+<P>
+
+<LI>
+At the beginning of your <CODE>main</CODE> function, set the FPU to a
+predictable state by calling <CODE>_clear87</CODE> (see section <A HREF="libc_99.html">_clear87</A>) and
+<CODE>_fpreset</CODE> (see section <A HREF="libc_344.html">_fpreset</A>) library functions.  (Another
+possibility is to make these calls in a function declared with
+<CODE>__attribute__((constructor))</CODE>, so it will be called before
+<CODE>main</CODE>.)
+<P>
+
+<LI>
+Link your program with the <TT>`libm.a'</TT> library, e.g. by specifying
+<SAMP>`-lm'</SAMP> on the link command line.
+<P>
+
+</UL>
+<P>
+
+The functions in <TT>`libm.a'</TT> can emulate different standards.  You can
+select to which standard your program will comply by setting the global
+variable <CODE>_fdlib_version</CODE> (or the macro <CODE>_LIB_VERSION</CODE> which
+evaluates to it) to one of the values below.  This will only affect the
+behavior of the math functions when an error is signaled by the FPU.
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>_IEEE_</CODE>
+<DD>The default value, specifies IEEE-compliant operation.  In case of an
+error, this version will immediately return whatever result is computed
+by the FPU, and will <STRONG>not</STRONG> set <CODE>errno</CODE>.  If the result
+overflows, an <CODE>Inf</CODE> is returned.  This version gives the fastest
+code.
+<P>
+
+<DT><CODE>_POSIX_</CODE>
+<DD>In case of an error, this version will set <CODE>errno</CODE> to the
+appropriate value (<CODE>EDOM</CODE> or <CODE>ERANGE</CODE>) and return to the
+caller, without calling the <CODE>matherr</CODE> function (see section <A HREF="libc_557.html">matherr</A>).
+If the result overflows, an <CODE>Inf</CODE> is returned.  This version should
+be used for maximum POSIX- and ANSI-compliance.
+<P>
+
+<DT><CODE>_SVID_</CODE>
+<DD>This version is compliant with the <EM>System V Interface Definition</EM>.
+This is the slowest version.  In case of an error, it calls the
+<CODE>matherr</CODE> function (see section <A HREF="libc_557.html">matherr</A>), which can be customized to
+the specific application needs.  If <CODE>matherr</CODE> returns zero, a
+message is printed to the standard error stream which states the name of
+the function that generated the error and the error type, and
+<CODE>errno</CODE> is set.  If <CODE>matherr</CODE> returns non-zero, there will be
+no message and <CODE>errno</CODE> will be left unaltered.  If the result
+overflows, this version returns <CODE>HUGE</CODE>, a large but finite value
+defined by <TT>`libm/math.h'</TT>.
+<P>
+
+<DT><CODE>_XOPEN_</CODE>
+<DD>Complies to the X/Open specifications.  It behaves exactly like
+<CODE>_SVID_</CODE>, but it never prints an error message, even if
+<CODE>matherr</CODE> returns zero, and <CODE>Inf</CODE> us returned when a result
+overflows.
+<P>
+
+</DL>
+<P>
+
+<A NAME="SEC2696"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC2696::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2697"></A>
+<H3> Example                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC2697::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>
+/*  Testing errno == EDOM after sqrt(-1).
+
+    !!!  MUST compile with -lm  !!!  */
+
+#include &#60;assert.h&#62;
+#include &#60;errno.h&#62;
+#include &#60;stdio.h&#62;
+#include &#60;libm/math.h&#62; /* or #define _USE_LIBM_MATH_H
+                        * and #include &#60;math.h&#62; */
+#include &#60;float.h&#62;
+
+/* Setting _LIB_VERSION to anything but _IEEE_ will turn on
+ * errno handling. */
+_LIB_VERSION_TYPE _LIB_VERSION = _POSIX_;
+
+int main (void)
+{
+  /* Reset the FPU (possible previous FP problems).  */
+  _clear87 ();
+  _fpreset ();
+
+  /* Run the test.  */
+  errno = 0;
+  assert(errno == 0);
+  sqrt(-1.0);
+  assert(errno == EDOM); /* this line should NOT cause
+                          * the assertion to fail */
+
+  return(0);
+}
+
+</pre></td></tr></table><A NAME="link"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_529.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_531.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

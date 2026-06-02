@@ -1,0 +1,104 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_362.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_361.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_363.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __FSEXT_set_function </H2>
+<!--docid::SEC1780::-->
+<A NAME="SEC1781"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC1781::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;sys/fsext.h&#62;
+
+int __FSEXT_set_function(int _fd, __FSEXT_Function *_function);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1782"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC1782::-->
+<P>
+
+This function is part of the <A HREF="libc_321.html">File System Extensions</A>.  It is used
+to set the handler function for those extensions that use DOS files
+for I/O.  One situation where you might need this is when you must catch
+output to the terminal and play some tricks with it, like colorize it or
+redirect it to another device.
+</P><P>
+
+<A NAME="SEC1783"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC1783::-->
+<P>
+
+Zero in case of success, non-zero in case of failure (like if <VAR>_fd</VAR>
+is negative).
+</P><P>
+
+<A NAME="SEC1784"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC1784::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1785"></A>
+<H3> Example                                                                                                                                                     </H3>
+<!--docid::SEC1785::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>
+#include &#60;sys/fsext.h&#62;
+#include &#60;conio.h&#62;
+
+/* A simple example of a write handler which converts DOS I/O to the
+   screen into direct writes to video RAM.  */
+static int
+my_screen_write (__FSEXT_Fnumber func, int *retval, va_list rest_args)
+{
+  char *buf, *mybuf;
+  size_t buflen;
+  int fd = va_arg (rest_args, int);
+
+  if (func != __FSEXT_write || !isatty (fd))
+    return 0;  /* and the usual DOS call will be issued */
+
+  buf = va_arg (rest_args, char *);
+  buflen = va_arg (rest_args, size_t);
+  mybuf = alloca (buflen + 1);
+  memcpy (mybuf, buf, buflen);
+  mybuf[buflen] = '\0';
+  cputs (mybuf);
+  *retval = buflen;
+  return 1;  /* meaning that we handled the call */
+}
+
+/* Install our handler.  The `attribute constructor' causes this
+   function to be called by the startup code.  */
+static void __attribute__((constructor))
+install_screen_write_handler (void)
+{
+  __FSEXT_set_function (fileno (stdout), my_screen_write);
+}
+
+</pre></td></tr></table></P><P>
+
+<A NAME="fstat"></A>
+<!--#perl sub="trailer" -->

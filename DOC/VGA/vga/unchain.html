@@ -1,0 +1,485 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+  <meta name="keywords" content="VGA, VGA programming, game programming, C, mouse, lines, circles, rectangles, polygons,  bitmaps, vertical retrace, animation, 256 color, pixel plotting, mode 13, mode x, double buffering, page flipping, unchained mode, flicker-free" />
+  <meta name="description" content="VGA basics, lines and shapes, bitmaps, mouse, double buffering, page flipping, unchained mode, and more" />
+  <link rel="stylesheet" type="text/css" media="all" href="default.css" />
+  <link rel="stylesheet" type="text/css" media="print" href="print.css" />
+  <title>256-Color VGA Programming in C - Double Buffering, Page Flipping, &amp; Unchained Mode</title>
+</head>
+
+<body>
+<div id="nav">
+  <a href="http://www.brackeen.com/"><img src="../images/logo.png" alt="David Brackeen" /></a>
+</div>
+
+<div id="header">
+  <a href="index.html">256-Color VGA Programming in C</a>
+ 
+  <h1>Double Buffering, Page Flipping, &amp; Unchained Mode</h1>
+  
+  <p>Contents in this section:</p>
+  <ul>
+    <li><a href="#1">Why double buffering and/or page flipping?</a></li>
+    <li><a href="#2">Double buffering</a></li>
+    <li><a href="#3">Page flipping</a></li>
+    <li><a href="#4">Structure of unchained mode</a></li>
+    <li><a href="#5">Tweaking mode 0x13</a></li>
+    <li><a href="#6">Plotting a pixel in unchained mode</a></li>
+    <li><a href="#7">Page flipping in unchained mode</a></li>
+    <li><a href="#8">Program: unchain.c</a></li>
+    <li><a href="#9">Other unchained modes</a></li>
+    <li><a href="#10">Program: modes.c</a></li>
+  </ul>
+</div>
+<div id="content">
+  
+  <h2><a name="1">Why double buffering and/or page flipping?</a></h2>
+  
+  <p>Two important concepts used in many games and multimedia
+  applications are double buffering and page flipping. Programmers
+  primarily use these techniques for two purposes: </p>
+  
+  <ul>
+      <li>to keep the user from seeing objects being drawn onto the
+          screen</li>
+      <li>to eliminate flickering.</li>
+  </ul>
+  
+  <h2><a name="2">Double buffering</a></h2>
+  
+  <p>Double Buffering is a fairly simple concept to grasp. Instead
+  of drawing directly to video memory, the program draws everything
+  to a double buffer (Figure 20a). When finished, the program
+  copies the double buffer to video memory all at once (Figure
+  20b). At that point the program clears the double buffer (if
+  necessary) and the process starts over. </p>
+  
+  <dl class="image">
+    <dt>
+      <img src="images/img00030.gif" alt="Double buffering concept." width="275" height="360" />
+    </dt>
+    <dd>
+      <b>Figure 20.</b>
+      Double buffering concept.
+    </dd>
+  </dl>
+  
+  <p>Implementing a double buffer is fairly simple as well. The
+  double buffer is generally the same size as the screen. In mode
+  0x13, the double buffer would be 64,000 bytes. When the program
+  begins it allocates memory for the double buffer. </p>
+  
+<pre>unsigned char *double_buffer;
+
+...
+
+double_buffer = (unsigned char *) malloc(320*200);
+if (double_buffer==NULL)
+{
+  printf(&quot;Not enough memory for double buffer.\n&quot;);
+  exit(1);
+}
+</pre>
+  
+  <p>Then, instead of writing to video memory, the program writes
+  to the double buffer. </p>
+  
+<pre>/* plot a pixel in the double buffer */
+double_buffer[(y&lt;&lt;8) + (y&lt;&lt;6) + x] = color;
+</pre>
+  
+  <p>When finished, the program copies the double buffer to video
+  memory (with careful consideration of the vertical retrace to
+  eliminate flickering). </p>
+  
+<pre>while ((inp(INPUT_STATUS_1) &amp; VRETRACE));
+while (!(inp(INPUT_STATUS_1) &amp; VRETRACE));
+memcpy(VGA,double_buffer,320*200);
+</pre>
+  
+  <p>Using a double buffer would be faster if, instead of having to
+  copy the information from the double buffer to video memory
+  (address 0xA000:0000), the video card could be programmed to get
+  video data directly from the double buffer rather than from its
+  regular address (0xA000:0000). While this is not possible on the
+  VGA, it is close to how page flipping works. </p>
+  
+  <h2><a name="3">Page flipping</a></h2>
+  
+  <p>With page flipping, there must be enough video memory for two
+  screens. So, if the screen size is 320x200 at 256 colors,
+  2*320*200 or 128,000 bytes of video memory must be available.
+  Instead of drawing to the <i>visible</i> area in video memory, or
+  <i>visible page</i>, the program draws to the <i>non-visible page</i>
+  (Figure 21a). When finished, the program swaps the <i>visible
+  page</i> pointer with the <i>non-visible page</i> pointer (Figure
+  21b). Now the program clears the newly placed <i>non-visible page</i>
+  (if necessary) and the process starts over. </p>
+  
+  <dl class="image">
+    <dt>
+      <img src="images/img00031.gif" alt="Page flipping concept." width="287" height="534" />
+    </dt>
+    <dd>
+      <b>Figure 21.</b>
+      Page flipping concept.
+    </dd>
+  </dl>
+  
+  <p>One problem is this: in mode 0x13, only 64K of video memory is
+  available, even if the video card has more memory on it. Even if
+  it is a 4MB video card, mode 0x13 can only access 64K. There is a
+  way, however, to tweak mode 0x13 into a 256-color mode that has a
+  total of 256K of video memory, so that page flipping is possible.
+  This undocumented mode is sometimes referred to as
+  &ldquo;mode-x,&rdquo; or &ldquo;unchained mode.&rdquo; </p>
+  
+  <h2><a name="4">Structure of unchained mode</a></h2>
+  
+  <p>The VGA card has 256K of memory. Many SVGA cards have much
+  more, but even on those cards, VGA modes can only access the
+  first 256K-except for mode 0x13, which can only access 64K. The
+  reason is that mode 0x13 is a chain-4 mode, which basically means
+  only every forth byte of video memory is used. The reason for
+  this is because the linear structure of the video memory allowed
+  fast and easy video memory access. Turning off chain-4 mode
+  allows the program to access of all 256K of video memory, but
+  involves more complicated programming. </p>
+  
+  <p>In unchained mode, memory exists in four 64K <i>planes</i>.
+  Each plane corresponds to a specific column of video memory:
+  plane 0 contains pixels 0, 4, 8, etc.; plane 1 contains pixels 1,
+  5, 9, etc.; plane 2 contains columns 2, 6, 10, etc.; and plane 3
+  contains columns 3, 7, 11, etc. (Figure 22). So to plot a pixel
+  at position (5,7), plane 1 is selected, and the offset is
+  (320*7+5)/4 = 561. </p>
+  
+  <dl class="image">
+    <dt>
+      <img src="images/img00032.gif" alt="How video memory relates to the screen." width="380" height="323" />
+    </dt>
+    <dd>
+      <b>Figure 22.</b>
+      How video memory relates to the screen.
+    </dd>
+  </dl>
+  
+  <h2><a name="5">Tweaking mode 0x13</a></h2>
+  
+  <p>Since unchained mode is not a standard VGA mode, it cannot be
+  set using a BIOS function call. Instead, certain VGA registers
+  have to be tweaked. It involves two VGA controllers: the sequence
+  controller (port 0x3C4) and the CRT controller (port 0x3D4). </p>
+  
+<pre>/* VGA sequence controller */
+#define SC_INDEX      0x03c4
+#define SC_DATA       0x03c5
+
+/* VGA CRT controller */
+#define CRTC_INDEX    0x03d4
+#define CRTC_DATA     0x03d5
+
+#define MEMORY_MODE   0x04
+#define UNDERLINE_LOC 0x14
+#define MODE_CONTROL  0x17
+
+...
+
+/* turn off chain-4 mode */
+outp(SC_INDEX, MEMORY_MODE);
+outp(SC_DATA, 0x06);
+
+/* TODO: Insert code to clear the screen here.
+   (the BIOS only sets every fourth byte
+   to zero -- the rest needs to be set to
+   zero, too) */
+
+/* turn off long mode */
+outp(CRTC_INDEX, UNDERLINE_LOC);
+outp(CRTC_DATA, 0x00);
+/* turn on byte mode */
+outp(CRTC_INDEX, MODE_CONTROL);
+outp(CRTC_DATA, 0xe3);
+</pre>
+  
+  <p>The VGA registers can sometimes be fairly complex. For a
+  complete list of the VGA registers, visit <a
+  href="http://www.qzx.com/pc-gpe/">PC-GPE Online</a>.
+  </p>
+  
+  <h2><a name="6">Plotting a pixel in unchained mode</a></h2>
+  
+  <p>Plotting a pixel in unchained mode is a tad bit more tedious
+  than it is in mode 0x13, because the proper plane has to be
+  selected. To select a plane, write 2<sup><i>plane</i></sup> to
+  the VGA Map Mask register, where <i>plane</i> is a value from 0
+  to 3 (Figure 23).</p>
+  
+  <dl class="image">
+    <dt>
+      <img src="images/img00033.gif" alt="Selecting a plane with the Map Mask register." width="265" height="88" />
+    </dt>
+    <dd>
+      <b>Figure 23.</b>
+      Selecting a plane with the Map Mask register.
+    </dd>
+  </dl>
+  
+  <p>The Map Mask register is located at index 2 of the Sequence
+  Controller. To select the Map Mask register, write 2 to the
+  Sequence Controller address at port 0x3C4. Then the Map Mask can
+  be found at the Sequence Controller's data port at port 0x3C5. </p>
+  
+<pre>plane = (x&amp;3);
+/* select the map mask register */
+outp(0x3c4, 0x02);
+/* write 2^plane */
+outp(0x3c5, 1 &lt;&lt; plane);
+</pre>
+  
+  <p>In mode 0x13, the offset is calculated as 320<i>y </i>+ <i>x</i>.
+  Since unchained mode memory is arranged in four planes, the
+  offset in unchained mode is calculated as <img class="formula"
+  src="images/img00034.gif" alt="(320·y+x)/4" 
+  width="65" height="42" /> (Figure 22). </p>
+  
+<pre>VGA[(y&lt;&lt;6) + (y&lt;&lt;4) + (x&gt;&gt;2)] = color;
+</pre>
+  
+  <p>If a value other than a power of two was used to select a
+  plane, multiple planes would be selected. For example, if 13
+  (binary 1101) were used, planes 0, 2, and 3 would be selected.
+  That means every plane selected is written with the color value.
+  One use for this is fast screen-clearing. If every plane is
+  selected, only 16,000 bytes need to be written, instead of 64,000
+  like in mode 0x13. </p>
+  
+<pre>/* set map mask to all 4 planes */
+outpw(0x3c4, 0xff02);
+memset(VGA,0, 16000);
+</pre>
+  
+  <h2><a name="7">Page flipping in unchained mode</a></h2>
+  
+  <p>First, set up two word-sized variables to keep track of the
+  visible and non-visible pages. These are offsets to video memory.
+  </p>
+  
+<pre>unsigned int visible_page=0;
+unsigned int non_visible_page=320*200/4;
+</pre>
+  
+  <p>Then do all the drawing to the non-visible page. For instance,
+  if a pixel was to be plotted: </p>
+  
+<pre>/* select plane */
+outp(SC_INDEX, MAP_MASK);
+outp(SC_DATA,  1 &lt;&lt; (x&amp;3) );
+
+VGA[non_visible_page+(y&lt;&lt;6)+(y&lt;&lt;4)+(x&gt;&gt;2)]=color;
+</pre>
+  
+  <p>When all the drawing is finished, it is time to switch the
+  pages. The new offset is set through two registers on the CRT
+  controller. The first, 0x0C, sets the upper 8-bits of the offset,
+  and the second, 0x0D, sets the lower 8-bits. </p>
+  
+<pre>/* CRT controller registers */
+#define HIGH_ADDRESS 0x0C
+#define LOW_ADDRESS  0x0D
+
+...
+
+temp = visible_page;
+visible_page = non_visible_page;
+non_visible_page = temp;
+
+high_addr=HIGH_ADDRESS | (visible_page &amp; 0xff00);
+low_addr =LOW_ADDRESS  | (visible_page &lt;&lt; 8);
+
+while ((inp(INPUT_STATUS_1) &amp; VRETRACE));
+outpw(CRTC_INDEX, high_addr);
+outpw(CRTC_INDEX, low_addr);
+while (!(inp(INPUT_STATUS_1) &amp; VRETRACE));
+</pre>
+  
+  <p>Here are some things to consider when using page flipping: </p>
+  
+  <ul>
+      <li>If the program was using interrupts, it would be
+          advisable to disable interrupts before the page was
+          flipped and re-enable them afterward. If an interrupt
+          occurred at the wrong time, the screen could be
+          temporarily distorted.</li>
+      <li>When the offset registers are changed, the page flip does
+          not occur until the end of the <i>next</i> vertical
+          retrace. So after the page is flipped, the program should
+          wait until the end of the vertical retrace before drawing
+          to the <i>non-visible</i> page.</li>
+  </ul>
+  
+  <p>In the following program, instead of referring to the pages as
+  <i>visible</i> and <i>non-visible</i> refers to them as <i>visual</i>
+  and <i>active</i>. It draws animated balls (Figure 24) around the
+  screen using both double buffering and page flipping, and then
+  outputs the results. It defaults to drawing eight balls; a unique
+  number of balls can be drawn by specifying a number at the
+  command prompt. In this example, 16 balls were drawn by using the
+  command <code>unchain 16</code>. </p>
+  
+  <dl class="image">
+    <dt>
+      <img src="images/img00035.gif" alt="balls.bmp" width="320" height="75" />
+    </dt>
+    <dd>
+      <b>Figure 24.</b>
+      Bitmap <code>balls.bmp</code>.
+    </dd>
+  </dl>
+  
+  <h2><a name="8">Program: unchain.c</a></h2>
+  
+   <div class="download">
+  
+    <dl>
+      <dt>DJGPP 2.0</dt>
+      <dd><a href="source/djgpp20/unchain.c.html">View unchain.c</a><br />
+      <a href="download/djgpp20/unchain.zip">Download unchain.zip</a> (Contains unchain.c, unchain.exe, balls.bmp)</dd>
+    
+      <dt>Borland C, Turbo C, etc.</dt>
+      <dd><a href="source/bc31/unchain.c.html">View unchain.c</a><br />
+      <a href="download/bc31/unchain.zip">Download unchain.zip</a> (Contains unchain.c, unchain.exe, balls.bmp)</dd>
+      
+    </dl>
+  
+    <p>Having trouble compiling or running the program? 
+    See the <a href="trouble.html">Troubleshooting</a> page.</p>
+  </div>
+  
+  <dl class="image">
+    <dt>
+      <img src="images/img00036.gif" alt="Output from unchain.exe" width="320" height="200" />
+    </dt>
+    <dd>
+      <b>Figure 25.</b>
+      Output from <code>unchain.exe</code>.
+    </dd>
+  </dl>
+  
+<pre>Results with 16 objects:
+  Mode 0x13 with double buffering:
+    5.989011 seconds,
+    23.376147 frames per second.
+  Unchained mode with page flipping:
+    4.065934 seconds,
+    34.432431 frames per second.
+  Unchained mode with page flipping was
+  1.472973 times faster.
+</pre>
+  
+  <p>Although page flipping in unchained mode was faster than
+  double buffering in mode 0x13 in this example, it is not always
+  faster. This program was created to prove a point: depending on
+  the number of pixels drawn and the number of <code>outp()</code>'s
+  or <code>outpw()</code>'s used in unchained mode, mode 0x13 can
+  still be faster. The program was tested (ignoring the vertical
+  retrace) on various numbers of objects to show the relationship
+  (Figure 26). </p>
+  
+  <dl class="image">
+    <dt>
+      <img src="images/img00037.gif" alt="Unchained mode is not always faster." width="409" height="258" />
+    </dt>
+    <dd>
+      <b>Figure 26.</b>
+      Unchained mode is not always faster.
+    </dd>
+  </dl>
+  
+  <p>One of the reasons mode 0x13 is sometimes faster than
+  unchained mode is that for each frame, the selected plane is
+  changed four times for each ball object. The program could have
+  been created to select the plane only four times per frame, which
+  would have increased performance, because <code>outp()</code>'s
+  and <code>outpw()</code>'s are very slow statements. When
+  designing a program for unchained mode, the number of <code>outp()</code>'s
+  and <code>outpw()</code>'s used should be limited to as few as
+  possible. </p>
+  
+  <h2><a name="9">Other unchained modes</a></h2>
+  
+  <p>The code below will someday be included in another section of
+  this site, but right know it's just here to show you how to
+  program the different unchained modes, like 320x240 and 360x480.</p>
+  
+  <h2><a name="10">Program: modes.c</a></h2>
+  
+  <p>This program demonstrates various unchained modes. It supports
+  widths of 320 and 360, and heights of 200, 400, 240, and 480, so
+  there are a total of eight combinations. Setting the mode you
+  want is done like so:</p>
+  
+<pre>set_unchained_mode(320,240);
+</pre>
+  
+  <p>The program also demonstrates planar bitmaps, which speeds
+  things up a bit. Make sure you download <code>ghosts.bmp</code>
+  to get the program to work.</p>
+  
+  <div class="download">
+  
+    <dl>
+      <dt>DJGPP 2.0</dt>
+      <dd><a href="source/djgpp20/modes.c.html">View modes.c</a><br />
+      <a href="download/djgpp20/modes.zip">Download modes.zip</a> (Contains modes.c, modes.exe, ghosts.bmp)</dd>
+    
+      <dt>Borland C, Turbo C, etc.</dt>
+      <dd><a href="source/bc31/modes.c.html">View modes.c</a><br />
+      <a href="download/bc31/modes.zip">Download modes.zip</a> (Contains modes.c, modes.exe, ghosts.bmp)</dd>
+      
+    </dl>
+  
+    <p>Having trouble compiling or running the program? 
+    See the <a href="trouble.html">Troubleshooting</a> page.</p>
+  </div>
+  
+  <div class="linkprev"><a href="mouse.html">&laquo; Previous: Mouse Support &amp; Animation</a></div>
+
+</div>
+
+<div id="footer">
+  <hr />
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="intro.html">Introduction</a></li>
+    <li><a href="basics.html">VGA Basics</a></li>
+    <li><a href="shapes.html">Primitive Shapes &amp; Lines</a></li>
+    <li><a href="bitmaps.html">Bitmaps &amp; Palette Manipulation</a></li>
+    <li><a href="mouse.html">Mouse Support &amp; Animation</a></li>
+    <li class="youarehere">Double Buffering, Page Flipping, &amp; Unchained Mode</li>
+  </ul>
+  <ul>
+    <li><a href="resource.html">Links and Other Resources</a></li>
+    <li><a href="download.html">Download</a></li>
+    <li><a href="trouble.html">FAQ and Troubleshooting</a></li>
+  </ul>
+  
+  <div id="license">
+    <!--Creative Commons License-->
+    <a rel="license" href="http://creativecommons.org/licenses/by-sa/2.5/"><img alt="Creative Commons License" src="http://creativecommons.org/images/public/somerights20.png"/></a><br/>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/2.5/">Creative Commons Attribution-ShareAlike 2.5 License</a>.
+    <!--/Creative Commons License-->
+    <!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+        <Work rdf:about="">
+          <license rdf:resource="http://creativecommons.org/licenses/by-sa/2.5/" />
+      <dc:type rdf:resource="http://purl.org/dc/dcmitype/Text" />
+        </Work>
+        <License rdf:about="http://creativecommons.org/licenses/by-sa/2.5/"><permits rdf:resource="http://web.resource.org/cc/Reproduction"/><permits rdf:resource="http://web.resource.org/cc/Distribution"/><requires rdf:resource="http://web.resource.org/cc/Notice"/><requires rdf:resource="http://web.resource.org/cc/Attribution"/><permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/><requires rdf:resource="http://web.resource.org/cc/ShareAlike"/></License></rdf:RDF> -->
+    </div>
+</div>
+
+</body>
+</html>

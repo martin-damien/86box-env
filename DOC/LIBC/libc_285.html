@@ -1,0 +1,70 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_285.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_284.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_286.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> DXE_macros </H2>
+<!--docid::SEC1364::-->
+<A NAME="SEC1365"></A>
+<H3> Syntax                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC1365::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;sys/dxe.h&#62;
+
+	DXE_EXPORT_TABLE(name)
+	DXE_EXPORT_TABLE_AUTO(name)
+	DXE_EXPORT(symbol)
+	DXE_EXPORT_ASM(_symbol)
+	DXE_EXPORT_END
+
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1366"></A>
+<H3> Description                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC1366::-->
+<P>
+
+These macros allows you to define a table of symbols that are going to be
+exported into subsequently loaded modules.  If you use
+<CODE>DXE_EXPORT_TABLE_AUTO</CODE> instead of <CODE>DXE_EXPORT_TABLE</CODE> the table will
+be automatically registered with the dynamic loader during program startup
+(thus you don't need to call <CODE>dlregsym(name)</CODE> manually).
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>	DXE_DEMAND(name);
+</pre></td></tr></table></P><P>
+
+This macro declares the two functions that are present if you are statically
+linking against a dynamic library (see the <CODE>dxe3gen</CODE> section for
+details on static linking).  Note that <VAR>name</VAR> should be in capitals with
+any illegal character converted to underscore.  After declaring the module with
+the above macro, you can call the <CODE>dlload_NAME</CODE> and <CODE>dlunload_NAME</CODE>
+functions to dynamically load and unload the statically linked dynamic library.
+</P><P>
+
+<A NAME="SEC1367"></A>
+<H3> Portability                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC1367::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="ecvt"></A>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,80 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_573.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_572.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_574.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> mkstemp </H2>
+<!--docid::SEC2934::-->
+<A NAME="SEC2935"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC2935::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdio.h&#62;
+
+int mkstemp(char *template);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2936"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC2936::-->
+<P>
+
+<VAR>template</VAR> is a file specification that ends with six trailing
+<CODE>X</CODE> characters.  This function replaces the <CODE>XXXXXX</CODE> with a
+set of characters such that the resulting file name names a nonexisting
+file.  It then creates and opens the file in a way which guarantees that
+no other process can access this file.
+</P><P>
+
+Note that since MS-DOS is limited to eight characters for the file name,
+and since none of the <CODE>X</CODE>'s get replaced by a dot, you can only
+have two additional characters before the <CODE>X</CODE>'s. 
+</P><P>
+
+Note also that the path you give will be modified in place.
+</P><P>
+
+<A NAME="SEC2937"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC2937::-->
+<P>
+
+The open file descriptor.
+</P><P>
+
+<A NAME="SEC2938"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC2938::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2939"></A>
+<H3> Example                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC2939::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>char path[100];
+strcpy(path, "/tmp/ccXXXXXX");
+int fd = mkstemp(path);
+</pre></td></tr></table></P><P>
+
+<A NAME="mktemp"></A>
+<!--#perl sub="trailer" -->

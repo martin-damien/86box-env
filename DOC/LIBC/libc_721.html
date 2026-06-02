@@ -1,0 +1,75 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_721.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_720.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_722.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> sigfillset </H2>
+<!--docid::SEC3744::-->
+<A NAME="SEC3745"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC3745::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;signal.h&#62;
+
+int sigfillset (sigset_t *set)
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3746"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC3746::-->
+<P>
+
+This function initializes the set of signals pointed to by <VAR>set</VAR> to
+include all signals known to the DJGPP runtime system.  Such a full
+set, if set by <CODE>sigprocmask</CODE> (see section <A HREF="libc_726.html">sigprocmask</A>), will cause
+all signals to be blocked from delivery to their handlers.  Note that
+the set returned by this function only includes signals in the range
+<CODE>SIGABRT..SIGTRAP</CODE>; software interrupts and/or user-defined signals
+aren't included.
+</P><P>
+
+<A NAME="SEC3747"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC3747::-->
+<P>
+
+0 upon success, -1 if <VAR>set</VAR> is a NULL pointer.
+</P><P>
+
+<A NAME="SEC3748"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC3748::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3749"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC3749::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>
+  sigset_t full_set, prev_set;
+
+  sigfillset (&#38;full_set);
+  sigprocmask (SIG_UNBLOCK, &#38;full_set, &#38;prev_set);
+
+</pre></td></tr></table><A NAME="sigismember"></A>
+<!--#perl sub="trailer" -->

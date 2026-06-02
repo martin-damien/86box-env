@@ -1,0 +1,146 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_849.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_848.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_850.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> varargs </H2>
+<!--docid::SEC4460::-->
+<A NAME="SEC4461"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC4461::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>
+#include &#60;stdarg.h&#62;
+
+void va_start(va_list ap, LAST_REQUIRED_ARG);
+TYPE va_arg(va_list ap, TYPE);
+void va_end(va_list ap);
+
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC4462"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC4462::-->
+<P>
+
+Used to write functions taking a variable number of arguments.  Note
+that these are actually macros, and not functions.  You must prototype
+the function with `<small>...</small>' in its argument list.  Then, you do the
+following:
+</P><P>
+
+<UL>
+<LI>
+<P>
+
+Create a variable of type <CODE>va_list</CODE>.
+</P><P>
+
+<LI>
+<P>
+
+Initialize it by calling <CODE>va_start</CODE> with it and the name of the
+last required (i.e. non-variable) argument.
+</P><P>
+
+<LI>
+<P>
+
+Retrieve the arguments by calling <CODE>va_arg</CODE> with the
+<CODE>va_list</CODE> variable and the type of the argument.  As another
+alternative, you can pass the <CODE>va_list</CODE> to another function,
+which may then use <CODE>va_arg</CODE> to get at the arguments.
+<CODE>vprintf</CODE> is an example of this.
+</P><P>
+
+<LI>
+<P>
+
+Call <CODE>va_end</CODE> to destroy the <CODE>va_list</CODE>.
+</P><P>
+
+</UL>
+<P>
+
+Be aware that your function must have some way to determine the number
+and types of the arguments.  Usually this comes from one of the required
+arguments.  Some popular ways are to pass a count, or to pass some
+special value (like <CODE>NULL</CODE>) at the end.
+</P><P>
+
+Also, the variable arguments will be promoted according to standard C
+promotion rules.  Arguments of type <CODE>char</CODE> and <CODE>short</CODE> will
+be promoted to <CODE>int</CODE>, and you should retrieve them as such.  Those
+of type <CODE>float</CODE> will be promoted to <CODE>double</CODE>.
+</P><P>
+
+<A NAME="SEC4463"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC4463::-->
+<P>
+
+<CODE>va_arg</CODE> returns the argument it fetched, the other macros return nothing.
+</P><P>
+
+<A NAME="SEC4464"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC4464::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C89; C99
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC4465"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC4465::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>
+int find_the_sum(int count, <small>...</small>)
+{
+  va_list ap;
+  int i;
+  int total = 0;
+  
+  va_start(ap, count);
+  for (i = 0; i &#60; count; i++)
+      total += va_arg(ap, int);
+  va_end(ap);
+  return total;
+}
+
+int other_function(void)
+{
+  return find_the_sum(6, 1, 2, 3, 4, 5, 6);
+} 
+
+</pre></td></tr></table><A NAME="vfork"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_848.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_850.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,78 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_429.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_428.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_430.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _go32_conventional_mem_selector </H2>
+<!--docid::SEC2161::-->
+<A NAME="SEC2162"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC2162::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;go32.h&#62;
+
+u_short _go32_conventional_mem_selector();
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2163"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC2163::-->
+<P>
+
+This function returns a selector which has a physical base address
+corresponding to the beginning of conventional memory.  This selector
+can be used as a parameter to <CODE>movedata</CODE> (see section <A HREF="libc_583.html">movedata</A>) to
+manipulate memory in the conventional address space. 
+</P><P>
+
+<A NAME="SEC2164"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC2164::-->
+<P>
+
+The selector.
+</P><P>
+
+<A NAME="SEC2165"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC2165::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2166"></A>
+<H3> Example                                                                                                                                                                                             </H3>
+<!--docid::SEC2166::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>short blank_row_buf[ScreenCols()];
+/* scroll screen */
+movedata(_go32_conventional_mem_selector(), 0xb8000 + ScreenCols()*2,
+         _go32_conventional_mem_selector(), 0xb8000,
+         ScreenCols() * (ScreenRows()-1) * 2);
+/* fill last row */
+movedata(_go32_my_ds, (int)blank_row_buf,
+         _go32_conventional_mem_selector(),
+            0xb8000 + ScreenCols()*(ScreenRows()-1)*2,
+          ScreenCols() * 2);
+</pre></td></tr></table></P><P>
+
+<A NAME="_go32_dpmi_allocate_dos_memory"></A>
+<!--#perl sub="trailer" -->

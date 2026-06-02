@@ -1,0 +1,90 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_372.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_371.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_373.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> gcvt </H2>
+<!--docid::SEC1842::-->
+<A NAME="SEC1843"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC1843::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdlib.h&#62;
+
+char * gcvt (double value, int ndigits, char *buf)
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1844"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC1844::-->
+<P>
+
+This function converts its argument <VAR>value</VAR> into a null-terminated
+string of <VAR>ndigits</VAR> significant digits in <VAR>buf</VAR>.  <VAR>buf</VAR>
+should have enough space to hold at least <CODE><VAR>ndigits</VAR> + 7</CODE>
+characters.  The result roughly corresponds to what is obtained by the
+following snippet:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre> (void) sprintf(buf, "%.*g", ndigits, value);
+</pre></td></tr></table></P><P>
+
+except that trailing zeros and trailing decimal point are suppressed.
+</P><P>
+
+The least-significant digit in <VAR>buf</VAR> is rounded.
+</P><P>
+
+<CODE>ecvtbuf</CODE> produces the string "NaN" if <VAR>value</VAR> is a NaN, and
+"Inf" if <VAR>value</VAR> is an infinity.
+</P><P>
+
+<A NAME="SEC1845"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC1845::-->
+<P>
+
+A pointer to <VAR>buf</VAR>.
+</P><P>
+
+<A NAME="SEC1846"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC1846::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1847"></A>
+<H3> Example                                                                                                                                                              </H3>
+<!--docid::SEC1847::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>  #include &#60;stdlib.h&#62;
+  #include &#60;stdio.h&#62;
+  #include &#60;math.h&#62;
+
+  char vbuf[20];
+
+  /* This will print " 3.14159".  */
+  printf ("%s", gcvt (M_PI, 5, buf));
+</pre></td></tr></table></P><P>
+
+<A NAME="_get_dev_info"></A>
+<!--#perl sub="trailer" -->

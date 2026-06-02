@@ -1,0 +1,154 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_329.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_328.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_330.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> flock </H2>
+<!--docid::SEC1601::-->
+<A NAME="SEC1602"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC1602::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;sys/file.h&#62;
+
+int flock (int _fildes, int _op);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1603"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC1603::-->
+<P>
+
+Apply or remove an advisory lock on an open file.  The file is specified
+by file handle <VAR>_fildes</VAR>.  Valid operations are given below:
+</P><P>
+
+<DL COMPACT>
+<DT><CODE>LOCK_SH</CODE>
+<DD>Shared lock.  More than one process may hold a shared lock for a given
+file at a given time.  However, all locks on DOS/Windows 9X are
+exclusive locks, so <CODE>LOCK_SH</CODE> requests are treated as if they were
+<CODE>LOCK_EX</CODE> requests.
+<P>
+
+<DT><CODE>LOCK_EX</CODE>
+<DD>Exclusive lock.  Only one process may hold an exclusive lock for a given
+file at a given time.
+<P>
+
+<DT><CODE>LOCK_UN</CODE>
+<DD>Unlock the file.
+<P>
+
+<DT><CODE>LOCK_NB</CODE>
+<DD>Don't block when locking.  May be specified (by or'ing) along with one
+of the other operations.
+</DL>
+<P>
+
+On other systems, a single file may not simultaneously have both shared
+and exclusive locks.  However, on DOS/Windws 9X, all locks are exclusive
+locks, so this rule is not true for DOS/Windows 9X.
+</P><P>
+
+A file is locked, not the file descriptor.  So, <SAMP>`dup (2);'</SAMP> does not
+create multiple instances of a lock.
+</P><P>
+
+Dos/Windows 9X do not support shared locks, but the underlying
+implementation (which uses the <CODE>F_SETLK</CODE> (non-blocking) or
+<CODE>F_SETLKW</CODE> (blocking) commands to <CODE>fcntl</CODE>, see section <A HREF="libc_309.html">fcntl</A>)
+translates all shared lock request into exclusive lock requests.  Thus,
+requests for shared locks will be treated as if exclusive locks were
+requested, and only one lock will ever be permitted at any one time on
+any specified region of the file.
+</P><P>
+
+It is therefore wise to code <CODE>flock</CODE> by <CODE>or</CODE>ing <CODE>LOCK_NB</CODE> with
+all lock requests, whether shared or exclusive, and to test the return
+value to determine if the lock was obtained or not.  Using
+<CODE>LOCK_NB</CODE> will cause the implementation to use <CODE>F_SETLK</CODE>
+instead of <CODE>F_SETLKW</CODE>, which will return an error if the lock
+cannot be obtained.
+</P><P>
+
+<A NAME="SEC1604"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC1604::-->
+<P>
+
+On success, zero is returned.  On error, -1 is returned, and
+<CODE>errno</CODE> is set appropriately.
+</P><P>
+
+<A NAME="SEC1605"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC1605::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001 (see note 1)
+</TR></TABLE>
+<P>
+
+Notes:
+</P><P>
+
+<OL>
+<LI>
+4.4BSD (the flock (2) call first appeared in 4.2BSD).
+</OL>
+<P>
+
+<A NAME="SEC1606"></A>
+<H3> Example                                                                                                                                </H3>
+<!--docid::SEC1606::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre> /* Request a shared lock on file handle fd */
+  errno = 0;
+  retval = flock(fd, LOCK_SH);
+
+ /* Request a non-blocking shared lock on file handle fd */
+  errno = 0;
+  retval = flock(fd, LOCK_SH | LOCK_NB);
+
+ /* Request an exclusive lock on file handle fd */
+  errno = 0;
+  retval = flock(fd, LOCK_EX);
+
+ /* Request a non-blocking exclusive lock on file handle fd */
+  errno = 0;
+  retval = flock(fd, LOCK_EX | LOCK_NB);
+
+ /* Release a lock on file handle fd */
+  errno = 0;
+  retval = flock(fd, LOCK_UN);
+</pre></td></tr></table><A NAME="floor"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_328.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_330.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

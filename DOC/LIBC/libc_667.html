@@ -1,0 +1,156 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_667.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_666.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_668.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> run_child </H2>
+<!--docid::SEC3442::-->
+<P>
+
+<A NAME="SEC3443"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC3443::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;debug/dbgcom.h&#62;
+
+void run_child (void);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3444"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC3444::-->
+<P>
+
+This function starts or resumes the debugged program, via a
+<CODE>longjmp</CODE> to the debuggee's code.  When the debuggee hits a
+breakpoint, or exits normally, the exception handler that is called to
+service the breakpoint exception will <CODE>longjmp</CODE> back to
+<CODE>run_child</CODE>, and it will then return to the caller.
+</P><P>
+
+After <CODE>run_child</CODE> returns, the debugger usually examines the
+<CODE>a_tss</CODE> variable to find out the reason the debuggee stopped.  The
+<CODE>a_tss</CODE> variable is defined by the header <TT>`debug/tss.h'</TT> as
+follows:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>typedef struct TSS {
+	unsigned short tss_back_link;
+	unsigned short res0;
+	unsigned long  tss_esp0;
+	unsigned short tss_ss0;
+	unsigned short res1;
+	unsigned long  tss_esp1;
+	unsigned short tss_ss1;
+	unsigned short res2;
+	unsigned long  tss_esp2;
+	unsigned short tss_ss2;
+	unsigned short res3;
+	unsigned long  tss_cr3;
+
+	unsigned long  tss_eip;
+	unsigned long  tss_eflags;
+	unsigned long  tss_eax;
+	unsigned long  tss_ecx;
+	unsigned long  tss_edx;
+	unsigned long  tss_ebx;
+	unsigned long  tss_esp;
+	unsigned long  tss_ebp;
+	unsigned long  tss_esi;
+	unsigned long  tss_edi;
+	unsigned short tss_es;
+	unsigned short res4;
+	unsigned short tss_cs;
+	unsigned short res5;
+	unsigned short tss_ss;
+	unsigned short res6;
+	unsigned short tss_ds;
+	unsigned short res7;
+	unsigned short tss_fs;
+	unsigned short res8;
+	unsigned short tss_gs;
+	unsigned short res9;
+	unsigned short tss_ldt;
+	unsigned short res10;
+	unsigned short tss_trap;
+	unsigned char  tss_iomap;
+	unsigned char  tss_irqn;
+	unsigned long  tss_error;
+} TSS;
+
+extern TSS a_tss;
+</pre></td></tr></table></P><P>
+
+See the example below for a typical tests after <CODE>run_child</CODE>
+returns.
+</P><P>
+
+Note that, generally, you'd need to save the standard handles before
+calling <CODE>run_child</CODE> and restore them after it returns.  Otherwise,
+if the debuggee redirects one of its standard handles, the corresponding
+debugger's standard handle is redirected as well.
+See section <A HREF="libc_653.html">redir_to_child</A>, and see <A HREF="libc_654.html">redir_to_debugger</A>.
+</P><P>
+
+<A NAME="SEC3445"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC3445::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3446"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC3446::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre> save_npx ();
+ run_child ();
+ load_npx ();
+
+ if (a_tss.tss_irqn == 0x21)
+  {
+     status = DEBUGGEE_EXITED;
+     exit_code = a_tss.tss_eax &#38; 0xff;
+  }
+ else
+  {
+     status = DEBUGGEE_GOT_SIGNAL
+     if (a_tss.tss_irqn == 0x75)
+       signal_number = SIGINT;
+     else if (a_tss.tss_irqn == 1 || a_tss.tss_irqn == 3)
+       signal_number = SIGTRAP;  /* a breakpoint */
+  }
+</pre></td></tr></table></P><P>
+
+<A NAME="save_npx"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_666.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_668.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

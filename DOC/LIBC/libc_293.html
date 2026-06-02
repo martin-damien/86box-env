@@ -1,0 +1,393 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_293.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_292.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_294.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> errno </H2>
+<!--docid::SEC1406::-->
+<A NAME="SEC1407"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC1407::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;errno.h&#62;
+
+extern int errno;
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1408"></A>
+<H3> Description                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC1408::-->
+<P>
+
+This variable is used to hold the value of the error of the last
+function call.  The value might be one of the following:
+</P><P>
+
+<DL COMPACT>
+<DT><CODE>0</CODE>
+<DD><P>
+
+No Error.  Library functions never set <CODE>errno</CODE> to zero, but the
+startup code does that just before calling <CODE>main</CODE> (this is ANSI C
+requirement).
+</P><P>
+
+<DT><CODE>1</CODE>
+<DD><P>
+
+EDOM -- Numerical input to a function is out of range.
+</P><P>
+
+<DT><CODE>2</CODE>
+<DD><P>
+
+ERANGE -- Numerical output of a function is out of range.
+</P><P>
+
+<DT><CODE>3</CODE>
+<DD><P>
+
+E2BIG -- Argument list too long.  <CODE>system</CODE> and the functions from
+the <CODE>spawn</CODE> family assign this to <CODE>errno</CODE> when the command
+line is too long (longer than 126-character limit when invoking
+non-DJGPP programs, or longer than the transfer buffer size when
+invoking DJGPP programs).
+</P><P>
+
+<DT><CODE>4</CODE>
+<DD><P>
+
+EACCES -- Permission denied.  Attempt to write to a read-only file, or
+remove a non-empty directory, or open a directory as if it were a file,
+etc.  In essence, it's a DOS way of saying "You can't do that, but I'm
+too stupid to know why."
+</P><P>
+
+<DT><CODE>5</CODE>
+<DD><P>
+
+EAGAIN -- Resource temporarily unavailable, try again later.  Almost
+never used in DJGPP, except when DOS returns error code 3Dh ("network
+print queue full") 81h (NetWare4 "CWait children still running") or 9Bh
+(NetWare4 "unable to create another TCB").
+</P><P>
+
+<DT><CODE>6</CODE>
+<DD><P>
+
+EBADF -- Bad file descriptor: an invalid file handle passed to a library
+function.
+</P><P>
+
+<DT><CODE>7</CODE>
+<DD><P>
+
+EBUSY -- Resource busy.  Attempt to remove current directory (including
+current directory on another drive), or when a networked resource, such
+as a drive, is in use by another process.
+</P><P>
+
+<DT><CODE>8</CODE>
+<DD><P>
+
+ECHILD -- No child processes.  Returned by <CODE>wait</CODE> and
+<CODE>waitpid</CODE>, and by NetWare-related calls.
+</P><P>
+
+<DT><CODE>9</CODE>
+<DD><P>
+
+EDEADLK -- Resource deadlock avoided.  Never used in DJGPP.
+</P><P>
+
+<DT><CODE>10</CODE>
+<DD><P>
+
+EEXIST -- File exists.  Returned by <CODE>open</CODE> and <CODE>mkdir</CODE> when a
+file or directory by that name already exists.
+</P><P>
+
+<DT><CODE>11</CODE>
+<DD><P>
+
+EFAULT -- Bad address.  A function was passed a bad pointer (like a
+<CODE>NULL</CODE> pointer).
+</P><P>
+
+<DT><CODE>12</CODE>
+<DD><P>
+
+EFBIG -- File too large.  Never used in DJGPP.
+</P><P>
+
+<DT><CODE>13</CODE>
+<DD><P>
+
+EINTR -- Interrupted system call.  <CODE>system</CODE> and the functions of
+the <CODE>spawn</CODE> family use that when the child program was interrupted
+by <KBD>Ctrl-<KBD>C</KBD></KBD>.  Also, when DOS returns the "fail on INT 24h"
+error code.
+</P><P>
+
+<DT><CODE>14</CODE>
+<DD><P>
+
+EINVAL -- Invalid argument.  Any case when any argument to a library
+function is found to be invalid.  Examples include invalid drive number,
+"." or ".." as one of the arguments to <CODE>rename</CODE>, syntax errors in
+the command line passed to <CODE>system</CODE>, etc.
+</P><P>
+
+<DT><CODE>15</CODE>
+<DD><P>
+
+EIO -- Input or output error.  Low-level error in I/O operation, like
+bad disk block, damaged FAT, etc.
+</P><P>
+
+<DT><CODE>16</CODE>
+<DD><P>
+
+EISDIR -- Is a directory: an attempt to do something with a directory
+which is only allowed with regular files.  DOS usually returns
+<CODE>EACCES</CODE> in these cases, but DJGPP sometimes assigns <CODE>EISDIR</CODE>
+to <CODE>errno</CODE>, like when <CODE>rename</CODE> is called to move a regular
+file over a directory, or when <CODE>system</CODE> or one of the <CODE>spawn*</CODE>
+functions are passed a name of a directory instead of an executable
+program.
+</P><P>
+
+<DT><CODE>17</CODE>
+<DD><P>
+
+EMFILE -- Too many open files in system (no more handles available).
+This usually means that the number specified by the <SAMP>`FILES='</SAMP>
+directive in <TT>`CONFIG.SYS'</TT> is too small.
+</P><P>
+
+<DT><CODE>18</CODE>
+<DD><P>
+
+EMLINK -- Too many links.  Not used in DJGPP (as DOS doesn't support
+hard links).
+</P><P>
+
+<DT><CODE>19</CODE>
+<DD><P>
+
+ENAMETOOLONG -- File name too long (longer than <CODE>FILENAME_MAX</CODE>,
+defined in <TT>`stdio.h'</TT>).
+</P><P>
+
+<DT><CODE>20</CODE>
+<DD><P>
+
+ENFILE -- Too many open files.  Never used in DJGPP.
+</P><P>
+
+<DT><CODE>21</CODE>
+<DD><P>
+
+ENODEV -- No such device.  Attempt to access an invalid drive, or an
+invalid operation for the type of drive.
+</P><P>
+
+<DT><CODE>22</CODE>
+<DD><P>
+
+ENOENT -- No such file or directory.
+</P><P>
+
+<DT><CODE>23</CODE>
+<DD><P>
+
+ENOEXEC -- Unable to execute file.  Returned by <CODE>_dxe_load</CODE> (when
+the argument names a file that isn't a valid DXE), and by
+NetWare-related calls which run programs remotely.
+</P><P>
+
+<DT><CODE>24</CODE>
+<DD><P>
+
+ENOLCK -- No locks available.  Returned when the DOS file-locking
+functions cannot lock more files (due to overflow of the sharing
+buffer).
+</P><P>
+
+<DT><CODE>25</CODE>
+<DD><P>
+
+ENOMEM -- Not enough memory.  Note that, unlike your expectations,
+<CODE>malloc</CODE> does NOT set <CODE>errno</CODE> to <CODE>ENOMEM</CODE>; however,
+several library functions that use <CODE>malloc</CODE> will do that when it
+returns a <CODE>NULL</CODE> pointer.
+</P><P>
+
+<DT><CODE>26</CODE>
+<DD><P>
+
+ENOSPC -- No space left on drive.  DOS usually doesn't return this
+error, but <CODE>write</CODE> and <CODE>_write</CODE> do this for it, when they
+detect a full disk condition.
+</P><P>
+
+<DT><CODE>27</CODE>
+<DD><P>
+
+ENOSYS -- Function not implemented.  Any system call that isn't
+supported by the underlying OS, like an LFN function when running on
+plain DOS.
+</P><P>
+
+<DT><CODE>28</CODE>
+<DD><P>
+
+ENOTDIR -- Not a directory.  DOS never returns this code, but some
+library functions, like <CODE>rename</CODE> and <CODE>_truename</CODE>, do that if
+they expect a valid directory pathname, but get either an invalid
+(e.g. empty) pathname or a file that is not a directory.
+</P><P>
+
+<DT><CODE>29</CODE>
+<DD><P>
+
+ENOTEMPTY -- Directory not empty.  DOS never returns this code, but
+<CODE>rename</CODE> does, when it is called to move a directory over an
+existing non-empty directory.
+</P><P>
+
+<DT><CODE>30</CODE>
+<DD><P>
+
+ENOTTY -- Inappropriate I/O control operation.  The <EM>termios</EM>
+functions set <CODE>errno</CODE> to this when called on a device that is not a
+TTY.
+</P><P>
+
+<DT><CODE>31</CODE>
+<DD><P>
+
+ENXIO -- No such device or address.  An operation attempted to reference
+a device (not a disk drive) that is invalid, or non-existent, or access
+a disk drive that exists but is empty.
+</P><P>
+
+<DT><CODE>32</CODE>
+<DD><P>
+
+EPERM -- Operation not permitted.  Examples include: sharing or file
+lock violations; denial of access to networked resources; expired
+password or illegal login attempts via a network; too many or duplicate
+network redirections; etc.
+</P><P>
+
+<DT><CODE>33</CODE>
+<DD><P>
+
+EPIPE -- Broken pipe: attempt to write to a pipe with nobody to read
+it.  This never happens in DJGPP.
+</P><P>
+
+<DT><CODE>34</CODE>
+<DD><P>
+
+EROFS -- Read-only file system: attempt to write to a read-only disk.
+Unfortunately, DOS almost never returns this code.
+</P><P>
+
+<DT><CODE>35</CODE>
+<DD><P>
+
+ESPIPE -- Invalid seek: attempt to seek on a pipe.  Never happens in
+DJGPP, except for NetWare-related operations, since pipes are simulated
+with regular files in MS-DOS, and therefore are always seekable.
+</P><P>
+
+<DT><CODE>36</CODE>
+<DD><P>
+
+ESRCH -- No such process.  Not used in DJGPP.
+</P><P>
+
+<DT><CODE>37</CODE>
+<DD><P>
+
+EXDEV -- Improper link.  An attempt to rename a file across drives
+or create a cross-device hardlink.
+</P><P>
+
+<DT><CODE>38</CODE>
+<DD><P>
+
+ENMFILE -- No more files.  <CODE>findfirst</CODE> and <CODE>findnext</CODE> assign
+this to <CODE>errno</CODE> when they exhaust the files in the directory.
+<CODE>readdir</CODE> does that as well.
+</P><P>
+
+<DT><CODE>39</CODE>
+<DD><P>
+
+ELOOP -- Too many levels of symbolic links.  Can be set virtually by any
+file handling function in library. Usually means encountered link loop
+(link1 -&#62; link2, link2 -&#62; link1).
+</P><P>
+
+<DT><CODE>40</CODE>
+<DD><P>
+
+EOVERFLOW -- Value too large.  <CODE>filelength</CODE> can assign this to
+<CODE>errno</CODE> when a file's length is larger than <EM>2^31-2</EM>
+(see section <A HREF="libc_324.html">filelength</A>).  <CODE>lfilelength</CODE> can assign this to <CODE>errno</CODE>
+when a file's length is larger than <EM>2^63-1</EM> (see section <A HREF="libc_525.html">lfilelength</A>).
+</P><P>
+
+<DT><CODE>41</CODE>
+<DD><P>
+
+EILSEQ -- Invalid or incomplete multibyte or wide character.
+</P><P>
+
+</DL>
+<P>
+
+See section <A HREF="libc_615.html">perror</A>.
+</P><P>
+
+<A NAME="SEC1409"></A>
+<H3> Portability                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC1409::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C89; C99
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="exec*"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_292.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_294.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

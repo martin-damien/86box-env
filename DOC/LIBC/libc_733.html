@@ -1,0 +1,81 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_733.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_732.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_734.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __solve_dir_symlinks </H2>
+<!--docid::SEC3808::-->
+<A NAME="SEC3809"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC3809::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;libc/symlink.h&#62;
+
+int __solve_dir_symlinks(const char *symlink_path, char *real_path);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3810"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC3810::-->
+<P>
+
+This function resolves given symlink in <VAR>symlink_path</VAR>---all path 
+components <STRONG>except</STRONG> the last one and all symlink levels are 
+resolved.  If <VAR>symlink_path</VAR> does not contain symlinks at all, it is 
+simply copied to <VAR>real_path</VAR>.
+</P><P>
+
+<VAR>real_path</VAR> should be of size <CODE>FILENAME_MAX</CODE>, to contain
+the maximum possible length of path.
+</P><P>
+
+<A NAME="SEC3811"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC3811::-->
+<P>
+
+Zero in case of error (and <CODE>errno</CODE> set to the appropriate
+error code), non-zero in case of success.
+</P><P>
+
+<A NAME="SEC3812"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC3812::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3813"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC3813::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>
+  #include &#60;libc/symlink.h&#62;
+  #include &#60;stdio.h&#62;
+
+  char fn[] = "c:/somelink/someotherlink/somefile";
+  char file_name[FILENAME_MAX];
+
+  __solve_dir_symlinks(fn, file_name);
+  printf("The real path to %s is %s\n", fn, file_name);
+
+</pre></td></tr></table><A NAME="__solve_symlinks"></A>
+<!--#perl sub="trailer" -->

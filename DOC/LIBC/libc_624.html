@@ -1,0 +1,328 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_624.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_623.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_625.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> printf </H2>
+<!--docid::SEC3193::-->
+<A NAME="SEC3194"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC3194::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdio.h&#62;
+
+int printf(const char *format, <small>...</small>);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3195"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC3195::-->
+<P>
+
+Sends formatted output from the arguments (<small>...</small>) to <CODE>stdout</CODE>.
+</P><P>
+
+The format string contains regular characters to print, as well as
+conversion specifiers, which begin with a percent symbol.  Each
+conversion speficier contains the following fields:
+</P><P>
+
+<UL>
+
+<LI>
+<P>
+
+an optional flag, which may alter the conversion:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>-</CODE>
+<DD><P>
+
+left-justify the field.
+</P><P>
+
+<DT><CODE>+</CODE>
+<DD><P>
+
+Force a <CODE>+</CODE> sign on positive numbers.
+</P><P>
+
+<DT><CODE>space</CODE>
+<DD><P>
+
+To leave a blank space where a plus or minus sign would have been. 
+</P><P>
+
+<DT><CODE>#</CODE>
+<DD><P>
+
+Alternate conversion - prefix octal numbers with <CODE>0</CODE>, hexadecimal
+numbers with <CODE>0x</CODE> or <CODE>0X</CODE>, or force a trailing decimal point
+if a floating point conversion would have omitted it. 
+</P><P>
+
+<DT><CODE>0</CODE>
+<DD><P>
+
+To pad numbers with leading zeros.
+</P><P>
+
+</DL>
+<P>
+
+<LI>
+<P>
+
+A field width specifier, which specifies the minimum width of the field. 
+This may also be an asterisk (<CODE>*</CODE>), which means that the actual
+width will be obtained from the next argument.  If the argument is
+negative, it supplies a <CODE>-</CODE> flag and a positive width. 
+</P><P>
+
+<LI>
+<P>
+
+An optional decimal point and a precision.  This may also be an
+asterisk, but a negative argument for it indicates a precision of zero. 
+The precision specifies the minimum number of digits to print for an
+integer, the number of fraction digits for a floating point number (max
+for <CODE>g</CODE> or <CODE>G</CODE>, actual for others), or the maximum number of
+characters for a string. 
+</P><P>
+
+<LI>
+<P>
+
+An optional conversion qualifier, which may be:
+</P><P>
+
+<DL COMPACT>
+<DT><CODE>hh</CODE>
+<DD>to specify <CODE>char</CODE>;
+<P>
+
+<DT><CODE>h</CODE>
+<DD>to specify <CODE>short</CODE> integers;
+<P>
+
+<DT><CODE>j</CODE>
+<DD>to specify <CODE>intmax_t</CODE> or <CODE>uintmax_t</CODE> integers;
+<P>
+
+<DT><CODE>l</CODE>
+<DD>to specify doubles or <CODE>long</CODE> integers;
+<P>
+
+<DT><CODE>ll</CODE>
+<DD>(two lower-case ell letters) to specify <CODE>long long</CODE> integers;
+to specify <CODE>long</CODE> doubles, although this is non-standard;
+<P>
+
+<DT><CODE>L</CODE>
+<DD>to specify <CODE>long</CODE> doubles;
+<P>
+
+<DT><CODE>t</CODE>
+<DD>to specify <CODE>ptrdiff_t</CODE>;
+<P>
+
+<DT><CODE>z</CODE>
+<DD>to specify <CODE>size_t</CODE>.
+</DL>
+<P>
+
+<LI>
+<P>
+
+The conversion type specifier:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>c</CODE>
+<DD><P>
+
+A single character.
+</P><P>
+
+<DT><CODE>d</CODE>
+<DD><P>
+
+A signed integer.
+</P><P>
+
+<DT><CODE>D</CODE>
+<DD><P>
+
+A signed long integer.  This is non-standard and obsolete.
+Please use <CODE>ld</CODE> instead.
+</P><P>
+
+<DT><CODE>e</CODE>
+<DD><DT><CODE>E</CODE>
+<DD><P>
+
+A floating point number (float or double).  For long double, use
+<CODE>"Le"</CODE> or <CODE>"LE"</CODE>.  The exponent case matches the specifier
+case.  The representation always has an exponent.
+</P><P>
+
+<DT><CODE>f</CODE>
+<DD><P>
+
+A floating point number (float or double).  For long double, use
+<CODE>"Lf"</CODE>.  The representation never has an exponent.
+</P><P>
+
+<DT><CODE>g</CODE>
+<DD><DT><CODE>G</CODE>
+<DD><P>
+
+A floating point number (float or double).  For long double, use
+<CODE>"Lg"</CODE> or <CODE>"LG"</CODE>.  The exponent case matches the specifier
+case.  The representation has an exponent if it needs one.
+</P><P>
+
+<DT><CODE>i</CODE>
+<DD><P>
+
+A signed integer.
+</P><P>
+
+<DT><CODE>n</CODE>
+<DD><P>
+
+The next argument is a pointer to an integer, and the number of
+characters generated so far is stored in that integer. 
+</P><P>
+
+<DT><CODE>o</CODE>
+<DD><P>
+
+A unsigned integer, printed in base 8 instead of base 10.
+</P><P>
+
+<DT><CODE>O</CODE>
+<DD><P>
+
+A unsigned long integer, printed in base 8 instead of base 10.
+This is non-standard and obsolete.  Please use <CODE>lo</CODE> instead.
+</P><P>
+
+<DT><CODE>p</CODE>
+<DD><P>
+
+A pointer.  This is printed with an <CODE>x</CODE> specifier.
+</P><P>
+
+<DT><CODE>s</CODE>
+<DD><P>
+
+A <CODE>NULL</CODE>-terminated string.
+</P><P>
+
+<DT><CODE>u</CODE>
+<DD><P>
+
+An unsigned integer.
+</P><P>
+
+<DT><CODE>U</CODE>
+<DD><P>
+
+An unsigned long integer.  This is non-standard and obsolete.
+Please use <CODE>lu</CODE> instead.
+</P><P>
+
+<DT><CODE>x</CODE>
+<DD><DT><CODE>X</CODE>
+<DD><P>
+
+An unsigned integer, printed in base 16 instead of base 10.  The case of
+the letters used matches the specifier case. 
+</P><P>
+
+<DT><CODE>%</CODE>
+<DD><P>
+
+A single percent symbol is printed.
+</P><P>
+
+</DL>
+<P>
+
+</UL>
+<P>
+
+<A NAME="SEC3196"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC3196::-->
+<P>
+
+The number of characters written.
+</P><P>
+
+<A NAME="SEC3197"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC3197::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C89; C99 (see note 1) (see note 2)
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+Notes:
+</P><P>
+
+<OL>
+<LI>
+The <CODE>hh</CODE>, <CODE>j</CODE>, <CODE>t</CODE>
+and <CODE>z</CODE> conversion specifiers first appeared
+in the ANSI C99 standard.
+<P>
+
+<LI>
+The <CODE>D</CODE>, <CODE>O</CODE> and <CODE>U</CODE> conversion types
+are non-standard.  gcc may generate warnings, if you use them.
+<P>
+
+</OL>
+<P>
+
+<A NAME="SEC3198"></A>
+<H3> Example                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC3198::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>printf("%-3d %10.2f%% Percent of %s\n", index, per[index], name[index]);
+</pre></td></tr></table><A NAME="psignal"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_623.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_625.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

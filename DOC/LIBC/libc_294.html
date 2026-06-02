@@ -1,0 +1,79 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_294.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_293.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_295.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> exec* </H2>
+<!--docid::SEC1410::-->
+<A NAME="SEC1411"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC1411::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;unistd.h&#62;
+
+int execl(const char *path, const char *argv0, ...);
+int execle(const char *path, const char *argv0, ...
+           /*, char *const envp[] */);
+int execlp(const char *path, const char *argv0, ...);
+int execlpe(const char *path, const char *argv0, ...
+            /*, char *const envp[] */);
+
+int execv(const char *path, char *const argv[]);
+int execve(const char *path, char *const argv[], char *const envp[]);
+int execvp(const char *path, char *const argv[]);
+int execvpe(const char *path, char *const argv[], char *const envp[]);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1412"></A>
+<H3> Description                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC1412::-->
+<P>
+
+These functions operate by calling <CODE>spawn*</CODE> with a type of
+<CODE>P_OVERLAY</CODE>.  Refer to <CODE>spawn*</CODE> (see section <A HREF="libc_736.html">spawn*</A>)
+for a full description. 
+</P><P>
+
+<A NAME="SEC1413"></A>
+<H3> Return Value                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC1413::-->
+<P>
+
+If successful, these functions do not return.  If there is an error,
+these functions return -1 and set <CODE>errno</CODE> to indicate the error. 
+</P><P>
+
+<A NAME="SEC1414"></A>
+<H3> Portability                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC1414::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1415"></A>
+<H3> Example                                                                                                            </H3>
+<!--docid::SEC1415::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>execlp("gcc", "gcc", "-v", "hello.c", 0);
+</pre></td></tr></table></P><P>
+
+<A NAME="__exit"></A>
+<!--#perl sub="trailer" -->

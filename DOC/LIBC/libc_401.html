@@ -1,0 +1,72 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_401.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_400.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_402.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> getitimer </H2>
+<!--docid::SEC2004::-->
+<A NAME="SEC2005"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC2005::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;sys/time.h&#62;
+
+int getitimer(int which, struct itimerval *value);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2006"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC2006::-->
+<P>
+
+This function gets the current value of the interval timer specified by
+<VAR>which</VAR> into structure <VAR>value</VAR>.  Variable <VAR>which</VAR> can have
+the value of <CODE>ITIMER_REAL</CODE> or <CODE>ITIMER_PROF</CODE>.
+See section <A HREF="libc_702.html">setitimer</A>, for more details about timers.
+</P><P>
+
+Upon return, the <CODE>it_value</CODE> member of <VAR>value</VAR> will hold the
+amount of time left until timer expiration, or zero if the timer has
+expired or was stopped by a previous call to <CODE>setitimer</CODE>.  The
+<CODE>it_interval</CODE> member will hold the interval between two successive
+alarms as set by the last call to <CODE>setitimer</CODE> (but note that
+interval values less than the system clock granularity are rounded up to
+that granularity).  The value returned in <CODE>it_interval</CODE> member is
+<EM>not</EM> set to zero when the timer is stopped, it always retains the
+interval that was last in use.
+</P><P>
+
+<A NAME="SEC2007"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC2007::-->
+<P>
+
+Returns 0 on success, -1 on failure (and sets <CODE>errno</CODE>).
+</P><P>
+
+<A NAME="SEC2008"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC2008::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="getkey"></A>
+<!--#perl sub="trailer" -->

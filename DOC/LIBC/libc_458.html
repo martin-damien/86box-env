@@ -1,0 +1,74 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_458.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_457.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_459.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _go32_was_ctrl_break_hit </H2>
+<!--docid::SEC2325::-->
+<A NAME="SEC2326"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC2326::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;go32.h&#62;
+
+unsigned _go32_was_ctrl_break_hit(void);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2327"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC2327::-->
+<P>
+
+This function returns the number of times that <KBD>Ctrl-Break</KBD> was hit
+since the last call to this function or <CODE>_go32_want_ctrl_break</CODE>
+(see section <A HREF="libc_457.html">_go32_want_ctrl_break</A>). 
+</P><P>
+
+<A NAME="SEC2328"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC2328::-->
+<P>
+
+Zero if <KBD>Ctrl-Break</KBD> hasn't been hit, nonzero to indicate how many
+times if it has been hit. 
+</P><P>
+
+Note that <CODE>_go32_want_ctrl_break</CODE> is automatically called to
+request these events, so you don't have to set up for this call. 
+</P><P>
+
+<A NAME="SEC2329"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC2329::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2330"></A>
+<H3> Example                                                                                                                                                                                                                   </H3>
+<!--docid::SEC2330::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>while (!_go32_was_ctrl_break_hit())
+  do_something();
+</pre></td></tr></table></P><P>
+
+<A NAME="gotoxy"></A>
+<!--#perl sub="trailer" -->

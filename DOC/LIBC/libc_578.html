@@ -1,0 +1,87 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_578.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_577.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_579.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> moncontrol </H2>
+<!--docid::SEC2961::-->
+<A NAME="SEC2962"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC2962::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;sys/gmon.h&#62;
+
+int moncontrol (int mode);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2963"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC2963::-->
+<P>
+
+This function allows to control collection of profiling information
+during the program run.  Profiling begins when a program linked with the
+<SAMP>`-pg'</SAMP> option starts, or when <CODE>monstartup</CODE> is called
+(see section <A HREF="libc_582.html">monstartup</A>).  To stop the collection of histogram ticks and
+function call counts, call <CODE>moncontrol</CODE> with a zero argument
+<VAR>mode</VAR>; this stops the timer used to sample the program counter
+(<CODE>EIP</CODE>) values and disables the code which counts how many times
+each function compiled with <SAMP>`-pg'</SAMP> was called.  To resume collection
+of profile data, call <CODE>moncontrol</CODE> with a non-zero argument.
+</P><P>
+
+Note that the profiling output is always written to the file
+<TT>`gmon.out'</TT> at program exit time, regardless of whether profiling is
+on or off.
+</P><P>
+
+<A NAME="SEC2964"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC2964::-->
+<P>
+
+<CODE>moncontrol</CODE> returns the previous state of profiling: zero if it
+was turned off, non-zero if it was on.
+</P><P>
+
+<A NAME="SEC2965"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC2965::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2966"></A>
+<H3> Example                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC2966::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre> extern void my_func();
+ extern void my_func_end();
+ /* Profile only one function.  */
+ monstartup((unsigned long)my_func, (unsigned long)my_func_end);
+ ...
+ /* Stop profiling.  */
+ moncontrol(0);
+ ...
+ /* Resume profiling.  */
+ moncontrol(1);
+</pre></td></tr></table><A NAME="_mono_clear"></A>
+<!--#perl sub="trailer" -->

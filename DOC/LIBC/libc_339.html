@@ -1,0 +1,61 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_339.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_338.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_340.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> fpathconf </H2>
+<!--docid::SEC1656::-->
+<A NAME="SEC1657"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC1657::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;unistd.h&#62;
+
+long fpathconf(int fd, int name);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1658"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC1658::-->
+<P>
+
+Returns configuration information on the filesystem that the open file
+resides on.  See section <A HREF="libc_612.html">pathconf</A>.  If the filesystem cannot be determined
+from the file handle <VAR>fd</VAR> (e.g., for character devices),
+<CODE>fpathconf</CODE> will return the info for the current drive.
+</P><P>
+
+<A NAME="SEC1659"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC1659::-->
+<P>
+
+The configuration value; for details, see <A HREF="libc_612.html">pathconf</A>.
+</P><P>
+
+<A NAME="SEC1660"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC1660::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="fpclassify"></A>
+<!--#perl sub="trailer" -->

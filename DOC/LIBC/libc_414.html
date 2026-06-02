@@ -1,0 +1,59 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_414.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_413.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_415.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> getpwuid </H2>
+<!--docid::SEC2076::-->
+<A NAME="SEC2077"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC2077::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;pwd.h&#62;
+
+struct passwd *getpwuid(uid_t uid);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2078"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC2078::-->
+<P>
+
+This function gets the password file entry matching <VAR>uid</VAR>.  See
+<A HREF="libc_412.html">getpwent</A>, for the description of <CODE>struct passwd</CODE>.
+</P><P>
+
+<A NAME="SEC2079"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC2079::-->
+<P>
+
+The matching record, or <CODE>NULL</CODE> if none match.
+</P><P>
+
+<A NAME="SEC2080"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC2080::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="getrlimit"></A>
+<!--#perl sub="trailer" -->

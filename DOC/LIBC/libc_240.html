@@ -1,0 +1,68 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_240.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_239.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_241.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __dpmi_get_state_of_debug_watchpoint </H2>
+<!--docid::SEC1135::-->
+<A NAME="SEC1136"></A>
+<H3> Syntax                                                                                                                                                                                                            </H3>
+<!--docid::SEC1136::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dpmi.h&#62;
+
+int __dpmi_get_state_of_debug_watchpoint(unsigned long _handle,
+                                         int *_status);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1137"></A>
+<H3> Description                                                                                                                                                                                                         </H3>
+<!--docid::SEC1137::-->
+<P>
+
+Please refer to the DPMI Specification (see section <A HREF="libc_200.html">DPMI Specification</A>)
+for details on DPMI function call operation.  Also see
+the DPMI Overview (see section <A HREF="libc_199.html">DPMI Overview</A>) for general information.
+</P><P>
+
+DPMI function AX = 0x0b02
+</P><P>
+
+Gets the state of the watchpoint.  Pass handle, fills in status (0=not
+encountered, 1=encountered).
+</P><P>
+
+<A NAME="SEC1138"></A>
+<H3> Return Value                                                                                                                                                                                      </H3>
+<!--docid::SEC1138::-->
+<P>
+
+-1 on error, else zero.
+</P><P>
+
+<A NAME="SEC1139"></A>
+<H3> Portability                                                                                                                                                                                                           </H3>
+<!--docid::SEC1139::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="__dpmi_get_state_save_restore_addr"></A>
+<!--#perl sub="trailer" -->

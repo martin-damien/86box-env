@@ -1,0 +1,78 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_156.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_155.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_157.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> dlopen </H2>
+<!--docid::SEC688::-->
+<A NAME="SEC689"></A>
+<H3> Syntax                                                                                                                          </H3>
+<!--docid::SEC689::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dlfcn.h&#62;
+
+void *dlopen (const char *filename, int mode);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC690"></A>
+<H3> Description                                                                                                                       </H3>
+<!--docid::SEC690::-->
+<P>
+
+This function loads a dynamic executable image, whose file name is
+pointed to by <VAR>filename</VAR>, into memory and returns a handle 
+associated with the image for use with the <CODE>dlsym</CODE> (see section <A HREF="libc_158.html">dlsym</A>)
+and <CODE>dlclose</CODE> (see section <A HREF="libc_152.html">dlclose</A>) functions.  
+</P><P>
+
+<A NAME="IDX1"></A>
+</P><P>
+
+If <VAR>filename</VAR> contains a path it is used, else it searches the path
+specified by the environment variable <CODE>LD_LIBRARY_PATH</CODE>.  The typical
+extension used is <TT>`.DXE'</TT>, and these dynamic loadable images are created 
+using <CODE>dxe3gen</CODE> (@xref{dxe3gen, , dxe3gen, utils}).
+</P><P>
+
+The <VAR>mode</VAR> field is a combination of <CODE>RTLD_xxx</CODE> flags, of which
+only <CODE>RTLD_GLOBAL</CODE> works (others are defined in <TT>`dlfcn.h'</TT> for
+Unix compatibility).  The <CODE>RDLD_GLOBAL</CODE> flag means all symbols in 
+this module are made public and subsequently loaded modules
+with unresolved symbols will `see' them and will try to find the unresolved
+references through them.
+</P><P>
+
+<A NAME="SEC691"></A>
+<H3> Return Value                                                                                                     </H3>
+<!--docid::SEC691::-->
+<P>
+
+<CODE>NULL</CODE> on failure, handle for the loaded image on success.
+</P><P>
+
+<A NAME="SEC692"></A>
+<H3> Portability                                                                                                                         </H3>
+<!--docid::SEC692::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.1-2001; not 1003.2-1992
+</TR></TABLE>
+<P>
+
+<A NAME="dlregsym"></A>
+<!--#perl sub="trailer" -->

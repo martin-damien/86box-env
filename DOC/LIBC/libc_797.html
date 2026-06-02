@@ -1,0 +1,91 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_797.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_796.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_798.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> syms_val2name </H2>
+<!--docid::SEC4175::-->
+<P>
+
+<A NAME="SEC4176"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC4176::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;debug/syms.h&#62;
+
+char *syms_val2name (unsigned long addr, unsigned long *offset);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC4177"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC4177::-->
+<P>
+
+This function takes an address <VAR>addr</VAR> and returns the name of the
+closest symbol whose address is less that <VAR>addr</VAR>.  If <VAR>offset</VAR>
+is not a <CODE>NULL</CODE> pointer, the offset of <VAR>addr</VAR> from the symbol's
+address is stored in the variable pointed to by <VAR>offset</VAR>.
+</P><P>
+
+You must call <CODE>syms_init</CODE> (see section <A HREF="libc_791.html">syms_init</A>) before calling any of
+the other <CODE>syms_*</CODE> functions for the first time.
+</P><P>
+
+This function is meant to be used to convert numerical addresses into
+function names and offsets into their code, like what <CODE>symify</CODE> does
+with the call frame traceback.
+</P><P>
+
+The function ignores several dummy symbols, like <SAMP>`_end'</SAMP> and
+<SAMP>`_etext'</SAMP>.
+</P><P>
+
+<A NAME="SEC4178"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC4178::-->
+<P>
+
+The name of the found symbol, or the printed hexadecimal representation
+of <VAR>addr</VAR>, if no symbol was found near <VAR>addr</VAR>.  The return value
+is a pointer to a static buffer, so don't overwrite it and don't pass it
+to <CODE>free</CODE>!
+</P><P>
+
+<A NAME="SEC4179"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC4179::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC4180"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC4180::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>  unsigned long offs;
+  char *symbol_name;
+  syms_init ("foo.exe");
+  symbol_name = syms_val2name (0x1c12, &#38;offs);
+  printf ("The address %x is at %s%+ld\n", 0x1c12, symbol_name, offs);
+</pre></td></tr></table></P><P>
+
+<A NAME="sync"></A>
+<!--#perl sub="trailer" -->

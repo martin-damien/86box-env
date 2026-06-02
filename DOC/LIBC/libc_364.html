@@ -1,0 +1,83 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_364.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_363.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_365.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> fstatvfs </H2>
+<!--docid::SEC1794::-->
+<A NAME="SEC1795"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC1795::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;sys/types.h&#62;
+#include &#60;sys/statvfs.h&#62;
+
+int fstatvfs (int fd, struct statvfs *sbuf);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1796"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC1796::-->
+<P>
+
+This function returns information about the "filesystem" (FS)
+containing the file referred to by the file descriptor <VAR>fd</VAR>
+and stores it in <VAR>sbuf</VAR>, which has the structure below:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct statvfs {
+  unsigned long f_bsize;   /* FS block size */
+  unsigned long f_frsize;  /* fundamental block size */
+  fsblkcnt_t    f_blocks;  /* # of blocks on filesystem */
+  fsblkcnt_t    f_bfree;   /* # of free blocks on FS */
+  fsblkcnt_t    f_bavail;  /* # of free blocks on FS for
+                            * unprivileged users */
+  fsfilcnt_t    f_files;   /* # of file serial numbers */
+  fsfilcnt_t    f_ffree;   /* # of free file serial numbers */
+  fsfilcnt_t    f_favail;  /* # of free file serial numbers
+                            * for unprivileged users */
+  unsigned long f_fsid;    /* FS identifier */
+  unsigned long f_flag;    /* FS flags: bitwise OR of ST_NOSUID,
+                            * ST_RDONLY */
+  unsigned long f_namemax; /* Maximum file name length on FS */
+};
+</pre></td></tr></table></P><P>
+
+Note that if INT 21h is hooked by a TSR, the total size is limited
+to approximately 2GB (see section <A HREF="libc_747.html">statvfs</A>).
+</P><P>
+
+<A NAME="SEC1797"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC1797::-->
+<P>
+
+Zero on success, nonzero on failure (and <CODE>errno</CODE> set).
+</P><P>
+
+<A NAME="SEC1798"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC1798::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="fsync"></A>
+<!--#perl sub="trailer" -->

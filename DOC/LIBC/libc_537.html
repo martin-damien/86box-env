@@ -1,0 +1,209 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_537.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_536.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_538.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> localeconv </H2>
+<!--docid::SEC2732::-->
+<A NAME="SEC2733"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC2733::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;locale.h&#62;
+
+struct lconv *localeconv(void);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2734"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC2734::-->
+<P>
+
+This function returns a pointer to a static structure that contains
+information about the current locale.  The structure contains these
+fields:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>char *currency_symbol</CODE>
+<DD><P>
+
+A string that should be used when printing local currency.
+</P><P>
+
+<DT><CODE>char *decimal_point</CODE>
+<DD><P>
+
+A string that is used to separate the integer and fractional portions
+of real numbers in <CODE>printf</CODE>.  Currently, only the first character
+is significant.
+</P><P>
+
+<DT><CODE>char *grouping</CODE>
+<DD><P>
+
+An array of numbers indicating the size of groupings for non-monetary
+values to the left of the decimal point.  The first number is the size
+of the grouping just before the decimal point.  A number of zero means
+to repeat the previous number indefinitely.  A number of <CODE>CHAR_MAX</CODE>
+means to group the remainder of the digits together.
+</P><P>
+
+<DT><CODE>char *int_curr_symbol</CODE>
+<DD><P>
+
+A string that should be used when formatting monetary values for local
+currency when the result will be used internationally.
+</P><P>
+
+<DT><CODE>char *mon_decimal_point</CODE>
+<DD><P>
+
+A string that separates the interger and fractional parts of monetary
+values.
+</P><P>
+
+<DT><CODE>char *mon_grouping</CODE>
+<DD><P>
+
+Same as grouping, but for monetary values.
+</P><P>
+
+<DT><CODE>char *negative_sign</CODE>
+<DD><P>
+
+A string that is used to represent negative monetary values.
+</P><P>
+
+<DT><CODE>char *positive_sign</CODE>
+<DD><P>
+
+A string that is used to represent positive monetary values.
+</P><P>
+
+<DT><CODE>char *thousands_sep</CODE>
+<DD><P>
+
+The grouping separator for non-monetary values.
+</P><P>
+
+<DT><CODE>char frac_digits</CODE>
+<DD><P>
+
+The number of digits to the right of the decimal point for monetary
+values.
+</P><P>
+
+<DT><CODE>char int_frac_digits</CODE>
+<DD><P>
+
+Like frac_digits, but when formatting for international use.
+</P><P>
+
+<DT><CODE>char n_cs_precedes</CODE>
+<DD><P>
+
+If nonzero, the currency string should precede the monetary value if
+the monetary value is negative.
+</P><P>
+
+<DT><CODE>char n_sep_by_space</CODE>
+<DD><P>
+
+If nonzero, the currency string and the monetary value should be
+separated by a space if the monetary value is negative.
+</P><P>
+
+<DT><CODE>char n_sign_posn</CODE>
+<DD><P>
+
+Determines the placement of the negative indication string if the
+monetary value is negative.
+</P><P>
+
+<DL COMPACT>
+<DT>0
+<DD>($value), (value$)
+<DT>1
+<DD>-$value, -value$
+<DT>2
+<DD>$value-, value$-
+<DT>3
+<DD>-$value, value-$
+<DT>4
+<DD>$-value, value$-
+</DL>
+<P>
+
+<DT><CODE>char p_cs_precedes</CODE>
+<DD><DT><CODE>char p_sep_by_space</CODE>
+<DD><DT><CODE>char p_sign_posn</CODE>
+<DD><P>
+
+These are the same as n_*, but for when the monetary value is
+positive.
+</P><P>
+
+</DL>
+<P>
+
+Note that any numeric field may have a value of <CODE>CHAR_MAX</CODE>, which
+indicates that no information is available.
+</P><P>
+
+<A NAME="SEC2735"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC2735::-->
+<P>
+
+A pointer to the <CODE>struct lconv</CODE> structure.
+</P><P>
+
+<A NAME="SEC2736"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC2736::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C89; C99
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2737"></A>
+<H3> Example                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC2737::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct lconv *l = localeconv;
+printf("%s%d\n", l-&#62;negative_sign, value);
+</pre></td></tr></table></P><P>
+
+<A NAME="localtime"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_536.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_538.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

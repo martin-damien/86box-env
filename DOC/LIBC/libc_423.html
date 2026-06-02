@@ -1,0 +1,74 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_423.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_422.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_424.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> getw </H2>
+<!--docid::SEC2126::-->
+<A NAME="SEC2127"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC2127::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdio.h&#62;
+
+int getw(FILE *file);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2128"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC2128::-->
+<P>
+
+Reads a single 32-bit binary word in native format from <VAR>file</VAR>.
+This function is provided for compatibility with other 32-bit
+environments, so it reads a 32-bit <CODE>int</CODE>, not a 16-bit
+<CODE>short</CODE>, like some 16-bit DOS compilers do.
+</P><P>
+
+See section <A HREF="libc_633.html">putw</A>.
+</P><P>
+
+<A NAME="SEC2129"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC2129::-->
+<P>
+
+The value read, or <CODE>EOF</CODE> for end-of-file or error.  Since
+<CODE>EOF</CODE> is a valid integer, you should use <CODE>feof</CODE> or
+<CODE>ferror</CODE> to detect this situation. 
+</P><P>
+
+<A NAME="SEC2130"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC2130::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2131"></A>
+<H3> Example                                                                                                                                                                                        </H3>
+<!--docid::SEC2131::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>int i = getw(stdin);
+</pre></td></tr></table></P><P>
+
+<A NAME="getwd"></A>
+<!--#perl sub="trailer" -->

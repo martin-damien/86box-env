@@ -1,0 +1,70 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_342.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_341.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_343.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __fpclassifyf </H2>
+<!--docid::SEC1673::-->
+<A NAME="SEC1674"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC1674::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+
+int __fpclassifyf(float);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1675"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC1675::-->
+<P>
+
+Returns the kind of the floating point value supplied. You should use
+the type generic macro <CODE>fpclassify</CODE> (see section <A HREF="libc_340.html">fpclassify</A>) instead
+of this function.
+</P><P>
+
+<A NAME="SEC1676"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC1676::-->
+<P>
+
+<CODE>FP_INFINITE</CODE>, <CODE>FP_NAN</CODE>, <CODE>FP_NORMAL</CODE>,
+<CODE>FP_SUBNORMAL</CODE> or <CODE>FP_ZERO</CODE>.
+</P><P>
+
+<A NAME="SEC1677"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC1677::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C99; not C89
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1678"></A>
+<H3> Example                                                                                                                                         </H3>
+<!--docid::SEC1678::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>if( __fpclassifyf(0.0F) != FP_ZERO )
+{
+  printf("Something is wrong with the implementation!\n");
+}
+
+</pre></td></tr></table></P><P>
+
+<A NAME="__fpclassifyld"></A>
+<!--#perl sub="trailer" -->

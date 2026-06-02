@@ -1,0 +1,95 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_536.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_535.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_537.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> load_npx </H2>
+<!--docid::SEC2727::-->
+<A NAME="SEC2728"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC2728::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;debug/dbgcom.h&#62;
+
+extern NPX npx;
+void load_npx (void);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2729"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC2729::-->
+<P>
+
+This function restores the state of the x87 numeric processor from the
+data saved in the external variable <CODE>npx</CODE>.  This variable is a
+structure defined as follows in the header <TT>`debug/dbgcom.h'</TT>:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>typedef struct {
+  unsigned short sig0;
+  unsigned short sig1;
+  unsigned short sig2;
+  unsigned short sig3;
+  unsigned short exponent:15;
+  unsigned short sign:1;
+} NPXREG;
+
+typedef struct {
+  unsigned long control;
+  unsigned long status;
+  unsigned long tag;
+  unsigned long eip;
+  unsigned long cs;
+  unsigned long dataptr;
+  unsigned long datasel;
+  NPXREG reg[8];
+  long double st[8];
+  char st_valid[8];
+  long double mmx[8];
+  char in_mmx_mode;
+  char top;
+} NPX;
+</pre></td></tr></table></P><P>
+
+<CODE>load_npx</CODE> should be called immediately after <CODE>run_child</CODE>
+(see section <A HREF="libc_667.html">run_child</A>) is called to begin or resume the debugged program,
+and provided that a call to <CODE>save_npx</CODE> was issued before
+<CODE>run_child</CODE> was called.  See section <A HREF="libc_668.html">save_npx</A>.
+</P><P>
+
+<A NAME="SEC2730"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC2730::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2731"></A>
+<H3> Example                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC2731::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre> save_npx ();
+ run_child ();
+ load_npx ();
+</pre></td></tr></table></P><P>
+
+<A NAME="localeconv"></A>
+<!--#perl sub="trailer" -->

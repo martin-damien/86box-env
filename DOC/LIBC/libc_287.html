@@ -1,0 +1,100 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_287.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_286.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_288.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> ecvtbuf </H2>
+<!--docid::SEC1373::-->
+<A NAME="SEC1374"></A>
+<H3> Syntax                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC1374::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdlib.h&#62;
+
+char * ecvtbuf (double value, int ndigits, int *decpt, int *sign,
+                char *buf)
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1375"></A>
+<H3> Description                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC1375::-->
+<P>
+
+This function converts its argument <VAR>value</VAR> into a null-terminated
+string of <VAR>ndigits</VAR> digits in <VAR>buf</VAR>.  <VAR>buf</VAR> should have
+enough space to hold at least <CODE><VAR>ndigits</VAR> + 1</CODE> characters.
+</P><P>
+
+The produced string in <VAR>buf</VAR> does <EM>not</EM> include the decimal
+point.  Instead, the position of the decimal point relative to the
+beginning of <VAR>buf</VAR> is stored in an integer variable whose address is
+passed in <VAR>decpt</VAR>.  Thus, if <VAR>buf</VAR> is returned as "1234" and
+<VAR>*decpt</VAR> as 1, this corresponds to a value of 1.234; if <VAR>*decpt</VAR>
+is -1, this corresponds to a value of 0.01234, etc.
+</P><P>
+
+The sign is also not included in <VAR>buf</VAR>'s value.  If <VAR>value</VAR> is
+negative, <CODE>ecvtbuf</CODE> puts a nonzero value into the variable whose
+address is passed in <VAR>sign</VAR>; otherwise it stores zero in
+<VAR>*sign</VAR>.
+</P><P>
+
+The least-significant digit in <VAR>buf</VAR> is rounded.
+</P><P>
+
+<CODE>ecvtbuf</CODE> produces the string "NaN" if <VAR>value</VAR> is a NaN, and
+"Inf" or "Infinity" if <VAR>value</VAR> is an infinity (the longer form
+is produced when <VAR>ndigits</VAR> is 8 or more).
+</P><P>
+
+<A NAME="SEC1376"></A>
+<H3> Return Value                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC1376::-->
+<P>
+
+A pointer to <VAR>buf</VAR>.
+</P><P>
+
+<A NAME="SEC1377"></A>
+<H3> Portability                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC1377::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1378"></A>
+<H3> Example                                                                                                        </H3>
+<!--docid::SEC1378::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>  #include &#60;stdlib.h&#62;
+  #include &#60;stdio.h&#62;
+  #include &#60;math.h&#62;
+
+  char vbuf[20];
+  int esign, edecpt;
+
+  ecvtbuf (M_PI, 5, &#38;edecpt, &#38;esign, buf)
+  /* This will print " 31416".  */
+  printf ("%c%s", esign ? '-' : ' ', buf);
+</pre></td></tr></table></P><P>
+
+<A NAME="edi_init"></A>
+<!--#perl sub="trailer" -->

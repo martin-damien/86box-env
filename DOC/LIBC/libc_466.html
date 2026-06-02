@@ -1,0 +1,72 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_466.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_465.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_467.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> hypot </H2>
+<!--docid::SEC2367::-->
+<A NAME="SEC2368"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC2368::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+
+double hypot(double x, double y);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2369"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC2369::-->
+<P>
+
+This function computes <CODE>sqrt(<VAR>x</VAR>*<VAR>x</VAR> + <VAR>y</VAR>*<VAR>y</VAR>)</CODE>,
+the length of a hypotenuse of a right triangle whose shorter sides are
+<VAR>x</VAR> and <VAR>y</VAR>.  In other words, it computes the Euclidean distance
+between the points <CODE>(0,0)</CODE> and <CODE>(<VAR>x</VAR>,<VAR>y</VAR>)</CODE>.  Since the
+computation is done in extended precision, there is no danger of
+overflow or underflow when squaring the arguments, whereas direct
+computation of <CODE>sqrt(<VAR>x</VAR>*<VAR>x</VAR> + <VAR>y</VAR>*<VAR>y</VAR>)</CODE> could
+cause overflow or underflow for extreme (very large or very small)
+values of <VAR>x</VAR> and <VAR>y</VAR>.
+</P><P>
+
+<A NAME="SEC2370"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC2370::-->
+<P>
+
+The value of <CODE>sqrt(<VAR>x</VAR>*<VAR>x</VAR> + <VAR>y</VAR>*<VAR>y</VAR>)</CODE>.  If both
+arguments are finite, but the result is so large that it would overflow
+a <CODE>double</CODE>, the return value is <CODE>Inf</CODE>, and <CODE>errno</CODE> is set
+to <CODE>ERANGE</CODE>.  If one of the arguments is <CODE>Inf</CODE>, the return
+value is <CODE>Inf</CODE> and the value of <CODE>errno</CODE> is left unchanged.  If
+one of the arguments is <CODE>NaN</CODE>, the return value is <CODE>NaN</CODE> and
+<CODE>errno</CODE> is set to <CODE>EDOM</CODE>.
+</P><P>
+
+<A NAME="SEC2371"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC2371::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="imaxabs"></A>
+<!--#perl sub="trailer" -->

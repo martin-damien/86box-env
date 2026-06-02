@@ -1,0 +1,73 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_807.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_806.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_808.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> tcflush </H2>
+<!--docid::SEC4228::-->
+<A NAME="SEC4229"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC4229::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;termios.h&#62;
+
+int tcflush (int fd, int which);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC4230"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC4230::-->
+<P>
+
+This function clears the input and/or output queues on for the
+device/file open on handle <VAR>fd</VAR>.  The <VAR>which</VAR> argument can take
+these values:
+</P><P>
+
+<DL COMPACT>
+<DT><CODE>TCIFLUSH</CODE>
+<DD>the unprocessed characters in the input buffer are discarded
+<DT><CODE>TCOFLUSH</CODE>
+<DD>no effect (provided for compatibility)
+<DT><CODE>TCIOFLUSH</CODE>
+<DD>has the combined effect of <CODE>TCIFLUSH</CODE> and <CODE>TCOFLUSH</CODE>
+</DL>
+<P>
+
+Note that the termios emulation handles console only.
+</P><P>
+
+<A NAME="SEC4231"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC4231::-->
+<P>
+
+Zero on success, nonzero on failure.
+</P><P>
+
+<A NAME="SEC4232"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC4232::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="tcgetattr"></A>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,59 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_121.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_120.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_122.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __crt0_glob_function </H2>
+<!--docid::SEC511::-->
+<A NAME="SEC512"></A>
+<H3> Syntax                                                                                       </H3>
+<!--docid::SEC512::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;crt0.h&#62;
+
+char **__crt0_glob_function(char *_argument);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC513"></A>
+<H3> Description                                                                                      </H3>
+<!--docid::SEC513::-->
+<P>
+
+If the application wishes to provide a wildcard expansion function, it
+should define a <CODE>__crt0_glob_function</CODE> function.  It should return
+a list of the expanded values, or 0 if no expansion will occur.  The
+startup code will free the returned pointer if it is nonzero.
+</P><P>
+
+If no expander function is provided, wildcards will be expanded in the
+POSIX.1 style by the default <CODE>__crt0_glob_function</CODE> from the C
+library.  To disable expansion, provide a <CODE>__crt0_glob_function</CODE>
+that always returns 0.
+</P><P>
+
+<A NAME="SEC514"></A>
+<H3> Portability                                                                                      </H3>
+<!--docid::SEC514::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="__crt0_load_environment_file"></A>
+<!--#perl sub="trailer" -->

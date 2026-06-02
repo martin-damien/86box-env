@@ -1,0 +1,85 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_449.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_448.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_450.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _go32_dpmi_simulate_fcall_iret </H2>
+<!--docid::SEC2279::-->
+<A NAME="SEC2280"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC2280::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dpmi.h&#62;
+
+int _go32_dpmi_simulate_fcall_iret(_go32_dpmi_registers *regs);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2281"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC2281::-->
+<P>
+
+See section <A HREF="libc_199.html">DPMI Overview</A>.
+</P><P>
+
+This function simulates a real-mode far call to a function that returns
+with an <CODE>iret</CODE> instruction.  The registers are set up from
+<VAR>regs</VAR>, including <CODE>CS</CODE> and <CODE>IP</CODE>, which indicate the
+address of the call.  Any registers the function modifies are reflected
+in <VAR>regs</VAR> on return. 
+</P><P>
+
+If <CODE>SS</CODE> and <CODE>SP</CODE> are both zero, a small temporary stack is
+used when in real mode.  If not, they are used <EM>as is</EM>.  It's a good
+idea to use <CODE>memset</CODE> to initialize the register structure before
+using it.
+</P><P>
+
+<A NAME="SEC2282"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC2282::-->
+<P>
+
+Zero on success, nonzero on failure.
+</P><P>
+
+<A NAME="SEC2283"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC2283::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2284"></A>
+<H3> Example                                                                                                                                                                                                               </H3>
+<!--docid::SEC2284::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>_go32_dpmi_registers r;
+r.x.ax = 47;
+r.x.cs = some_segment;
+r.x.ip = some_offset;
+r.x.ss = r.x.sp = 0;
+_go32_dpmi_simulate_fcall_iret(&#38;r);
+printf("returns %d\n", r.x.ax);
+</pre></td></tr></table></P><P>
+
+<A NAME="_go32_dpmi_simulate_int"></A>
+<!--#perl sub="trailer" -->

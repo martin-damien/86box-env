@@ -1,0 +1,70 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_356.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_355.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_357.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __FSEXT_add_open_handler </H2>
+<!--docid::SEC1750::-->
+<A NAME="SEC1751"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC1751::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;sys/fsext.h&#62;
+
+int __FSEXT_add_open_handler(__FSEXT_Function *_function);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1752"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC1752::-->
+<P>
+
+This function is part of the <A HREF="libc_321.html">File System Extensions</A>.  It is used
+to add a handler for functions that do not get passed descriptors,
+such as <CODE>_open</CODE> and <CODE>_creat</CODE>.
+</P><P>
+
+<A NAME="SEC1753"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC1753::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1754"></A>
+<H3> Example                                                                                                                                                 </H3>
+<!--docid::SEC1754::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>static int
+_my_handler(__FSEXT_Fnumber n, int *rv, va_list args)
+{
+  . . .
+}
+
+int main()
+{
+  __FSEXT_add_open_handler(_my_handler);
+}
+
+</pre></td></tr></table></P><P>
+
+<A NAME="__FSEXT_alloc_fd"></A>
+<!--#perl sub="trailer" -->

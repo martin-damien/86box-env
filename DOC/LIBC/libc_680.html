@@ -1,0 +1,73 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_680.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_679.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_681.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> ScreenRetrieve </H2>
+<!--docid::SEC3516::-->
+<A NAME="SEC3517"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC3517::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;pc.h&#62;
+
+void  ScreenRetrieve(void *buf);
+
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3518"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC3518::-->
+<P>
+
+This function stores a replica of the current primary screen contents in
+the buffer pointed to by <VAR>buf</VAR>.  It assumes without checking that
+<VAR>buf</VAR> has enough storage to hold the data.  The required storage can
+be computed as <CODE>ScreenRows()*ScreenCols()*2</CODE> (see section <A HREF="libc_681.html">ScreenRows</A>,
+see section <A HREF="libc_674.html">ScreenCols</A>).
+</P><P>
+
+<A NAME="SEC3519"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC3519::-->
+<P>
+
+None.
+</P><P>
+
+<A NAME="SEC3520"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC3520::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3521"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC3521::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>unsigned *saved_screen = (unsigned *)alloca(ScreenRows()*ScreenCols()*2;
+
+ScreenRetrieve(saved_screen);
+</pre></td></tr></table></P><P>
+
+<A NAME="ScreenRows"></A>
+<!--#perl sub="trailer" -->

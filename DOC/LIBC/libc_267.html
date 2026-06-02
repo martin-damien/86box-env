@@ -1,0 +1,79 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_267.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_266.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_268.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __dpmi_set_page_attributes </H2>
+<!--docid::SEC1271::-->
+<A NAME="SEC1272"></A>
+<H3> Syntax                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC1272::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre>#include &#60;dpmi.h&#62;
+
+int __dpmi_set_page_attributes(__dpmi_meminfo *info, short *buffer);
+</FONT></pre></td></tr></table></P><P>
+
+<A NAME="SEC1273"></A>
+<H3> Description                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC1273::-->
+<P>
+
+Please refer to the DPMI Specification (see section <A HREF="libc_200.html">DPMI Specification</A>)
+for details on DPMI function call operation.  Also see
+the DPMI Overview (see section <A HREF="libc_199.html">DPMI Overview</A>) for general information.
+</P><P>
+
+DPMI function AX = 0x0507 (DPMI 1.0 only).  Supported by CWSDPMI, but
+not by Windows.
+</P><P>
+
+This function sets attributes of a number of pages.  Pass handle in
+<CODE><VAR>info</VAR>-&#62;handle</CODE>, offset within block in
+<CODE><VAR>info</VAR>-&#62;address</CODE>, and number of pages in
+<CODE><VAR>info</VAR>-&#62;count</CODE>.  <VAR>buffer</VAR> points to an array of 16-bit
+words which specify the new attributes.
+See section <A HREF="libc_231.html">__dpmi_get_page_attributes</A>, for the definition of the page
+attribute word.
+</P><P>
+
+The DJGPP startup code calls this function to uncommit the so-called
+<EM>null page</EM>, the first 4KB of the program's address space.  This
+causes <CODE>NULL</CODE> pointer dereferences, a frequent programmatic error,
+to trigger a Page Fault exception, rather than go unnoticed.
+</P><P>
+
+<A NAME="SEC1274"></A>
+<H3> Return Value                                                                                                                                                                                                                 </H3>
+<!--docid::SEC1274::-->
+<P>
+
+-1 on error, else zero.
+</P><P>
+
+<A NAME="SEC1275"></A>
+<H3> Portability                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC1275::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="__dpmi_set_processor_exception_handler_vector"></A>
+<!--#perl sub="trailer" -->

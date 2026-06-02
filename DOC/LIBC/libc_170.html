@@ -1,0 +1,71 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_170.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_169.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_171.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _dos_getdrive </H2>
+<!--docid::SEC766::-->
+<A NAME="SEC767"></A>
+<H3> Syntax                                                                                                                                        </H3>
+<!--docid::SEC767::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dos.h&#62;
+
+void _dos_getdrive(unsigned int *p_drive);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC768"></A>
+<H3> Description                                                                                                                                     </H3>
+<!--docid::SEC768::-->
+<P>
+
+This function determine the current default drive and writes this value
+into <VAR>p_drive</VAR> (1=A:, 2=B:, etc.).
+</P><P>
+
+See section <A HREF="libc_179.html">_dos_setdrive</A>.
+</P><P>
+
+<A NAME="SEC769"></A>
+<H3> Return Value                                                                                                                   </H3>
+<!--docid::SEC769::-->
+<P>
+
+None.
+</P><P>
+
+<A NAME="SEC770"></A>
+<H3> Portability                                                                                                                                       </H3>
+<!--docid::SEC770::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC771"></A>
+<H3> Example                                                                        </H3>
+<!--docid::SEC771::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>unsigned int drive;
+
+_dos_getdrive(&#38;drive);
+printf("The current drive is %c:.\n", 'A' - 1 + drive);
+</pre></td></tr></table><A NAME="_dos_getfileattr"></A>
+<!--#perl sub="trailer" -->

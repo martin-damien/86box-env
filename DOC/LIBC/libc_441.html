@@ -1,0 +1,77 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_441.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_440.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_442.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _go32_dpmi_lock_code </H2>
+<!--docid::SEC2233::-->
+<A NAME="SEC2234"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC2234::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dpmi.h&#62;
+
+int _go32_dpmi_lock_code( void *lockaddr, unsigned long locksize);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2235"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC2235::-->
+<P>
+
+Locks the given region of code, starting at <VAR>lockaddr</VAR> for
+<VAR>locksize</VAR> bytes.  <VAR>lockaddr</VAR> is a regular pointer in
+your program, such as the address of a function.
+</P><P>
+
+<A NAME="SEC2236"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC2236::-->
+<P>
+
+0 if success, -1 if failure.
+</P><P>
+
+<A NAME="SEC2237"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC2237::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2238"></A>
+<H3> Example                                                                                                                                                                                                         </H3>
+<!--docid::SEC2238::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>
+void my_handler()
+{
+}
+
+void lock_my_handler()
+{
+  _go32_dpmi_lock_code(my_handler,
+                       (unsigned long)(lock_my_handler - my_handler));
+}
+</pre></td></tr></table></P><P>
+
+<A NAME="_go32_dpmi_lock_data"></A>
+<!--#perl sub="trailer" -->

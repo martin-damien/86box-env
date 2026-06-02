@@ -1,0 +1,87 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_662.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_661.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_663.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> rename </H2>
+<!--docid::SEC3412::-->
+<A NAME="SEC3413"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC3413::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdio.h&#62;
+
+int rename(const char *oldname, const char *newname);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3414"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC3414::-->
+<P>
+
+This function renames an existing file or directory <VAR>oldname</VAR> to
+<VAR>newname</VAR>.  If <VAR>newname</VAR> exists, then it is first removed.  If
+<VAR>newname</VAR> is a directory, it must be empty (or else <CODE>errno</CODE> will
+be set to <CODE>ENOTEMPTY</CODE>), and must not include <VAR>oldname</VAR> in its
+path prefix (otherwise, <CODE>errno</CODE> will be set to <CODE>EINVAL</CODE>).  If
+<VAR>newname</VAR> exists, both <VAR>oldname</VAR> and <VAR>newname</VAR> must be of the
+same type (both directories or both regular files) (or else <CODE>errno</CODE>
+will be set to <CODE>ENOTDIR</CODE> or <CODE>EISDIR</CODE>), and must reside on the
+same logical device (otherwise, <CODE>errno</CODE> will be set to <CODE>EXDEV</CODE>). 
+Wildcards are not allowed in either <VAR>oldname</VAR> or <VAR>newname</VAR>.  DOS
+won't allow renaming a current directory even on a non-default drive (you
+will get the <CODE>EBUSY</CODE> or <CODE>EINVAL</CODE> in <CODE>errno</CODE>).
+<CODE>ENAMETOOLONG</CODE> will be returned for pathnames which are longer than
+the limit imposed by DOS.  If <VAR>oldname</VAR> doesn't exist, <CODE>errno</CODE>
+will be set to <CODE>ENOENT</CODE>.  For most of the other calamities, DOS will
+usually set <CODE>errno</CODE> to <CODE>EACCES</CODE>.
+</P><P>
+
+If anything goes wrong during the operation of <CODE>rename()</CODE>, the
+function tries very hard to leave the things as ther were before it was
+invoked, but it might not always succeed.
+</P><P>
+
+<A NAME="SEC3415"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC3415::-->
+<P>
+
+Zero on success, nonzero on failure.
+</P><P>
+
+<A NAME="SEC3416"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC3416::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C89; C99
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3417"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC3417::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>rename("c:/mydir/some.doc", "c:/yourdir/some.sav");
+rename("c:/path1/mydir", "c:/path2");
+</pre></td></tr></table></P><P>
+
+<A NAME="rewind"></A>
+<!--#perl sub="trailer" -->

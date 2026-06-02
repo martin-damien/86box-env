@@ -1,0 +1,115 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_380.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_379.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_381.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _get_volume_info </H2>
+<!--docid::SEC1888::-->
+<A NAME="SEC1889"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC1889::-->
+ 
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;fcntl.h&#62;
+ 
+unsigned _get_volume_info (const char *path, 
+                           int *max_file_len, int *max_path_len, 
+                           char *fsystype);
+</pre></td></tr></table> 
+<A NAME="SEC1890"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC1890::-->
+<P>
+
+This function returns filesystem information about the volume where
+<VAR>path</VAR> resides.  Only the root directory name part is actually used;
+if <VAR>path</VAR> does not specify the drive explicitly, or is a <CODE>NULL</CODE>
+pointer, the current drive is used.  Upon return, the variable pointed
+to by <VAR>max_file_len</VAR> contains the maximum length of a filename
+(including the terminating zero), the variable pointed to by
+<VAR>max_path_len</VAR> contains the maximum length of a pathname (including
+the terminating zero), and a string that identifies the filesystem type
+(e.g., "FAT", "NTFS" etc.) is placed into the buffer pointed to by
+<VAR>fsystype</VAR>, which should be long enough (32 bytes are usually
+enough).  If any of these pointers is a <CODE>NULL</CODE> pointer, it will be
+ignored.  The function returns various flags that describe features
+supported by the given filesystem as a bit-mapped number.  The following
+bits are currently defined:
+</P><P>
+
+<DL COMPACT>
+<DT><CODE>_FILESYS_CASE_SENSITIVE</CODE>
+<DD>Specifies that file searches are case-sensitive.
+<P>
+
+<DT><CODE>_FILESYS_CASE_PRESERVED</CODE>
+<DD>Filename letter-case is preserved in directory entries.
+<P>
+
+<DT><CODE>_FILESYS_UNICODE</CODE>
+<DD>Filesystem uses Unicode characters in file and directory names.
+<P>
+
+<DT><CODE>_FILESYS_LFN_SUPPORTED</CODE>
+<DD>Filesystem supports the <EM>Long File Name</EM> (LFN) API.
+<P>
+
+<DT><CODE>_FILESYS_VOL_COMPRESSED</CODE>
+<DD>This volume is compressed.
+<P>
+
+<DT><CODE>_FILESYS_UNKNOWN</CODE>
+<DD>The underlying system call failed.  This usually means that the drive
+letter is invalid, like when a floppy drive is empty or a drive with
+that letter doesn't exist.
+</DL>
+<P>
+
+<A NAME="SEC1891"></A>
+<H3> Return value  </H3>
+<!--docid::SEC1891::-->
+<P>
+
+A combination of the above bits if the LFN API is supported, or 0 (and
+<CODE>errno</CODE> set to <CODE>ENOSYS</CODE>) if the LFN API is not supported by
+the OS.  If the LFN API is supported, but the drive letter is invalid,
+the function returns <CODE>_FILESYS_UNKNOWN</CODE> and sets <CODE>errno</CODE> to
+either <CODE>ENODEV</CODE> or <CODE>ENXIO</CODE>.
+</P><P>
+
+<A NAME="SEC1892"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC1892::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="getc"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_379.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_381.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

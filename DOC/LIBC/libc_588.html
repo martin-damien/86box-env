@@ -1,0 +1,83 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_588.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_587.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_589.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> mprotect </H2>
+<!--docid::SEC3009::-->
+<A NAME="SEC3010"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC3010::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;sys/types.h&#62;
+#include &#60;sys/mman.h&#62;
+
+int mprotect(void *addr, size_t len, int prot);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3011"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC3011::-->
+<P>
+
+This function modifies the access protection of a memory region.  Protection
+occurs in 4Kbyte regions (pages) aligned on 4Kbyte boundaries.  All pages 
+in the region will be changed, so <VAR>addr</VAR> and <VAR>len</VAR> should be multiples 
+of 4096.
+</P><P>
+
+The protection <VAR>prot</VAR> for each page is specified with the values:
+  PROT_NONE  Region can not be touched (if or'ed is ignored).
+  PROT_READ  Region can be read (can be or'ed with PROT_WRITE).
+  PROT_WRITE Region can be written (implies read access).
+  
+This function is only supported on DPMI hosts which provide some V1.0 extensions
+on V0.9 memory blocks.
+</P><P>
+
+<A NAME="SEC3012"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC3012::-->
+<P>
+
+The function returns 0 if successful and the value -1 if all the pages 
+could not be set.  
+</P><P>
+
+<A NAME="SEC3013"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC3013::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3014"></A>
+<H3> Example                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC3014::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>mprotect(readonly_buffer,8192,PROT_READ);
+mprotect(guard_area,4096,PROT_NONE);
+mprotect(NULL,4096,PROT_WRITE); /* Let NULL pointers not generate
+                                 * exceptions */
+</pre></td></tr></table></P><P>
+
+<A NAME="_my_cs"></A>
+<!--#perl sub="trailer" -->

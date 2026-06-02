@@ -1,0 +1,62 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_478.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_477.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_479.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> inportw </H2>
+<!--docid::SEC2424::-->
+<A NAME="SEC2425"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC2425::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;pc.h&#62;
+
+unsigned short inportw(unsigned short _port);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2426"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC2426::-->
+<P>
+
+Read a single 16-bit I/O port.
+</P><P>
+
+This function is provided as an inline assembler macro, and will be
+optimized down to a single opcode when you optimize your program.
+</P><P>
+
+<A NAME="SEC2427"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC2427::-->
+<P>
+
+The value returned through the port.
+</P><P>
+
+<A NAME="SEC2428"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC2428::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="inpw"></A>
+<!--#perl sub="trailer" -->

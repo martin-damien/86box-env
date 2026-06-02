@@ -1,0 +1,63 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_47.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_46.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_48.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> asinh </H2>
+<!--docid::SEC99::-->
+<A NAME="SEC100"></A>
+<H3> Syntax             </H3>
+<!--docid::SEC100::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+
+double asinh(double x);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC101"></A>
+<H3> Description            </H3>
+<!--docid::SEC101::-->
+<P>
+
+This function returns the inverse hyperbolic sine of the argument
+<VAR>x</VAR>. 
+</P><P>
+
+<A NAME="SEC102"></A>
+<H3> Return Value            </H3>
+<!--docid::SEC102::-->
+<P>
+
+The inverse hyperbolic sine of <VAR>x</VAR>.  If the argument <VAR>x</VAR> is a
+<CODE>NaN</CODE>, the return value is <CODE>NaN</CODE> and <CODE>errno</CODE> is set to
+<CODE>EDOM</CODE>.  If <VAR>x</VAR> is a positive or negative <CODE>Inf</CODE>, the
+return value is equal to the value of <VAR>x</VAR>, and <CODE>errno</CODE> is left
+unchanged.
+</P><P>
+
+<A NAME="SEC103"></A>
+<H3> Portability             </H3>
+<!--docid::SEC103::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="assert"></A>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,93 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_554.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_553.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_555.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> malloc_verify </H2>
+<!--docid::SEC2825::-->
+<A NAME="SEC2826"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC2826::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdlib.h&#62;
+
+int malloc_verify(void);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2827"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC2827::-->
+<P>
+
+This function attempts to determine if the heap has been corrupted.  It
+scans all the blocks allocated by <CODE>malloc</CODE> and handed to the
+application, and also all the free blocks maintained by <CODE>malloc</CODE>
+and <CODE>free</CODE> in the internal free list.  Each block is checked for
+consistency of the hidden bookkeeping information recorded in it by
+<CODE>malloc</CODE> and <CODE>free</CODE>.  The blocks on the free list are
+additionally validated by chasing all the <CODE>next</CODE> pointers in the
+linked list and checking them against limits for valid pointers (between
+0x1000 and the data segment limit), and the alignment.  (Unaligned
+pointers are probably corrupted, since <CODE>malloc</CODE> always returns a
+properly aligned storage.)
+</P><P>
+
+What happens when a bad block is found depends on the current
+<EM>malloc diagnostics level</EM>: for example, the block can be reported,
+or the program may be aborted.  See section <A HREF="libc_553.html">malloc_debug</A>, for the details.
+</P><P>
+
+<A NAME="SEC2828"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC2828::-->
+<P>
+
+If the program isn't aborted during the function's run (this depends on
+the current diagnostics level), <CODE>malloc_verify</CODE> returns 1 if the
+heap passes all tests, or zero of some of the tests failed.
+</P><P>
+
+<A NAME="SEC2829"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC2829::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No (see note 1)
+</TR></TABLE>
+<P>
+
+Notes:
+</P><P>
+
+<OL>
+<LI>
+This function is available on many Unix systems.
+</OL>
+<P>
+
+<A NAME="SEC2830"></A>
+<H3> Example                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC2830::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre> if (malloc_verify() == 0)
+   printf ("Heap corruption detected!\n");
+</pre></td></tr></table></P><P>
+
+<A NAME="mallocmap"></A>
+<!--#perl sub="trailer" -->

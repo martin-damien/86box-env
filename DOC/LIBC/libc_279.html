@@ -1,0 +1,68 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_279.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_278.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_280.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __dpmi_yield </H2>
+<!--docid::SEC1331::-->
+<A NAME="SEC1332"></A>
+<H3> Syntax                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC1332::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dpmi.h&#62;
+
+void __dpmi_yield(void);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1333"></A>
+<H3> Description                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC1333::-->
+<P>
+
+<CODE>__dpmi_yield</CODE> calls function 1680h of the interrupt 2Fh, which
+tells the task manager in a multitasking environment that the calling
+program doesn't need the rest of its time slice.  The task manager will
+then preempt the calling program and switch to another task that is
+ready to run.
+</P><P>
+
+This function should be called in busy-wait loops, like when a program
+waits for user input via keyboard, after it finds the keyboard buffer
+empty, to enhance overall performance in a multitasking environment.
+</P><P>
+
+<A NAME="SEC1334"></A>
+<H3> Return Value                                                                                                                                                                                                                             </H3>
+<!--docid::SEC1334::-->
+<P>
+
+None.  If the call isn't supported by the environment, like when running
+on plain DOS, <CODE>errno</CODE> is set to <CODE>ENOSYS</CODE>.
+</P><P>
+
+<A NAME="SEC1335"></A>
+<H3> Portability                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC1335::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="DTTOIF"></A>
+<!--#perl sub="trailer" -->

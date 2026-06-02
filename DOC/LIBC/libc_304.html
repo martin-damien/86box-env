@@ -1,0 +1,116 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_304.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_303.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_305.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _far* </H2>
+<!--docid::SEC1463::-->
+<A NAME="SEC1464"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC1464::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;sys/farptr.h&#62;
+
+unsigned char _farpeekb(unsigned short selector, unsigned long offset);
+unsigned short _farpeekw(unsigned short selector, unsigned long offset);
+unsigned long _farpeekl(unsigned short selector, unsigned long offset);
+
+void _farpokeb(unsigned short sel, unsigned long off,
+               unsigned char val);
+void _farpokew(unsigned short sel, unsigned long off,
+               unsigned short val);
+void _farpokel(unsigned short sel, unsigned long off,
+               unsigned long val);
+
+void _farsetsel(unsigned short selector);
+unsigned short _fargetsel(void);
+
+void _farnspokeb(unsigned long offset, unsigned char value);
+void _farnspokew(unsigned long offset, unsigned short value);
+void _farnspokel(unsigned long offset, unsigned long value);
+
+unsigned char _farnspeekb(unsigned long offset);
+unsigned short _farnspeekw(unsigned long offset);
+unsigned long _farnspeekl(unsigned long offset);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1465"></A>
+<H3> Description                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC1465::-->
+<P>
+
+These functions provide the equivalent functionality of "far
+pointers" to peek or poke an absolute memory addresses, even though gcc
+doesn't understand the keyword "far".  They come in handy when you need
+to access memory-mapped devices (like VGA) or some address in lower memory
+returned by a real-mode service.
+These functions are provided as inline assembler functions, so when
+you optimize your program they reduce to only a few opcodes (only one
+more than a regular memory access), resulting in very optimal code.
+</P><P>
+
+The first two groups of functions take a <VAR>selector</VAR> and an <VAR>offset</VAR>.
+This selector is <EM>not</EM> a dos segment.  If you want to access dos
+memory, pass _go32_info_block.selector_for_linear_memory (or just
+_dos_ds, which is defined in the include file go32.h) as the selector,
+and seg*16+ofs as the offset.  For functions which
+poke the memory, you should also provide the <VAR>value</VAR> to put there.
+</P><P>
+
+The last two groups assume that you've used <CODE>_farsetsel</CODE> to
+specify the selector.  You should avoid making any function calls
+between <CODE>_farsetsel</CODE> and using these other functions, unless
+you're absolutely sure that they won't modify that selector.  This
+allows you to optimize loops by setting the selector once outside the
+loop, and using the shorter functions within the loop.
+You can use <CODE>_fargetsel</CODE> if you want to temporary change the
+selector with <CODE>_farsetsel</CODE> and restore it afterwards.
+</P><P>
+
+<A NAME="SEC1466"></A>
+<H3> Return Value                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC1466::-->
+<P>
+
+Functions which peek the address return the value at given address.
+<CODE>_fargetsel</CODE> returns the current selector.
+</P><P>
+
+<A NAME="SEC1467"></A>
+<H3> Portability                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC1467::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="fchdir"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_303.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_305.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

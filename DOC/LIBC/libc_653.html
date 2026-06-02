@@ -1,0 +1,92 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_653.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_652.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_654.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> redir_to_child </H2>
+<!--docid::SEC3360::-->
+<P>
+
+<A NAME="SEC3361"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC3361::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;debug/redir.h&#62;
+
+int redir_to_child (cmdline_t *cmd);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3362"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC3362::-->
+<P>
+
+For the rationale and general description of the debugger redirection
+issue, see <A HREF="libc_652.html">redir_debug_init</A>.
+</P><P>
+
+This function redirects all 3 standard streams so that they point to the
+files/devices where the child (a.k.a. debuggee) process connected
+them.  All three standard handles point to the console device by
+default, but this could be changed, either because the command line for
+the child requested redirection, like in <SAMP>`prog &#62; foo'</SAMP>, or because
+the child program itself redirected one of its standard handles
+e.g. with a call to <CODE>dup2</CODE>.
+</P><P>
+
+<CODE>redir_to_child</CODE> uses information stored in the <CODE>cmdline_t</CODE>
+variable pointed to by the <VAR>cmd</VAR> argument to redirect the standard
+streams as appropriate for the debuggee, while saving the original
+debugger's handles to be restored by <CODE>redir_to_debugger</CODE>.
+</P><P>
+
+<A NAME="SEC3363"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC3363::-->
+<P>
+
+The function returns zero in case of success, -1 in case of failure.
+Failure usually means the process has run out of available file
+handles.
+</P><P>
+
+<A NAME="SEC3364"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC3364::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3365"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC3365::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>  errno = 0;
+  if (redir_to_child (&#38;child_cmd) == -1)
+    {
+      redir_to_debugger (&#38;child_cmd);
+      error ("Cannot redirect standard handles for program: %s.",
+             strerror (errno));
+    }
+</pre></td></tr></table></P><P>
+
+<A NAME="redir_to_debugger"></A>
+<!--#perl sub="trailer" -->

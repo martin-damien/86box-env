@@ -1,0 +1,362 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_321.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_320.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_322.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> File System Extensions </H2>
+<!--docid::SEC1559::-->
+<P>
+
+<A NAME="SEC1560"></A>
+<H3> Description                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC1560::-->
+<P>
+
+The File System Extensions are a part of the lowest level of I/O
+operations in the C runtime library of DJGPP.  These extensions are
+provided to allow for cases where Unix uses a file descriptor to
+access such items as serial ports, memory, and the network, but DOS
+does not.  It allows a set of functions (called an <I>extension</I>) to
+gain control when one of these low-level functions is called on a file
+descriptor set up by the extension.
+</P><P>
+
+Each extension must provide one or two handler functions.  All handler
+functions take the same arguments:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>  int function(__FSEXT_Fnumber func_number, int *rv, va_list args);
+</pre></td></tr></table></P><P>
+
+The <VAR>func_number</VAR> identifies which function is to be emulated.
+The file <CODE>&#60;sys/fsext.h&#62;</CODE> defines the function numbers as follows:
+</P><P>
+
+<DL COMPACT>
+<DT><CODE>__FSEXT_nop</CODE>
+<DD><P>
+
+A no-op.  This is currently unused by the library functions.
+</P><P>
+
+<DT><CODE>__FSEXT_open</CODE>
+<DD><P>
+
+An open handler (see section <A HREF="libc_601.html">_open</A>).  This is called just before the library
+is about to issue the DOS OpenFile call on behalf of your program.
+</P><P>
+
+If <CODE>_open</CODE> was called from the library function <CODE>open</CODE>,
+then the file name passed to the handler will have either
+all its symlink components resolved or will refer to a symlink file
+(i.e.: all directory symlinks will be resolved), depending
+on whether the <CODE>O_NOLINK</CODE> was passed to <CODE>open</CODE> (see section <A HREF="libc_600.html">open</A>).
+</P><P>
+
+Do not use this extension to emulate symlinks.
+Use <CODE>__FSEXT_readlink</CODE> handler instead.
+</P><P>
+
+<DT><CODE>__FSEXT_creat</CODE>
+<DD><P>
+
+A create handler (see section <A HREF="libc_118.html">_creat</A>, and see section <A HREF="libc_119.html">_creatnew</A>).  Called when
+a file needs to be created.  Note that the handler should both create
+the "file" and open it.
+</P><P>
+
+If <CODE>_creat</CODE> or <CODE>_creatnew</CODE> were called from
+the library functions <CODE>open</CODE> or <CODE>creat</CODE>, then the file name
+passed to the handler will have all its symlink components resolved.
+</P><P>
+
+<DT><CODE>__FSEXT_read</CODE>
+<DD><P>
+
+A read handler (see section <A HREF="libc_643.html">_read</A>).  Called when data should be read from
+a "file".
+</P><P>
+
+<DT><CODE>__FSEXT_write</CODE>
+<DD><P>
+
+A write handler (see section <A HREF="libc_866.html">write</A>, and see section <A HREF="libc_867.html">_write</A>).  Called to write data
+to a "file".  On "text" files it receives
+the <EM>original</EM> (unconverted) buffer.
+</P><P>
+
+<DT><CODE>__FSEXT_ready</CODE>
+<DD><P>
+
+A ready handler.  It is called by <CODE>select</CODE> library function
+(see section <A HREF="libc_688.html">select</A>) when it needs to know whether a handle used to
+reference the "file" is ready for reading or writing, or has an error
+condition set.  The handler should return an OR'ed bit mask of the
+following bits (defined on <CODE>&#60;sys/fsext.h&#62;</CODE>):
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>__FSEXT_ready_read</CODE>
+<DD><P>
+
+The "file" is ready for reading.
+</P><P>
+
+<DT><CODE>__FSEXT_ready_write</CODE>
+<DD><P>
+
+The "file" is ready for writing.
+</P><P>
+
+<DT><CODE>__FSEXT_ready_error</CODE>
+<DD><P>
+
+The "file" has an error condition set.
+</P><P>
+
+</DL>
+<P>
+
+<DT><CODE>__FSEXT_close</CODE>
+<DD><P>
+
+A close handler (see section <A HREF="libc_105.html">_close</A>).  Called when the "file" should be closed.
+</P><P>
+
+<DT><CODE>__FSEXT_fcntl</CODE>
+<DD><P>
+
+A file fcntl handler (see section <A HREF="libc_309.html">fcntl</A>).
+</P><P>
+
+<DT><CODE>__FSEXT_ioctl</CODE>
+<DD><P>
+
+A file ioctl handler (see section <A HREF="libc_494.html">ioctl (General description)</A>).
+</P><P>
+
+<DT><CODE>__FSEXT_lseek</CODE>
+<DD><P>
+
+A file lseek handler (see section <A HREF="libc_548.html">lseek</A>).  Here for backwards
+compatibility.  Use <CODE>__FSEXT_llseek</CODE> instead.  If you have a
+<CODE>__FSEXT_llseek</CODE> handler you don't need a <CODE>__FSEXT_lseek</CODE>
+handler as <CODE>lseek</CODE> calls <CODE>llseek</CODE> internally.
+</P><P>
+
+<DT><CODE>__FSEXT_llseek</CODE>
+<DD><P>
+
+A file llseek handler (see section <A HREF="libc_535.html">llseek</A>).
+</P><P>
+
+<DT><CODE>__FSEXT_link</CODE>
+<DD><P>
+
+A file link handler (see section <A HREF="libc_531.html">link</A>).  This is most relevant to file
+system extensions that emulate a directory structure.
+</P><P>
+
+The source and destination file names are passed to the handler unchanged.
+</P><P>
+
+<DT><CODE>__FSEXT_unlink</CODE>
+<DD><P>
+
+A file unlink handler (see section <A HREF="libc_659.html">remove</A>, and see section <A HREF="libc_839.html">unlink</A>).  This is most
+relevant to file system extensions that emulate a directory structure.
+</P><P>
+
+The file name passed to the handler will have all its directory symlinks
+resolved, so it may refer to a symlink file.
+</P><P>
+
+<DT><CODE>__FSEXT_dup</CODE>
+<DD><P>
+
+A file dup handler (see section <A HREF="libc_281.html">dup</A>).  This is called when a new
+descriptor is needed to refer to an existing descriptor.
+</P><P>
+
+<DT><CODE>__FSEXT_dup2</CODE>
+<DD><P>
+
+A file dup2 handler (see section <A HREF="libc_282.html">dup2</A>).  This is called when two different
+file descriptors are used to refer to the same open file.
+</P><P>
+
+<DT><CODE>__FSEXT_stat</CODE>
+<DD><P>
+
+A file lstat handler (see section <A HREF="libc_549.html">lstat</A>).  This extension should provide
+information about stated file.  If you provide this hook, function <CODE>stat</CODE>
+will be hooked too, as <CODE>stat</CODE> always calls <CODE>lstat</CODE>.
+</P><P>
+
+If the handler is called as a result of a <CODE>stat</CODE> call, then
+the file name passed to the handler will have all its symlinks resolved,
+so it will refer to a "regular" file.  If the handler is called
+as result of a <CODE>lstat</CODE> call and not a <CODE>stat</CODE> call,
+then the file name passed to the handler will have all its directory symlinks
+resolved, so it may refer to a symlink file.
+</P><P>
+
+<DT><CODE>__FSEXT_fstat</CODE>
+<DD><P>
+
+A file fstat handler (see section <A HREF="libc_363.html">fstat</A>).  The extension should fill in
+various status information about the emulated file.
+</P><P>
+
+<DT><CODE>__FSEXT_readlink</CODE>
+<DD><P>
+
+A file readlink handler (see section <A HREF="libc_647.html">readlink</A>).  This extension should be
+used to provide support for symlinks in some other than DJGPP format.
+</P><P>
+
+The file name passed to the handler will have all its directory symlinks
+resolved, so it may refer to a symlink file.
+</P><P>
+
+<DT><CODE>__FSEXT_symlink</CODE>
+<DD><P>
+
+A file symlink handler (see section <A HREF="libc_790.html">symlink</A>).  This extension should create
+symlinks in other than DJGPP symlink file format.
+</P><P>
+
+The source and destination file names are passed to the handler unchanged.
+</P><P>
+
+<DT><CODE>__FSEXT_chmod</CODE>
+<DD><P>
+
+A file chmod handler (see section <A HREF="libc_94.html">chmod</A>).  This is called when
+the permissions are to be changed for a file.
+</P><P>
+
+The file name passed to the handler will have all its symlinks resolved.
+</P><P>
+
+<DT><CODE>__FSEXT_chown</CODE>
+<DD><P>
+
+A file chown handler (see section <A HREF="libc_96.html">chown</A>).  This is called when
+the ownership is to be changed for a file.
+</P><P>
+
+The file name passed to the handler will have all its symlinks resolved.
+</P><P>
+
+<DT><CODE>__FSEXT_fchmod</CODE>
+<DD><P>
+
+A file fchmod handler (see section <A HREF="libc_306.html">fchmod</A>).  This is called when
+the permissions are to be changed for an open file.
+</P><P>
+
+<DT><CODE>__FSEXT_fchown</CODE>
+<DD><P>
+
+A file fchown handler (see section <A HREF="libc_307.html">fchown</A>).  This is called when
+the ownership is to be changed for an open file.
+</P><P>
+
+</DL>
+<P>
+
+<VAR>rv</VAR> points to a temporary return value pointer.  If the function is
+emulated by the handler, the return value should be stored here, and the
+handler should return a nonzero value.  If the handler returns zero, it is
+assumed to have not emulated the call, and the regular DOS I/O function
+will happen.  The <VAR>args</VAR> represent the arguments passed to the
+original function; these point to the actual arguments on the stack, so
+the emulation may choose to modify them and return zero to the regular
+function, which will then act on the modified arguments.
+</P><P>
+
+A normal extension would provide these parts:
+</P><P>
+
+<UL>
+
+<LI>
+<P>
+
+Some function to create a connection to the extension.  This may be a
+custom function (such as <CODE>socket</CODE> for networking) or an extension
+to open (such as <CODE>/dev/ttyS0</CODE> to access the serial port).
+</P><P>
+
+<LI>
+<P>
+
+Initialization code that adds the open handler, if any.
+</P><P>
+
+<LI>
+<P>
+
+Overrides for the basic I/O functions, such as <CODE>read</CODE> and
+<CODE>write</CODE>.  This is a single function in the extension that uses
+the function number parameter to select an extension function.
+</P><P>
+
+<LI>
+<P>
+
+The core functionality of the extension, if any.
+</P><P>
+
+</UL>
+<P>
+
+Please note that the special Unix filenames <TT>`/dev/null'</TT> and
+<TT>`/dev/tty'</TT> are already mapped to the appropriate DOS names
+<TT>`NUL'</TT> and <TT>`CON'</TT>, respectively, so you don't need to write
+extensions for these.
+</P><P>
+
+Please note that the special Unix filenames <TT>`/dev/zero'</TT> and
+<TT>`/dev/full'</TT> can be made available by calling the functions
+<CODE>__install_dev_zero</CODE> (see section <A HREF="libc_483.html">__install_dev_zero</A>) and
+<CODE>__install_dev_full</CODE> (see section <A HREF="libc_482.html">__install_dev_full</A>) respectively,
+so you don't need to write extensions for these.  These are implemented
+using File System Extensions.
+</P><P>
+
+Programs using the DJGPP debug support functions in <TT>`libdbg.a'</TT> may
+have problems using File System Extensions, because the debug support
+functions use a File System Extension to track the opening and closing
+of files.  Only the <CODE>__FSEXT_open</CODE> and <CODE>__FSEXT_creat</CODE>
+calls will be passed to other File System Extensions by
+<TT>`libdbg.a'</TT>.  In other words, only fairly trivial File System
+Extensions can be used in programs at the same time as the debug
+support functions.
+</P><P>
+
+<A NAME="__file_exists"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_320.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_322.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

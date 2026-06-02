@@ -1,0 +1,89 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_396.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_395.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_397.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> getgrent </H2>
+<!--docid::SEC1977::-->
+<A NAME="SEC1978"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC1978::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;grp.h&#62;
+
+struct group *getgrent(void);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1979"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC1979::-->
+<P>
+
+This function returns the next available group entry.  Note that for
+MS-DOS, this is simulated.  If the environment variable <CODE>GROUP</CODE> is set,
+that is the name of the only group returned, else the only group is
+"dos".  Thus, under DOS, <CODE>getgrent</CODE> will always fail on the
+second and subsequent calls.
+</P><P>
+
+The return type of this and related function is as follows:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct group {
+  gid_t    gr_gid;    /* result of getgid() */
+  char  ** gr_mem;    /* gr_mem[0] points to
+                          getenv("USER"/"LOGNAME") or "user" */
+  char  *  gr_name;   /* getenv("GROUP") or "dos" */
+  char  *  gr_passwd; /* "" */
+};
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1980"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC1980::-->
+<P>
+
+The next structure, or <CODE>NULL</CODE> at the end of the list.
+</P><P>
+
+<A NAME="SEC1981"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC1981::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1982"></A>
+<H3> Example                                                                                                                                                                           </H3>
+<!--docid::SEC1982::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>
+struct group *g;
+setgrent();
+while ((g = getgrent()) != NULL)
+{
+  printf("group %s gid %d\n", g-&#62;gr_name, g-&#62;gr_gid);
+}
+endgrent();
+</pre></td></tr></table></P><P>
+
+<A NAME="getgrgid"></A>
+<!--#perl sub="trailer" -->

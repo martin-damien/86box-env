@@ -1,0 +1,228 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_600.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_599.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_601.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> open </H2>
+<!--docid::SEC3074::-->
+<A NAME="SEC3075"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC3075::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;fcntl.h&#62;
+#include &#60;sys/stat.h&#62; /* for mode definitions */
+
+int open(const char *file, int mode /*, int permissions */);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3076"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC3076::-->
+<P>
+
+This function opens the named <VAR>file</VAR> in the given <VAR>mode</VAR>, which
+is any combination of the following bits:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>O_RDONLY</CODE>
+<DD><P>
+
+The file is opened for reading.
+</P><P>
+
+<DT><CODE>O_WRONLY</CODE>
+<DD><P>
+
+The file is opened for writing.
+</P><P>
+
+<DT><CODE>O_RDWR</CODE>
+<DD><P>
+
+The file is opened for both reading and writing.
+</P><P>
+
+<DT><CODE>O_CREAT</CODE>
+<DD><P>
+
+If the file does not exist, it is created. See section <A HREF="libc_117.html">creat</A>.
+</P><P>
+
+<DT><CODE>O_TRUNC</CODE>
+<DD><P>
+
+If the file does exist, it is truncated to zero bytes.
+</P><P>
+
+<DT><CODE>O_EXCL</CODE>
+<DD><P>
+
+If the file exists, and <CODE>O_CREAT</CODE> is also specified, the
+<CODE>open</CODE> call will fail.  If the file is a symlink and <CODE>O_CREAT</CODE>
+is also specified, then the contents of the symlink are ignored -
+the <CODE>open</CODE> call will fail.
+</P><P>
+
+<DT><CODE>O_APPEND</CODE>
+<DD><P>
+
+The file pointer is positioned at the end of the file before each write. 
+</P><P>
+
+<DT><CODE>O_TEXT</CODE>
+<DD><P>
+
+The file is opened in text mode, meaning that Ctrl-M characters are
+stripped on reading and added on writing as needed.  The default mode is
+specified by the <CODE>_fmode</CODE> variable <A HREF="libc_333.html">_fmode</A>. 
+</P><P>
+
+<DT><CODE>O_BINARY</CODE>
+<DD><P>
+
+The file is opened in binary mode.
+</P><P>
+
+When called to open the console in binary mode, <CODE>open</CODE> will disable
+the generation of <CODE>SIGINT</CODE> when you press <KBD>Ctrl-C</KBD>
+(<KBD>Ctrl-Break</KBD> will still cause <CODE>SIGINT</CODE>), because many programs
+that use binary reads from the console will also want to get the
+<SAMP>`^C'</SAMP> characters.  You can use the <CODE>__djgpp_set_ctrl_c</CODE> library
+function (see section <A HREF="libc_142.html">__djgpp_set_ctrl_c</A>) if you want <KBD>Ctrl-C</KBD> to
+generate interrupts while console is read in binary mode.
+</P><P>
+
+<DT><CODE>O_NOINHERIT</CODE>
+<DD><P>
+
+Child processes will not inherit this file handle.  This is also known
+as <EM>close-on-exec</EM>--see <A HREF="libc_309.html">fcntl</A>.  This bit is DOS- and
+Windows-specific; portable programs should use <CODE>fcntl</CODE> instead.
+</P><P>
+
+<DT><CODE>O_NOFOLLOW</CODE>
+<DD><P>
+
+<CODE>open</CODE> will fail with <CODE>errno</CODE> set to <CODE>ELOOP</CODE>, if the last path 
+component in <VAR>file</VAR> is symlink.
+</P><P>
+
+<DT><CODE>O_NOLINK</CODE>
+<DD><P>
+
+If <VAR>file</VAR> is a symlink, <CODE>open</CODE> will open symlink file itself instead 
+of referred file.
+</P><P>
+
+<DT><CODE>O_TEMPORARY</CODE>
+<DD><P>
+
+Delete <VAR>file</VAR> when all file descriptors that refer to it are closed.
+</P><P>
+
+Note that <VAR>file</VAR> should not also be opened with the low-level functions
+<CODE>_creat</CODE>, <CODE>_creatnew</CODE>, <CODE>_dos_creat</CODE>, <CODE>_dos_creatnew</CODE>,
+and <CODE>_dos_open</CODE>.  Otherwise <VAR>file</VAR> may not be deleted as expected.
+</P><P>
+
+</DL>
+<P>
+
+If the file is created by this call, it will be given the read/write
+permissions specified by <VAR>permissions</VAR>, which may be any combination
+of these values:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>S_IRUSR</CODE>
+<DD><P>
+
+The file is readable.  This is always true for MS-DOS.
+</P><P>
+
+<DT><CODE>S_IWUSR</CODE>
+<DD><P>
+
+The file is writable.
+</P><P>
+
+</DL>
+<P>
+
+Other <CODE>S_I*</CODE> values may be included, but they will be ignored.
+</P><P>
+
+You can specify the share flags (a DOS specific feature) in <VAR>mode</VAR>.
+And you can indicate default values for the share flags in
+<CODE>__djgpp_share_flags</CODE>. See section <A HREF="libc_146.html">__djgpp_share_flags</A>.
+</P><P>
+
+You can open directories using <CODE>open</CODE>, but there is limited
+support for POSIX file operations on directories.  In particular,
+directories cannot be read using <CODE>read</CODE> (see section <A HREF="libc_642.html">read</A>)
+or written using <CODE>write</CODE> (see section <A HREF="libc_866.html">write</A>).  The principal reason
+for allowing <CODE>open</CODE> to open directories is to support changing
+directories using <CODE>fchdir</CODE> (see section <A HREF="libc_305.html">fchdir</A>).  If you wish to read
+the contents of a directory, use the <CODE>opendir</CODE> (see section <A HREF="libc_602.html">opendir</A>)
+and <CODE>readdir</CODE> (see section <A HREF="libc_646.html">readdir</A>) functions instead.  File descriptors
+for directories are not inherited by child programs.
+</P><P>
+
+<A NAME="SEC3077"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC3077::-->
+<P>
+
+If successful, the file descriptor is returned.  On error, a negative
+number is returned and <CODE>errno</CODE> is set to indicate the error. 
+</P><P>
+
+<A NAME="SEC3078"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC3078::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3079"></A>
+<H3> Example                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC3079::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>int q = open("/tmp/foo.dat", O_RDONLY|O_BINARY);
+</pre></td></tr></table></P><P>
+
+<A NAME="_open"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_599.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_601.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

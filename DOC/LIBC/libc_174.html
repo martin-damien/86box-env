@@ -1,0 +1,67 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_174.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_173.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_175.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _dos_lk64 </H2>
+<!--docid::SEC790::-->
+<A NAME="SEC791"></A>
+<H3> Syntax                                                                                                                                            </H3>
+<!--docid::SEC791::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;io.h&#62;
+
+int _dos_lk64(int fd, long long offset, long long length);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC792"></A>
+<H3> Description                                                                                                                                         </H3>
+<!--docid::SEC792::-->
+<P>
+
+Adds an advisory lock to the specified region of the file.
+</P><P>
+
+Arguments <VAR>offset</VAR> and <VAR>length</VAR> must be of type <CODE>long
+long</CODE>, thus enabling you to lock with offsets and lengths as large as
+~<EM>2^63</EM> (FAT16 limits this to ~<EM>2^31</EM>; FAT32 limits this to
+<EM>2^32-2</EM>).
+</P><P>
+
+See section <A HREF="libc_183.html">_dos_unlk64</A>.
+</P><P>
+
+<A NAME="SEC793"></A>
+<H3> Return Value                                                                                                                       </H3>
+<!--docid::SEC793::-->
+<P>
+
+Zero if the lock was added, nonzero otherwise.
+</P><P>
+
+<A NAME="SEC794"></A>
+<H3> Portability                                                                                                                                           </H3>
+<!--docid::SEC794::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="_dos_lock"></A>
+<!--#perl sub="trailer" -->

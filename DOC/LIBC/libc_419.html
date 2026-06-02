@@ -1,0 +1,86 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_419.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_418.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_420.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> gettextinfo </H2>
+<!--docid::SEC2105::-->
+<A NAME="SEC2106"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC2106::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;conio.h&#62;
+
+void    gettextinfo(struct text_info *_r);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2107"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC2107::-->
+<P>
+
+This function returns the parameters of the current window on the
+screen.  The return structure is this:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct text_info {
+    unsigned char winleft;
+    unsigned char wintop;
+    unsigned char winright;
+    unsigned char winbottom;
+    unsigned char attribute;
+    unsigned char normattr;
+    unsigned char currmode;
+    unsigned char screenheight;
+    unsigned char screenwidth;
+    unsigned char curx;
+    unsigned char cury;
+};
+</pre></td></tr></table></P><P>
+
+The <CODE>normattr</CODE> field is the text attribute which was in effect
+before the program started.
+<A NAME="SEC2108"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC2108::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2109"></A>
+<H3> Implementation Note            </H3>
+<!--docid::SEC2109::-->
+<P>
+
+It's not safe to call this function inside static constructors, because
+conio needs to be initialized, and its initialization is done by a
+static constructor.  Since you don't have any control on the order in
+which static constructors are called (it's entirely up to the linker),
+you could have problems.
+</P><P>
+
+If you can detect the situation when one of the conio functions is
+called for the very first time since program start, you could work
+around this problem by calling the <CODE>gppconio_init</CODE> function
+manually (this is the function called by a static constructor).
+</P><P>
+
+<A NAME="gettime"></A>
+<!--#perl sub="trailer" -->

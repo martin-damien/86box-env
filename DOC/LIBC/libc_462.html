@@ -1,0 +1,61 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_462.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_461.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_463.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> hasmntopt </H2>
+<!--docid::SEC2345::-->
+<A NAME="SEC2346"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC2346::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;mntent.h&#62;
+
+char *hasmntopt(const struct mntent *mnt, const char *opt);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2347"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC2347::-->
+<P>
+
+This function scans the <CODE>mnt_opts</CODE> field of the <CODE>mntent</CODE>
+structure pointed to by <VAR>mnt</VAR> for a substring that matches
+<VAR>opt</VAR>.  See section <A HREF="libc_405.html">getmntent</A>.
+</P><P>
+
+<A NAME="SEC2348"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC2348::-->
+<P>
+
+This function returns the address of the substring if a match is found,
+or <CODE>NULL</CODE> otherwise.
+</P><P>
+
+<A NAME="SEC2349"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC2349::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="highvideo"></A>
+<!--#perl sub="trailer" -->

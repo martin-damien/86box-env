@@ -1,0 +1,297 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_760.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_759.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_761.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> strftime </H2>
+<!--docid::SEC3957::-->
+<A NAME="SEC3958"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC3958::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;time.h&#62;
+
+size_t strftime(char *buf, size_t n, const char *format,
+                const struct tm *time_info);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3959"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC3959::-->
+<P>
+
+This function formats the time data in <VAR>time_info</VAR> according to the
+given <VAR>format</VAR> and stores it in <VAR>buf</VAR>, not exceeding <VAR>n</VAR>
+bytes.
+</P><P>
+
+The format string is like <CODE>printf</CODE> in that any character other than
+<CODE>%</CODE> is added to the output string, and for each character following
+a <CODE>%</CODE> a pattern is added to the string as follows, with the
+examples as if the time was Friday, October 1, 1993, at 03:30:34 PM EDT:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>%A</CODE>
+<DD><P>
+
+The full weekday name (<CODE>Friday</CODE>)
+</P><P>
+
+<DT><CODE>%a</CODE>
+<DD><P>
+
+The abbreviated weekday name (<CODE>Fri</CODE>)
+</P><P>
+
+<DT><CODE>%B</CODE>
+<DD><P>
+
+The full month name (<CODE>October</CODE>)
+</P><P>
+
+<DT><CODE>%b</CODE>
+<DD><DT><CODE>%h</CODE>
+<DD><P>
+
+The abbreviated month name (<CODE>Oct</CODE>)
+</P><P>
+
+<DT><CODE>%C</CODE>
+<DD><P>
+
+Short for <CODE>%a %b %e %H:%M:%S %Y</CODE> (<CODE>Fri Oct  1 15:30:34 1993</CODE>)
+</P><P>
+
+<DT><CODE>%c</CODE>
+<DD><P>
+
+Short for <CODE>%m/%d/%y %H:%M:%S</CODE> (<CODE>10/01/93 15:30:34</CODE>)
+</P><P>
+
+<DT><CODE>%e</CODE>
+<DD><P>
+
+The day of the month, blank padded to two characters (<CODE> 2</CODE>)
+</P><P>
+
+<DT><CODE>%D</CODE>
+<DD><P>
+
+Short for <CODE>%m/%d/%y</CODE> (<CODE>10/01/93</CODE>)
+</P><P>
+
+<DT><CODE>%d</CODE>
+<DD><P>
+
+The day of the month, zero padded to two characters (<CODE>02</CODE>)
+</P><P>
+
+<DT><CODE>%H</CODE>
+<DD><P>
+
+The hour (0-24), zero padded to two characters (<CODE>15</CODE>)
+</P><P>
+
+<DT><CODE>%I</CODE>
+<DD><P>
+
+The hour (1-12), zero padded to two characters (<CODE>03</CODE>)
+</P><P>
+
+<DT><CODE>%j</CODE>
+<DD><P>
+
+The Julian day, zero padded to three characters (<CODE>275</CODE>)
+</P><P>
+
+<DT><CODE>%k</CODE>
+<DD><P>
+
+The hour (0-24), space padded to two characters (<CODE>15</CODE>)
+</P><P>
+
+<DT><CODE>%l</CODE>
+<DD><P>
+
+The hour (1-12), space padded to two characters(<CODE> 3</CODE>)
+</P><P>
+
+<DT><CODE>%M</CODE>
+<DD><P>
+
+The minutes, zero padded to two characters (<CODE>30</CODE>)
+</P><P>
+
+<DT><CODE>%m</CODE>
+<DD><P>
+
+The month (1-12), zero padded to two characters (<CODE>10</CODE>)
+</P><P>
+
+<DT><CODE>%n</CODE>
+<DD><P>
+
+A newline (<CODE>\n</CODE>)
+</P><P>
+
+<DT><CODE>%p</CODE>
+<DD><P>
+
+AM or PM (<CODE>PM</CODE>)
+</P><P>
+
+<DT><CODE>%R</CODE>
+<DD><P>
+
+Short for <CODE>%H:%M</CODE> (<CODE>15:30</CODE>)
+</P><P>
+
+<DT><CODE>%r</CODE>
+<DD><P>
+
+Short for <CODE>%I:%M:%S %p</CODE> (<CODE>03:30:35 PM</CODE>)
+</P><P>
+
+<DT><CODE>%S</CODE>
+<DD><P>
+
+The seconds, zero padded to two characters (<CODE>35</CODE>)
+</P><P>
+
+<DT><CODE>%T</CODE>
+<DD><P>
+
+Short for <CODE>%H:%M:%S</CODE> (<CODE>15:30:35</CODE>)
+</P><P>
+
+<DT><CODE>%t</CODE>
+<DD><P>
+
+A tab (<CODE>\t</CODE>)
+</P><P>
+
+<DT><CODE>%U</CODE>
+<DD><P>
+
+The week of the year, with the first week defined by the first Sunday of
+the year, zero padded to two characters (<CODE>39</CODE>)
+</P><P>
+
+<DT><CODE>%u</CODE>
+<DD><P>
+
+The day of the week (1-7) (<CODE>6</CODE>)
+</P><P>
+
+<DT><CODE>%W</CODE>
+<DD><P>
+
+The week of the year, with the first week defined by the first Monday of
+the year, zero padded to two characters (<CODE>39</CODE>)
+</P><P>
+
+<DT><CODE>%w</CODE>
+<DD><P>
+
+The day of the week (0-6) (<CODE>5</CODE>)
+</P><P>
+
+<DT><CODE>%x</CODE>
+<DD><P>
+
+Date represented according to the current locale.
+</P><P>
+
+<DT><CODE>%X</CODE>
+<DD><P>
+
+Time represented according to the current locale.
+</P><P>
+
+<DT><CODE>%y</CODE>
+<DD><P>
+
+The year (00-99) of the century (<CODE>93</CODE>)
+</P><P>
+
+<DT><CODE>%Y</CODE>
+<DD><P>
+
+The year, zero padded to four digits (<CODE>1993</CODE>)
+</P><P>
+
+<DT><CODE>%Z</CODE>
+<DD><P>
+
+The timezone abbreviation (<CODE>EDT</CODE>)
+</P><P>
+
+<DT><CODE>%%</CODE>
+<DD><P>
+
+A percent symbol (<CODE>%</CODE>)
+</P><P>
+
+</DL>
+<P>
+
+<A NAME="SEC3960"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC3960::-->
+<P>
+
+The number of characters stored.
+</P><P>
+
+<A NAME="SEC3961"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC3961::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C89; C99
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3962"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC3962::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>time_t now = time (NULL);
+struct tm *t = localtime (&#38;now);
+char buf[100];
+/* Print today's date e.g. "January 31, 2001".  */
+strftime (buf, 100, "%B %d, %Y", t);
+</pre></td></tr></table></P><P>
+
+<A NAME="stricmp"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_759.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_761.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

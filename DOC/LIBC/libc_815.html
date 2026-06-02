@@ -1,0 +1,120 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_815.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_814.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_816.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> tempnam </H2>
+<!--docid::SEC4272::-->
+<A NAME="SEC4273"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC4273::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdio.h&#62;
+
+char * tempnam(const char *tmpdir, const char *prefix);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC4274"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC4274::-->
+<P>
+
+This function generates a file name which can be used for a temporary
+file, and makes sure that no other file by that name exists.
+</P><P>
+
+The caller has control on the choice of the temporary file's directory,
+and the initial letters of the file's basename.  If the argument
+<VAR>tmpdir</VAR> points to the name of the directory in which the temporary
+file will be created, <CODE>tempnam</CODE> will ensure that the generate name
+is unique <STRONG>in that directory</STRONG>.  If the argument <VAR>prefix</VAR>
+points to a string, then that string will be used as the first few
+characters of the file's basename.  Due to limitations of the DOS 8.3
+file namespace, only up to two first characters in <VAR>prefix</VAR> will be
+used.
+</P><P>
+
+If <VAR>tmpdir</VAR> is <CODE>NULL</CODE>, or empty, or points to a non-existent
+directory, <CODE>tempnam</CODE> will use a default directory.  The default
+directory is determined by testing, in sequence, the directories
+defined by the values of environment variables <CODE>TMPDIR</CODE>,
+<CODE>TEMP</CODE> and <CODE>TMP</CODE>.  The first variable that is found to point
+to an existing directory will be used.  If none of these variables
+specify a valid directory, <CODE>tempnam</CODE> will use the static default
+path prefix defined by <CODE>P_tmpdir</CODE> on <TT>`&#60;stdio.h&#62;'</TT>, or
+<CODE>"c:/"</CODE>, in that order.
+</P><P>
+
+If <VAR>prefix</VAR> is <CODE>NULL</CODE> or empty, <CODE>tempnam</CODE> will supply its
+own default prefix <CODE>"tm"</CODE>.
+</P><P>
+
+<CODE>tempnam</CODE> puts the generated name into space allocated by
+<CODE>malloc</CODE>.  It is up to the caller to free that space when it is no
+longer needed.
+</P><P>
+
+Note that <CODE>tempnam</CODE> does not actually create the file, nor does it
+ensure in any way that the file will be automatically deleted when it's
+no longer used.  It is the user's responsibility to do that.
+</P><P>
+
+<A NAME="SEC4275"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC4275::-->
+<P>
+
+On success, <CODE>tempnam</CODE> returns a pointer to space (allocated with a
+call to <CODE>malloc</CODE>) where the file name is constructed.  If
+<CODE>malloc</CODE> failed to provide sufficient memory buffer, or if no valid
+directory to hold the file was found, <CODE>tempnam</CODE> returns a
+<CODE>NULL</CODE> pointer.
+</P><P>
+
+<A NAME="SEC4276"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC4276::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC4277"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC4277::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>  #include &#60;stdio.h&#62;
+
+    tempnam ("c:/tmp/", "foo");
+
+</pre></td></tr></table><A NAME="Termios functions"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_814.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_816.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

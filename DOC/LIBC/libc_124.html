@@ -1,0 +1,235 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_124.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_123.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_125.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _crt0_startup_flags </H2>
+<!--docid::SEC523::-->
+<A NAME="SEC524"></A>
+<H3> Syntax                                                                                          </H3>
+<!--docid::SEC524::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;crt0.h&#62;
+
+int _crt0_startup_flags = ...;
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC525"></A>
+<H3> Description                                                                                         </H3>
+<!--docid::SEC525::-->
+<P>
+
+This variable can be used to determine what the startup code will (or
+will not) do when the program begins.  This can be used to tailor the
+startup environment to a particular program.
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>_CRT0_FLAG_PRESERVE_UPPER_CASE</CODE>
+<DD><P>
+
+If set, <CODE>argv[0]</CODE> is left in whatever case it was.  If not set, all
+characters are mapped to lower case.  Note that if the <CODE>argv0</CODE>
+field in the <EM>stubinfo</EM> structure is present, the case of that part
+of <CODE>argv[0]</CODE> is not affected. 
+</P><P>
+
+<DT><CODE>_CRT0_FLAG_USE_DOS_SLASHES</CODE>
+<DD><P>
+
+If set, reverse slashes (dos-style) are preserved in <CODE>argv[0]</CODE>.  If
+not set, all reverse slashes are replaced with unix-style slashes.
+</P><P>
+
+<DT><CODE>_CRT0_FLAG_DROP_EXE_SUFFIX</CODE>
+<DD><P>
+
+If set, the <TT>`.exe'</TT> suffix is removed from the file name component
+of <CODE>argv[0]</CODE>.  If not set, the suffix remains. 
+</P><P>
+
+<DT><CODE>_CRT0_FLAG_DROP_DRIVE_SPECIFIER</CODE>
+<DD><P>
+
+If set, the drive specifier (e.g. <TT>`C:'</TT>) is removed from the
+beginning of <CODE>argv[0]</CODE> (if present).  If not set, the drive
+specifier remains.
+</P><P>
+
+<DT><CODE>_CRT0_FLAG_DISALLOW_RESPONSE_FILES</CODE>
+<DD><P>
+
+If set, response files (e.g. <TT>`@gcc.rf'</TT>) are not expanded.  If not
+set, the contents of the response files are used to create arguments.
+Note that if the file does not exist, that argument remains unexpanded. 
+</P><P>
+
+<DT><CODE>_CRT0_FLAG_KEEP_QUOTES</CODE>
+<DD><P>
+
+If set, the quote characters <SAMP>`''</SAMP>, <SAMP>`"'</SAMP>, and <SAMP>`\'</SAMP> will be
+retained in <CODE>argv[]</CODE> elements when processing command lines passed
+by DOS and via <CODE>system</CODE>.  This is used by the <CODE>redir</CODE> program,
+and should only be needed if you want to get the original command line
+exactly as it was passed by the caller.
+</P><P>
+
+<DT><CODE>_CRT0_FLAG_FILL_SBRK_MEMORY</CODE>
+<DD><P>
+
+If set, fill <CODE>sbrk</CODE>'d memory with a constant value.  If not, memory
+gets whatever happens to have been in there, which breaks some
+applications.
+</P><P>
+
+<DT><CODE>_CRT0_FLAG_FILL_DEADBEEF</CODE>
+<DD><P>
+
+If set, fill memory (above) with <CODE>0xdeadbeef</CODE>, else fill with zero.
+This is especially useful for debugging uninitialized memory problems.
+</P><P>
+
+<DT><CODE>_CRT0_FLAG_NEARPTR</CODE>
+<DD><P>
+
+If set, set DS limit to 4GB which allows use of near pointers to DOS
+(and other) memory.  WARNING, disables memory protection and bad
+pointers may crash the machine or wipe out your data.  This flag is
+silently ignored on NT and DOSEmu, which disallow such huge selector
+limits.
+</P><P>
+
+<DT><CODE>_CRT0_FLAG_NULLOK</CODE>
+<DD><P>
+
+If set, disable NULL pointer protection (if it can be controlled at
+all).
+</P><P>
+
+<DT><CODE>_CRT0_FLAG_NMI_SIGNAL</CODE>
+<DD><P>
+
+If set, enabled capture of NMI in exception code.  This may cause problems
+with laptops and "green" boxes which use it to wake up.  Default is to 
+leave NMIs alone and pass through to real mode code.  You decide.
+</P><P>
+
+<DT><CODE>_CRT0_FLAG_NO_LFN</CODE>
+<DD><P>
+
+If set, disable usage of long file name functions even on systems (such
+as Windows 9X) which support them.  This might be needed to work around
+program assumptions on file name format on programs written specifically
+for DOS.  Note that this flag overrides the value of the environment
+variable <CODE>LFN</CODE>.
+</P><P>
+
+<DT><CODE>_CRT0_FLAG_NONMOVE_SBRK</CODE>
+<DD><P>
+
+If set, the <CODE>sbrk</CODE> algorithm uses multiple DPMI memory blocks which
+makes sure the base of CS/DS/SS does not change.  This may cause
+problems with <CODE>sbrk(0)</CODE> values and programs with other assumptions
+about <CODE>sbrk</CODE> behavior.  This flag is useful with near pointers,
+since a constant pointer to DOS/Video memory can be computed without
+needing to reload it after any routine which might call <CODE>sbrk</CODE>.
+</P><P>
+
+<DT><CODE>_CRT0_FLAG_UNIX_SBRK</CODE>
+<DD><P>
+
+If set, the <CODE>sbrk</CODE> algorithm resizes memory blocks so that the
+layout of memory is set up to be the most compatible with Unix
+<CODE>sbrk</CODE> expectations.  This mode should not be used with hardware
+interrupts, near pointers, and may cause problems with QDPMI virtual
+memory.
+</P><P>
+
+If your program requires a specific <CODE>sbrk</CODE> behavior, you
+should set either this or the previous flag, since the default may
+change in different libc releases.
+</P><P>
+
+<DT><CODE>_CRT0_DISABLE_SBRK_ADDRESS_WRAP</CODE>
+<DD><P>
+
+If set, non-move <CODE>sbrk</CODE> should discard (ignore) memory blocks which are
+returned by DPMI which would require address wrap to access (at addresses
+below the CS/DS base address).  This bit is automatically set on Windows NT
+systems which require it.  It may be manually set on other systems which 
+don't require it to retain a more normal memory space layout and better
+memory protection.  This bit can be set but should never be cleared.
+</P><P>
+
+<DT><CODE>_CRT0_FLAG_LOCK_MEMORY</CODE>
+<DD><P>
+
+If set, locks all memory as it is allocated.  This effectively disables
+virtual memory, and may be useful if using extensive hardware interrupt
+codes in a relatively small image size.  The memory is locked after it
+is <CODE>sbrk</CODE>'ed, so the locking may fail.  This bit may be set or cleared
+during execution.  When <CODE>sbrk</CODE> uses multiple memory zones, it can be
+difficult to lock all memory since the memory block size and location is
+impossible to determine.
+</P><P>
+
+<DT><CODE>_CRT0_FLAG_PRESERVE_FILENAME_CASE</CODE>
+<DD><P>
+
+If set, disables all filename letter-case conversions in functions that
+traverse directories (except findfirst/findnext which always return the
+filenames exactly as found in the directory entry).  When reset, all
+filenames on 8+3 MSDOS filesystems and DOS-style 8+3 filenames on LFN
+systems are converted to lower-case by functions such as `readdir',
+<CODE>getcwd</CODE>, <CODE>_fixpath</CODE> and others.  Note that when this flag is
+set, ALL filenames on MSDOS systems will appear in upper-case, which is
+both ugly and will break many Unix-born programs.  Use only if you know
+exactly what you are doing!
+</P><P>
+
+This flag overrides the value of the environment variable <SAMP>`FNCASE'</SAMP>,
+See section <A HREF="libc_622.html">_preserve_fncase</A>.
+</P><P>
+
+</DL>
+<P>
+
+<A NAME="SEC526"></A>
+<H3> Portability                                                                                         </H3>
+<!--docid::SEC526::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="cscanf"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_123.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_125.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

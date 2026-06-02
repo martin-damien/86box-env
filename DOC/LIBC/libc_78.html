@@ -1,0 +1,71 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_78.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_77.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_79.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> brk </H2>
+<!--docid::SEC278::-->
+<A NAME="SEC279"></A>
+<H3> Syntax                                            </H3>
+<!--docid::SEC279::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;unistd.h&#62;
+
+int brk(void *ptr);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC280"></A>
+<H3> Description                                           </H3>
+<!--docid::SEC280::-->
+<P>
+
+This function changes the <EM>break</EM> for the program.  This is the
+first address that, if referenced, will cause a fault to occur.  The
+program asks for more memory by specifying larger values for <VAR>ptr</VAR>. 
+Normally, this is done transparently through the <CODE>malloc</CODE> function. 
+</P><P>
+
+<A NAME="SEC281"></A>
+<H3> Return Value                                         </H3>
+<!--docid::SEC281::-->
+<P>
+
+Zero if the break was changed, -1 if not.  <CODE>errno</CODE> is set to the
+error. 
+</P><P>
+
+<A NAME="SEC282"></A>
+<H3> Portability                                            </H3>
+<!--docid::SEC282::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC283"></A>
+<H3> Example                                 </H3>
+<!--docid::SEC283::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>if (brk(old_brk+1000))
+  printf("no memory\n");
+</pre></td></tr></table></P><P>
+
+<A NAME="bsearch"></A>
+<!--#perl sub="trailer" -->

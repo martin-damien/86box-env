@@ -1,0 +1,93 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_185.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_184.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_186.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _dos_write </H2>
+<!--docid::SEC852::-->
+<A NAME="SEC853"></A>
+<H3> Syntax                                                                                                                                                       </H3>
+<!--docid::SEC853::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dos.h&#62;
+
+unsigned int _dos_write(int handle,
+                        const void *buffer, unsigned int count,
+                        unsigned int *result);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC854"></A>
+<H3> Description                                                                                                                                                    </H3>
+<!--docid::SEC854::-->
+<P>
+
+This is a direct connection to the MS-DOS write function call (%ah = 0x40).
+No conversion is done on the data; it is written as raw binary data.  This
+function writes <VAR>count</VAR> bytes from <VAR>buffer</VAR> to <VAR>handle</VAR>.
+<VAR>count</VAR> value may be arbitrary size (e.g. &#62; 64KB).  It puts the
+number of bytes written into <VAR>result</VAR> if writing is successful.
+</P><P>
+
+See also <A HREF="libc_176.html">_dos_open</A>, <A HREF="libc_164.html">_dos_creat</A>, <A HREF="libc_165.html">_dos_creatnew</A>,
+<A HREF="libc_177.html">_dos_read</A>, and <A HREF="libc_162.html">_dos_close</A>.
+</P><P>
+
+<A NAME="SEC855"></A>
+<H3> Return Value                                                                                                                                  </H3>
+<!--docid::SEC855::-->
+<P>
+
+Returns 0 if successful or DOS error code on error (and sets <CODE>errno</CODE>
+to EACCES or EBADF)
+</P><P>
+
+<A NAME="SEC856"></A>
+<H3> Portability                                                                                                                                                      </H3>
+<!--docid::SEC856::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC857"></A>
+<H3> Example                                                                                   </H3>
+<!--docid::SEC857::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>int handle;
+unsigned int result;
+char *filebuffer;
+
+if ( !_dos_creat("FOO.DAT", _A_ARCH, &#38;handle) )
+{
+   puts("FOO.DAT creating was successful.");
+   if ( (filebuffer = malloc(130000)) != NULL )
+   {
+     ...
+     /* Put something into filebuffer. */
+     ...
+     if ( !_dos_write(handle, buffer, 130000, &#38;result) )
+       printf("%u bytes written into FOO.DAT.", result);
+     else
+       puts("Writing error.");
+   }
+   _dos_close(handle);
+}
+</pre></td></tr></table><A NAME="_doscan"></A>
+<!--#perl sub="trailer" -->

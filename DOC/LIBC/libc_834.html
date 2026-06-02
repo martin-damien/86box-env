@@ -1,0 +1,120 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_834.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_833.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_835.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> uclock </H2>
+<!--docid::SEC4376::-->
+<A NAME="SEC4377"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC4377::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;time.h&#62;
+
+uclock_t uclock(void);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC4378"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC4378::-->
+<P>
+
+This function returns the number of uclock ticks since an arbitrary time,
+actually, since the first call to <CODE>uclock</CODE>, which itself returns
+zero.  The number of tics per second is <CODE>UCLOCKS_PER_SEC</CODE> (declared
+in the <TT>`time.h'</TT> header file.
+</P><P>
+
+<CODE>uclock</CODE> is provided for very high-resulution timing.  It is
+currently accurate to better than 1 microsecond (actually about 840
+nanoseconds).  You cannot time across two midnights with this
+implementation, giving a maximum useful period of 48 hours and an
+effective limit of 24 hours.  Casting to a 32-bit integer limits its
+usefulness to about an hour before 32 bits will wrap.
+</P><P>
+
+Note that <CODE>printf</CODE> will only print a value of type <CODE>uclock_t</CODE>
+correctly if you use the format specifier for <CODE>long long</CODE> data,
+<CODE>%lld</CODE>, because <CODE>uclock_t</CODE> is a 64-bit integer.
+See section <A HREF="libc_624.html">printf</A>.
+</P><P>
+
+Also note that <CODE>uclock</CODE> reprograms the interval timer in your PC
+to act as a rate generator rather than a square wave generator.  I've
+had no problems running in this mode all the time, but if you notice
+strange things happening with the clock (losing time) after using
+<CODE>uclock</CODE>, check to see if this is the cause of the problem.
+</P><P>
+
+Windows 3.X doesn't allow to reprogram the timer, so the values returned
+by <CODE>uclock</CODE> there are incorrect.  DOS and Windows 9X don't have
+this problem.
+</P><P>
+
+Windows NT, 2000 and XP attempt to use the <CODE>rdtsc</CODE> feature of newer
+CPUs instead of the interval timer, because the timer tick and interval timer 
+are not coordinated.  During calibration the <CODE>SIGILL</CODE> signal handler
+is replaced to protect against systems which do not support or allow 
+<CODE>rdtsc</CODE>.  If <CODE>rdtsc</CODE> is available, uclock will keep the upper
+bits of the returned value consistent with the bios tick counter by 
+re-calibration if needed.  If <CODE>rdtsc</CODE> is not available, these systems 
+fall back to interval timer usage, which may show an absolute error of 65536 
+uclock ticks in the values and not be monotonically increasing.
+</P><P>
+
+<A NAME="SEC4379"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC4379::-->
+<P>
+
+The number of tics.
+</P><P>
+
+<A NAME="SEC4380"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC4380::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC4381"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC4381::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>printf("%lld ticks have elapsed\n", (long long)(uclock()));
+printf("%f second have elapsed\n",
+       ((double)uclock()/UCLOCKS_PER_SEC));
+</pre></td></tr></table></P><P>
+
+<A NAME="umask"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_833.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_835.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

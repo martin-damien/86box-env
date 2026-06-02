@@ -1,0 +1,165 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_337.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_336.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_338.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> fopen </H2>
+<!--docid::SEC1646::-->
+<A NAME="SEC1647"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC1647::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdio.h&#62;
+
+FILE *fopen(const char *filename, const char *mode);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1648"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC1648::-->
+<P>
+
+This function opens a stream corresponding to the named <VAR>filename</VAR>
+with the given <VAR>mode</VAR>.  The mode can be one of the following:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>r</CODE>
+<DD><P>
+
+Open an existing file for reading.
+</P><P>
+
+<DT><CODE>w</CODE>
+<DD><P>
+
+Create a new file (or truncate an existing file) and open it for
+writing. 
+</P><P>
+
+<DT><CODE>a</CODE>
+<DD><P>
+
+Open an existing file (or create a new one) for writing.  The file
+pointer is positioned to the end of the file before every write. 
+</P><P>
+
+</DL>
+<P>
+
+Followed by any of these characters:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>b</CODE>
+<DD><P>
+
+Force the file to be open in binary mode instead of the default mode.
+</P><P>
+
+When called to open the console in binary mode, <CODE>fopen</CODE> will
+disable the generation of <CODE>SIGINT</CODE> when you press <KBD>Ctrl-C</KBD>
+(<KBD>Ctrl-Break</KBD> will still cause <CODE>SIGINT</CODE>), because many programs
+that use binary reads from the console will also want to get the
+<SAMP>`^C'</SAMP> characters.  You can use the <CODE>__djgpp_set_ctrl_c</CODE> library
+function (see section <A HREF="libc_142.html">__djgpp_set_ctrl_c</A>) if you want <KBD>Ctrl-C</KBD> to
+generate interrupts while console is read in binary mode.
+</P><P>
+
+<DT><CODE>t</CODE>
+<DD><P>
+
+Force the file to be open in text mode instead of the default mode.
+</P><P>
+
+<DT><CODE>+</CODE>
+<DD><P>
+
+Open the file as with <CODE>O_RDWR</CODE> so that both reads and writes
+can be done to the same file.
+</P><P>
+
+</DL>
+<P>
+
+If the file is open for both reading and writing, you must call
+<CODE>fflush</CODE>, <CODE>fseek</CODE>, or <CODE>rewind</CODE> before switching from read
+to write or from write to read. 
+</P><P>
+
+The open file is set to line buffered if the underlying object is a
+device (stdin, stdout, etc), or is fully buffered if the underlying
+object is a disk file (data.c, etc).
+</P><P>
+
+If <CODE>b</CODE> or <CODE>t</CODE> is not specified in <VAR>mode</VAR>, the file type is
+chosen by the value of <CODE>fmode</CODE> (see section <A HREF="libc_333.html">_fmode</A>). 
+</P><P>
+
+You can open directories using <CODE>fopen</CODE>, but there is limited
+support for stream file operations on directories.  In particular,
+they cannot be read from or written to.
+</P><P>
+
+If you need to specify the DOS share flags use the <CODE>__djgpp_share_flags</CODE>.
+See section <A HREF="libc_146.html">__djgpp_share_flags</A>.
+</P><P>
+
+<A NAME="SEC1649"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC1649::-->
+<P>
+
+A pointer to the <CODE>FILE</CODE> object, or <CODE>NULL</CODE> if there was an
+error. 
+</P><P>
+
+<A NAME="SEC1650"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC1650::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C89; C99
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1651"></A>
+<H3> Example                                                                                                                                      </H3>
+<!--docid::SEC1651::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>FILE *f = fopen("foo", "rb+"); /* open existing file for read/write,
+                                * binary mode */
+</pre></td></tr></table></P><P>
+
+<A NAME="fork"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_336.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_338.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

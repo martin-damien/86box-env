@@ -1,0 +1,49 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_1.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_2.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_2.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<A NAME="Introduction"></A>
+<H1> 1. Introduction </H1>
+<!--docid::SEC1::-->
+<P>
+
+The standard C library, <TT>`libc.a'</TT>, is automatically linked into your
+programs by the <TT>`gcc'</TT> control program.  It provides many of the
+functions that are normally associated with C programs.  This document
+gives the proper usage information about each of the functions and
+variables found in <TT>`libc.a'</TT>. 
+</P><P>
+
+For each function or variable that the library provides, the definition
+of that symbol will include information on which header files to include
+in your source to obtain prototypes and type definitions relevant to the
+use of that symbol. 
+</P><P>
+
+Note that many of the functions in <TT>`libm.a'</TT> (the math library) are
+defined in <TT>`math.h'</TT> but are not present in libc.a.  Some are, which
+may get confusing, but the rule of thumb is this--the C library
+contains those functions that ANSI dictates must exist, so that you
+don't need the <CODE>-lm</CODE> if you only use ANSI functions.  In contrast,
+<TT>`libm.a'</TT> contains more functions and supports additional
+functionality such as the <CODE>matherr</CODE> call-back and compliance to
+several alternative standards of behavior in case of FP errors.
+See section <A HREF="libc_530.html">libm</A>, for more details.
+</P><P>
+
+Debugging support functions are in the library <TT>`libdbg.a'</TT>; link
+your program with <SAMP>`-ldbg'</SAMP> to use them.
+</P><P>
+
+<A NAME="Functional Categories"></A>
+<!--#perl sub="trailer" -->

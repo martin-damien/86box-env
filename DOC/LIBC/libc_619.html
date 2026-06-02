@@ -1,0 +1,65 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_619.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_618.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_620.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> pow10 </H2>
+<!--docid::SEC3167::-->
+<A NAME="SEC3168"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC3168::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+
+double pow10(double x);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3169"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC3169::-->
+<P>
+
+This function computes 10 to the power of <VAR>x</VAR>, <EM>10^x</EM>.
+</P><P>
+
+<A NAME="SEC3170"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC3170::-->
+<P>
+
+10 to the <VAR>x</VAR> power.  If the value of <VAR>x</VAR> is finite, but so
+large in magnitude that <EM>10^x</EM> cannot be accurately represented by
+a <CODE>double</CODE>, the return value is the nearest representable !
+<CODE>double</CODE> (possibly, an <CODE>Inf</CODE>), and <CODE>errno</CODE> is set to
+<CODE>ERANGE</CODE>.  If <VAR>x</VAR> is either a positive or a negative infinity,
+the result is either <CODE>+Inf</CODE> or zero, respectively, and <CODE>errno</CODE>
+is not changed.  If <VAR>x</VAR> is a <CODE>NaN</CODE>, the return value is
+<CODE>NaN</CODE> and <CODE>errno</CODE> is set to <CODE>EDOM</CODE>.
+</P><P>
+
+<A NAME="SEC3171"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC3171::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="pow2"></A>
+<!--#perl sub="trailer" -->

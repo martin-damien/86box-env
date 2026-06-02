@@ -1,0 +1,154 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_612.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_611.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_613.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> pathconf </H2>
+<!--docid::SEC3127::-->
+<A NAME="SEC3128"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC3128::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;unistd.h&#62;
+
+long pathconf(const char *filename, int name);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3129"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC3129::-->
+<P>
+
+This function returns various system-dependent configuration values. 
+The <VAR>name</VAR> is one of the following:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>_PC_LINK_MAX</CODE>
+<DD><P>
+
+The maximum number of directory entries that can refer to a single real
+file.  Always 1 in DJGPP.
+</P><P>
+
+<DT><CODE>_PC_MAX_CANON</CODE>
+<DD><P>
+
+The maximum number of bytes in an editable input line.  In DJGPP, this
+is 126 (DOS restriction).
+</P><P>
+
+<DT><CODE>_PC_MAX_INPUT</CODE>
+<DD><P>
+
+The maximum number of bytes in a non-editable input line.  Also 126 in
+DJGPP.
+</P><P>
+
+<DT><CODE>_PC_NAME_MAX</CODE>
+<DD><P>
+
+The maximum length of an individual file name.  If the filesystem where
+<VAR>filename</VAR> resides supports long file names, the result is whatever
+<CODE>_get_volume_info</CODE> returns (usually 255); otherwise 12 will be
+returned.  See section <A HREF="libc_843.html">_use_lfn</A>.
+</P><P>
+
+<DT><CODE>_PC_PATH_MAX</CODE>
+<DD><P>
+
+The maximum length of a complete path name.  If the filesystem where
+<VAR>filename</VAR> resides supports long file names, the result is whatever
+<CODE>_get_volume_info</CODE> returns (usually 260); otherwise 80 will be
+returned.  See section <A HREF="libc_843.html">_use_lfn</A>.
+</P><P>
+
+<DT><CODE>_PC_PIPE_BUF</CODE>
+<DD><P>
+
+The size of a pipe's internal buffer.  In DJGPP, this returns 512.
+</P><P>
+
+<DT><CODE>_PC_CHOWN_RESTRICTED</CODE>
+<DD><P>
+
+If non-zero, only priviledged user can change the ownership of files by
+calling <CODE>chown</CODE>, otherwise anyone may give away files.  The DJGPP
+version always returns zero, since MS-DOS files can be freely given
+away.
+</P><P>
+
+<DT><CODE>_PC_NO_TRUNC</CODE>
+<DD><P>
+
+If zero is returned, filenames longer than what 
+<CODE>pathconf (filename, _PC_NAME_MAX)</CODE> returns are truncated,
+otherwise an error occurs if you use longer names.  In DJGPP, this
+returns 0, since DOS always silently truncates long names.
+</P><P>
+
+<DT><CODE>_PC_VDISABLE</CODE>
+<DD><P>
+
+A character to use to disable tty special characters.  DJGPP currently
+doesn't support special characters, so this returns -1.
+</P><P>
+
+</DL>
+<P>
+
+<A NAME="SEC3130"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC3130::-->
+<P>
+
+The selected configuration value is returned.
+</P><P>
+
+<A NAME="SEC3131"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC3131::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3132"></A>
+<H3> Example                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC3132::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>char *buf = malloc(pathconf("c:/", _PC_MAX_PATH)+1);
+</pre></td></tr></table></P><P>
+
+<A NAME="pause"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_611.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_613.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,69 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_349.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_348.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_350.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> fread </H2>
+<!--docid::SEC1711::-->
+<A NAME="SEC1712"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC1712::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdio.h&#62;
+
+size_t fread(void *buffer, size_t size, size_t number, FILE *file);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1713"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC1713::-->
+<P>
+
+This function reads <VAR>size</VAR>*<VAR>number</VAR> characters from <VAR>file</VAR>
+to <VAR>buffer</VAR>. 
+</P><P>
+
+<A NAME="SEC1714"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC1714::-->
+<P>
+
+The number of items of size <VAR>size</VAR> read, or less if there was an
+error.
+</P><P>
+
+<A NAME="SEC1715"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC1715::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C89; C99
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1716"></A>
+<H3> Example                                                                                                                                             </H3>
+<!--docid::SEC1716::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>int foo[10];
+fread(foo, sizeof(int), 10, stdin);
+</pre></td></tr></table></P><P>
+
+<A NAME="free"></A>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,92 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_79.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_78.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_80.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> bsearch </H2>
+<!--docid::SEC284::-->
+<A NAME="SEC285"></A>
+<H3> Syntax                                             </H3>
+<!--docid::SEC285::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdlib.h&#62;
+
+void *bsearch (const void *key, const void *base, size_t num, 
+  size_t size, int (*ptf)(const void *ckey, const void *celem));
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC286"></A>
+<H3> Description                                            </H3>
+<!--docid::SEC286::-->
+<P>
+
+Given an array of values, perform a binary search on the values looking
+for value that "matches" the given key.  A match is determined by
+calling the provided function <VAR>ptf</VAR> and passing it the key as
+<VAR>ckey</VAR> and a pointer to one of the elements of the array as
+<VAR>celem</VAR>.  This function must return a negative number if the key is
+closer than the element to the beginning of the array, positive if
+it is closer to the end, and zero if the element matches the key.
+</P><P>
+
+The array begins at address <VAR>base</VAR> and contains <VAR>num</VAR> elements,
+each of size <VAR>size</VAR>. 
+</P><P>
+
+<A NAME="SEC287"></A>
+<H3> Return Value                                          </H3>
+<!--docid::SEC287::-->
+<P>
+
+Returns a pointer to the element that matches the key, else <VAR>NULL</VAR>.
+</P><P>
+
+<A NAME="SEC288"></A>
+<H3> Portability                                             </H3>
+<!--docid::SEC288::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C89; C99
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC289"></A>
+<H3> Example                                  </H3>
+<!--docid::SEC289::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>typedef struct {
+  int a, b;
+} q;
+
+int compare(void *key, void *elem)
+{
+  return *(int *)key - ((q *)elem)-&#62;a;
+}
+
+q qlist[100];
+
+<small>...</small>
+q *match = bsearch(4, qlist, 100, sizeof(q), compare);
+printf("4->%d=n", match-&#62;b);
+<small>...</small>
+
+</pre></td></tr></table></P><P>
+
+<A NAME="bzero"></A>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,81 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_792.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_791.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_793.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> syms_line2val </H2>
+<!--docid::SEC4146::-->
+<P>
+
+<A NAME="SEC4147"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC4147::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;debug/syms.h&#62;
+
+unsigned long syms_line2val (char *filename, int lnum);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC4148"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC4148::-->
+<P>
+
+This function returns the address of the first instruction produced from
+the line <VAR>lnum</VAR> of the source file <VAR>filename</VAR> that was linked
+into a program whose symbols were read by a previous call to
+<CODE>syms_init</CODE>.
+</P><P>
+
+COFF debugging format does not support pathnames, so <VAR>filename</VAR>
+should not include leading directories, just the basename.
+</P><P>
+
+You must call <CODE>syms_init</CODE> (see section <A HREF="libc_791.html">syms_init</A>) before calling any of
+the other <CODE>syms_*</CODE> functions for the first time.
+</P><P>
+
+<A NAME="SEC4149"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC4149::-->
+<P>
+
+The address of the first instruction produced from the line, or zero if
+<VAR>filename</VAR> is not found in the symbol table or if no executable code
+was generated for line <VAR>lnum</VAR> in <VAR>filename</VAR>.
+</P><P>
+
+<A NAME="SEC4150"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC4150::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC4151"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC4151::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre> syms_init ("foo.exe");
+ printf ("Line 3 of foo.c is at address %lx\n",
+          syms_line2val("foo.c", 3));
+</pre></td></tr></table><A NAME="syms_listwild"></A>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,272 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_375.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_374.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_376.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __get_extended_key_string </H2>
+<!--docid::SEC1860::-->
+<A NAME="SEC1861"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC1861::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;pc.h&#62;
+
+const unsigned char * __get_extended_key_string(int xkey_code);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1862"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC1862::-->
+<P>
+
+Returns an ECMA-48 compliant representation of an extended key's
+scan code in <VAR>xkey_code</VAR>.
+</P><P>
+
+See section <A HREF="libc_402.html">getkey</A>.
+See section <A HREF="libc_425.html">getxkey</A>.
+</P><P>
+
+<A NAME="SEC1863"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC1863::-->
+<P>
+
+A string based on the extended key's scan code <VAR>xkey_code</VAR>:
+</P><P>
+
+<TABLE>
+<TR><TD>Key </TD><TD> Normal </TD><TD> with Shift  </TD><TD> with Ctrl   </TD><TD> with Alt</TD>
+
+</TR>
+<TR><TD><KBD>Up Arrow</KBD></TD>
+</TD><TD> <CODE>ESC[A</CODE>   </TD><TD> </TD><TD> <CODE>ESC[37~</CODE> </TD><TD> <CODE>ESC[59~</CODE>
+
+</TR>
+<TR><TD><KBD>Down Arrow</KBD></TD>
+</TD><TD> <CODE>ESC[B</CODE>   </TD><TD> </TD><TD> <CODE>ESC[38~</CODE> </TD><TD> <CODE>ESC[60~</CODE>
+
+</TR>
+<TR><TD><KBD>Left Arrow</KBD></TD>
+</TD><TD> <CODE>ESC[C</CODE>   </TD><TD> </TD><TD> <CODE>ESC[39~</CODE> </TD><TD> <CODE>ESC[61~</CODE>
+
+</TR>
+<TR><TD><KBD>Right Arrow</KBD></TD>
+</TD><TD> <CODE>ESC[D</CODE>   </TD><TD> </TD><TD> <CODE>ESC[40~</CODE> </TD><TD> <CODE>ESC[62~</CODE>
+
+</TR>
+<TR><TD><KBD>Home</KBD></TD>
+</TD><TD> <CODE>ESC[1~</CODE>  </TD><TD> </TD><TD> <CODE>ESC[41~</CODE> </TD><TD> <CODE>ESC[63~</CODE>
+
+</TR>
+<TR><TD><KBD>Insert</KBD></TD>
+</TD><TD> <CODE>ESC[2~</CODE>  </TD><TD> </TD><TD> <CODE>ESC[42~</CODE> </TD><TD> <CODE>ESC[64~</CODE>
+
+</TR>
+<TR><TD><KBD>Delete</KBD></TD>
+</TD><TD> <CODE>ESC[3~</CODE>  </TD><TD> </TD><TD> <CODE>ESC[43~</CODE> </TD><TD> <CODE>ESC[65~</CODE>
+
+</TR>
+<TR><TD><KBD>End</KBD></TD>
+</TD><TD> <CODE>ESC[4~</CODE>  </TD><TD> </TD><TD> <CODE>ESC[44~</CODE> </TD><TD> <CODE>ESC[66~</CODE>
+
+</TR>
+<TR><TD><KBD>Page Up</KBD></TD>
+</TD><TD> <CODE>ESC[5~</CODE>  </TD><TD> </TD><TD> <CODE>ESC[45~</CODE> </TD><TD> <CODE>ESC[67~</CODE>
+
+</TR>
+<TR><TD><KBD>Page Down</KBD></TD>
+</TD><TD> <CODE>ESC[6~</CODE>  </TD><TD> </TD><TD> <CODE>ESC[46~</CODE> </TD><TD> <CODE>ESC[68~</CODE>
+
+</TR>
+<TR><TD><KBD>F1</KBD></TD>
+</TD><TD> <CODE>ESC[[A</CODE>  </TD><TD> <CODE>ESC[25~</CODE> </TD><TD> <CODE>ESC[47~</CODE> </TD><TD> <CODE>ESC[69~</CODE>
+
+</TR>
+<TR><TD><KBD>F2</KBD></TD>
+</TD><TD> <CODE>ESC[[B</CODE>  </TD><TD> <CODE>ESC[26~</CODE> </TD><TD> <CODE>ESC[48~</CODE> </TD><TD> <CODE>ESC[70~</CODE>
+
+</TR>
+<TR><TD><KBD>F3</KBD></TD>
+</TD><TD> <CODE>ESC[[C</CODE>  </TD><TD> <CODE>ESC[27~</CODE> </TD><TD> <CODE>ESC[49~</CODE> </TD><TD> <CODE>ESC[71~</CODE>
+
+</TR>
+<TR><TD><KBD>F4</KBD></TD>
+</TD><TD> <CODE>ESC[[D</CODE>  </TD><TD> <CODE>ESC[28~</CODE> </TD><TD> <CODE>ESC[50~</CODE> </TD><TD> <CODE>ESC[72~</CODE>
+
+</TR>
+<TR><TD><KBD>F5</KBD></TD>
+</TD><TD> <CODE>ESC[[E</CODE>  </TD><TD> <CODE>ESC[29~</CODE> </TD><TD> <CODE>ESC[51~</CODE> </TD><TD> <CODE>ESC[73~</CODE>
+
+</TR>
+<TR><TD><KBD>F6</KBD></TD>
+</TD><TD> <CODE>ESC[17~</CODE> </TD><TD> <CODE>ESC[30~</CODE> </TD><TD> <CODE>ESC[52~</CODE> </TD><TD> <CODE>ESC[74~</CODE>
+
+</TR>
+<TR><TD><KBD>F7</KBD></TD>
+</TD><TD> <CODE>ESC[18~</CODE> </TD><TD> <CODE>ESC[31~</CODE> </TD><TD> <CODE>ESC[53~</CODE> </TD><TD> <CODE>ESC[75~</CODE>
+
+</TR>
+<TR><TD><KBD>F8</KBD></TD>
+</TD><TD> <CODE>ESC[19~</CODE> </TD><TD> <CODE>ESC[32~</CODE> </TD><TD> <CODE>ESC[54~</CODE> </TD><TD> <CODE>ESC[76~</CODE>
+
+</TR>
+<TR><TD><KBD>F9</KBD></TD>
+</TD><TD> <CODE>ESC[20~</CODE> </TD><TD> <CODE>ESC[33~</CODE> </TD><TD> <CODE>ESC[55~</CODE> </TD><TD> <CODE>ESC[77~</CODE>
+
+</TR>
+<TR><TD><KBD>F10</KBD></TD>
+</TD><TD> <CODE>ESC[21~</CODE> </TD><TD> <CODE>ESC[34~</CODE> </TD><TD> <CODE>ESC[56~</CODE> </TD><TD> <CODE>ESC[78~</CODE>
+
+</TR>
+<TR><TD><KBD>F11</KBD></TD>
+</TD><TD> <CODE>ESC[23~</CODE> </TD><TD> <CODE>ESC[35~</CODE> </TD><TD> <CODE>ESC[57~</CODE> </TD><TD> <CODE>ESC[79~</CODE>
+
+</TR>
+<TR><TD><KBD>F12</KBD></TD>
+</TD><TD> <CODE>ESC[24~</CODE> </TD><TD> <CODE>ESC[36~</CODE> </TD><TD> <CODE>ESC[58~</CODE> </TD><TD> <CODE>ESC[80~</CODE>
+
+</TR></TABLE>
+<P>
+
+<TABLE>
+<TR><TD>Alt Key </TD><TD>  </TD><TD> Alt Key </TD><TD></TD>
+</TR>
+<TR><TD><KBD>Alt-A</KBD> </TD><TD> <CODE>ESC[81~</CODE></TD>
+ </TD><TD> <KBD>Alt-N</KBD> </TD><TD> <CODE>ESC[94~</CODE>
+</TR>
+<TR><TD><KBD>Alt-B</KBD> </TD><TD> <CODE>ESC[82~</CODE></TD>
+ </TD><TD> <KBD>Alt-O</KBD> </TD><TD> <CODE>ESC[95~</CODE>
+</TR>
+<TR><TD><KBD>Alt-C</KBD> </TD><TD> <CODE>ESC[83~</CODE></TD>
+ </TD><TD> <KBD>Alt-P</KBD> </TD><TD> <CODE>ESC[96~</CODE>
+</TR>
+<TR><TD><KBD>Alt-D</KBD> </TD><TD> <CODE>ESC[84~</CODE></TD>
+ </TD><TD> <KBD>Alt-Q</KBD> </TD><TD> <CODE>ESC[97~</CODE>
+</TR>
+<TR><TD><KBD>Alt-E</KBD> </TD><TD> <CODE>ESC[85~</CODE></TD>
+ </TD><TD> <KBD>Alt-R</KBD> </TD><TD> <CODE>ESC[98~</CODE>
+</TR>
+<TR><TD><KBD>Alt-F</KBD> </TD><TD> <CODE>ESC[86~</CODE></TD>
+ </TD><TD> <KBD>Alt-S</KBD> </TD><TD> <CODE>ESC[99~</CODE>
+</TR>
+<TR><TD><KBD>Alt-G</KBD> </TD><TD> <CODE>ESC[87~</CODE></TD>
+ </TD><TD> <KBD>Alt-T</KBD> </TD><TD> <CODE>ESC[100~</CODE>
+</TR>
+<TR><TD><KBD>Alt-H</KBD> </TD><TD> <CODE>ESC[88~</CODE></TD>
+ </TD><TD> <KBD>Alt-U</KBD> </TD><TD> <CODE>ESC[101~</CODE>
+</TR>
+<TR><TD><KBD>Alt-I</KBD> </TD><TD> <CODE>ESC[89~</CODE></TD>
+ </TD><TD> <KBD>Alt-V</KBD> </TD><TD> <CODE>ESC[102~</CODE>
+</TR>
+<TR><TD><KBD>Alt-J</KBD> </TD><TD> <CODE>ESC[90~</CODE></TD>
+ </TD><TD> <KBD>Alt-W</KBD> </TD><TD> <CODE>ESC[103~</CODE>
+</TR>
+<TR><TD><KBD>Alt-K</KBD> </TD><TD> <CODE>ESC[91~</CODE></TD>
+ </TD><TD> <KBD>Alt-X</KBD> </TD><TD> <CODE>ESC[104~</CODE>
+</TR>
+<TR><TD><KBD>Alt-L</KBD> </TD><TD> <CODE>ESC[92~</CODE></TD>
+ </TD><TD> <KBD>Alt-Y</KBD> </TD><TD> <CODE>ESC[105~</CODE>
+</TR>
+<TR><TD><KBD>Alt-M</KBD> </TD><TD> <CODE>ESC[93~</CODE></TD>
+ </TD><TD> <KBD>Alt-Z</KBD> </TD><TD> <CODE>ESC[106~</CODE>
+</TR></TABLE>
+<P>
+
+<CODE>NULL</CODE> is returned if <VAR>xkey_code</VAR> has no translation.
+</P><P>
+
+<A NAME="SEC1864"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC1864::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1865"></A>
+<H3> Example                                                                                                                                                                 </H3>
+<!--docid::SEC1865::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;pc.h&#62;
+#include &#60;stdio.h&#62;
+
+int key;
+
+int main()
+{
+  key = getxkey();
+  if (key &#60; 0x100)
+  {
+    putc(key, stdout);
+    putc('\r', stdout);
+  }
+  else
+  {
+    const unsigned char *str = __get_extended_key_string(key);
+    if (str)
+      puts(str);
+    else
+      puts("&#60;unknown&#62;");
+  }
+  fflush(stdout);
+}
+
+</pre></td></tr></table></P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;pc.h&#62;
+#include &#60;stdio.h&#62;
+#include &#60;dpmi.h&#62;
+
+int main()
+{
+  __dpmi_regs r;
+  const unsigned char *str;
+  int is_extended_key;
+
+  /* Wait for keypress. */
+  r.h.ah = 0x11;
+  __dpmi_int(0x16, &#38;r);
+  /* Print the encoding for function keys (F1, F2, etc.)
+     and other extended keys (Home, End, etc.). */
+  is_extended_key = (r.h.al == 0x00 || r.h.al == 0xe0);
+  if (is_extended_key)
+  {
+    str = __get_extended_key_string((int)r.h.ah)
+    printf("Key encoding: %s", str);
+  }
+}
+
+</pre></td></tr></table></P><P>
+
+<A NAME="_get_fat_size"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_374.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_376.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

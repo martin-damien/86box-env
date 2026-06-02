@@ -1,0 +1,234 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_369.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_368.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_370.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> ftw </H2>
+<!--docid::SEC1823::-->
+<A NAME="SEC1824"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC1824::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;ftw.h&#62;
+
+int ftw(const char *dir, 
+        int (*func)(const char *path, struct stat *stbuf, int flag),
+        int depth);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1825"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC1825::-->
+<P>
+
+This function recursively descends the directory hierarchy which starts
+with <VAR>dir</VAR>.  For each file in the hierarchy, <CODE>ftw</CODE> calls the
+user-defined function <VAR>func</VAR> which is passed a pointer to a
+<CODE>NULL</CODE>-terminated character array in <VAR>path</VAR> holding the full
+pathname of the file, a pointer to a <CODE>stat</CODE> structure (see section <A HREF="libc_744.html">stat</A>)
+<VAR>stbuf</VAR> with a filesystem information about that file, and an integer
+<VAR>flag</VAR>.  Possible values of <VAR>flag</VAR> are:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>FTW_F</CODE>
+<DD><P>
+
+This is a regular file.
+</P><P>
+
+<DT><CODE>FTW_D</CODE>
+<DD><P>
+
+This is a directory.
+</P><P>
+
+<DT><CODE>FTW_VL</CODE>
+<DD><P>
+
+This is a volume label.
+</P><P>
+
+<DT><CODE>FTW_DNR</CODE>
+<DD><P>
+
+This is a directory which cannot be read with <CODE>readdir()</CODE>.  (This
+will never happen in DJGPP.)
+</P><P>
+
+<DT><CODE>FTW_NS</CODE>
+<DD><P>
+
+This file exists, but <CODE>stat</CODE> fails for it.
+</P><P>
+
+</DL>
+<P>
+
+If <VAR>flag</VAR> is <CODE>FTW_DNR</CODE>, the descendants of that directory won't
+be processed.  If <VAR>flag</VAR> is <CODE>FTW_NS</CODE>, then <VAR>stbuf</VAR> will be
+garbled.
+</P><P>
+
+This function always visits a directory before any of its siblings.  The
+argument <VAR>dir</VAR> must be a directory, or <CODE>ftw</CODE> will fail and set
+<CODE>errno</CODE> to <CODE>ENOTDIR</CODE>.  The function <VAR>func</VAR> is called with
+<VAR>dir</VAR> as its argument before the recursive descent begins.
+</P><P>
+
+The <VAR>depth</VAR> argument has no meaning in the DJGPP implementation and is
+always ignored.
+</P><P>
+
+The tree traversal continues until one of the following events:
+</P><P>
+
+(1)  The tree is exhausted (i.e., all descendants of <VAR>dir</VAR> are
+processed).  In this case, <CODE>ftw</CODE> returns 0, meaning a success.
+</P><P>
+
+(2)  An invocation of <VAR>func</VAR> returns a non-zero value.  In this case,
+<CODE>ftw</CODE> stops the tree traversal and returns whatever <VAR>func</VAR>
+returned.
+</P><P>
+
+(3)  An error is detected within <CODE>ftw</CODE>.  In that case, <CODE>ftw</CODE>
+returns -1 and sets <CODE>errno</CODE> (see section <A HREF="libc_293.html">errno</A>) to a suitable value.
+</P><P>
+
+<A NAME="SEC1826"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC1826::-->
+<P>
+
+Zero in case the entire tree was successfully traversed, -1 if <CODE>ftw</CODE>
+detected some error during its operation, or any other non-zero value
+which was returned by the user-defined function <VAR>func</VAR>.
+</P><P>
+
+<A NAME="SEC1827"></A>
+<H3> Implementation Notes  </H3>
+<!--docid::SEC1827::-->
+<P>
+
+This function uses <CODE>malloc</CODE> (see section <A HREF="libc_551.html">malloc</A>) for dynamic memory
+allocation during its operation.  If <VAR>func</VAR> disrupts the normal flow
+of code execution by e.g. calling <CODE>longjump</CODE> or if an interrupt
+handler which never returns is executed, this memory will remain
+permanently allocated.
+</P><P>
+
+This function calls <CODE>opendir()</CODE> and <CODE>readdir()</CODE> functions to
+read the directory entries.  Therefore, you can control what files will
+your <VAR>func</VAR> get by setting the appropriate bits in the external
+variable <VAR>__opendir_flags</VAR>.  See section <A HREF="libc_602.html">opendir</A>, for description of these
+bits.
+</P><P>
+
+This function also calls <CODE>stat</CODE> for every directory entry it passes
+to <VAR>func</VAR>.  If your application only needs some part of the
+information returned in the <CODE>stat</CODE> structure, you can make your
+application significantly faster by setting bits in the external variable
+<VAR>_djstat_flags</VAR> (see section <A HREF="libc_151.html">_djstat_flags</A> for details).  The most
+expensive <CODE>stat</CODE> features are <CODE>_STAT_EXEC_MAGIC</CODE> and
+<CODE>_STAT_DIRSIZE</CODE>.
+</P><P>
+
+<A NAME="SEC1828"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC1828::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1829"></A>
+<H3> Example                                                                                                                                                           </H3>
+<!--docid::SEC1829::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdlib.h&#62;
+
+int
+file_walker(const char *path, struct stat *sb, int flag)
+{
+  char *base;
+
+  printf("%s:\t%u\t", path, sb-&#62;st_size);
+  if (S_ISLABEL(sb-&#62;st_mode))
+    printf("V");
+  if (S_ISDIR(sb-&#62;st_mode))
+    printf("D");
+  if (S_ISCHR(sb-&#62;st_mode))
+    printf("C");
+  if (sb-&#62;st_mode &#38; S_IRUSR)
+    printf("r");
+  if (sb-&#62;st_mode &#38; S_IWUSR)
+    printf("w");
+  if (sb-&#62;st_mode &#38; S_IXUSR)
+    printf("x");
+
+  if (flag == FTW_NS)
+    printf("  !!no_stat!!");
+  printf("\n");
+
+  base = strrchr(path, '/');
+  if (base == 0)
+    base = strrchr(path, '\\');
+  if (base == 0)
+    base = strrchr(path, ':');
+  if (strcmp(base == 0 ? path : base + 1, "xxxxx") == 0)
+    return 42;
+  return 0;
+}
+
+int
+main(int argc, char *argv[])
+{
+  if (argc &#62; 1)
+    {
+      char msg[80];
+
+      sprintf(msg, "file_tree_walk: %d",
+                   ftw(argv[1], file_walker, 0));
+      if (errno)
+        perror(msg);
+      else
+        puts(msg);
+    }
+  else
+    printf("Usage: %s dir\n", argv[0]);
+
+  return 0;
+}
+</pre></td></tr></table><A NAME="_fwalk"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_368.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_370.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

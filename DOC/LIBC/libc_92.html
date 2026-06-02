@@ -1,0 +1,70 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_92.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_91.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_93.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> chdir </H2>
+<!--docid::SEC354::-->
+<A NAME="SEC355"></A>
+<H3> Syntax                                                          </H3>
+<!--docid::SEC355::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;unistd.h&#62;
+
+int chdir(const char *new_directory);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC356"></A>
+<H3> Description                                                         </H3>
+<!--docid::SEC356::-->
+<P>
+
+This function changes the current directory to <VAR>new_directory</VAR>.
+If a drive letter is specified, the current directory for that drive
+is changed and the current disk is set to that drive, else the current
+directory for the current drive is changed.
+</P><P>
+
+<A NAME="SEC357"></A>
+<H3> Return Value                                                       </H3>
+<!--docid::SEC357::-->
+<P>
+
+Zero if the new directory exists, else nonzero and <CODE>errno</CODE> set if error.
+</P><P>
+
+<A NAME="SEC358"></A>
+<H3> Portability                                                          </H3>
+<!--docid::SEC358::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC359"></A>
+<H3> Example                                      </H3>
+<!--docid::SEC359::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>if (chdir("/tmp"))
+  perror("/tmp");
+</pre></td></tr></table></P><P>
+
+<A NAME="_check_v2_prog"></A>
+<!--#perl sub="trailer" -->

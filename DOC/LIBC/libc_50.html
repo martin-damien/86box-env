@@ -1,0 +1,77 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_50.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_49.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_51.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> atan2 </H2>
+<!--docid::SEC115::-->
+<A NAME="SEC116"></A>
+<H3> Syntax                </H3>
+<!--docid::SEC116::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+
+double atan2(double y, double x);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC117"></A>
+<H3> Description               </H3>
+<!--docid::SEC117::-->
+<P>
+
+This function computes the angle, in the range <CODE>[-Pi..Pi]</CODE> radians,
+whose tangent is <CODE><VAR>y</VAR>/<VAR>x</VAR></CODE>.  In other words, it computes
+the angle, in radians, of the vector (<VAR>x</VAR>,<VAR>y</VAR>) with respect to
+the <CODE>+x</CODE> axis, reckoning the counterclockwise direction as
+positive, and returning the value in the range <CODE>[-Pi, Pi]</CODE>.
+</P><P>
+
+<A NAME="SEC118"></A>
+<H3> Return Value               </H3>
+<!--docid::SEC118::-->
+<P>
+
+The arc tangent, in radians, of <CODE><VAR>y</VAR>/<VAR>x</VAR></CODE>.  <CODE>Pi</CODE> is
+returned if <VAR>x</VAR> is negative and <VAR>y</VAR> is a negative zero,
+<CODE>-0.0</CODE>.  <CODE>-Pi</CODE> is returned, if <VAR>x</VAR> is negative, and
+<VAR>y</VAR> is a positive zero, <CODE>+0.0</CODE>.
+</P><P>
+
+If either <VAR>x</VAR> or <VAR>y</VAR> is infinite, <CODE>atan2</CODE> returns,
+respectively, <CODE>Pi</CODE> with the sign of <VAR>y</VAR> or zero, and
+<CODE>errno</CODE> is left unchanged.  However, if <EM>both</EM> arguments are
+infinite, the return value is <CODE>NaN</CODE> and <CODE>errno</CODE> is set to
+<CODE>EDOM</CODE>.
+</P><P>
+
+A <CODE>NaN</CODE> is returned, and <CODE>errno</CODE> is set to <CODE>EDOM</CODE>, if
+either <VAR>x</VAR> and <VAR>y</VAR> are both zero, or if either one of the
+arguments is a <CODE>NaN</CODE>.
+</P><P>
+
+<A NAME="SEC119"></A>
+<H3> Portability                </H3>
+<!--docid::SEC119::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C89; C99
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="atanh"></A>
+<!--#perl sub="trailer" -->

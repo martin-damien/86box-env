@@ -1,0 +1,66 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_621.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_620.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_622.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> powi </H2>
+<!--docid::SEC3177::-->
+<A NAME="SEC3178"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC3178::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+
+double powi(double x, int iy);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3179"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC3179::-->
+<P>
+
+This function computes <EM>x^iy</EM>, where <VAR>iy</VAR> is an integer number.
+It does so by an optimized sequence of squarings and multiplications.
+For integer values of exponent, it is always faster to call <CODE>powi</CODE>
+than to call <CODE>pow</CODE> with the same arguments, even if <VAR>iy</VAR> has a
+very large value.  For small values of <VAR>iy</VAR>, <CODE>powi</CODE> is
+<EM>much</EM> faster than <CODE>pow</CODE>.
+</P><P>
+
+<A NAME="SEC3180"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC3180::-->
+<P>
+
+<VAR>x</VAR> raised to the <VAR>iy</VAR> power.  If <VAR>x</VAR> and <VAR>iy</VAR> are both
+zero, the return value is 1.  If <VAR>x</VAR> is equal to zero, and <VAR>iy</VAR>
+is negative, the return value is <CODE>Inf</CODE>.  This function never sets
+<CODE>errno</CODE>.
+</P><P>
+
+<A NAME="SEC3181"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC3181::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="_preserve_fncase"></A>
+<!--#perl sub="trailer" -->

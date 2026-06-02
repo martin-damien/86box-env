@@ -1,0 +1,69 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_672.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_671.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_673.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> Screen Variables </H2>
+<!--docid::SEC3470::-->
+<A NAME="SEC3471"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC3471::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;go32.h&#62;
+#include &#60;pc.h&#62;
+
+unsigned long ScreenPrimary;
+unsigned long ScreenSecondary;
+extern unsigned char ScreenAttrib;
+
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3472"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC3472::-->
+<P>
+
+The first two variables (actually, they are #define'd aliases to fields in
+the <VAR>_go32_info_block</VAR> structure see section <A HREF="libc_451.html">_go32_info_block</A>) allow
+access to the video memory of the primary and secondary screens as if they
+were arrays.  To reference them, you must use dosmemget()/dosmemput()
+functions (<A HREF="libc_190.html">dosmemget</A>, see section <A HREF="libc_194.html">dosmemput</A>) or any one of the far
+pointer functions (see section <A HREF="libc_304.html">_far*</A>), as the video memory is <EM>not</EM> mapped
+into your default address space.
+</P><P>
+
+The variable ScreenAttrib holds the current attribute which is in use by
+the text screen writes.  The attribute is constructed as follows:
+</P><P>
+
+bits 0-3  -- foreground color;
+</P><P>
+
+bits 4-6  -- background color;
+</P><P>
+
+bit  7    -- blink on (1) or off (0).
+</P><P>
+
+<A NAME="SEC3473"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC3473::-->
+<P>
+
+_farpokew(_dos_ds, ScreenPrimary, ( ((unsigned short) attr) &#60;&#60; 8) + char ));
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre></pre></td></tr></table></P><P>
+
+<A NAME="ScreenClear"></A>
+<!--#perl sub="trailer" -->

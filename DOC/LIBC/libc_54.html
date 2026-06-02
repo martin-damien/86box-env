@@ -1,0 +1,74 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_54.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_53.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_55.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> atoi </H2>
+<!--docid::SEC137::-->
+<A NAME="SEC138"></A>
+<H3> Syntax                    </H3>
+<!--docid::SEC138::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdlib.h&#62;
+
+int atoi(const char *string);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC139"></A>
+<H3> Description                   </H3>
+<!--docid::SEC139::-->
+<P>
+
+Convert as much of the string as possible to an equivalent integer
+value.
+</P><P>
+
+This function is almost like <CODE>(int)strtol(string, NULL, 10)</CODE>
+(see section <A HREF="libc_780.html">strtol</A>).
+</P><P>
+
+<A NAME="SEC140"></A>
+<H3> Return Value                   </H3>
+<!--docid::SEC140::-->
+<P>
+
+The equivalent value, or zero if the string does not represent a number. 
+</P><P>
+
+<A NAME="SEC141"></A>
+<H3> Portability                    </H3>
+<!--docid::SEC141::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C89; C99
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC142"></A>
+<H3> Example          </H3>
+<!--docid::SEC142::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>main(int argc, char **argv)
+{
+  int i = atoi(argv[1]);
+  <small>...</small>
+</pre></td></tr></table></P><P>
+
+<A NAME="atol"></A>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,119 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_306.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_305.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_307.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> fchmod </H2>
+<!--docid::SEC1474::-->
+<A NAME="SEC1475"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC1475::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;sys/stat.h&#62;
+
+int fchmod(int fd, mode_t mode);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1476"></A>
+<H3> Description                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC1476::-->
+<P>
+
+This function changes the mode (writable or write-only) of the file
+opened under the file descriptor <VAR>fd</VAR>.  The value of <VAR>mode</VAR>
+can be a combination of one or more of the <CODE>S_I*</CODE> constants
+described in the description of the <CODE>chmod</CODE> function (see section <A HREF="libc_94.html">chmod</A>).
+</P><P>
+
+Some <CODE>S_I*</CODE> constants are ignored for regular files:
+</P><P>
+
+<UL>
+<LI>
+<CODE>S_I*GRP</CODE> and <CODE>S_I*OTH</CODE> are ignored, because DOS/Windows
+has no concept of ownership, so all files are considered to belong
+to the user;
+<P>
+
+<LI>
+<CODE>S_IR*</CODE> are ignored, because files are always readable on DOS/Windows.
+</UL>
+<P>
+
+<CODE>fchmod</CODE> will always succeed for character devices, but the mode
+will be ignored.
+</P><P>
+
+<CODE>fchmod</CODE> may not be able to change the mode of files that have been
+opened using low-level methods.  High-level methods for opening files
+include the <CODE>fopen</CODE> (see section <A HREF="libc_337.html">fopen</A>) and <CODE>open</CODE> (see section <A HREF="libc_600.html">open</A>)
+functions.  Low-level methods include the <CODE>_open</CODE> (see section <A HREF="libc_601.html">_open</A>)
+and <CODE>_dos_open</CODE> (see section <A HREF="libc_176.html">_dos_open</A>) functions.  In particular,
+redirected handles cannot have their mode changed with <CODE>fchmod</CODE>.
+</P><P>
+
+<CODE>fchmod</CODE> may also not work as expected under DOS.  For instance,
+if a file is opened as read-write, then changed to read-only
+with <CODE>fchmod</CODE>, but then written to, then the mode will not
+be changed.
+</P><P>
+
+This function can be hooked by File System Extensions
+(see section <A HREF="libc_321.html">File System Extensions</A>).
+</P><P>
+
+<A NAME="SEC1477"></A>
+<H3> Return Value                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC1477::-->
+<P>
+
+Zero if the file exists and the mode was changed, else -1.
+</P><P>
+
+<A NAME="SEC1478"></A>
+<H3> Portability                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC1478::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1479"></A>
+<H3> Example                                                                                                                </H3>
+<!--docid::SEC1479::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>int fd;
+
+fd = open("/tmp/dj.dat", O_RDWR);
+fchmod(fd, S_IWUSR|S_IRUSR);
+</pre></td></tr></table><A NAME="fchown"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_305.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_307.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

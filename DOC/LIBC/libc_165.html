@@ -1,0 +1,117 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_165.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_164.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_166.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _dos_creatnew </H2>
+<!--docid::SEC737::-->
+<A NAME="SEC738"></A>
+<H3> Syntax                                                                                                                                   </H3>
+<!--docid::SEC738::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dos.h&#62;
+
+unsigned int _dos_creatnew(const char *filename, unsigned short attr,
+                           int *handle);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC739"></A>
+<H3> Description                                                                                                                                </H3>
+<!--docid::SEC739::-->
+<P>
+
+This is a direct connection to the MS-DOS create unique function call
+(%ah = 0x5B).  This function creates the given file with the given
+attribute and puts file handle into <VAR>handle</VAR> if creating is successful.
+This function will fail if the specified file exists.  Meaning of
+<VAR>attr</VAR> parameter is the following:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>_A_NORMAL (0x00)</CODE>
+<DD><P>
+
+Normal file (no read/write restrictions)
+</P><P>
+
+<DT><CODE>_A_RDONLY (0x01)</CODE>
+<DD><P>
+
+Read only file
+</P><P>
+
+<DT><CODE>_A_HIDDEN (0x02)</CODE>
+<DD><P>
+
+Hidden file
+</P><P>
+
+<DT><CODE>_A_SYSTEM (0x04)</CODE>
+<DD><P>
+
+System file
+</P><P>
+
+<DT><CODE>_A_ARCH (0x20)</CODE>
+<DD><P>
+
+Archive file
+</P><P>
+
+</DL>
+<P>
+
+See also <A HREF="libc_176.html">_dos_open</A>, <A HREF="libc_164.html">_dos_creat</A>, <A HREF="libc_177.html">_dos_read</A>,
+<A HREF="libc_185.html">_dos_write</A>, and <A HREF="libc_162.html">_dos_close</A>.
+</P><P>
+
+This function does not support long filenames, even on systems where the
+LFN API (see section <A HREF="libc_843.html">LFN</A>) is available.  For LFN-aware functions
+with similar functionality see <A HREF="libc_119.html">_creatnew</A>, and <A HREF="libc_118.html">_creat</A>.  Also
+see <A HREF="libc_117.html">creat</A>, and <A HREF="libc_600.html">open</A>, which are Posix-standard.
+</P><P>
+
+<A NAME="SEC740"></A>
+<H3> Return Value                                                                                                              </H3>
+<!--docid::SEC740::-->
+<P>
+
+Returns 0 if successful or DOS error code on error (and sets <CODE>errno</CODE>).
+</P><P>
+
+<A NAME="SEC741"></A>
+<H3> Portability                                                                                                                                  </H3>
+<!--docid::SEC741::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC742"></A>
+<H3> Example                                                                    </H3>
+<!--docid::SEC742::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>int handle;
+
+if ( !_dos_creatnew("FOO.DAT", _A_NORMAL, &#38;handle) )
+   puts("Creating was successful !");
+</pre></td></tr></table><A NAME="_dos_findfirst"></A>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,121 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_311.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_310.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_312.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> fcvtbuf </H2>
+<!--docid::SEC1502::-->
+<A NAME="SEC1503"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC1503::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdlib.h&#62;
+
+char * fcvtbuf (double value, int ndigits, int *decpt, int *sign,
+                char *buf)
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1504"></A>
+<H3> Description                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC1504::-->
+<P>
+
+This function converts its argument <VAR>value</VAR> into a null-terminated
+string in <VAR>buf</VAR> with <VAR>ndigits</VAR> digits <EM>to the right</EM> of the
+decimal point.  <VAR>ndigits</VAR> can be negative to indicate rounding to
+the left of the decimal point.  <VAR>buf</VAR> should have enough space to
+hold at least <CODE>310+max(0,<VAR>ndigits</VAR>)</CODE> characters.
+</P><P>
+
+Note that, unlike <CODE>ecvtbuf</CODE> (see section <A HREF="libc_287.html">ecvtbuf</A>), <CODE>fcvtbuf</CODE> only
+counts the digits <EM>to the right</EM> of the decimal point.  Thus, if
+<VAR>value</VAR> is 123.45678 and <VAR>ndigits</VAR> is 4, then <CODE>ecvtbuf</CODE>
+will produce "1235", but <CODE>fcvtbuf</CODE> will produce "1234568" (and
+<VAR>*decpt</VAR> will be 3 in both cases).
+</P><P>
+
+The produced string in <VAR>buf</VAR> does <EM>not</EM> include the decimal
+point.  Instead, the position of the decimal point relative to the
+beginning of <VAR>buf</VAR> is stored in an integer variable whose address is
+passed in <VAR>decpt</VAR>.  Thus, if <VAR>buf</VAR> is returned as "1234" and
+<VAR>*decpt</VAR> as 1, this corresponds to a value of 1.234; if <VAR>*decpt</VAR>
+is -1, this corresponds to a value of 0.01234, etc.
+</P><P>
+
+The sign is also not included in <VAR>buf</VAR>'s value.  If <VAR>value</VAR> is
+negative, <CODE>ecvtbuf</CODE> puts a nonzero value into the variable whose
+address is passed in <VAR>sign</VAR>; otherwise it stores zero in
+<VAR>*sign</VAR>.
+</P><P>
+
+The least-significant digit in <VAR>buf</VAR> is rounded.
+</P><P>
+
+<CODE>ecvtbuf</CODE> produces the string "NaN" if <VAR>value</VAR> is a NaN, and
+"Inf" or "Infinity" if <VAR>value</VAR> is an infinity (the longer form
+is produced when <VAR>ndigits</VAR> is 8 or more).
+</P><P>
+
+<A NAME="SEC1505"></A>
+<H3> Return Value                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC1505::-->
+<P>
+
+A pointer to <VAR>buf</VAR>.
+</P><P>
+
+<A NAME="SEC1506"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC1506::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1507"></A>
+<H3> Example                                                                                                                   </H3>
+<!--docid::SEC1507::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>  #include &#60;stdlib.h&#62;
+  #include &#60;stdio.h&#62;
+  #include &#60;math.h&#62;
+
+  char vbuf[20];
+  int fsign, fdecpt;
+
+  fcvtbuf (M_PI, 5, &#38;fdecpt, &#38;fsign, buf)
+  /* This will print " 314159".  */
+  printf ("%c%s", fsign ? '-' : ' ', buf);
+</pre></td></tr></table></P><P>
+
+<A NAME="fdopen"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_310.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_312.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

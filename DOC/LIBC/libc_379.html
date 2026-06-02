@@ -1,0 +1,114 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_379.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_378.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_380.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _get_fs_type </H2>
+<!--docid::SEC1882::-->
+<A NAME="SEC1883"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC1883::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dos.h&#62;
+
+int _get_fs_type( const int drive,
+                  char *const result_str );
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1884"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC1884::-->
+<P>
+
+This function tries to extract the file system type of the drive
+number <VAR>drive</VAR>, 1 == A:, 2 == B:, etc., 0 == default drive.  It
+does this by calling INT21, AX=0x6900, Get Disk Serial Number (sic!),
+which returns, among other things, an eight character field which is
+set while formatting the drive. Now, this field can be set to whatever
+the formatting program wishes, but so far every FAT formatted drive
+has returned a string starting with "FAT".  
+</P><P>
+
+If successful the result is put in <VAR>result_str</VAR> which must be at 
+least 9 characters long.  If unsuccessful <CODE>errno</CODE> is set.  
+</P><P>
+
+This function will not succeed on DOS version &#60; 4, setting
+<CODE>errno</CODE> to <CODE>ENOSYS</CODE>.  It is also known to have trouble
+detecting the file system type of disks formatted with a later version
+of DOS than the version it is run on.  E. g. floppies with LFN
+entries can cause this function to fail or detect the floppy as
+FAT16 if used in plain DOS.  
+</P><P>
+
+If you are interested in which kind of FAT file system that is in use
+try the function <CODE>_get_fat_size</CODE> (see section <A HREF="libc_376.html">_get_fat_size</A>) which
+will reliably detect the right kind of FAT file system.  
+</P><P>
+
+<A NAME="SEC1885"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC1885::-->
+<P>
+
+0 if the file system type was extracted successfully; otherwise -1.  
+</P><P>
+
+<A NAME="SEC1886"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC1886::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1887"></A>
+<H3> Example                                                                                                                                                                   </H3>
+<!--docid::SEC1887::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdio.h&#62;
+#include &#60;dos.h&#62;
+
+int main(void)
+{
+  char buffer[9];
+
+  if( ! _get_fs_type( 3, buffer ) )
+  {
+    printf("The file system on C: is '%s'.\n", buffer);
+  }
+
+  exit(0);
+}
+
+</pre></td></tr></table><A NAME="_get_volume_info"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_378.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_380.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

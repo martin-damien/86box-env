@@ -1,0 +1,77 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_367.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_366.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_368.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> ftime </H2>
+<!--docid::SEC1811::-->
+<A NAME="SEC1812"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC1812::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;sys/timeb.h&#62;
+
+int ftime(struct timeb *buf);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1813"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC1813::-->
+<P>
+
+This function stores the current time in the structure <VAR>buf</VAR>.  The
+format of <CODE>struct timeb</CODE> is:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct timeb {
+  time_t         time;     /* seconds since 00:00:00 GMT 1/1/1970 */
+  unsigned short millitm;  /* milliseconds */
+  short          timezone; /* difference between GMT and local,
+                            * minutes */
+  short          dstflag;  /* set if daylight savings time in affect */
+};
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1814"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC1814::-->
+<P>
+
+Zero on success, nonzero on error.
+</P><P>
+
+<A NAME="SEC1815"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC1815::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1816"></A>
+<H3> Example                                                                                                                                                         </H3>
+<!--docid::SEC1816::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct timeb t;
+ftime(&#38;t);
+</pre></td></tr></table></P><P>
+
+<A NAME="ftruncate"></A>
+<!--#perl sub="trailer" -->

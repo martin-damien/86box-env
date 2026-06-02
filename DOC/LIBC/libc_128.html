@@ -1,0 +1,89 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_128.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_127.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_129.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> delay </H2>
+<!--docid::SEC543::-->
+<A NAME="SEC544"></A>
+<H3> Syntax                                                                                              </H3>
+<!--docid::SEC544::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dos.h&#62;
+
+void delay(unsigned msec);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC545"></A>
+<H3> Description                                                                                             </H3>
+<!--docid::SEC545::-->
+<P>
+
+This function causes the program to pause for <VAR>msec</VAR> milliseconds.
+It uses the <CODE>int 15h</CODE> delay function to relinquish the CPU to other
+programs that might need it.
+</P><P>
+
+Some operating systems that emulate DOS, such as OS/2, Windows/NT,
+Windows 2000 and Windows XP hang the DOS session when
+the <KBD>Pause</KBD> key is pressed during the call to <CODE>delay</CODE>.
+Plain DOS and Windows 3.X and 9X are known to not have this bug.
+On Windows 2000 and XP to exit the pause press any key.
+</P><P>
+
+Some operating systems, such as Windows 2000 and XP which do not support
+<CODE>int 15h</CODE>.  <CODE>int 1ah</CODE> is used instead on these operating
+systems.  This method has lower accuracy in the delay length.
+</P><P>
+
+Windows 2000 and XP delay resolution is 54.9 millisecond.  Under Windows
+2000 and XP the delay function uses the Time Of Day Tick which occurs
+18.2 times per second.  This limits the accuracy of the delay to around
+27 milliseconds on Windows 2000 and XP.  On Windows 2000 and XP
+the Programable Interval Timer works and is a source of higher resolution
+than delay currently uses.  Unfortunately PIT and Time Of Day tic
+does not appear to be coordinated.
+</P><P>
+
+<A NAME="SEC546"></A>
+<H3> Return Value                                                                                     </H3>
+<!--docid::SEC546::-->
+<P>
+
+None.
+</P><P>
+
+<A NAME="SEC547"></A>
+<H3> Portability                                                                                             </H3>
+<!--docid::SEC547::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC548"></A>
+<H3> Example                                               </H3>
+<!--docid::SEC548::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>delay(200); /* delay for 1/5 second */
+</pre></td></tr></table></P><P>
+
+<A NAME="delline"></A>
+<!--#perl sub="trailer" -->

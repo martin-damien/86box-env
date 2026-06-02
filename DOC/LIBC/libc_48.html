@@ -1,0 +1,97 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_48.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_47.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_49.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> assert </H2>
+<!--docid::SEC104::-->
+<A NAME="SEC105"></A>
+<H3> Syntax              </H3>
+<!--docid::SEC105::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#define NDEBUG
+#include &#60;assert.h&#62;
+
+assert(expression);
+assertval(expression);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC106"></A>
+<H3> Description             </H3>
+<!--docid::SEC106::-->
+<P>
+
+These macros are used to assist in debugging.  The source code includes
+references to <CODE>assert</CODE> or <CODE>assertval</CODE>, passing them
+expressions that should be <CODE>true</CODE> (non-zero).  When the expression
+yields <CODE>false</CODE> (zero), a diagnostic message is printed to the
+standard error stream, and the program aborts.
+</P><P>
+
+If you define the macro <CODE>NDEBUG</CODE> before including <TT>`assert.h'</TT>,
+then these <CODE>assert</CODE> and <CODE>assertval</CODE> expand to nothing to
+reduce code size after debugging is done.
+</P><P>
+
+<A NAME="SEC107"></A>
+<H3> Return Value             </H3>
+<!--docid::SEC107::-->
+<P>
+
+<CODE>assert</CODE> returns 1 if its argument is non-zero, else it aborts.
+</P><P>
+
+<CODE>assertval</CODE> returns the value of its <VAR>expression</VAR> argument, if
+non-zero, else it aborts.
+</P><P>
+
+<A NAME="SEC108"></A>
+<H3> Portability              </H3>
+<!--docid::SEC108::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C89; C99 (see note 1)
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001 (see note 2)
+</TR></TABLE>
+<P>
+
+Notes:
+</P><P>
+
+<OL>
+<LI>
+<CODE>assert</CODE> is ANSI, <CODE>assertval</CODE> is not.
+<LI>
+<CODE>assert</CODE> is Posix, <CODE>assertval</CODE> is not.
+</OL>
+<P>
+
+<A NAME="SEC109"></A>
+<H3> Example       </H3>
+<!--docid::SEC109::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>/* Like `strdup', but doesn't crash if the argument is NULL.  */
+char * safe_strdup(const char *s)
+{
+  assert(s != 0);
+  return strdup(s);
+}
+</pre></td></tr></table></P><P>
+
+<A NAME="atan"></A>
+<!--#perl sub="trailer" -->

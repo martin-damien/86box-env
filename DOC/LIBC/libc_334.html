@@ -1,0 +1,182 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_334.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_333.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_335.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> fnmatch </H2>
+<!--docid::SEC1628::-->
+<A NAME="SEC1629"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC1629::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;fnmatch.h&#62;
+
+int fnmatch(const char *pattern, const char *string, int flags);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1630"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC1630::-->
+<P>
+
+This function indicates if <VAR>string</VAR> matches the <VAR>pattern</VAR>.  The
+<VAR>pattern</VAR> may include the following special characters:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>*</CODE>
+<DD><P>
+
+Matches zero of more characters.
+</P><P>
+
+<DT><CODE>?</CODE>
+<DD><P>
+
+Matches exactly one character.
+</P><P>
+
+<DT><CODE>[...]</CODE>
+<DD><P>
+
+Matches one character if it's in a range of characters.  If the first
+character is <SAMP>`!'</SAMP>, matches if the character is not in the range. 
+Between the brackets, the range is specified by listing the characters
+that are in the range, or two characters separated by <SAMP>`-'</SAMP> to
+indicate all characters in that range.  For example, <SAMP>`[a-d]'</SAMP>
+matches <SAMP>`a'</SAMP>, <SAMP>`b'</SAMP>, <SAMP>`c'</SAMP>, or <SAMP>`d'</SAMP>.  If you want to
+include the literal <SAMP>`-'</SAMP> in the range, make it the first character,
+like in <SAMP>`[-afz]'</SAMP>.
+</P><P>
+
+<DT><CODE>\</CODE>
+<DD><P>
+
+Causes the next character to not be treated as a wildcard.  For example,
+<SAMP>`\*'</SAMP> matches an asterisk.  This feature is not available if
+<VAR>flags</VAR> includes <CODE>FNM_NOESCAPE</CODE>, in which case <SAMP>`\'</SAMP> is
+treated as a directory separator.
+</P><P>
+
+</DL>
+<P>
+
+The value of <VAR>flags</VAR> is a combination of zero of more of the
+following:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>FNM_PATHNAME</CODE>
+<DD><P>
+
+This means that the <VAR>string</VAR> should be treated as a pathname, in
+that the slash characters <SAMP>`/'</SAMP> and <SAMP>`\'</SAMP> in <VAR>string</VAR> never
+match any of the wildcards in <VAR>pattern</VAR>.
+</P><P>
+
+<DT><CODE>FNM_NOESCAPE</CODE>
+<DD><P>
+
+If this flag is <STRONG>not</STRONG> set, the backslash <SAMP>`\'</SAMP> may be used in
+<VAR>pattern</VAR> for quoting special characters.  If this flag <STRONG>is</STRONG>
+set, <SAMP>`\'</SAMP> is treated as a directory separator.
+</P><P>
+
+<DT><CODE>FNM_NOCASE</CODE>
+<DD><P>
+
+If this flag is set, <CODE>fnmatch</CODE> matches characters
+case-insensitively, including in character ranges like <CODE>[a-f]</CODE>.
+Note that the case-folding is done by calling <CODE>toupper</CODE>
+(see section <A HREF="libc_827.html">toupper</A>), and thus might be sensitive to the current locale.
+</P><P>
+
+<DT><CODE>FNM_PERIOD</CODE>
+<DD><P>
+
+This flag is accepted and ignored in the current implementation.  (This
+is the right thing to do on non-LFN platforms, where leading dots in
+file names are forbidden.)
+</P><P>
+
+In the Posix specification, if this flag is set, leading dots in file
+names will not match any wildcards.  If <CODE>FNM_PATHNAME</CODE> is set, a
+dot after a slash also doesn't match any wildcards.
+</P><P>
+
+</DL>
+<P>
+
+The DJGPP implementation treats forward slashes and backslashes as equal
+when <CODE>FNM_NOESCAPE</CODE> is set, since on DOS/Windows these two
+characters are both used as directory separators in file names.
+</P><P>
+
+<A NAME="SEC1631"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC1631::-->
+<P>
+
+Zero if the string matches, <CODE>FNM_NOMATCH</CODE> if it does not.  Posix
+defines an additional <CODE>FNM_ERROR</CODE> code that's returned in case of
+an error, but the current implementation never returns it.
+</P><P>
+
+<A NAME="SEC1632"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC1632::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001 (see note 1)
+</TR></TABLE>
+<P>
+
+Notes:
+</P><P>
+
+<OL>
+<LI>
+The equal handling of <SAMP>`\'</SAMP> and <SAMP>`/'</SAMP> is DJGPP-specific.
+</OL>
+<P>
+
+<A NAME="SEC1633"></A>
+<H3> Example                                                                                                                                   </H3>
+<!--docid::SEC1633::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>if (fnmatch("*.[ch]", filename, FNM_PATHNAME|FNM_NOCASE))
+  do_source_file(filename);
+</pre></td></tr></table></P><P>
+
+<A NAME="fnmerge"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_333.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_335.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,61 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_152.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_151.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_153.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> dlclose </H2>
+<!--docid::SEC670::-->
+<A NAME="SEC671"></A>
+<H3> Syntax                                                                                                                      </H3>
+<!--docid::SEC671::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dlfcn.h&#62;
+
+int dlclose (void *handle);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC672"></A>
+<H3> Description                                                                                                                   </H3>
+<!--docid::SEC672::-->
+<P>
+
+This function closes a dynamic module loaded with <CODE>dlopen</CODE> 
+(see section <A HREF="libc_156.html">dlopen</A>).  The memory is freed and all pointers into that 
+image become invalid.
+</P><P>
+
+<A NAME="SEC673"></A>
+<H3> Return Value                                                                                                   </H3>
+<!--docid::SEC673::-->
+<P>
+
+Returns 0 on success, non-zero value on failure.  More detailed
+error information can be obtained using <CODE>dlerror</CODE> (see section <A HREF="libc_153.html">dlerror</A>).
+</P><P>
+
+<A NAME="SEC674"></A>
+<H3> Portability                                                                                                                     </H3>
+<!--docid::SEC674::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.1-2001; not 1003.2-1992
+</TR></TABLE>
+<P>
+
+<A NAME="dlerror"></A>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,113 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_374.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_373.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_375.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _get_dos_version </H2>
+<!--docid::SEC1854::-->
+<A NAME="SEC1855"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC1855::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dos.h&#62;
+
+extern unsigned short   _osmajor, _osminor;
+extern unsigned short   _os_trueversion;
+extern const    char  * _os_flavor;
+
+unsigned short _get_dos_version(int true_version);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1856"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC1856::-->
+<P>
+
+This function gets the host OS version and flavor.  If the argument
+<VAR>true_version</VAR> is non-zero, it will return a <CITE>true</CITE> version
+number, which is unaffected by possible tinkering with SETVER TSR program.
+(This is only available in DOS 5.0 or later.)
+</P><P>
+
+The external variables <CODE>_osmajor</CODE> and <CODE>_osminor</CODE> will always be
+set to the major and minor parts of the <CITE>advertised</CITE> version number.
+The external variable <CODE>_os_trueversion</CODE> will always be set to the
+true version number.  <CODE>_osmajor</CODE>, <CODE>_osminor</CODE>
+and <CODE>_os_trueversion</CODE> may possibly be changed by <CODE>SETVER</CODE>,
+even if <VAR>true_version</VAR> is non-zero.
+</P><P>
+
+You typically need the true version when you need an intimate knowledge
+of the host OS internals, like when using undocumented features.  Note
+that some DOS clones (notably, DR-DOS) do not support DOS function
+required to report the true DOS version; for these, the version
+reported might be affected by <CODE>SETVER</CODE> even if <VAR>true_version</VAR>
+is non-zero.
+</P><P>
+
+The external variable <CODE>_os_flavor</CODE> will point to a string which
+describes the OEM name of the host OS variety.
+</P><P>
+
+<A NAME="SEC1857"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC1857::-->
+<P>
+
+<CODE>_get_dos_version()</CODE> returns the version number (true version number,
+if <VAR>true_version</VAR> is non-zero) as a 16-bit number: the major part of
+the version in the upper 8 bits, the minor part in the lower 8 bits.  For
+instance, DOS version 6.20 will be returned as 0x0614.
+</P><P>
+
+<A NAME="SEC1858"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC1858::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1859"></A>
+<H3> Example                                                                                                                                                                </H3>
+<!--docid::SEC1859::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>  unsigned short true_dos_version = _get_dos_version(1);
+
+  if (true_dos_version &#60; 0x0614)   /* require DOS 6.20 or later */
+    puts("This program needs DOS 6.20 or later to run");
+  else
+    printf("You are running %s variety of DOS\n", _os_flavor);
+</pre></td></tr></table></P><P>
+
+<A NAME="__get_extended_key_string"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_373.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_375.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

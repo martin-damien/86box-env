@@ -1,0 +1,69 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_746.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_745.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_747.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _status87 </H2>
+<!--docid::SEC3879::-->
+<A NAME="SEC3880"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC3880::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;float.h&#62;
+
+unsigned int _status87(void);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3881"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC3881::-->
+<P>
+
+Returns the status word of the FPU, which indicate the results of the
+most recently completed FPU operation:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>---- ---- ---- ---X = SW_INVALID - invalid operation
+---- ---- ---- --X- = SW_DENORMAL - denormalized operand
+---- ---- ---- -X-- = SW_ZERODIVIDE - division by zero
+---- ---- ---- X--- = SW_OVERFLOW - overflow
+---- ---- ---X ---- = SW_UNDERFLOW - underflow
+---- ---- --X- ---- = SW_INEXACT - loss of precision
+---- ---- -X-- ---- = SW_STACKFAULT - stack over/under flow
+---- ---- X--- ---- = SW_ERRORSUMMARY - set if any errors
+-X-- -XXX ---- ---- = SW_COND - condition code
+---- ---X ---- ---- = SW_C0
+---- --X- ---- ---- = SW_C1
+---- -X-- ---- ---- = SW_C2
+-X-- ---- ---- ---- = SW_C3
+--XX X--- ---- ---- = SW_TOP - top of stack (use SW_TOP_SHIFT
+                                             to shift it)
+X--- ---- ---- ---- = SW_BUSY - fpu is busy
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3882"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC3882::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="statvfs"></A>
+<!--#perl sub="trailer" -->

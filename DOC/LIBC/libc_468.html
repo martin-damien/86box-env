@@ -1,0 +1,78 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_468.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_467.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_469.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> imaxdiv </H2>
+<!--docid::SEC2377::-->
+<A NAME="SEC2378"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC2378::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;inttypes.h&#62;
+
+imaxdiv_t imaxdiv (intmax_t numerator, intmax_t denominator);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2379"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC2379::-->
+<P>
+
+Returns the quotient and remainder of the division <VAR>numerator</VAR>
+divided by <VAR>denominator</VAR>.  The return type is as follows:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>typedef struct {
+  intmax_t quot;
+  intmax_t rem;
+} imaxdiv_t;
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2380"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC2380::-->
+<P>
+
+The results of the division are returned.
+</P><P>
+
+<A NAME="SEC2381"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC2381::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C99; not C89
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.1-2001; not 1003.2-1992
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2382"></A>
+<H3> Example                                                                                                                                                                                                                      </H3>
+<!--docid::SEC2382::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>imaxdiv_t l = imaxdiv(42, 3);
+printf("42 = %" PRIdMAX " x 3 + %" PRIdMAX "\n", l.quot, l.rem);
+
+imaxdiv(+40, +3) = { +13, +1 }
+imaxdiv(+40, -3) = { -13, -1 }
+imaxdiv(-40, +3) = { -13, -1 }
+imaxdiv(-40, -3) = { +13, -1 }
+
+</pre></td></tr></table><A NAME="inb"></A>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,76 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_388.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_387.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_389.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> getdfree </H2>
+<!--docid::SEC1933::-->
+<A NAME="SEC1934"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC1934::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dos.h&#62;
+
+void getdfree(unsigned char drive, struct dfree *ptr);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1935"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC1935::-->
+<P>
+
+This function gets information about the size and fullness of the given
+drive (0=default, 1=A:, etc).  The return structure is as follows:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct dfree {
+  unsigned df_avail; /* number of available clusters */
+  unsigned df_total; /* total number of clusters */
+  unsigned df_bsec;  /* bytes per sector */
+  unsigned df_sclus; /* sectors per cluster */
+};
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1936"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC1936::-->
+<P>
+
+None.
+</P><P>
+
+<A NAME="SEC1937"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC1937::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1938"></A>
+<H3> Example                                                                                                                                                                       </H3>
+<!--docid::SEC1938::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct dfree d;
+getdfree(3, &#38;d); /* drive C: */
+</pre></td></tr></table></P><P>
+
+<A NAME="getdisk"></A>
+<!--#perl sub="trailer" -->

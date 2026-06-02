@@ -1,0 +1,123 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_180.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_179.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_181.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _dos_setfileattr </H2>
+<!--docid::SEC824::-->
+<A NAME="SEC825"></A>
+<H3> Syntax                                                                                                                                                  </H3>
+<!--docid::SEC825::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dos.h&#62;
+
+unsigned int _dos_setfileattr(const char *filename, unsigned int attr);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC826"></A>
+<H3> Description                                                                                                                                               </H3>
+<!--docid::SEC826::-->
+<P>
+
+This function sets the attributes of given file. Use the following
+constans in DOS.H to create <VAR>attr</VAR> parameter:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>_A_NORMAL (0x00)</CODE>
+<DD><P>
+
+Normal file (no read/write restrictions)
+</P><P>
+
+<DT><CODE>_A_RDONLY (0x01)</CODE>
+<DD><P>
+
+Read only file
+</P><P>
+
+<DT><CODE>_A_HIDDEN (0x02)</CODE>
+<DD><P>
+
+Hidden file
+</P><P>
+
+<DT><CODE>_A_SYSTEM (0x04)</CODE>
+<DD><P>
+
+System file
+</P><P>
+
+<DT><CODE>_A_VOLID (0x08)</CODE>
+<DD><P>
+
+Volume ID file
+</P><P>
+
+<DT><CODE>_A_SUBDIR (0x10)</CODE>
+<DD><P>
+
+Subdirectory
+</P><P>
+
+<DT><CODE>_A_ARCH (0x20)</CODE>
+<DD><P>
+
+Archive file
+</P><P>
+
+</DL>
+<P>
+
+See section <A HREF="libc_171.html">_dos_getfileattr</A>.
+</P><P>
+
+This function does not support long filenames, even on systems where the
+LFN API (see section <A HREF="libc_843.html">LFN</A>) is available.  For LFN-aware functions
+with similar functionality see <A HREF="libc_95.html">_chmod</A>.  Also see <A HREF="libc_94.html">chmod</A>, which
+is Posix-standard.
+</P><P>
+
+<A NAME="SEC827"></A>
+<H3> Return Value                                                                                                                             </H3>
+<!--docid::SEC827::-->
+<P>
+
+Returns with 0 if successful and DOS error value on error (and sets
+<CODE>errno</CODE> to ENOENT or EACCES).
+</P><P>
+
+<A NAME="SEC828"></A>
+<H3> Portability                                                                                                                                                 </H3>
+<!--docid::SEC828::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC829"></A>
+<H3> Example                                                                                </H3>
+<!--docid::SEC829::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>if ( !_dos_setfileattr("FOO.DAT", _A_RDONLY | _A_HIDDEN) )
+   puts("FOO.DAT is hidden now.");
+</pre></td></tr></table><A NAME="_dos_setftime"></A>
+<!--#perl sub="trailer" -->

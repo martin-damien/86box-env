@@ -1,0 +1,145 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_527.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_526.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_528.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _lfn_get_ftime </H2>
+<!--docid::SEC2678::-->
+<A NAME="SEC2679"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC2679::-->
+ 
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;fcntl.h&#62;
+
+char _lfn_get_ftime (int fhandle, int flag);
+</pre></td></tr></table><P>
+
+<A NAME="SEC2680"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC2680::-->
+<P>
+
+This function returns creation and access time for files that reside on
+a filesystem which supports long filenames (such as Windows 95).  Files
+which reside on native FAT filesystems will cause this function to fail.
+The <VAR>fhandle</VAR> parameter is the file handle as returned by one of the
+functions which open or create files.  The <VAR>flag</VAR> parameter
+determines which time (creation or access) is returned.  It can be set
+to one of the following:
+</P><P>
+
+<DL COMPACT>
+<DT><CODE>_LFN_ATIME</CODE>
+<DD><P>
+
+Causes <CODE>_lfn_get_ftime</CODE> to return the time when the file was last
+accessed.  (Currently, it actually only returns the <EM>date</EM> of last
+access; the time bits are all zeroed.)
+</P><P>
+
+<DT><CODE>_LFN_CTIME</CODE>
+<DD><P>
+
+Causes <CODE>_lfn_get_ftime</CODE> to return the time when the file was
+created.  Note that if the file was created by a program which doesn't
+support long filenames, this time will be zero.
+</DL>
+<P>
+
+<A NAME="SEC2681"></A>
+<H3> Return value     </H3>
+<!--docid::SEC2681::-->
+<P>
+
+The file time stamp, as a packed unsigned int value:
+</P><P>
+
+<DL COMPACT>
+<DT><CODE>Bits 0-4</CODE>
+<DD><P>
+
+seconds divided by 2
+</P><P>
+
+<DT><CODE>Bits 5-10</CODE>
+<DD><P>
+
+minutes (0-59)
+</P><P>
+
+<DT><CODE>Bits 11-15</CODE>
+<DD><P>
+
+hours (0-23)
+</P><P>
+
+<DT><CODE>Bits 16-20</CODE>
+<DD><P>
+
+day of the month (1-31)
+</P><P>
+
+<DT><CODE>Bits 21-24</CODE>
+<DD><P>
+
+month (1 = January)
+</P><P>
+
+<DT><CODE>Bits 25-31</CODE>
+<DD><P>
+
+year offset from 1980 (add 1980 to get the actual year)
+</P><P>
+
+</DL>
+<P>
+
+If the underlying system calls fail, the function will return 0 and set
+<CODE>errno</CODE> to an appropriate value.
+</P><P>
+
+<A NAME="SEC2682"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC2682::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2683"></A>
+<H3> Example                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC2683::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre> unsigned file_stamp = _lfn_get_ftime (handle, _LFN_CTIME);
+</pre></td></tr></table></P><P>
+
+<A NAME="__libc_termios_exist_queue"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_526.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_528.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

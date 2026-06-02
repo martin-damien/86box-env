@@ -1,0 +1,71 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_540.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_539.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_541.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> lock64 </H2>
+<!--docid::SEC2748::-->
+<A NAME="SEC2749"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC2749::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;io.h&#62;
+
+int lock64(int fd, long long offset, long long length);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2750"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC2750::-->
+Locks a region in file <VAR>fd</VAR> using MS-DOS file sharing interface.
+The region of <VAR>length</VAR> bytes, starting from <VAR>offset</VAR>, will
+become entirely inaccessible to other processes.  If multiple locks are
+used on a single file they must be non-overlapping.  The lock must be
+removed before the file is closed.
+<P>
+
+This function will fail unless SHARE, or a network software providing
+similar interface, is installed.
+</P><P>
+
+Arguments <VAR>offset</VAR> and <VAR>length</VAR> must be of type <CODE>long
+long</CODE>, thus enabling you to lock with offsets and lengths as large as
+~<EM>2^63</EM> (FAT16 limits this to ~<EM>2^31</EM>; FAT32 limits this to
+<EM>2^32-2</EM>).
+</P><P>
+
+See section <A HREF="libc_841.html">unlock64</A>.
+</P><P>
+
+<A NAME="SEC2751"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC2751::-->
+Zero if successful, nonzero if not.
+<P>
+
+<A NAME="SEC2752"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC2752::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="lockf"></A>
+<!--#perl sub="trailer" -->

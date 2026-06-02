@@ -1,0 +1,98 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_432.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_431.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_433.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _go32_dpmi_allocate_real_mode_callback_iret </H2>
+<!--docid::SEC2179::-->
+<A NAME="SEC2180"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC2180::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dpmi.h&#62;
+
+int _go32_dpmi_allocate_real_mode_callback_iret(
+        _go32_dpmi_seginfo *info, _go32_dpmi_registers *regs
+);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2181"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC2181::-->
+<P>
+
+See section <A HREF="libc_199.html">DPMI Overview</A>.
+</P><P>
+
+This function allocates a "real-mode callback".  Fill in the
+<CODE>pm_offset</CODE> field of <VAR>info</VAR> and call this function.  It will
+fill in the <CODE>rm_segment</CODE> and <CODE>rm_offset</CODE> fields.  Any time a
+real-mode program calls the real-mode address, your function gets
+called.  The registers in effect will be stored in <VAR>regs</VAR>, which
+should be a global, and will be passed to your function.  Any changes in
+<VAR>regs</VAR> will be reflected back into real mode.  A wrapper will be
+added to your function to simulate the effects of an <CODE>iret</CODE>
+instruction, so this function is useful for trapping real-mode software
+interrupts (like 0x1b - <KBD>Ctrl-<KBD>Break</KBD></KBD> hit). 
+</P><P>
+
+<A NAME="SEC2182"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC2182::-->
+<P>
+
+Zero on success, nonzero on failure.
+</P><P>
+
+<A NAME="SEC2183"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC2183::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2184"></A>
+<H3> Example                                                                                                                                                                                                </H3>
+<!--docid::SEC2184::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>_go32_dpmi_registers regs;
+
+my_handler(_go32_dpmi_registers *r)
+{
+  r-&#62;d.eax = 4;
+}
+
+setup()
+{
+  _go32_dpmi_seginfo info;
+  _go32_dpmi_seginfo old_vector;
+  _go32_dpmi_get_real_mode_interrupt_vector(0x84, &#38;old_vector);
+  info.pm_offset = my_handler;
+  _go32_dpmi_allocate_real_mode_callback_iret(&#38;info, &#38;regs);
+  _go32_dpmi_set_real_mode_interrupt_vector(0x84, &#38;info);
+  do_stuff();
+  _go32_dpmi_set_real_mode_interrupt_vector(0x84, &#38;old_vector);
+  _go32_dpmi_free_real_mode_callback(&#38;info);
+}
+</pre></td></tr></table></P><P>
+
+<A NAME="_go32_dpmi_allocate_real_mode_callback_retf"></A>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,76 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_95.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_94.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_96.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _chmod </H2>
+<!--docid::SEC372::-->
+<A NAME="SEC373"></A>
+<H3> Syntax                                                             </H3>
+<!--docid::SEC373::-->
+ 
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;io.h&#62;
+ 
+int _chmod(const char *filename, int func, mode_t mode);
+</pre></td></tr></table> 
+<A NAME="SEC374"></A>
+<H3> Description                                                            </H3>
+<!--docid::SEC374::-->
+ 
+This is a direct connection to the MS-DOS chmod function call, int
+0x21, %ax = 0x4300/0x4301.  If <VAR>func</VAR> is 0, then DOS is called with
+AX = 0x4300, which returns an attribute byte of a file.  If <VAR>func</VAR>
+is 1, then the attributes of a file are set as specified in <VAR>mode</VAR>.
+Note that the directory and volume attribute bits must always be 0 when
+<CODE>_chmod()</CODE> is called with <VAR>func = 1</VAR>, or else the call will fail.
+The third argument is optional when getting attributes.
+The attribute bits are defined as follows:
+ 
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>  Bit       Meaning
+76543210
+.......1    Read-only
+......1.    Hidden
+.....1..    System
+....1...    Volume Label
+...1....    Directory
+..1.....    Archive
+xx......    Reserved (used by some network redirectors)
+</pre></td></tr></table><P>
+
+On platforms where the LFN API (see section <A HREF="libc_843.html">LFN</A>) is available,
+<CODE>_chmod</CODE> calls function 0x7143 of Interrupt 21h, to support long
+file names.
+ 
+<A NAME="SEC375"></A>
+<H3> Return Value                                                          </H3>
+<!--docid::SEC375::-->
+ 
+If the file exists, <CODE>_chmod()</CODE> returns its attribute byte in case
+it succeded, or -1 in case of failure.
+<P>
+
+<A NAME="SEC376"></A>
+<H3> Portability                                                             </H3>
+<!--docid::SEC376::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="chown"></A>
+<!--#perl sub="trailer" -->

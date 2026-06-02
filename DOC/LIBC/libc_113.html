@@ -1,0 +1,78 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_113.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_112.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_114.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> cos </H2>
+<!--docid::SEC467::-->
+<A NAME="SEC468"></A>
+<H3> Syntax                                                                               </H3>
+<!--docid::SEC468::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+
+double cos(double x);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC469"></A>
+<H3> Description                                                                              </H3>
+<!--docid::SEC469::-->
+<P>
+
+This function computes the cosine of <VAR>x</VAR> (which should be given in
+radians).
+</P><P>
+
+<A NAME="SEC470"></A>
+<H3> Return Value                                                                          </H3>
+<!--docid::SEC470::-->
+<P>
+
+The cosine of <VAR>x</VAR>.  If the absolute value of <VAR>x</VAR> is finite but
+greater than or equal to <EM>2^63</EM>, the value is 1 (since for
+arguments that large each bit of the mantissa is more than <CODE>Pi</CODE>).
+If the value of <VAR>x</VAR> is infinite or <CODE>NaN</CODE>, the return value is
+<CODE>NaN</CODE> and <CODE>errno</CODE> is set to <CODE>EDOM</CODE>.
+</P><P>
+
+<A NAME="SEC471"></A>
+<H3> Portability                                                                              </H3>
+<!--docid::SEC471::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C89; C99
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC472"></A>
+<H3> Accuracy </H3>
+<!--docid::SEC472::-->
+<P>
+
+In general, this function's relative accuracy is about
+<EM>1.7*10^(-16)</EM>, which is close to the machine precision for a
+<CODE>double</CODE>.  However, for arguments very close to <CODE>Pi/2</CODE> and its
+odd multiples, the relative accuracy can be many times worse, due to
+loss of precision in the internal FPU computations.  Since
+<EM>cos(Pi/2)</EM> is zero, the absolute accuracy is still very good; but
+if your program needs to preserve high <EM>relative</EM> accuracy for such
+arguments, link with <SAMP>`-lm'</SAMP> and use the version of <CODE>cos</CODE> from
+<TT>`libm.a'</TT> which does elaborate argument reduction, but is about
+three times slower.
+<A NAME="cosh"></A>
+<!--#perl sub="trailer" -->

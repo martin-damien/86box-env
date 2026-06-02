@@ -1,0 +1,163 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_65.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_64.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_66.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _bios_keybrd </H2>
+<!--docid::SEC203::-->
+<A NAME="SEC204"></A>
+<H3> Syntax                               </H3>
+<!--docid::SEC204::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;bios.h&#62;
+
+unsigned _bios_keybrd(unsigned cmd);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC205"></A>
+<H3> Description                              </H3>
+<!--docid::SEC205::-->
+<P>
+
+The <CODE>_bios_keybrd</CODE> function uses INT 0x16 to access the keyboard
+services.  The <VAR>cmd</VAR> argument can be any of the following manifest
+constants:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>_KEYBRD_READ</CODE>
+<DD>read the next key pressed.
+<P>
+
+<DT><CODE>_NKEYBRD_READ</CODE>
+<DD>read the next extended key pressed.  Unlike <CODE>_KEYBRD_READ</CODE>, this
+command knows about keys introduced with the AT-style 101-key keyboards,
+such as <KBD>F11</KBD> and <KBD>F12</KBD>, and can distinguish between the editing
+keys on the numeric pad and the grey keys of the edit pad.  On the other
+hand, some of the extended keys return two-byte sequences which
+typically begin with the <CODE>E0h</CODE> (224 decimal) prefix, so code that
+uses <CODE>_NKEYBRD_READ</CODE> should deal with this complexity.
+<P>
+
+<DT><CODE>_KEYBRD_READY</CODE>
+<DD>check if a key is waiting in the keyboard buffer.
+<P>
+
+<DT><CODE>_NKEYBRD_READY</CODE>
+<DD>check if an extended key is waiting in the keyboard buffer.  Like
+<CODE>_KEYBRD_READY</CODE>, but recognizes extended keys such as <KBD>F12</KBD>,
+which <CODE>_KEYBRD_READY</CODE> ignores.
+<P>
+
+<DT><CODE>_KEYBRD_SHIFTSTATUS</CODE>
+<DD>read keyboard shift state (the byte at the address <CODE>40h:17h</CODE> in the
+BIOS data area):
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>7654 3210  Meaning
+---- ---X  Right SHIFT is pressed
+---- --X-  Left SHIFT is pressed
+---- -X--  CTRL is pressed
+---- X---  ALT is pressed
+---X ----  Scroll Lock locked
+--X- ----  Num Lock locked
+-X-- ----  Caps Lock locked
+X--- ----  Insert locked
+</pre></td></tr></table></P><P>
+
+<DT><CODE>_NKEYBRD_SHIFTSTATUS</CODE>
+<DD>read keyboard shift and extended shift state (the byte at the address
+<CODE>40h:17h</CODE> in the BIOS data area combined with the extended shift
+flags from the bytes at addresses <CODE>40h:18h</CODE> and <CODE>40h:96h</CODE>):
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>FEDC BA98  7654 3210  Meaning
+---- ----  ---- ---X  Right SHIFT is pressed
+---- ----  ---- --X-  Left SHIFT is pressed
+---- ----  ---- -X--  CTRL is pressed
+---- ----  ---- X---  ALT is pressed
+---- ----  ---X ----  Scroll Lock locked
+---- ----  --X- ----  Num Lock locked
+---- ----  -X-- ----  Caps Lock locked
+---- ----  X--- ----  Insert locked
+
+---- ---X  ---- ----  Left CTRL is pressed
+---- --X-  ---- ----  Left ALT is pressed
+---- -X--  ---- ----  Right CTRL is pressed
+---- X---  ---- ----  Right ALT is pressed
+---X ----  ---- ----  Scroll Lock is pressed
+--X- ----  ---- ----  Num Lock is pressed
+-X-- ----  ---- ----  Caps Lock is pressed
+X--- ----  ---- ----  SysReq is pressed
+</pre></td></tr></table></P><P>
+
+</DL>
+<P>
+
+Return Value
+</P><P>
+
+With the <CODE>*_READ</CODE> and <CODE>*_SHIFTSTATUS</CODE> arguments, the
+<CODE>_bios_keybrd</CODE> function returns the contents of the AX
+register after the BIOS call.  For the <CODE>*_READ</CODE> arguments, this is
+the combination of scan code and ASCII code for alphanumeric keys, or a
+scan code and either zero or the <CODE>E0h</CODE> prefix for special keys.
+</P><P>
+
+With the <CODE>*_READY</CODE> arguments, <CODE>_bios_keybrd</CODE> returns 0 if no
+key is waiting in the BIOS keyboard buffer.  If there is a key,
+<CODE>_bios_keybrd</CODE> returns the key waiting to be read (that is, the
+same value as the corresponding <CODE>*_READ</CODE> would return).
+</P><P>
+
+With the <CODE>*_READ</CODE> and <CODE>*_READY</CODE> arguments, the
+<CODE>_bios_keybrd</CODE> function returns -1 if <KBD>Ctrl+<KBD>BREAK</KBD></KBD> has
+been pressed and is the next keystroke to be read.
+</P><P>
+
+<A NAME="SEC206"></A>
+<H3> Portability                               </H3>
+<!--docid::SEC206::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC207"></A>
+<H3> Example                     </H3>
+<!--docid::SEC207::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>while( !_bios_keybrd(_KEYBRD_READY) )
+  try_to_do_something();
+</pre></td></tr></table><A NAME="_bios_memsize"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_64.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_66.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

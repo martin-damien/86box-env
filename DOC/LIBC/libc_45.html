@@ -1,0 +1,96 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_45.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_44.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_46.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> asctime </H2>
+<!--docid::SEC88::-->
+<A NAME="SEC89"></A>
+<H3> Syntax           </H3>
+<!--docid::SEC89::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;time.h&#62;
+
+char *asctime(const struct tm *tptr);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC90"></A>
+<H3> Description          </H3>
+<!--docid::SEC90::-->
+<P>
+
+This function returns an ASCII representation of the time represented by
+<VAR>tptr</VAR>.  The string returned is always 26 characters and has this
+format:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>Sun Jan 01 12:34:56 1993\n\0
+</pre></td></tr></table></P><P>
+
+The string pointed to is in a static buffer and will be overwritten with
+each call to asctime.  The data should be copied if it needs to be
+preserved. 
+</P><P>
+
+The layout of the <CODE>struct tm</CODE> structure is like this:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct tm {
+  int    tm_sec;    /* seconds after the minute [0-60] */
+  int    tm_min;    /* minutes after the hour [0-59] */
+  int    tm_hour;   /* hours since midnight [0-23] */
+  int    tm_mday;   /* day of the month [1-31] */
+  int    tm_mon;    /* months since January [0-11] */
+  int    tm_year;   /* years since 1900 */
+  int    tm_wday;   /* days since Sunday [0-6] */
+  int    tm_yday;   /* days since January 1 [0-365] */
+  int    tm_isdst;  /* Daylight Savings Time flag */
+  long   tm_gmtoff; /* offset from GMT in seconds */
+  char * tm_zone;   /* timezone abbreviation */
+};
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC91"></A>
+<H3> Return Value          </H3>
+<!--docid::SEC91::-->
+<P>
+
+A pointer to the string.
+</P><P>
+
+<A NAME="SEC92"></A>
+<H3> Portability           </H3>
+<!--docid::SEC92::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C89; C99
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC93"></A>
+<H3> Example      </H3>
+<!--docid::SEC93::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>time_t now;
+time(&#38;now);
+printf("The current time is %s", asctime(localtime(&#38;now)));
+</pre></td></tr></table></P><P>
+
+<A NAME="asin"></A>
+<!--#perl sub="trailer" -->

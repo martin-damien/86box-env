@@ -1,0 +1,152 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_70.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_69.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_71.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> bioscom </H2>
+<!--docid::SEC232::-->
+<A NAME="SEC233"></A>
+<H3> Syntax                                    </H3>
+<!--docid::SEC233::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;bios.h&#62;
+
+int bioscom(int cmd, char data, int port);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC234"></A>
+<H3> Description                                   </H3>
+<!--docid::SEC234::-->
+<P>
+
+This function accesses the BIOS interrupt 0x14 function, serial
+communication services.  <CODE>port</CODE> should be the COM port (0=COM1,
+1=COM2, etc).
+</P><P>
+
+The valid values of cmd are:
+</P><P>
+
+<DL COMPACT>
+<DT>0 - initialize com port (<VAR>data</VAR> is the settings)
+<DD><DT>1 - write byte to port
+<DD><DT>2 - read byte from port (<VAR>data</VAR> is ignored)
+<DD><DT>3 - get port status
+<DD><DT>
+<DD></DL>
+<P>
+
+For initialization, the byte is made up of the following bits:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>0000 0000
+7654 3210  Meaning
+
+---- --10  7 bits/character
+---- --11  8 bits/character
+---- -0--  1 stop bit
+---- -1--  2 stop bits
+---X 0---  no parity
+---0 1---  odd parity
+---1 1---  even parity
+000- ----  110 baud
+001- ----  150 baud
+010- ----  300 baud
+011- ----  600 baud
+100- ----  1200 baud
+101- ----  2400 baud
+110- ----  4800 baud
+111- ----  9600 baud
+</pre></td></tr></table></P><P>
+
+For writing a character out to the port, the return value's lower
+8 bits contain the same byte as passed as the <VAR>data</VAR> argument.
+</P><P>
+
+For reading a character from the port, the value of <VAR>data</VAR> is
+ignored, and the lower 8 bits of the return value contain the byte
+read.  Also, the "timeout" bit in the upper 8 bits is used as an error
+indicator in this case (0=success, 1=error).  If it indicates an
+error, you should call the "get port status" variant to get the
+detailed error bits.
+</P><P>
+
+<A NAME="SEC235"></A>
+<H3> Return Value                                  </H3>
+<!--docid::SEC235::-->
+<P>
+
+The return value is a sequence of bits that indicate the port status
+and, for cmd=0 and 3, the modem status.  For read/write operations,
+the lower eight bits are the character read.
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>1111 1100 0000 0000
+5432 1098 7654 3210  Meaning
+
+---- ---- ---- ---1  CTS change
+---- ---- ---- --1-  DSR change
+---- ---- ---- -1--  ring change
+---- ---- ---- 1---  carrier detect change
+---- ---- ---1 ----  CTS present
+---- ---- --1- ----  DSR present
+---- ---- -1-- ----  ring present
+---- ---- 1--- ----  carrier detect
+---- ---1 ---- ----  data ready
+---- --1- ---- ----  overrun error
+---- -1-- ---- ----  parity error
+---- 1--- ---- ----  framing error
+---1 ---- ---- ----  break detected
+--1- ---- ---- ----  transmit holding register empty
+-1-- ---- ---- ----  transmit shift register empty
+1--- ---- ---- ----  time out (=1 if error present for cmd=1,2)
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC236"></A>
+<H3> Portability                                    </H3>
+<!--docid::SEC236::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC237"></A>
+<H3> Example                          </H3>
+<!--docid::SEC237::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>bioscom(0, 0xe3, 0); /* 9600 baud, no parity, one stop, 8 bits */
+for (i=0; buf[i]; i++)
+  bioscom(1, buf[i], 0);
+</pre></td></tr></table></P><P>
+
+<A NAME="biosdisk"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_69.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_71.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

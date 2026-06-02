@@ -1,0 +1,87 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_561.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_560.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_562.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _media_type </H2>
+<!--docid::SEC2866::-->
+<A NAME="SEC2867"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC2867::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dos.h&#62;
+
+int _media_type( const int drive );
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2868"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC2868::-->
+<P>
+
+This function checks if drive number <VAR>drive</VAR> (1 == A:, 2 == B:,
+etc., 0 == default drive) is fixed or removable.  
+</P><P>
+
+<CODE>_media_type</CODE> should only be called after you are sure the drive
+isn't a CD-ROM or a RAM disk, since these might fool you with this
+call.  
+</P><P>
+
+<A NAME="SEC2869"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC2869::-->
+<P>
+
+1 if the drive is a fixed disk, 0 if it is removable. -1 on error.  
+</P><P>
+
+<A NAME="SEC2870"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC2870::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2871"></A>
+<H3> Example                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC2871::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdio.h&#62;
+#include &#60;dos.h&#62;
+
+int main(void)
+{
+
+  if( _media_type( 'C' - 'A' + 1 ) )
+  {
+    printf("C: is (probably) a hard drive.\n");
+  }
+  else
+  {
+    printf("C: is (probably) a removable drive.\n");
+  }
+
+  exit(0);
+}
+
+</pre></td></tr></table><A NAME="memalign"></A>
+<!--#perl sub="trailer" -->

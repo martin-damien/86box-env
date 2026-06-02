@@ -1,0 +1,71 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_74.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_73.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_75.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> biosmemory </H2>
+<!--docid::SEC256::-->
+<A NAME="SEC257"></A>
+<H3> Syntax                                        </H3>
+<!--docid::SEC257::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;bios.h&#62;
+
+unsigned biosmemory(void);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC258"></A>
+<H3> Description                                       </H3>
+<!--docid::SEC258::-->
+<P>
+
+This function returns the amount of system memory in 1k blocks.
+</P><P>
+
+Note that this function doesn't know about extended memory above the
+640K mark, so it will report 640K at most.  This is a limitation of the
+BIOS.
+</P><P>
+
+<A NAME="SEC259"></A>
+<H3> Return Value                                      </H3>
+<!--docid::SEC259::-->
+<P>
+
+Bytes of memory / 1024.
+</P><P>
+
+<A NAME="SEC260"></A>
+<H3> Portability                                        </H3>
+<!--docid::SEC260::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC261"></A>
+<H3> Example                              </H3>
+<!--docid::SEC261::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>printf("This system has %d bytes of memory\n", biosmemory()*1024);
+</pre></td></tr></table></P><P>
+
+<A NAME="biosprint"></A>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,34 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_fot.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H1>Footnotes</H1>
+<H3><A NAME="FOOT1" HREF="libc_549.html#DOCF1">(1)</A></H3>
+<P>
+Even when long file names <EM>are</EM> supported, the three time values
+returned by <CODE>lstat</CODE> might be identical if the file was last written
+by a program which used legacy DOS functions that don't know about long
+file names.
+<H3><A NAME="FOOT2" HREF="libc_670.html#DOCF2">(2)</A></H3>
+<P>Some of the combinations
+listed below are non-standard.  If you use the non-standard specifiers,
+a compiler could complain.
+<H3><A NAME="FOOT3" HREF="libc_744.html#DOCF3">(3)</A></H3>
+<P>
+Even when long file names <EM>are</EM> supported, the three time values
+returned by <CODE>stat</CODE> might be identical if the file was last written
+by a program which used legacy DOS functions that don't know about long
+file names.
+<H3><A NAME="FOOT4" HREF="libc_802.html#DOCF4">(4)</A></H3>
+<P>
+Many DOS programs catch <KBD>Ctrl-C</KBD> keystrokes and Critical Errors, and
+handle them in customized ways.  If this handling prevents DOS from
+realizing that the program was aborted due to these reasons, bits 8-17
+of the value returned by <CODE>system</CODE> will most probably be zero.
+Don't count on these bits to hold the signal number!
+<!--#perl sub="trailer" -->

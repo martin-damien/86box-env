@@ -1,0 +1,180 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_671.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_670.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_672.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> SCN </H2>
+<!--docid::SEC3464::-->
+<A NAME="SEC3465"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC3465::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;inttypes.h&#62;
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3466"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC3466::-->
+<P>
+
+The <CODE>SCN</CODE> family of macros allows integers to be input
+in a portable manner using the <CODE>scanf</CODE> family of functions
+(see section <A HREF="libc_670.html">scanf</A>).  They include a conversion qualifier, to specify
+the width of the type (e.g.: <CODE>l</CODE> for <CODE>long</CODE>),
+and the conversion type specifier (e.g.: <CODE>d</CODE> for decimal
+display of integers).
+</P><P>
+
+The <CODE>SCN</CODE> family of macros should be used with the types defined
+in the header <CODE>&#60;stdint.h&#62;</CODE>.  For example: <CODE>int8_t</CODE>,
+<CODE>uint_fast32_t</CODE>, <CODE>uintptr_t</CODE>, <CODE>intmax_t</CODE>.
+</P><P>
+
+Below <VAR>N</VAR> can be 8, 16, 32 or 64.  The <CODE>SCN</CODE> macros are:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>SCNd<VAR>N</VAR></CODE>
+<DD><DT><CODE>SCNi<VAR>N</VAR></CODE>
+<DD><P>
+
+The <CODE>d</CODE> and <CODE>i</CODE> type conversion specifiers
+for a type <CODE>int<VAR>N</VAR>_t</CODE> of <VAR>N</VAR> bits.
+</P><P>
+
+<DT><CODE>SCNdLEAST<VAR>N</VAR></CODE>
+<DD><DT><CODE>SCNiLEAST<VAR>N</VAR></CODE>
+<DD><P>
+
+The <CODE>d</CODE> and <CODE>i</CODE> type conversion specifiers
+for a type <CODE>int_least<VAR>N</VAR>_t</CODE> of <VAR>N</VAR> bits.
+</P><P>
+
+<DT><CODE>SCNdFAST<VAR>N</VAR></CODE>
+<DD><DT><CODE>SCNiFAST<VAR>N</VAR></CODE>
+<DD><P>
+
+The <CODE>d</CODE> and <CODE>i</CODE> type conversion specifiers
+for a type <CODE>int_fast<VAR>N</VAR>_t</CODE> of <VAR>N</VAR> bits.
+</P><P>
+
+<DT><CODE>SCNdMAX</CODE>
+<DD><DT><CODE>SCNiMAX</CODE>
+<DD><P>
+
+The <CODE>d</CODE> and <CODE>i</CODE> type conversion specifiers
+for a type <CODE>intmax_t</CODE>.
+</P><P>
+
+<DT><CODE>SCNdPTR</CODE>
+<DD><DT><CODE>SCNiPTR</CODE>
+<DD><P>
+
+The <CODE>d</CODE> and <CODE>i</CODE> type conversion specifier
+for a type <CODE>intptr_t</CODE>.
+</P><P>
+
+<DT><CODE>SCNo<VAR>N</VAR></CODE>
+<DD><DT><CODE>SCNu<VAR>N</VAR></CODE>
+<DD><DT><CODE>SCNx<VAR>N</VAR></CODE>
+<DD><P>
+
+The <CODE>o</CODE>, <CODE>u</CODE> and <CODE>x</CODE> type conversion specifiers
+for a type <CODE>uint<VAR>N</VAR>_t</CODE> of <VAR>N</VAR> bits.
+</P><P>
+
+<DT><CODE>SCNoLEAST<VAR>N</VAR></CODE>
+<DD><DT><CODE>SCNuLEAST<VAR>N</VAR></CODE>
+<DD><DT><CODE>SCNxLEAST<VAR>N</VAR></CODE>
+<DD><P>
+
+The <CODE>o</CODE>, <CODE>u</CODE> and <CODE>x</CODE> type conversion specifiers
+for a type <CODE>uint_LEAST<VAR>N</VAR>_t</CODE> of <VAR>N</VAR> bits.
+</P><P>
+
+<DT><CODE>SCNoFAST<VAR>N</VAR></CODE>
+<DD><DT><CODE>SCNuFAST<VAR>N</VAR></CODE>
+<DD><DT><CODE>SCNxFAST<VAR>N</VAR></CODE>
+<DD><P>
+
+The <CODE>o</CODE>, <CODE>u</CODE> and <CODE>x</CODE> type conversion specifiers
+for a type <CODE>uint_FAST<VAR>N</VAR>_t</CODE> of <VAR>N</VAR> bits.
+</P><P>
+
+<DT><CODE>SCNoMAX</CODE>
+<DD><DT><CODE>SCNuMAX</CODE>
+<DD><DT><CODE>SCNxMAX</CODE>
+<DD><P>
+
+The <CODE>o</CODE>, <CODE>u</CODE> and <CODE>x</CODE> type conversion specifiers
+for a type <CODE>uintmax_t</CODE>.
+</P><P>
+
+<DT><CODE>SCNoPTR</CODE>
+<DD><DT><CODE>SCNuPTR</CODE>
+<DD><DT><CODE>SCNxPTR</CODE>
+<DD><P>
+
+The <CODE>o</CODE>, <CODE>u</CODE> and <CODE>x</CODE> type conversion specifiers
+for a type <CODE>uintptr_t</CODE>.
+</P><P>
+
+</DL>
+<P>
+
+<A NAME="SEC3467"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC3467::-->
+<P>
+
+Not applicable.
+</P><P>
+
+<A NAME="SEC3468"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC3468::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C99; not C89
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.1-2001; not 1003.2-1992
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3469"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC3469::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>intmax_t m;
+int ret;
+
+ret = sscanf("0x1000", "%" SCNxMAX, &#38;m);
+</pre></td></tr></table><A NAME="Screen Variables"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_670.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_672.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

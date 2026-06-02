@@ -1,0 +1,83 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_182.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_181.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_183.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _dos_settime </H2>
+<!--docid::SEC836::-->
+<A NAME="SEC837"></A>
+<H3> Syntax                                                                                                                                                    </H3>
+<!--docid::SEC837::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dos.h&#62;
+
+void _dos_settime(struct dostime_t *time);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC838"></A>
+<H3> Description                                                                                                                                                 </H3>
+<!--docid::SEC838::-->
+<P>
+
+This function sets the current time. The <VAR>time</VAR> structure
+is as follows:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct dostime_t {
+  unsigned char hour;     /* 0-23 */
+  unsigned char minute;   /* 0-59 */
+  unsigned char second;   /* 0-59 */
+  unsigned char hsecond;  /* 0-99 */
+};
+</pre></td></tr></table></P><P>
+
+See section <A HREF="libc_173.html">_dos_gettime</A>. See section <A HREF="libc_168.html">_dos_getdate</A>. See section <A HREF="libc_178.html">_dos_setdate</A>.
+</P><P>
+
+<A NAME="SEC839"></A>
+<H3> Return Value                                                                                                                               </H3>
+<!--docid::SEC839::-->
+<P>
+
+Returns 0 if successful and non-zero on error (and sets <CODE>errno</CODE>=EINVAL).
+</P><P>
+
+<A NAME="SEC840"></A>
+<H3> Portability                                                                                                                                                   </H3>
+<!--docid::SEC840::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC841"></A>
+<H3> Example                                                                                  </H3>
+<!--docid::SEC841::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct dostime_t time;
+
+time-&#62;hour    = 23;
+time-&#62;minute  = 59;
+time-&#62;second  = 59;
+time-&#62;hsecond = 99;
+if ( !_dos_settime(&#38;time) )
+  puts("It was a valid time.");
+</pre></td></tr></table><A NAME="_dos_unlk64"></A>
+<!--#perl sub="trailer" -->

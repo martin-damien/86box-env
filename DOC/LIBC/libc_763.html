@@ -1,0 +1,112 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_763.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_762.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_764.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> strlcpy </H2>
+<!--docid::SEC3975::-->
+<A NAME="SEC3976"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC3976::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;string.h&#62;
+
+size_t strlcpy (char *dest, const char *src, size_t size);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3977"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC3977::-->
+<P>
+
+Copy characters from <VAR>src</VAR> to <VAR>dest</VAR> and nul-terminate
+the resulting string.  Up to <CODE><VAR>size</VAR> - 1</CODE> characters are
+copied to <VAR>dest</VAR>.
+</P><P>
+
+<VAR>size</VAR> should be the size of the destination string buffer <VAR>dest</VAR>
+plus the space for the nul-terminator.  <VAR>size</VAR> may be computed
+in many cases using the <CODE>sizeof</CODE> operator.
+</P><P>
+
+<CODE>strlcpy</CODE> is a less ambiguous version of <CODE>strncpy</CODE>
+(see section <A HREF="libc_769.html">strncpy</A>).  Unlike <CODE>strncpy</CODE>, <CODE>strlcpy</CODE> <EM>always</EM>
+nul-terminates the destination <VAR>dest</VAR> for non-zero sizes <VAR>size</VAR>.
+<CODE>strlcpy</CODE> returns the length of the string whether or not
+it was possible to copy it all -- this makes it easier to calculate
+the required buffer size.
+</P><P>
+
+If <VAR>dest</VAR> and <VAR>src</VAR> are overlapping buffers, the behavior
+is undefined.  One possible result is a buffer overrun - accessing
+out-of-bounds memory.
+</P><P>
+
+The original OpenBSD paper describing <CODE>strlcpy</CODE>
+and <CODE>strlcat</CODE> (see section <A HREF="libc_762.html">strlcat</A>) is available on the web:
+<A HREF="http://www.openbsd.org/papers/strlcpy-paper.ps">http://www.openbsd.org/papers/strlcpy-paper.ps</A>.
+</P><P>
+
+<A NAME="SEC3978"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC3978::-->
+<P>
+
+The length of the string that <CODE>strlcpy</CODE> tried to create is returned,
+whether or not <CODE>strlcpy</CODE> could store it in <VAR>dest</VAR>.  If all
+of <VAR>src</VAR> was copied, the return value will be less than <VAR>size</VAR>.
+</P><P>
+
+<A NAME="SEC3979"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC3979::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3980"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC3980::-->
+<P>
+
+The following example shows how you can check that
+the destination string buffer was large enough to store the source string.
+In this case <CODE>somestring</CODE> is truncated to fit into <CODE>buf</CODE>.
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>const char somestring[] = "foo";
+char buf[3];
+
+if (strlcpy(buf, somestring, sizeof(buf)) &#62;= sizeof(buf))
+  puts("somestring was truncated, when copying to buf.");
+</pre></td></tr></table><A NAME="strlen"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_762.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_764.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

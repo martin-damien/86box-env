@@ -1,0 +1,220 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_486.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_485.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_487.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> int86 </H2>
+<!--docid::SEC2463::-->
+<A NAME="SEC2464"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC2464::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dos.h&#62;
+
+int int86(int ivec, union REGS *in, union REGS *out);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2465"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC2465::-->
+<P>
+
+The <CODE>union REGS</CODE> is defined by <CODE>&#60;dos.h&#62;</CODE> as follows:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct DWORDREGS {
+  unsigned long edi;
+  unsigned long esi;
+  unsigned long ebp;
+  unsigned long cflag;
+  unsigned long ebx;
+  unsigned long edx;
+  unsigned long ecx;
+  unsigned long eax;
+  unsigned short eflags;
+};
+
+struct DWORDREGS_W {
+  unsigned long di;
+  unsigned long si;
+  unsigned long bp;
+  unsigned long cflag;
+  unsigned long bx;
+  unsigned long dx;
+  unsigned long cx;
+  unsigned long ax;
+  unsigned short flags;
+};
+
+struct WORDREGS {
+  unsigned short di, _upper_di;
+  unsigned short si, _upper_si;
+  unsigned short bp, _upper_bp;
+  unsigned short cflag, _upper_cflag;
+  unsigned short bx, _upper_bx;
+  unsigned short dx, _upper_dx;
+  unsigned short cx, _upper_cx;
+  unsigned short ax, _upper_ax;
+  unsigned short flags;
+};
+
+struct BYTEREGS {
+  unsigned short di, _upper_di;
+  unsigned short si, _upper_si;
+  unsigned short bp, _upper_bp;
+  unsigned long cflag;
+  unsigned char bl;
+  unsigned char bh;
+  unsigned short _upper_bx;
+  unsigned char dl;
+  unsigned char dh;
+  unsigned short _upper_dx;
+  unsigned char cl;
+  unsigned char ch;
+  unsigned short _upper_cx;
+  unsigned char al;
+  unsigned char ah;
+  unsigned short _upper_ax;
+  unsigned short flags;
+};
+
+union REGS {
+  struct DWORDREGS d;
+#ifdef _NAIVE_DOS_REGS
+  struct WORDREGS x;
+#else
+#ifdef _BORLAND_DOS_REGS
+  struct DWORDREGS x;
+#else
+  struct DWORDREGS_W x;
+#endif
+#endif
+  struct WORDREGS w;
+  struct BYTEREGS h;
+};
+</pre></td></tr></table></P><P>
+
+Note: The <CODE>.x.</CODE> branch is a problem generator.  Most programs expect
+the <CODE>.x.</CODE> branch to have e.g. "<CODE>.x.ax</CODE>" members, and that
+they are 16-bit.  If you know you want 32-bit values, use the
+<CODE>.d.eax</CODE> members.  If you know you want 16-bit values, use the
+<CODE>.w.ax</CODE> members.  The <CODE>.x.</CODE> members behave according to
+<CODE>#defines</CODE>, as follows:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>default</CODE>
+<DD><P>
+
+If you specify no <CODE>#define</CODE>, the <CODE>.x.</CODE> branch has
+"<CODE>ax</CODE>" members and is 32-bit.  This is compatible with previous
+versions of djgpp.
+</P><P>
+
+<DT><CODE>_NAIVE_DOS_REGS</CODE>
+<DD><P>
+
+This define gives you <CODE>.x.ax</CODE>, but they are 16-bit.  This is
+probably what most programs ported from 16-bit dos compilers will
+want.
+</P><P>
+
+<DT><CODE>_BORLAND_DOS_REGS</CODE>
+<DD><P>
+
+This define gives you <CODE>.x.eax</CODE> which are 32-bit.  This is
+compatible with Borland's 32-bit compilers.
+</P><P>
+
+</DL>
+<P>
+
+This function simulates a software interrupt.  Note that, unlike the
+<CODE>__dpmi_int</CODE> function, requests that go through <CODE>int86</CODE>
+and similar functions are specially processed to make them suitable for
+invoking real-mode interrupts from protected-mode programs.  For example,
+if a particular routine takes a pointer in <CODE>BX</CODE>, <CODE>int86</CODE> expects
+you to put a (protected-mode) pointer in <CODE>EBX</CODE>.  Therefore,
+<CODE>int86</CODE> should have specific support for every interrupt and function
+you invoke this way.  Currently, it supports only a subset of all
+available interrupts and functions:
+</P><P>
+
+1) All functions of any interrupt which expects only scalar arguments
+registers (i.e., no pointers to buffers).
+</P><P>
+
+2) In addition, the following functions of interrupt 21h are supported:
+9, 39h, 3Ah, 3Bh, 3Ch, 3Dh, 3Fh, 40h, 41h, 43h, 47h, 56h.
+</P><P>
+
+When the interrupt is invoked, the CPU registers are copied from
+<VAR>in</VAR>.  After the interrupt, the CPU registers are copied to
+<VAR>out</VAR>.
+</P><P>
+
+This function is just like <CODE>int86x</CODE> (see section <A HREF="libc_487.html">int86x</A>) except that
+suitable default values are used for the segment registers.
+</P><P>
+
+See also <A HREF="libc_487.html">int86x</A>, <A HREF="libc_488.html">intdos</A>, and <A HREF="libc_61.html">bdos</A>.
+</P><P>
+
+<A NAME="SEC2466"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC2466::-->
+<P>
+
+The returned value of <CODE>EAX</CODE>.
+</P><P>
+
+<A NAME="SEC2467"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC2467::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2468"></A>
+<H3> Example                                                                                                                                                                                                                        </H3>
+<!--docid::SEC2468::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>union REGS r;
+r.x.ax = 0x0100;
+r.h.dl = 'c';
+int86(0x21, &#38;r, &#38;r);
+</pre></td></tr></table></P><P>
+
+<A NAME="int86x"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_485.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_487.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

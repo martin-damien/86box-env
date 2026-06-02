@@ -1,0 +1,84 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_686.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_685.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_687.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> searchpath </H2>
+<!--docid::SEC3552::-->
+<A NAME="SEC3553"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC3553::-->
+ 
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dir.h&#62;
+ 
+char * searchpath(const char *file);
+</pre></td></tr></table> 
+<A NAME="SEC3554"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC3554::-->
+ 
+Given a name of a file in <VAR>file</VAR>, searches for that file in a list
+of directories, including the current working directory and directories
+listed in the <CODE>PATH</CODE> environment variable, and if found, returns
+the file name with leading directories prepended, so that the result can
+be used to access the file (e.g. by calling <CODE>open</CODE> or <CODE>stat</CODE>).
+<P>
+
+If <VAR>file</VAR> includes a drive letter or leading directories,
+<CODE>searchpath</CODE> first tries that name unaltered, in case it is already
+a fully-qualified path, or is relative to the current working
+directory.  If that fails, it tries every directory in <CODE>PATH</CODE> in
+turn.  Note that this will find e.g. <TT>`c:/foo/bar/baz.exe'</TT> if you
+pass <SAMP>`bar/baz.exe'</SAMP> to <CODE>searchpath</CODE> and if <TT>`c:/foo'</TT> is
+mentioned in <CODE>PATH</CODE>.
+ 
+<A NAME="SEC3555"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC3555::-->
+ 
+When successfull, the function returns a pointer to a static buffer
+where the full pathname of the found file is stored.  Otherwise, it
+returns <CODE>NULL</CODE>.  (The static buffer is overwritten on each call.)
+ 
+<A NAME="SEC3556"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC3556::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+This function is provided for compatibility with Borland's library.
+However, note that the Borland version disregards the leading
+directories altogether and searches for the basename only.  Thus, it
+will happily find e.g. <TT>`c:/foo/bar/baz.exe'</TT>, even if the directory
+<TT>`c:/foo/bar'</TT> doesn't exist, provided that <TT>`baz.exe'</TT> is
+somewhere on your <CODE>PATH</CODE>.  We think this is a bug, so DJGPP's
+implementation doesn't behave like that.
+</P><P>
+
+<A NAME="SEC3557"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC3557::-->
+ 
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>  printf("%s was found as %s\n", argv[1], searchpath(argv[1]));
+ 
+</pre></td></tr></table><P>
+
+<A NAME="seekdir"></A>
+<!--#perl sub="trailer" -->

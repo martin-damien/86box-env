@@ -1,0 +1,70 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_262.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_261.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_263.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __dpmi_set_descriptor </H2>
+<!--docid::SEC1246::-->
+<A NAME="SEC1247"></A>
+<H3> Syntax                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC1247::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dpmi.h&#62;
+
+int __dpmi_set_descriptor(int _selector, void *_buffer);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1248"></A>
+<H3> Description                                                                                                                                                                                                                               </H3>
+<!--docid::SEC1248::-->
+<P>
+
+Please refer to the DPMI Specification (see section <A HREF="libc_200.html">DPMI Specification</A>)
+for details on DPMI function call operation.  Also see
+the DPMI Overview (see section <A HREF="libc_199.html">DPMI Overview</A>) for general information.
+</P><P>
+
+DPMI function AX = 0x000c
+</P><P>
+
+This function sets the parameters of the selector <VAR>_selector</VAR> by
+copying the contents of the 8-byte buffer pointed to by <VAR>_buffer</VAR>
+into the LDT entry of the selector's descriptor.
+See section <A HREF="libc_223.html">__dpmi_get_descriptor</A>, for the description of the contents of the
+8-byte buffer.
+</P><P>
+
+<A NAME="SEC1249"></A>
+<H3> Return Value                                                                                                                                                                                                            </H3>
+<!--docid::SEC1249::-->
+<P>
+
+-1 on error, else zero.
+</P><P>
+
+<A NAME="SEC1250"></A>
+<H3> Portability                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC1250::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="__dpmi_set_descriptor_access_rights"></A>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,84 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_276.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_275.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_277.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __dpmi_simulate_real_mode_procedure_retf_stack </H2>
+<!--docid::SEC1316::-->
+<A NAME="SEC1317"></A>
+<H3> Syntax                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC1317::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dpmi.h&#62;
+
+int __dpmi_simulate_real_mode_procedure_retf_stack(
+        __dpmi_regs *_regs,
+        int stack_words_to_copy, const void *stack_data
+);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1318"></A>
+<H3> Description                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC1318::-->
+<P>
+
+Please refer to the DPMI Specification (see section <A HREF="libc_200.html">DPMI Specification</A>)
+for details on DPMI function call operation.  Also see
+the DPMI Overview (see section <A HREF="libc_199.html">DPMI Overview</A>) for general information.
+</P><P>
+
+DPMI function AX = 0x0301
+</P><P>
+
+This function switches to real mode with <EM>all</EM> the registers set
+from the structure, including cs:ip.  The function called should
+return with a <CODE>retf</CODE>.  ss:sp and flags must be set to valid
+values or zero.
+</P><P>
+
+You may optionally specify data to be copied to the real-mode stack,
+to pass arguments to real-mode procedures with stack-based calling
+conventions.  If you don't want to copy data to the real mode stack,
+pass 0 for <VAR>stack_words_to_copy</VAR>, and <CODE>NULL</CODE> for
+<VAR>stack_bytes</VAR>.
+</P><P>
+
+Note that the amount of stack data to be copied should be given in units
+of 16-bit words, not in bytes.  This is defined by the underlying DPMI
+function.
+</P><P>
+
+<A NAME="SEC1319"></A>
+<H3> Return Value                                                                                                                                                                                                                          </H3>
+<!--docid::SEC1319::-->
+<P>
+
+-1 on error, else zero.
+</P><P>
+
+<A NAME="SEC1320"></A>
+<H3> Portability                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC1320::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="__dpmi_terminate_and_stay_resident"></A>
+<!--#perl sub="trailer" -->

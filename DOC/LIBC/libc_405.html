@@ -1,0 +1,197 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_405.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_404.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_406.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> getmntent </H2>
+<!--docid::SEC2027::-->
+<A NAME="SEC2028"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC2028::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;mntent.h&#62;
+
+struct mntent *getmntent(FILE *filep);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2029"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC2029::-->
+<P>
+
+This function returns information about the various drives that are
+available to your program.  Beginning with drive <TT>`A:'</TT>, information
+is retrieved for successive drives with successive calls to
+<CODE>getmntent</CODE>.  Note that drives <TT>`A:'</TT> and <TT>`B:'</TT> will only be
+returned if there is an MS-DOS formatted disk in the drive; empty drives
+are skipped.  For systems with a single floppy drive, it is returned as
+if it were mounted on <TT>`A:/'</TT> or <TT>`B:/'</TT>, depending on how it was
+last referenced (and if there is a disk in the drive).
+</P><P>
+
+The argument <VAR>filep</VAR> should be a <CODE>FILE*</CODE> pointer returned by
+<CODE>setmntent</CODE> (see section <A HREF="libc_706.html">setmntent</A>).
+</P><P>
+
+For each drive scanned, a pointer to a static structure of the following
+type is returned:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct mntent
+{
+    char * mnt_fsname;  /* The name of this file system */
+    char * mnt_dir;     /* The root directory of this file system */
+    char * mnt_type;	/* Filesystem type */
+    char * mnt_opts;    /* Options, see below */
+    int    mnt_freq;    /* -1 */
+    int    mnt_passno;  /* -1 */
+    long   mnt_time;    /* -1 */
+};
+</pre></td></tr></table></P><P>
+
+DJGPP implementation returns the following in the first 4 fields of
+<CODE>struct mntent</CODE>:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>mnt_fsname</CODE>
+<DD><P>
+
+For networked and CD-ROM drives, this is the name of root directory in
+the form <TT>`\\HOST\PATH'</TT> (this is called a <EM>UNC name</EM>).
+</P><P>
+
+For drives compressed with DoubleSpace, <CODE>mnt_fsname</CODE> is the string
+<TT>`<VAR>X</VAR>:\DBLSPACE.<VAR>NNN</VAR>'</TT>, where <VAR>X</VAR> is the drive letter of
+the host drive and <VAR>NNN</VAR> is the sequence number of the Compressed
+Volume File.
+</P><P>
+
+For drives compressed with Stacker, <CODE>mnt_fsname</CODE> is the string
+<TT>`<VAR>X</VAR>:\STACVOL.<VAR>NNN</VAR>'</TT>, where <VAR>X</VAR> and <VAR>NNN</VAR> are as
+for DoubleSpace drives.
+</P><P>
+
+For drives compressed with Jam (a shareware disk compression software),
+<CODE>mnt_fsname</CODE> is the full name of the Jam archive file.
+</P><P>
+
+For SUBSTed drives, <CODE>mnt_fsname</CODE> is the actual directory name that
+that was SUBSTed to emulate a drive.
+</P><P>
+
+JOINed drives get their <CODE>mnt_fsname</CODE> as if they were NOT JOINed
+(i.e., either the label name or the default <SAMP>`Drive <VAR>X</VAR>:'</SAMP>).
+</P><P>
+
+For drives with a volume label, <CODE>mnt_fsname</CODE> is the name of the
+label; otherwise the string <SAMP>`Drive <VAR>X</VAR>:'</SAMP>, where <VAR>X</VAR> is the
+drive letter.
+</P><P>
+
+<DT><CODE>mnt_dir</CODE>
+<DD><P>
+
+For most drives, this is the name of its root directory <TT>`<VAR>X</VAR>:/'</TT>
+(where <VAR>X</VAR> is the drive letter), except that JOINed drives get
+<CODE>mnt_dir</CODE> as the name of the directory to which they were JOINed.
+</P><P>
+
+For systems with a single floppy drive (which can be referenced as either
+<TT>`a:/'</TT> or <TT>`b:/'</TT>), the mount directory will be returned as one
+of these, depending on which drive letter was last used to reference
+that drive.
+</P><P>
+
+<DT><CODE>mnt_type</CODE>
+<DD><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre> "fd"     for floppy disks
+ "hd"     for hard disks
+ "dblsp"  for disks compressed with DoubleSpace
+ "stac"   for disks compressed with Stacker
+ "jam"    for disks compressed with Jam
+ "cdrom"  for CD-ROM drives
+ "ram"    for RAM disks
+ "subst"  for SUBSTed directories
+ "join"   for JOINed disks
+ "net"    for networked drives
+</pre></td></tr></table></P><P>
+
+<DT><CODE>mnt_opts</CODE>
+<DD><P>
+
+The string <SAMP>`ro,dev=<VAR>XX</VAR>'</SAMP> for CD-ROM drives,
+<SAMP>`rw,dev=<VAR>XX</VAR>'</SAMP> for all the others, where <VAR>XX</VAR> is the
+hexadecimal drive number of the REAL drive on which this filesystem
+resides.  That is, if you call <CODE>stat</CODE> on <VAR>mnt_fsname</VAR>, you will
+get the numeric equivalent of <VAR>XX</VAR> in <CODE>st_dev</CODE> member of
+<CODE>struct stat</CODE>.  E.g., for drive <TT>`C:'</TT> you will get
+<SAMP>`rw,dev=02'</SAMP>.  Note that SUBSTed and JOINed drives get the drive
+numbers as if SUBST and JOIN were <STRONG>not</STRONG> in effect.
+</P><P>
+
+</DL>
+<P>
+
+<A NAME="SEC2030"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC2030::-->
+<P>
+
+This function returns a pointer to a <CODE>struct mntent</CODE>, or
+<CODE>NULL</CODE> if there are no more drives to report on.
+</P><P>
+
+<A NAME="SEC2031"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC2031::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2032"></A>
+<H3> Example                                                                                                                                                                                </H3>
+<!--docid::SEC2032::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct mntent *m;
+FILE *f;
+f = setmntent("/etc/mnttab", "r");
+while ((m = getmntent(f)))
+  printf("Drive %s, name %s\n", m-&#62;mnt_dir, m-&#62;mnt_fsname);
+endmntent(f);
+</pre></td></tr></table></P><P>
+
+<A NAME="getopt"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_404.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_406.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

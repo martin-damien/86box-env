@@ -1,0 +1,65 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_360.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_359.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_361.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __FSEXT_get_function </H2>
+<!--docid::SEC1770::-->
+<A NAME="SEC1771"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC1771::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;sys/fsext.h&#62;
+
+__FSEXT_Function *__FSEXT_get_function(int _fd);
+</pre></td></tr></table></P><P>
+
+This function is part of the <A HREF="libc_321.html">File System Extensions</A>.  It is used
+internal to libc.a to redirect I/O requests to the appropriate
+extensions.
+</P><P>
+
+<A NAME="SEC1772"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC1772::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1773"></A>
+<H3> Example                                                                                                                                                   </H3>
+<!--docid::SEC1773::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>_read(int fd, void *buf, int len)
+{
+  __FSEXT_Function *func = __FSEXT_get_function(fd);
+  if (func)
+  {
+    int rv;
+    if (func(__FSEXT_read, &#38;rv, &#38;fd))
+      return rv;
+  }
+  /* rest of read() */
+}
+</pre></td></tr></table></P><P>
+
+<A NAME="__FSEXT_set_data"></A>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,279 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_816.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_815.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_817.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> Termios functions </H2>
+<!--docid::SEC4278::-->
+<P>
+
+The <CODE>termios</CODE> functions allow to control terminals and asynchronous
+communications ports.  The DJGPP implementation currently supports the
+<CODE>termios</CODE> functionality for console devices only.  It does that by
+reading the keyboard via the BIOS Int 16h and writes to the screen via
+the direct output interrupt 29h.  This I/O redirection is performed by
+the special hook internal to the library.
+</P><P>
+
+Many of the <CODE>termios</CODE> functions accept a <VAR>termiosp</VAR> argument
+which is a pointer to a <CODE>struct termios</CODE> variable.  Here's the
+description of this structure:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre> #define NCCS 12
+ struct termios {
+   cc_t	        c_cc[NCCS];  /* control characters */
+   tcflag_t     c_cflag;     /* control modes */
+   tcflag_t     c_iflag;     /* input modes */
+   tcflag_t     c_lflag;     /* local modes */
+   tcflag_t     c_oflag;     /* output modes */
+   speed_t      c_ispeed;    /* input baudrate */
+   speed_t      c_ospeed;    /* output baudrate */
+ }
+</pre></td></tr></table></P><P>
+
+The array <CODE>c_cc[]</CODE> defines the special control characters.  the
+following table lists the supported control functions the default
+characters which invoke those functions, and the default values for MIN
+and TIME parameters:
+</P><P>
+
+<TABLE>
+<TR><TD>Index </TD><TD> Name </TD><TD> Function </TD><TD> Default Value</TD>
+</TR>
+<TR><TD>1 </TD><TD> VEOF </TD><TD> Signal End-Of-Input </TD><TD> Ctrl-D</TD>
+</TR>
+<TR><TD>2 </TD><TD> VEOL </TD><TD> Signal End-Of-Line </TD><TD> [Disabled]</TD>
+</TR>
+<TR><TD>3 </TD><TD> VERASE </TD><TD> Delete previous character </TD><TD> Backspace</TD>
+</TR>
+<TR><TD>4 </TD><TD> VINTR </TD><TD> Generate SIGINT </TD><TD> Ctrl-C</TD>
+</TR>
+<TR><TD>5 </TD><TD> VKILL </TD><TD> Erase current line </TD><TD> Ctrl-U</TD>
+</TR>
+<TR><TD>6 </TD><TD> VMIN </TD><TD> The MIN value </TD><TD> 1</TD>
+</TR>
+<TR><TD>7 </TD><TD> VQUIT </TD><TD> Generate SIGQUIT </TD><TD> Ctrl-\</TD>
+</TR>
+<TR><TD>8 </TD><TD> VSTART </TD><TD> Resume output </TD><TD> Ctrl-Q</TD>
+</TR>
+<TR><TD>9 </TD><TD> VSTOP </TD><TD> Suspend output </TD><TD> Ctrl-S</TD>
+</TR>
+<TR><TD>10 </TD><TD> VSUSP </TD><TD> Suspend program </TD><TD> Ctrl-Z</TD>
+</TR>
+<TR><TD>11 </TD><TD> VTIME </TD><TD> TIME value </TD><TD> 0</TD>
+</TR></TABLE>
+<P>
+
+The special characters (like <CODE>VEOL</CODE>, <CODE>VKILL</CODE>, etc.) produce
+their effect only under the <EM>canonical input processing</EM>, that is,
+when the <CODE>ICANON</CODE> bit in the <CODE>c_lflag</CODE> member of <CODE>struct
+termios</CODE> (see below) is set.  If <CODE>ICANON</CODE> is <STRONG>not</STRONG> set, all
+characters are processed as regular characters and returned to the
+caller; only the <CODE>VMIN</CODE> and <CODE>VTIME</CODE> parameters are meaningful
+in the <EM>non-canonical processing</EM> mode.
+</P><P>
+
+The <CODE>VEOL</CODE> character can be used to signal end of line (and thus
+end of input in the canonical mode) in addition to the normal <KBD>RET</KBD>
+key.  In the non-canonical mode, input ends as soon as at least
+<CODE>VMIN</CODE> characters are received.
+</P><P>
+
+Note that the values of <CODE>VMIN</CODE> and <CODE>VTIME</CODE> are currently
+ignored; <CODE>termios</CODE> functions always work as if <CODE>VMIN</CODE> were 1
+and <CODE>VTIME</CODE> were zero.  Other parameters are supported (for console
+devices only), except that VSTOP and VSTART characters are not inserted
+to the input, but otherwise produce no effect.
+</P><P>
+
+The <CODE>c_cflag</CODE> member of <CODE>struct termios</CODE> describes the
+hardware terminal control, as follows:
+</P><P>
+
+<TABLE>
+<TR><TD>Symbol </TD><TD> Function</TD>
+</TR>
+<TR><TD>B0 </TD><TD> Hang up</TD>
+</TR>
+<TR><TD>B50 </TD><TD> 50 baud</TD>
+</TR>
+<TR><TD>B75 </TD><TD> 75 baud</TD>
+</TR>
+<TR><TD>B110 </TD><TD> 110 baud</TD>
+</TR>
+<TR><TD>B134 </TD><TD> 134.5 baud</TD>
+</TR>
+<TR><TD>B150 </TD><TD> 150 baud</TD>
+</TR>
+<TR><TD>B200 </TD><TD> 200 baud</TD>
+</TR>
+<TR><TD>B300 </TD><TD> 300 baud</TD>
+</TR>
+<TR><TD>B600 </TD><TD> 600 baud</TD>
+</TR>
+<TR><TD>B1200 </TD><TD> 1200 baud</TD>
+</TR>
+<TR><TD>B1800 </TD><TD> 1800 baud</TD>
+</TR>
+<TR><TD>B2400 </TD><TD> 2400 baud</TD>
+</TR>
+<TR><TD>B4800 </TD><TD> 4800 baud</TD>
+</TR>
+<TR><TD>B9600 </TD><TD> 9600 baud</TD>
+</TR>
+<TR><TD>B19200 </TD><TD> 19200 baud</TD>
+</TR>
+<TR><TD>B38400 </TD><TD> 38400 baud</TD>
+</TR>
+<TR><TD>CSIZE </TD><TD> Character size:</TD>
+</TR>
+<TR><TD>CS5 </TD><TD> 5-bit characters</TD>
+</TR>
+<TR><TD>CS6 </TD><TD> 6-bit characters</TD>
+</TR>
+<TR><TD>CS7 </TD><TD> 7-bit characters</TD>
+</TR>
+<TR><TD>CS8 </TD><TD> 8-bit characters</TD>
+</TR>
+<TR><TD>CSTOPB </TD><TD> If set, send two stop bits</TD>
+</TR>
+<TR><TD>CREAD </TD><TD> Enable reading</TD>
+</TR>
+<TR><TD>PARENB </TD><TD> Enable parity</TD>
+</TR>
+<TR><TD>PARODD </TD><TD> If set, use odd parity</TD>
+</TR>
+<TR><TD>HUPCL </TD><TD> Hang up on last close</TD>
+</TR>
+<TR><TD>CLOCAL </TD><TD> If set, line is local</TD>
+</TR></TABLE>
+<P>
+
+Note that since the DOS terminal doesn't use asynchronous ports, the
+above parameters are always ignored by the implementation.  The default
+value of <CODE>c_cflag</CODE> is <CODE>(CS8|CREAD|CLOCAL)</CODE>.
+</P><P>
+
+The <CODE>c_lflag</CODE> member of <CODE>struct termios</CODE> defines the local
+modes that control the terminal functions:
+</P><P>
+
+<TABLE>
+<TR><TD>Symbol </TD><TD> Function</TD>
+</TR>
+<TR><TD>ISIG </TD><TD> If set, enable signals SIGINT and SIGQUIT</TD>
+</TR>
+<TR><TD>ICANON </TD><TD> If set, enable canonical input processing</TD>
+</TR>
+<TR><TD>ECHO </TD><TD> If set, enable echoing</TD>
+</TR>
+<TR><TD>ECHOE </TD><TD> Erase character deletes</TD>
+</TR>
+<TR><TD>ECHOK </TD><TD> Output newline after the kill character</TD>
+</TR>
+<TR><TD>ECHONL </TD><TD> Echo the newline</TD>
+</TR>
+<TR><TD>NOFLSH </TD><TD> [Ignored]</TD>
+</TR>
+<TR><TD>TOSTOP </TD><TD> [Ignored]</TD>
+</TR>
+<TR><TD>ECHOCTL </TD><TD> Echo control characters as ^X</TD>
+</TR>
+<TR><TD>ECHOKE </TD><TD> Erase killed line</TD>
+</TR>
+<TR><TD>IEXTEN </TD><TD> [Ignored]</TD>
+</TR></TABLE>
+<P>
+
+The default value of <CODE>c_lflag</CODE> is
+<CODE>(ISIG|ICANON|ECHO|IEXTEN|ECHOE|ECHOKE|ECHOCTL)</CODE>.
+</P><P>
+
+The <CODE>c_iflag</CODE> member of <CODE>struct termios</CODE> describes the input
+control:
+</P><P>
+
+<TABLE>
+<TR><TD>Symbol </TD><TD> Function</TD>
+</TR>
+<TR><TD>IGNBRK </TD><TD> Ignore Ctrl-BREAK</TD>
+</TR>
+<TR><TD>BRKINT </TD><TD> Generate SIGINT on Ctrl-BREAK</TD>
+</TR>
+<TR><TD>IGNPAR </TD><TD> [Ignored]</TD>
+</TR>
+<TR><TD>PARMRK </TD><TD> [Ignored]</TD>
+</TR>
+<TR><TD>INPCK </TD><TD> [Ignored]</TD>
+</TR>
+<TR><TD>ISTRIP </TD><TD> Strip the 8th bit from input</TD>
+</TR>
+<TR><TD>INLCR </TD><TD> Map NL to CR on input</TD>
+</TR>
+<TR><TD>IGNCR </TD><TD> Ignore CR characters</TD>
+</TR>
+<TR><TD>ICRNL </TD><TD> Map CR to NL on input</TD>
+</TR>
+<TR><TD>IXON </TD><TD> [Ignored]</TD>
+</TR>
+<TR><TD>IXOFF </TD><TD> Enable start/stop input control</TD>
+</TR>
+<TR><TD>IMAXBEL </TD><TD> Ring the bell if input line too long</TD>
+</TR></TABLE>
+<P>
+
+The default value of <CODE>c_iflag</CODE> is <CODE>(BRKINT|ICRNL|IMAXBEL)</CODE>.
+</P><P>
+
+The <CODE>c_oflag</CODE> member of <CODE>struct termios</CODE> specifies the output
+handling:
+</P><P>
+
+<TABLE>
+<TR><TD>Symbol </TD><TD> Function</TD>
+</TR>
+<TR><TD>OPOST </TD><TD> If not set, output characters verbatim</TD>
+</TR>
+<TR><TD>ONLCR </TD><TD> Map newline to CR-LF pair on output</TD>
+</TR>
+<TR><TD>OCRNL </TD><TD> Map CR to NL on output</TD>
+</TR>
+<TR><TD>ONOEOT </TD><TD> Don't output EOT characters</TD>
+</TR></TABLE>
+<P>
+
+Note that if the <CODE>OPOST</CODE> bit is not set, all the other flags are
+ignored and the characters are output verbatim.  The default value of
+<CODE>c_oflag</CODE> is <CODE>(OPOST|ONLCR|ONOEOT)</CODE>.
+</P><P>
+
+The <CODE>c_ispeed</CODE> and <CODE>c_ospeed</CODE> members specify, respectively,
+the input and output baudrate of the terminal.  They are set by default
+to 9600 baud, but the value is always ignored by this implementation,
+since no asynchronous ports are used.
+</P><P>
+
+<A NAME="textattr"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_815.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_817.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

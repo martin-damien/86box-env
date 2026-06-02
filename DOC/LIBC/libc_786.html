@@ -1,0 +1,68 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_786.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_785.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_787.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> strtoumax </H2>
+<!--docid::SEC4113::-->
+<A NAME="SEC4114"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC4114::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;inttypes.h&#62;
+
+uintmax_t strtoumax (const char *s, char **endp, int base);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC4115"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC4115::-->
+<P>
+
+This is just like <CODE>strtoimax</CODE> (see section <A HREF="libc_778.html">strtoimax</A>) except that
+the result is unsigned.
+</P><P>
+
+<A NAME="SEC4116"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC4116::-->
+<P>
+
+The value.
+</P><P>
+
+<A NAME="SEC4117"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC4117::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C99; not C89
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.1-2001; not 1003.2-1992
+</TR></TABLE>
+<P>
+
+<A NAME="SEC4118"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC4118::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>printf("Enter a number: "); fflush(stdout);
+gets(buf);
+char *bp;
+printf("The value is %" PRIuMAX "\n", strtoumax(buf, &#38;bp, 0));
+</pre></td></tr></table><A NAME="strupr"></A>
+<!--#perl sub="trailer" -->

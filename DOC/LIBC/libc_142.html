@@ -1,0 +1,118 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_142.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_141.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_143.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __djgpp_set_ctrl_c </H2>
+<!--docid::SEC619::-->
+<A NAME="SEC620"></A>
+<H3> Syntax                                                                                                            </H3>
+<!--docid::SEC620::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;sys/exceptn.h&#62;
+
+int __djgpp_set_ctrl_c(int enable);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC621"></A>
+<H3> Description                                                                                                           </H3>
+<!--docid::SEC621::-->
+<P>
+
+This function sets and resets the bit which controls whether signals
+<CODE>SIGINT</CODE> and <CODE>SIGQUIT</CODE> (see section <A HREF="libc_724.html">signal</A>) will be raised when
+you press the INTR or QUIT keys.  By default these generate signals
+which, if uncaught by a signal handler, will abort your program.
+However, when you call the <CODE>setmode</CODE> library function to switch the
+console reads to binary mode, or open the console in binary mode for
+reading, this generation of signals is turned off, because some
+programs want to get the <SAMP>`^C'</SAMP> and <SAMP>`^\'</SAMP> characters as any other
+character and handle them by themselves.
+</P><P>
+
+<CODE>__djgpp_set_ctrl_c</CODE> lets you explicitly determine the effect of
+INTR and QUIT keys.  When called with a non-zero, positive value of
+<VAR>enable</VAR>, it arranges for <CODE>SIGINT</CODE> and <CODE>SIGQUIT</CODE> signals
+to be generated when the appropriate key is pressed; if you call it with
+a zero in <VAR>enable</VAR>, these keys are treated as normal characters.  If
+<VAR>enable</VAR> is negative, <CODE>__djgpp_set_ctrl_c</CODE> returns the current
+state of the signal generation, but doesn't change it.
+</P><P>
+
+For getting similar effects via the POSIX <CODE>termios</CODE> functions, see
+<A HREF="libc_811.html">tcsetattr</A>.
+</P><P>
+
+Note that the effect of <KBD>Ctrl-<KBD>BREAK</KBD></KBD> key is unaffected by this
+function; use the <CODE>_go32_want_ctrl_break</CODE> library function to
+control it.
+</P><P>
+
+Also note that in DJGPP, the effect of the interrupt signal will only be
+seen when the program is in protected mode (See section <A HREF="libc_724.html">Signal Mechanism</A>,
+for more details).  Thus, if you press <KBD>Ctrl-C</KBD> while your
+program calls DOS (e.g., when reading from the console), the
+<CODE>SIGINT</CODE> signal handler will only be called after that call
+returns.
+</P><P>
+
+<A NAME="SEC622"></A>
+<H3> Return Value                                                                                             </H3>
+<!--docid::SEC622::-->
+<P>
+
+The state of <CODE>SIGINT</CODE> and <CODE>SIGQUIT</CODE> generation before the
+call: 0 if it was disabled, 1 if it was enabled.  If the argument
+<VAR>enable</VAR> is negative, the state is not altered.
+</P><P>
+
+<A NAME="SEC623"></A>
+<H3> Portability                                                                                                           </H3>
+<!--docid::SEC623::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC624"></A>
+<H3> Example                                                         </H3>
+<!--docid::SEC624::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>
+  setmode(fileno(stdin), O_BINARY);
+  if (isatty(fileno(stdin)));
+    __djgpp_set_ctrl_c(1);
+
+</pre></td></tr></table></P><P>
+
+<A NAME="__djgpp_set_page_attributes"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_141.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_143.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

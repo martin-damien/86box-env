@@ -1,0 +1,84 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_260.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_259.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_261.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __dpmi_set_coprocessor_emulation </H2>
+<!--docid::SEC1236::-->
+<A NAME="SEC1237"></A>
+<H3> Syntax                                                                                                                                                                                                                                </H3>
+<!--docid::SEC1237::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre>#include &#60;dpmi.h&#62;
+
+int __dpmi_set_coprocessor_emulation(int flags);
+</FONT></pre></td></tr></table></P><P>
+
+<A NAME="SEC1238"></A>
+<H3> Description                                                                                                                                                                                                                             </H3>
+<!--docid::SEC1238::-->
+<P>
+
+Please refer to <A HREF="libc_200.html">DPMI Specification</A>, for details on DPMI
+function call operation.  Also see <A HREF="libc_199.html">DPMI Overview</A>, for general
+information.
+</P><P>
+
+DPMI function AX = 0x0e01 (DPMI v1.0 only, but supported by most
+DPMI v0.9 servers, including CWSDPMI, Windows, and QDPMI).
+</P><P>
+
+This function sets the co-processor emulation state as specified by
+<VAR>flags</VAR>.  The only two used bits in <VAR>flags</VAR> are:
+</P><P>
+
+<DL COMPACT>
+<DT><CODE>bit 0</CODE>
+<DD>If set, enable the co-processor.  If reset, disable the co-processor.
+<P>
+
+<DT><CODE>bit 1</CODE>
+<DD>If set, the emulation of the floating-point instructions will be done by
+the calling application.
+</DL>
+<P>
+
+DJGPP programs using one of the provided emulators should generally call
+this function with an argument of 2.  (The DJGPP startup code does that
+automatically if no co-processor is detected.)
+</P><P>
+
+<A NAME="SEC1239"></A>
+<H3> Return Value                                                                                                                                                                                                          </H3>
+<!--docid::SEC1239::-->
+<P>
+
+-1 on errors, else zero.
+</P><P>
+
+<A NAME="SEC1240"></A>
+<H3> Portability                                                                                                                                                                                                                               </H3>
+<!--docid::SEC1240::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="__dpmi_set_debug_watchpoint"></A>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,211 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_223.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_222.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_224.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __dpmi_get_descriptor </H2>
+<!--docid::SEC1049::-->
+<A NAME="SEC1050"></A>
+<H3> Syntax                                                                                                                                                                                           </H3>
+<!--docid::SEC1050::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dpmi.h&#62;
+
+int __dpmi_get_descriptor(int _selector, void *_buffer);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1051"></A>
+<H3> Description                                                                                                                                                                                        </H3>
+<!--docid::SEC1051::-->
+<P>
+
+Please refer to the DPMI Specification (see section <A HREF="libc_200.html">DPMI Specification</A>)
+for details on DPMI function call operation.  Also see
+the DPMI Overview (see section <A HREF="libc_199.html">DPMI Overview</A>) for general information.
+</P><P>
+
+DPMI function AX = 0x000b
+</P><P>
+
+This function fills the 8-byte buffer pointed to by <VAR>_buffer</VAR> with
+the parameters of the descriptor whose selector is passed in
+<VAR>_selector</VAR>.  The data has the following format:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>[0] XXXX XXXX = segment limit [7:0]
+[1] XXXX XXXX = segment limit [15:8]
+[2] XXXX XXXX = base address [7:0]
+[3] XXXX XXXX = base address [15:8]
+[4] XXXX XXXX = base address [23:16]
+[5] ---- XXXX = type; see details below
+[5] ---X ---- = 0=system, 1=application (must be 1)
+[5] -XX- ---- = privilege level, usually 3 (binary 11)
+[5] X--- ---- = 0=absent, 1=present; usually 1
+[6] ---- XXXX = segment limit [19:16]
+[6] ---X ---- = available for user; see details below
+[6] --0- ---- = must be zero
+[6] -X-- ---- = 0=16-bit 1=32-bit; usually 1
+[6] X--- ---- = 0=byte-granular (small) 1=page-granular (big)
+[7] XXXX XXXX = base address [31:24]
+</pre></td></tr></table></P><P>
+
+Here's an alternative view of the layout that treats the buffer as an
+array of 4 16-bit words (i.e., <CODE>unsigned short</CODE>s):
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>[0] XXXX XXXX XXXX XXXX = segment limit [15:0]
+[1] XXXX XXXX XXXX XXXX = base address  [15:0]
+[2] ---- ---- XXXX XXXX = base address [23:16]
+[2] ---- XXXX ---- ---- = type; see details below
+[2] ---1 ---- ---- ---- = 0=system, 1=application; must be 1
+[2] -XX- ---- ---- ---- = privilege level, usually 3 (binary 11)
+[2] X--- ---- ---- ---- = 0=absent, 1=present; usually 1
+[3] ---- ---- ---- XXXX = segment limit [19:16]
+[3] ---- ---- ---X ---- = available for user; see details below
+[3] ---- ---- --0- ---- = must be zero
+[3] ---- ---- -X-- ---- = 0=16-bit 1=32-bit; usually 1
+[3] ---- ---- X--- ---- = 0=byte-granular (small) 1=page-granular (big)
+[3] XXXX XXXX ---- ---- = base address [31:24]
+</pre></td></tr></table></P><P>
+
+Special considerations apply to some of the fields:
+</P><P>
+
+<DL COMPACT>
+<DT>Segment Limit fields
+<DD><P>
+
+The segment limit is specified as a 20-bit number.  This number is
+interpreted as a number of bytes if the granularity bit (bit 7 of byte
+6) is not set, and as a number of 4KB pages if the granularity bit is
+set.  Offsets larger than the limit will generate a <EM>GPF</EM>, the
+General Protection Fault exception.
+</P><P>
+
+For expand-down data segments (see below), the segment limit is the
+<EM>lower</EM> limit of the segment; the upper limit is either 0xffffffff
+or 0xffff, depending on whether the size bit is set (32-bit default
+size) or not (16-bit default size).  For expand-down segments, values of
+offset <EM>less</EM> than the segment limit result in a GPF.
+</P><P>
+
+<DT>Base Address fields
+<DD><P>
+
+Segment base address should generally be 16-byte aligned.  This is not
+required, but it maximizes performance by aligning code and data on
+16-byte boundaries.
+</P><P>
+
+<DT>Type field
+<DD><P>
+
+This field has different meanings depending on whether the descriptor is
+for code or data segment.  For code segments, the meaning is as follows:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>---X = 0=not accessed, 1=accessed
+--1- = 0=execute only, 1=execute/read; must be 1
+-0-- = 0=non-conforming, 1=conforming; must be 0
+1--- = 0=data segment, 1=code segment
+</pre></td></tr></table></P><P>
+
+The accessed/not accessed bit indicates whether the segment has been
+accessed since the last time the bit was cleared.  This bit is set
+whenever the segment selector is loaded into a segment register, and the
+bit then remains set until explicitly cleared.  This bit can be used for
+debugging purposes.
+</P><P>
+
+The read bit must be set to allow reading data from the code segment,
+which is done in several cases by the library.  The DPMI spec
+(see section <A HREF="libc_200.html">DPMI Specification</A>) requires this bit to be 1 for code
+segments.
+</P><P>
+
+The conforming bit must be cleared so that transfer of execution into
+this segment from a less-privileged segment will result in a GPF.  The
+DPMI spec (see section <A HREF="libc_200.html">DPMI Specification</A>) requires this bit to be 0 for
+code segments.
+</P><P>
+
+For data segments, the meaning of the <CODE>type</CODE> field is as follows:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>---X = 0=not accessed, 1=accessed
+--X- = 0=read-only, 1=read/write
+-X-- = 0=expand-up, 1=expand-down; usually 0
+0--- = 0=data segment, 1=code segment
+</pre></td></tr></table></P><P>
+
+The accessed/not accessed bit has the same meaning as for code segments.
+The expand up/down bit is meant to be 1 for stack segments whose size
+should be changed dynamically, whereby changing the limit adds the
+additional space to the bottom of the stack; for data segments and
+statically-sized stack segments, this bit is usually zero.
+</P><P>
+
+<DT>Present bit
+<DD><P>
+
+If this bit is clear, a segment-not-present exception will be generated
+when the selector is loaded into a segment register, and all the fields
+of the descriptor except the privilege level and the system/application
+bit are available for CPU/OS to store their own data.  Don't clear this
+bit unless you know what you are doing.
+</P><P>
+
+<DT>Available bit
+<DD><P>
+
+This bit is left for the application's use.  It is neither set nor
+cleared by the DPMI server.
+</DL>
+<P>
+
+<A NAME="SEC1052"></A>
+<H3> Return Value                                                                                                                                                                     </H3>
+<!--docid::SEC1052::-->
+<P>
+
+-1 on error, else zero.
+</P><P>
+
+<A NAME="SEC1053"></A>
+<H3> Portability                                                                                                                                                                                          </H3>
+<!--docid::SEC1053::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="__dpmi_get_descriptor_access_rights"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_222.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_224.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

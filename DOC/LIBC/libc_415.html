@@ -1,0 +1,124 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_415.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_414.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_416.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> getrlimit </H2>
+<!--docid::SEC2081::-->
+<A NAME="SEC2082"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC2082::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;sys/resource.h&#62;
+
+int getrlimit (int rltype, struct rlimit *rlimitp);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2083"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC2083::-->
+<P>
+
+This function gets the resource limit specified by <VAR>rltype</VAR> and
+stores it in the buffer pointed to by <VAR>rlimitp</VAR>.  The <CODE>rlimit</CODE>
+structure is defined on <TT>`sys/resource.h'</TT> as follows:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct rlimit {
+  long rlim_cur;  /* current (soft) limit */
+  long rlim_max;  /* maximum value for rlim_cur */
+};
+</pre></td></tr></table></P><P>
+
+The following resource types can be passed in <VAR>rltype</VAR>:
+</P><P>
+
+<DL COMPACT>
+<DT><CODE>RLIMIT_CPU</CODE>
+<DD>CPU time in milliseconds.
+<P>
+
+<DT><CODE>RLIMIT_FSIZE</CODE>
+<DD>Maximum file size.
+<P>
+
+<DT><CODE>RLIMIT_DATA</CODE>
+<DD>Data size.
+<P>
+
+<DT><CODE>RLIMIT_STACK</CODE>
+<DD>Stack size.
+<P>
+
+<DT><CODE>RLIMIT_CORE</CODE>
+<DD>Core file size.
+<P>
+
+<DT><CODE>RLIMIT_RSS</CODE>
+<DD>Resident set size.
+<P>
+
+<DT><CODE>RLIMIT_MEMLOCK</CODE>
+<DD>Locked-in-memory address space.
+<P>
+
+<DT><CODE>RLIMIT_NPROC</CODE>
+<DD>Number of processes.
+<P>
+
+<DT><CODE>RLIMIT_NOFILE</CODE>
+<DD>Number of open files.
+</DL>
+<P>
+
+Currently, only the <CODE>RLIMIT_STACK</CODE> and <CODE>RLIMIT_NOFILE</CODE> are
+meaningful: the first returns the value of <CODE>_stklen</CODE>
+(see section <A HREF="libc_748.html">_stklen</A>), the second the value returned by
+<CODE>sysconf(_SC_OPEN_MAX)</CODE> (see section <A HREF="libc_801.html">sysconf</A>).  All other members of
+the <CODE>rlimit</CODE> structure are set to <CODE>RLIM_INFINITY</CODE>, defined in
+<TT>`sys/resource.h'</TT> as <CODE>2^31 - 1</CODE>.
+</P><P>
+
+<A NAME="SEC2084"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC2084::-->
+<P>
+
+Zero on success, nonzero on failure.
+</P><P>
+
+<A NAME="SEC2085"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC2085::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2086"></A>
+<H3> Example                                                                                                                                                                                    </H3>
+<!--docid::SEC2086::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct rlimit rlimitbuf;
+int rc = getrlimit (RLIMIT_STACK, &#38;rlimitbuf);
+</pre></td></tr></table></P><P>
+
+<A NAME="getrusage"></A>
+<!--#perl sub="trailer" -->

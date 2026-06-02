@@ -1,0 +1,1771 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A TARGET="right" NAME="SEC_Contents"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A TARGET="right" HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A TARGET="right" HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A TARGET="right" HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A TARGET="right" HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H1>Table of Contents</H1><font size=-1>
+
+<A TARGET="right" NAME="TOC1" HREF="libc_1.html">1. <b>Introduction</b></A>
+<BR>
+<A TARGET="right" NAME="TOC2" HREF="libc_2.html">Functional Categories</A>
+<BR>
+
+<A TARGET="right" NAME="TOC3" HREF="libc_3.html">bios</A>
+<BR>
+<A TARGET="right" NAME="TOC4" HREF="libc_4.html">conio</A>
+<BR>
+<A TARGET="right" NAME="TOC5" HREF="libc_5.html">cpu</A>
+<BR>
+<A TARGET="right" NAME="TOC6" HREF="libc_6.html">ctype</A>
+<BR>
+<A TARGET="right" NAME="TOC7" HREF="libc_7.html">debugging</A>
+<BR>
+<A TARGET="right" NAME="TOC8" HREF="libc_8.html">dos</A>
+<BR>
+<A TARGET="right" NAME="TOC9" HREF="libc_9.html">dpmi</A>
+<BR>
+<A TARGET="right" NAME="TOC10" HREF="libc_10.html">environment</A>
+<BR>
+<A TARGET="right" NAME="TOC11" HREF="libc_11.html">file system</A>
+<BR>
+<A TARGET="right" NAME="TOC12" HREF="libc_12.html">go32</A>
+<BR>
+<A TARGET="right" NAME="TOC13" HREF="libc_13.html">io</A>
+<BR>
+<A TARGET="right" NAME="TOC14" HREF="libc_14.html">locale</A>
+<BR>
+<A TARGET="right" NAME="TOC15" HREF="libc_15.html">math</A>
+<BR>
+<A TARGET="right" NAME="TOC16" HREF="libc_16.html">memory</A>
+<BR>
+<A TARGET="right" NAME="TOC17" HREF="libc_17.html">misc</A>
+<BR>
+<A TARGET="right" NAME="TOC18" HREF="libc_18.html">mono</A>
+<BR>
+<A TARGET="right" NAME="TOC19" HREF="libc_19.html">posix</A>
+<BR>
+<A TARGET="right" NAME="TOC20" HREF="libc_20.html">process</A>
+<BR>
+<A TARGET="right" NAME="TOC21" HREF="libc_21.html">profiling</A>
+<BR>
+<A TARGET="right" NAME="TOC22" HREF="libc_22.html">random number</A>
+<BR>
+<A TARGET="right" NAME="TOC23" HREF="libc_23.html">shell</A>
+<BR>
+<A TARGET="right" NAME="TOC24" HREF="libc_24.html">signal</A>
+<BR>
+<A TARGET="right" NAME="TOC25" HREF="libc_25.html">sound</A>
+<BR>
+<A TARGET="right" NAME="TOC26" HREF="libc_26.html">startup</A>
+<BR>
+<A TARGET="right" NAME="TOC27" HREF="libc_27.html">stdio</A>
+<BR>
+<A TARGET="right" NAME="TOC28" HREF="libc_28.html">string</A>
+<BR>
+<A TARGET="right" NAME="TOC29" HREF="libc_29.html">sys</A>
+<BR>
+<A TARGET="right" NAME="TOC30" HREF="libc_30.html">termios</A>
+<BR>
+<A TARGET="right" NAME="TOC31" HREF="libc_31.html">time</A>
+<BR>
+<A TARGET="right" NAME="TOC32" HREF="libc_32.html">unistd</A>
+<BR>
+<A TARGET="right" NAME="TOC33" HREF="libc_33.html">unix</A>
+<BR>
+
+<A TARGET="right" NAME="TOC34" HREF="libc_34.html">Alphabetical List</A>
+<tt></tt><BR>
+
+<A TARGET="right" NAME="TOC35" HREF="libc_35.html">_8087</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC39" HREF="libc_36.html">a64l</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC44" HREF="libc_37.html">abort</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC50" HREF="libc_38.html">abs</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC55" HREF="libc_39.html">access</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC61" HREF="libc_40.html">acos</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC66" HREF="libc_41.html">acosh</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC71" HREF="libc_42.html">addmntent</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC76" HREF="libc_43.html">alarm</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC82" HREF="libc_44.html">alloca</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC88" HREF="libc_45.html">asctime</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC94" HREF="libc_46.html">asin</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC99" HREF="libc_47.html">asinh</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC104" HREF="libc_48.html">assert</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC110" HREF="libc_49.html">atan</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC115" HREF="libc_50.html">atan2</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC120" HREF="libc_51.html">atanh</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC125" HREF="libc_52.html">atexit</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC131" HREF="libc_53.html">atof</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC137" HREF="libc_54.html">atoi</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC143" HREF="libc_55.html">atol</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC149" HREF="libc_56.html">_atold</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC155" HREF="libc_57.html">atoll</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC161" HREF="libc_58.html">basename</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC167" HREF="libc_59.html">bcmp</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC173" HREF="libc_60.html">bcopy</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC179" HREF="libc_61.html">bdos</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC185" HREF="libc_62.html">bdosptr</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC191" HREF="libc_63.html">_bios_disk</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC197" HREF="libc_64.html">_bios_equiplist</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC203" HREF="libc_65.html">_bios_keybrd</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC208" HREF="libc_66.html">_bios_memsize</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC214" HREF="libc_67.html">_bios_printer</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC220" HREF="libc_68.html">_bios_serialcom</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC226" HREF="libc_69.html">_bios_timeofday</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC232" HREF="libc_70.html">bioscom</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC238" HREF="libc_71.html">biosdisk</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC244" HREF="libc_72.html">biosequip</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC250" HREF="libc_73.html">bioskey</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC256" HREF="libc_74.html">biosmemory</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC262" HREF="libc_75.html">biosprint</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC268" HREF="libc_76.html">biostime</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC274" HREF="libc_77.html">blinkvideo</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC278" HREF="libc_78.html">brk</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC284" HREF="libc_79.html">bsearch</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC290" HREF="libc_80.html">bzero</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC296" HREF="libc_81.html">calloc</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC302" HREF="libc_82.html">cbrt</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC307" HREF="libc_83.html">ceil</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC312" HREF="libc_84.html">cfgetispeed</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC317" HREF="libc_85.html">cfgetospeed</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC322" HREF="libc_86.html">cfmakeraw</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC327" HREF="libc_87.html">cfree</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC333" HREF="libc_88.html">cfsetispeed</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC338" HREF="libc_89.html">cfsetospeed</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC343" HREF="libc_90.html">cfsetspeed</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC348" HREF="libc_91.html">cgets</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC354" HREF="libc_92.html">chdir</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC360" HREF="libc_93.html">_check_v2_prog</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC366" HREF="libc_94.html">chmod</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC372" HREF="libc_95.html">_chmod</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC377" HREF="libc_96.html">chown</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC382" HREF="libc_97.html">chsize</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC387" HREF="libc_98.html">cleanup_client</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC390" HREF="libc_99.html">_clear87</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC395" HREF="libc_100.html">__clear_fd_flags</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC400" HREF="libc_101.html">__clear_fd_properties</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC405" HREF="libc_102.html">clearerr</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC411" HREF="libc_103.html">clock</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC417" HREF="libc_104.html">close</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC423" HREF="libc_105.html">_close</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC428" HREF="libc_106.html">closedir</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC433" HREF="libc_107.html">clreol</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC439" HREF="libc_108.html">clrscr</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC444" HREF="libc_109.html">confstr</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC450" HREF="libc_110.html">_conio_gettext</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC455" HREF="libc_111.html">_conio_kbhit</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC461" HREF="libc_112.html">_control87</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC467" HREF="libc_113.html">cos</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC473" HREF="libc_114.html">cosh</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC478" HREF="libc_115.html">cprintf</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC484" HREF="libc_116.html">cputs</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC490" HREF="libc_117.html">creat</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC496" HREF="libc_118.html">_creat</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC501" HREF="libc_119.html">_creatnew</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC506" HREF="libc_120.html">crlf2nl</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC511" HREF="libc_121.html">__crt0_glob_function</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC515" HREF="libc_122.html">__crt0_load_environment_file</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC519" HREF="libc_123.html">__crt0_setup_arguments</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC523" HREF="libc_124.html">_crt0_startup_flags</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC527" HREF="libc_125.html">cscanf</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC533" HREF="libc_126.html">ctermid</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC538" HREF="libc_127.html">ctime</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC543" HREF="libc_128.html">delay</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC549" HREF="libc_129.html">delline</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC554" HREF="libc_130.html">_detect_80387</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC560" HREF="libc_131.html">difftime</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC566" HREF="libc_132.html">dirname</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC572" HREF="libc_133.html">disable</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC578" HREF="libc_134.html">div</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC584" HREF="libc_135.html">__djgpp_exception_toggle</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC589" HREF="libc_136.html">__djgpp_map_physical_memory</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC595" HREF="libc_137.html">__djgpp_memory_handle</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC600" HREF="libc_138.html">__djgpp_memory_handle_list</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC605" HREF="libc_139.html">__djgpp_memory_handle_size</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC610" HREF="libc_140.html">__djgpp_nearptr_disable</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC614" HREF="libc_141.html">__djgpp_nearptr_enable</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC619" HREF="libc_142.html">__djgpp_set_ctrl_c</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC625" HREF="libc_143.html">__djgpp_set_page_attributes</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC631" HREF="libc_144.html">__djgpp_set_sigint_key</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC637" HREF="libc_145.html">__djgpp_set_sigquit_key</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC643" HREF="libc_146.html">__djgpp_share_flags</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC647" HREF="libc_147.html">__djgpp_spawn</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC653" HREF="libc_148.html">__djgpp_traceback_exit</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC658" HREF="libc_149.html">_djstat_describe_lossage</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC664" HREF="libc_150.html">_djstat_fail_bits</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC667" HREF="libc_151.html">_djstat_flags</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC670" HREF="libc_152.html">dlclose</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC675" HREF="libc_153.html">dlerror</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC680" HREF="libc_154.html">dlerrstatmod</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC684" HREF="libc_155.html">dlerrstatsym</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC688" HREF="libc_156.html">dlopen</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC693" HREF="libc_157.html">dlregsym</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC698" HREF="libc_158.html">dlsym</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC703" HREF="libc_159.html">dlsymresolver</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC708" HREF="libc_160.html">dlunregsym</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC713" HREF="libc_161.html">_doprnt</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC719" HREF="libc_162.html">_dos_close</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC725" HREF="libc_163.html">_dos_commit</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC731" HREF="libc_164.html">_dos_creat</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC737" HREF="libc_165.html">_dos_creatnew</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC743" HREF="libc_166.html">_dos_findfirst</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC749" HREF="libc_167.html">_dos_findnext</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC754" HREF="libc_168.html">_dos_getdate</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC760" HREF="libc_169.html">_dos_getdiskfree</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC766" HREF="libc_170.html">_dos_getdrive</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC772" HREF="libc_171.html">_dos_getfileattr</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC778" HREF="libc_172.html">_dos_getftime</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC784" HREF="libc_173.html">_dos_gettime</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC790" HREF="libc_174.html">_dos_lk64</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC795" HREF="libc_175.html">_dos_lock</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC800" HREF="libc_176.html">_dos_open</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC806" HREF="libc_177.html">_dos_read</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC812" HREF="libc_178.html">_dos_setdate</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC818" HREF="libc_179.html">_dos_setdrive</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC824" HREF="libc_180.html">_dos_setfileattr</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC830" HREF="libc_181.html">_dos_setftime</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC836" HREF="libc_182.html">_dos_settime</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC842" HREF="libc_183.html">_dos_unlk64</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC847" HREF="libc_184.html">_dos_unlock</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC852" HREF="libc_185.html">_dos_write</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC858" HREF="libc_186.html">_doscan</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC864" HREF="libc_187.html">_doserrno</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC869" HREF="libc_188.html">__dosexec_find_on_path</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC875" HREF="libc_189.html">dosexterr</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC881" HREF="libc_190.html">dosmemget</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC887" HREF="libc_191.html">dosmemgetb</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC893" HREF="libc_192.html">dosmemgetl</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC899" HREF="libc_193.html">dosmemgetw</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC905" HREF="libc_194.html">dosmemput</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC911" HREF="libc_195.html">dosmemputb</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC917" HREF="libc_196.html">dosmemputl</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC923" HREF="libc_197.html">dosmemputw</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC929" HREF="libc_198.html">dostrerr</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC935" HREF="libc_199.html">DPMI Overview</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC936" HREF="libc_200.html">DPMI Specification</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC937" HREF="libc_201.html">__dpmi_allocate_dos_memory</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC942" HREF="libc_202.html">__dpmi_allocate_ldt_descriptors</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC948" HREF="libc_203.html">__dpmi_allocate_linear_memory</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC953" HREF="libc_204.html">__dpmi_allocate_memory</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC958" HREF="libc_205.html">__dpmi_allocate_real_mode_callback</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC963" HREF="libc_206.html">__dpmi_allocate_shared_memory</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC968" HREF="libc_207.html">__dpmi_allocate_specific_ldt_descriptor</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC973" HREF="libc_208.html">__dpmi_clear_debug_watchpoint</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC978" HREF="libc_209.html">__dpmi_create_alias_descriptor</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC983" HREF="libc_210.html">__dpmi_discard_page_contents</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC988" HREF="libc_211.html">__dpmi_free_dos_memory</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC993" HREF="libc_212.html">__dpmi_free_ldt_descriptor</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC999" HREF="libc_213.html">__dpmi_free_memory</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1004" HREF="libc_214.html">__dpmi_free_physical_address_mapping</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1009" HREF="libc_215.html">__dpmi_free_real_mode_callback</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1014" HREF="libc_216.html">__dpmi_free_serialization_on_shared_memory</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1019" HREF="libc_217.html">__dpmi_free_shared_memory</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1024" HREF="libc_218.html">__dpmi_get_and_disable_virtual_interrupt_state</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1029" HREF="libc_219.html">__dpmi_get_and_enable_virtual_interrupt_state</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1034" HREF="libc_220.html">__dpmi_get_and_set_virtual_interrupt_state</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1039" HREF="libc_221.html">__dpmi_get_capabilities</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1044" HREF="libc_222.html">__dpmi_get_coprocessor_status</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1049" HREF="libc_223.html">__dpmi_get_descriptor</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1054" HREF="libc_224.html">__dpmi_get_descriptor_access_rights</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1059" HREF="libc_225.html">__dpmi_get_extended_exception_handler_vector_pm</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1064" HREF="libc_226.html">__dpmi_get_extended_exception_handler_vector_rm</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1069" HREF="libc_227.html">__dpmi_get_free_memory_information</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1074" HREF="libc_228.html">__dpmi_get_memory_block_size_and_base</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1079" HREF="libc_229.html">__dpmi_get_memory_information</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1084" HREF="libc_230.html">__dpmi_get_multiple_descriptors</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1089" HREF="libc_231.html">__dpmi_get_page_attributes</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1094" HREF="libc_232.html">__dpmi_get_page_size</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1099" HREF="libc_233.html">__dpmi_get_processor_exception_handler_vector</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1104" HREF="libc_234.html">__dpmi_get_protected_mode_interrupt_vector</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1109" HREF="libc_235.html">__dpmi_get_raw_mode_switch_addr</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1114" HREF="libc_236.html">__dpmi_get_real_mode_interrupt_vector</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1119" HREF="libc_237.html">__dpmi_get_segment_base_address</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1125" HREF="libc_238.html">__dpmi_get_segment_limit</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1130" HREF="libc_239.html">__dpmi_get_selector_increment_value</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1135" HREF="libc_240.html">__dpmi_get_state_of_debug_watchpoint</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1140" HREF="libc_241.html">__dpmi_get_state_save_restore_addr</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1145" HREF="libc_242.html">__dpmi_get_vendor_specific_api_entry_point</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1150" HREF="libc_243.html">__dpmi_get_version</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1155" HREF="libc_244.html">__dpmi_get_virtual_interrupt_state</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1160" HREF="libc_245.html">__dpmi_install_resident_service_provider_callback</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1165" HREF="libc_246.html">__dpmi_int</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1170" HREF="libc_247.html">__dpmi_lock_linear_region</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1175" HREF="libc_248.html">__dpmi_map_conventional_memory_in_memory_block</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1180" HREF="libc_249.html">__dpmi_map_device_in_memory_block</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1185" HREF="libc_250.html">__dpmi_mark_page_as_demand_paging_candidate</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1190" HREF="libc_251.html">__dpmi_mark_real_mode_region_as_pageable</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1195" HREF="libc_252.html">__dpmi_physical_address_mapping</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1200" HREF="libc_253.html">__dpmi_relock_real_mode_region</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1205" HREF="libc_254.html">__dpmi_reset_debug_watchpoint</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1210" HREF="libc_255.html">__dpmi_resize_dos_memory</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1215" HREF="libc_256.html">__dpmi_resize_linear_memory</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1220" HREF="libc_257.html">__dpmi_resize_memory</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1225" HREF="libc_258.html">__dpmi_segment_to_descriptor</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1231" HREF="libc_259.html">__dpmi_serialize_on_shared_memory</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1236" HREF="libc_260.html">__dpmi_set_coprocessor_emulation</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1241" HREF="libc_261.html">__dpmi_set_debug_watchpoint</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1246" HREF="libc_262.html">__dpmi_set_descriptor</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1251" HREF="libc_263.html">__dpmi_set_descriptor_access_rights</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1256" HREF="libc_264.html">__dpmi_set_extended_exception_handler_vector_pm</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1261" HREF="libc_265.html">__dpmi_set_extended_exception_handler_vector_rm</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1266" HREF="libc_266.html">__dpmi_set_multiple_descriptors</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1271" HREF="libc_267.html">__dpmi_set_page_attributes</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1276" HREF="libc_268.html">__dpmi_set_processor_exception_handler_vector</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1281" HREF="libc_269.html">__dpmi_set_protected_mode_interrupt_vector</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1286" HREF="libc_270.html">__dpmi_set_real_mode_interrupt_vector</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1291" HREF="libc_271.html">__dpmi_set_segment_base_address</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1296" HREF="libc_272.html">__dpmi_set_segment_limit</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1301" HREF="libc_273.html">__dpmi_simulate_real_mode_interrupt</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1306" HREF="libc_274.html">__dpmi_simulate_real_mode_procedure_iret</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1311" HREF="libc_275.html">__dpmi_simulate_real_mode_procedure_retf</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1316" HREF="libc_276.html">__dpmi_simulate_real_mode_procedure_retf_stack</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1321" HREF="libc_277.html">__dpmi_terminate_and_stay_resident</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1326" HREF="libc_278.html">__dpmi_unlock_linear_region</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1331" HREF="libc_279.html">__dpmi_yield</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1336" HREF="libc_280.html">DTTOIF</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1341" HREF="libc_281.html">dup</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1347" HREF="libc_282.html">dup2</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1353" HREF="libc_283.html">__dup_fd_properties</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1358" HREF="libc_284.html">_dxe_load</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1364" HREF="libc_285.html">DXE_macros</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1368" HREF="libc_286.html">ecvt</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1373" HREF="libc_287.html">ecvtbuf</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1379" HREF="libc_288.html">edi_init</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1384" HREF="libc_289.html">enable</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1390" HREF="libc_290.html">endgrent</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1396" HREF="libc_291.html">endmntent</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1401" HREF="libc_292.html">endpwent</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1406" HREF="libc_293.html">errno</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1410" HREF="libc_294.html">exec*</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1416" HREF="libc_295.html">__exit</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1421" HREF="libc_296.html">_exit</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1426" HREF="libc_297.html">_Exit</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1432" HREF="libc_298.html">exit</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1438" HREF="libc_299.html">exp</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1443" HREF="libc_300.html">exp10</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1448" HREF="libc_301.html">exp2</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1453" HREF="libc_302.html">expm1</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1458" HREF="libc_303.html">fabs</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1463" HREF="libc_304.html">_far*</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1468" HREF="libc_305.html">fchdir</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1474" HREF="libc_306.html">fchmod</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1480" HREF="libc_307.html">fchown</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1485" HREF="libc_308.html">fclose</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1491" HREF="libc_309.html">fcntl</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1497" HREF="libc_310.html">fcvt</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1502" HREF="libc_311.html">fcvtbuf</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1508" HREF="libc_312.html">fdopen</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1514" HREF="libc_313.html">feof</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1520" HREF="libc_314.html">ferror</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1526" HREF="libc_315.html">fflush</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1532" HREF="libc_316.html">ffs</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1538" HREF="libc_317.html">fgetc</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1544" HREF="libc_318.html">fgetgrent</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1548" HREF="libc_319.html">fgetpos</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1553" HREF="libc_320.html">fgets</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1559" HREF="libc_321.html">File System Extensions</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1561" HREF="libc_322.html">__file_exists</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1567" HREF="libc_323.html">__file_tree_walk</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1573" HREF="libc_324.html">filelength</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1579" HREF="libc_325.html">fileno</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1584" HREF="libc_326.html">findfirst</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1590" HREF="libc_327.html">findnext</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1595" HREF="libc_328.html">_fixpath</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1601" HREF="libc_329.html">flock</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1607" HREF="libc_330.html">floor</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1612" HREF="libc_331.html">_flush_disk_cache</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1618" HREF="libc_332.html">fmod</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1623" HREF="libc_333.html">_fmode</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1628" HREF="libc_334.html">fnmatch</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1634" HREF="libc_335.html">fnmerge</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1640" HREF="libc_336.html">fnsplit</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1646" HREF="libc_337.html">fopen</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1652" HREF="libc_338.html">fork</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1656" HREF="libc_339.html">fpathconf</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1661" HREF="libc_340.html">fpclassify</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1667" HREF="libc_341.html">__fpclassifyd</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1673" HREF="libc_342.html">__fpclassifyf</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1679" HREF="libc_343.html">__fpclassifyld</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1685" HREF="libc_344.html">_fpreset</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1689" HREF="libc_345.html">fprintf</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1694" HREF="libc_346.html">fpurge</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1699" HREF="libc_347.html">fputc</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1705" HREF="libc_348.html">fputs</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1711" HREF="libc_349.html">fread</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1717" HREF="libc_350.html">free</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1723" HREF="libc_351.html">freopen</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1729" HREF="libc_352.html">frexp</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1734" HREF="libc_353.html">fscanf</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1739" HREF="libc_354.html">fseek</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1745" HREF="libc_355.html">fsetpos</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1750" HREF="libc_356.html">__FSEXT_add_open_handler</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1755" HREF="libc_357.html">__FSEXT_alloc_fd</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1761" HREF="libc_358.html">__FSEXT_call_open_handlers</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1765" HREF="libc_359.html">__FSEXT_get_data</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1770" HREF="libc_360.html">__FSEXT_get_function</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1774" HREF="libc_361.html">__FSEXT_set_data</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1780" HREF="libc_362.html">__FSEXT_set_function</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1786" HREF="libc_363.html">fstat</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1794" HREF="libc_364.html">fstatvfs</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1799" HREF="libc_365.html">fsync</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1805" HREF="libc_366.html">ftell</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1811" HREF="libc_367.html">ftime</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1817" HREF="libc_368.html">ftruncate</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1823" HREF="libc_369.html">ftw</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1830" HREF="libc_370.html">_fwalk</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1836" HREF="libc_371.html">fwrite</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1842" HREF="libc_372.html">gcvt</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1848" HREF="libc_373.html">_get_dev_info</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1854" HREF="libc_374.html">_get_dos_version</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1860" HREF="libc_375.html">__get_extended_key_string</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1866" HREF="libc_376.html">_get_fat_size</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1872" HREF="libc_377.html">__get_fd_flags</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1877" HREF="libc_378.html">__get_fd_name</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1882" HREF="libc_379.html">_get_fs_type</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1888" HREF="libc_380.html">_get_volume_info</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1893" HREF="libc_381.html">getc</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1899" HREF="libc_382.html">getcbrk</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1904" HREF="libc_383.html">getch</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1910" HREF="libc_384.html">getchar</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1915" HREF="libc_385.html">getche</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1921" HREF="libc_386.html">getcwd</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1927" HREF="libc_387.html">getdate</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1933" HREF="libc_388.html">getdfree</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1939" HREF="libc_389.html">getdisk</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1945" HREF="libc_390.html">getdtablesize</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1950" HREF="libc_391.html">getegid</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1955" HREF="libc_392.html">getenv</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1961" HREF="libc_393.html">geteuid</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1966" HREF="libc_394.html">getftime</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1972" HREF="libc_395.html">getgid</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1977" HREF="libc_396.html">getgrent</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1983" HREF="libc_397.html">getgrgid</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1988" HREF="libc_398.html">getgrnam</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1993" HREF="libc_399.html">getgroups</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC1998" HREF="libc_400.html">gethostname</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2004" HREF="libc_401.html">getitimer</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2009" HREF="libc_402.html">getkey</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2015" HREF="libc_403.html">getlogin</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2021" HREF="libc_404.html">getlongpass</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2027" HREF="libc_405.html">getmntent</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2033" HREF="libc_406.html">getopt</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2039" HREF="libc_407.html">getpagesize</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2044" HREF="libc_408.html">getpass</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2050" HREF="libc_409.html">getpgrp</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2055" HREF="libc_410.html">getpid</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2060" HREF="libc_411.html">getppid</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2065" HREF="libc_412.html">getpwent</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2071" HREF="libc_413.html">getpwnam</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2076" HREF="libc_414.html">getpwuid</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2081" HREF="libc_415.html">getrlimit</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2087" HREF="libc_416.html">getrusage</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2093" HREF="libc_417.html">gets</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2099" HREF="libc_418.html">gettext</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2105" HREF="libc_419.html">gettextinfo</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2110" HREF="libc_420.html">gettime</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2116" HREF="libc_421.html">gettimeofday</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2121" HREF="libc_422.html">getuid</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2126" HREF="libc_423.html">getw</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2132" HREF="libc_424.html">getwd</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2138" HREF="libc_425.html">getxkey</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2144" HREF="libc_426.html">glob</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2151" HREF="libc_427.html">globfree</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2155" HREF="libc_428.html">gmtime</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2161" HREF="libc_429.html">_go32_conventional_mem_selector</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2167" HREF="libc_430.html">_go32_dpmi_allocate_dos_memory</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2173" HREF="libc_431.html">_go32_dpmi_allocate_iret_wrapper</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2179" HREF="libc_432.html">_go32_dpmi_allocate_real_mode_callback_iret</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2185" HREF="libc_433.html">_go32_dpmi_allocate_real_mode_callback_retf</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2191" HREF="libc_434.html">_go32_dpmi_chain_protected_mode_interrupt_vector</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2197" HREF="libc_435.html">_go32_dpmi_free_dos_memory</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2203" HREF="libc_436.html">_go32_dpmi_free_iret_wrapper</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2209" HREF="libc_437.html">_go32_dpmi_free_real_mode_callback</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2215" HREF="libc_438.html">_go32_dpmi_get_free_memory_information</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2221" HREF="libc_439.html">_go32_dpmi_get_protected_mode_interrupt_vector</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2227" HREF="libc_440.html">_go32_dpmi_get_real_mode_interrupt_vector</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2233" HREF="libc_441.html">_go32_dpmi_lock_code</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2239" HREF="libc_442.html">_go32_dpmi_lock_data</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2245" HREF="libc_443.html">_go32_dpmi_remaining_physical_memory</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2250" HREF="libc_444.html">_go32_dpmi_remaining_virtual_memory</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2255" HREF="libc_445.html">_go32_dpmi_resize_dos_memory</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2261" HREF="libc_446.html">_go32_dpmi_set_protected_mode_interrupt_vector</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2267" HREF="libc_447.html">_go32_dpmi_set_real_mode_interrupt_vector</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2273" HREF="libc_448.html">_go32_dpmi_simulate_fcall</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2279" HREF="libc_449.html">_go32_dpmi_simulate_fcall_iret</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2285" HREF="libc_450.html">_go32_dpmi_simulate_int</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2291" HREF="libc_451.html">_go32_info_block</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2296" HREF="libc_452.html">_go32_interrupt_stack_size</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2300" HREF="libc_453.html">_go32_my_cs</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2305" HREF="libc_454.html">_go32_my_ds</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2310" HREF="libc_455.html">_go32_my_ss</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2315" HREF="libc_456.html">_go32_rmcb_stack_size</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2319" HREF="libc_457.html">_go32_want_ctrl_break</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2325" HREF="libc_458.html">_go32_was_ctrl_break_hit</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2331" HREF="libc_459.html">gotoxy</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2336" HREF="libc_460.html">gppconio_init</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2340" HREF="libc_461.html">__has_fd_properties</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2345" HREF="libc_462.html">hasmntopt</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2350" HREF="libc_463.html">highvideo</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2355" HREF="libc_464.html">htonl</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2361" HREF="libc_465.html">htons</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2367" HREF="libc_466.html">hypot</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2372" HREF="libc_467.html">imaxabs</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2377" HREF="libc_468.html">imaxdiv</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2383" HREF="libc_469.html">inb</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2387" HREF="libc_470.html">index</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2393" HREF="libc_471.html">initstate</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2398" HREF="libc_472.html">inp</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2402" HREF="libc_473.html">inportb</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2407" HREF="libc_474.html">inportl</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2412" HREF="libc_475.html">inportsb</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2416" HREF="libc_476.html">inportsl</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2420" HREF="libc_477.html">inportsw</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2424" HREF="libc_478.html">inportw</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2429" HREF="libc_479.html">inpw</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2433" HREF="libc_480.html">insline</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2438" HREF="libc_481.html">insque</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2443" HREF="libc_482.html">__install_dev_full</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2448" HREF="libc_483.html">__install_dev_zero</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2453" HREF="libc_484.html">int386</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2458" HREF="libc_485.html">int386x</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2463" HREF="libc_486.html">int86</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2469" HREF="libc_487.html">int86x</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2475" HREF="libc_488.html">intdos</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2480" HREF="libc_489.html">intdosx</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2485" HREF="libc_490.html">intensevideo</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2489" HREF="libc_491.html">__internal_readlink</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2495" HREF="libc_492.html">_invent_inode</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2500" HREF="libc_493.html">ioctl (DOS)</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2506" HREF="libc_494.html">ioctl (General description)</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2507" HREF="libc_495.html">ioctl (UNIX)</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2512" HREF="libc_496.html">_is_cdrom_drive</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2518" HREF="libc_497.html">_is_DOS83</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2523" HREF="libc_498.html">_is_executable</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2528" HREF="libc_499.html">_is_fat32</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2534" HREF="libc_500.html">_is_ram_drive</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2540" HREF="libc_501.html">_is_remote_drive</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2545" HREF="libc_502.html">_is_remote_handle</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2550" HREF="libc_503.html">isalnum</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2555" HREF="libc_504.html">isalpha</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2560" HREF="libc_505.html">isascii</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2565" HREF="libc_506.html">isatty</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2571" HREF="libc_507.html">isblank</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2576" HREF="libc_508.html">iscntrl</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2581" HREF="libc_509.html">isdigit</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2586" HREF="libc_510.html">isgraph</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2591" HREF="libc_511.html">islower</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2596" HREF="libc_512.html">isprint</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2601" HREF="libc_513.html">ispunct</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2606" HREF="libc_514.html">isspace</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2611" HREF="libc_515.html">isupper</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2616" HREF="libc_516.html">isxdigit</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2621" HREF="libc_517.html">itoa</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2627" HREF="libc_518.html">kbhit</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2633" HREF="libc_519.html">kill</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2638" HREF="libc_520.html">l64a</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2644" HREF="libc_521.html">labs</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2649" HREF="libc_522.html">lchown</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2654" HREF="libc_523.html">ldexp</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2660" HREF="libc_524.html">ldiv</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2666" HREF="libc_525.html">lfilelength</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2672" HREF="libc_526.html">_lfn_gen_short_fname</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2678" HREF="libc_527.html">_lfn_get_ftime</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2684" HREF="libc_528.html">__libc_termios_exist_queue</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2689" HREF="libc_529.html">__libc_termios_init</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2693" HREF="libc_530.html">libm</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2698" HREF="libc_531.html">link</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2704" HREF="libc_532.html">llabs</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2709" HREF="libc_533.html">lldiv</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2715" HREF="libc_534.html">llockf</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2721" HREF="libc_535.html">llseek</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2727" HREF="libc_536.html">load_npx</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2732" HREF="libc_537.html">localeconv</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2738" HREF="libc_538.html">localtime</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2743" HREF="libc_539.html">lock</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2748" HREF="libc_540.html">lock64</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2753" HREF="libc_541.html">lockf</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2759" HREF="libc_542.html">log</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2764" HREF="libc_543.html">log10</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2769" HREF="libc_544.html">log1p</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2774" HREF="libc_545.html">log2</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2779" HREF="libc_546.html">longjmp</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2785" HREF="libc_547.html">lowvideo</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2790" HREF="libc_548.html">lseek</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2796" HREF="libc_549.html">lstat</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2803" HREF="libc_550.html">mallinfo</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2809" HREF="libc_551.html">malloc</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2815" HREF="libc_552.html">malloc hook</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2819" HREF="libc_553.html">malloc_debug</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2825" HREF="libc_554.html">malloc_verify</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2831" HREF="libc_555.html">mallocmap</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2836" HREF="libc_556.html">math_errhandling</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2842" HREF="libc_557.html">matherr</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2848" HREF="libc_558.html">mblen</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2854" HREF="libc_559.html">mbstowcs</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2860" HREF="libc_560.html">mbtowc</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2866" HREF="libc_561.html">_media_type</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2872" HREF="libc_562.html">memalign</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2878" HREF="libc_563.html">memccpy</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2884" HREF="libc_564.html">memchr</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2890" HREF="libc_565.html">memcmp</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2895" HREF="libc_566.html">memcpy</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2901" HREF="libc_567.html">memicmp</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2907" HREF="libc_568.html">memmove</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2913" HREF="libc_569.html">memset</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2919" HREF="libc_570.html">mkdir</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2925" HREF="libc_571.html">mkfifo</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2929" HREF="libc_572.html">mknod</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2934" HREF="libc_573.html">mkstemp</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2940" HREF="libc_574.html">mktemp</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2946" HREF="libc_575.html">mktime</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2951" HREF="libc_576.html">modf</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2956" HREF="libc_577.html">modfl</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2961" HREF="libc_578.html">moncontrol</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2967" HREF="libc_579.html">_mono_clear</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2971" HREF="libc_580.html">_mono_printf</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2975" HREF="libc_581.html">_mono_putc</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2979" HREF="libc_582.html">monstartup</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2985" HREF="libc_583.html">movedata</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2991" HREF="libc_584.html">movedatab</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2995" HREF="libc_585.html">movedatal</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC2999" HREF="libc_586.html">movedataw</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3003" HREF="libc_587.html">movetext</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3009" HREF="libc_588.html">mprotect</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3015" HREF="libc_589.html">_my_cs</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3020" HREF="libc_590.html">_my_ds</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3025" HREF="libc_591.html">_my_ss</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3030" HREF="libc_592.html">nan</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3036" HREF="libc_593.html">nanf</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3042" HREF="libc_594.html">nanl</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3048" HREF="libc_595.html">nice</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3053" HREF="libc_596.html">normvideo</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3058" HREF="libc_597.html">nosound</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3062" HREF="libc_598.html">ntohl</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3068" HREF="libc_599.html">ntohs</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3074" HREF="libc_600.html">open</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3080" HREF="libc_601.html">_open</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3085" HREF="libc_602.html">opendir</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3091" HREF="libc_603.html">outb</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3095" HREF="libc_604.html">outp</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3099" HREF="libc_605.html">outportb</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3103" HREF="libc_606.html">outportl</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3107" HREF="libc_607.html">outportsb</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3111" HREF="libc_608.html">outportsl</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3115" HREF="libc_609.html">outportsw</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3119" HREF="libc_610.html">outportw</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3123" HREF="libc_611.html">outpw</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3127" HREF="libc_612.html">pathconf</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3133" HREF="libc_613.html">pause</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3138" HREF="libc_614.html">pclose</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3144" HREF="libc_615.html">perror</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3150" HREF="libc_616.html">pipe</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3156" HREF="libc_617.html">popen</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3162" HREF="libc_618.html">pow</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3167" HREF="libc_619.html">pow10</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3172" HREF="libc_620.html">pow2</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3177" HREF="libc_621.html">powi</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3182" HREF="libc_622.html">_preserve_fncase</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3187" HREF="libc_623.html">PRI</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3193" HREF="libc_624.html">printf</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3199" HREF="libc_625.html">psignal</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3204" HREF="libc_626.html">_put_path</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3209" HREF="libc_627.html">putc</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3215" HREF="libc_628.html">putch</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3221" HREF="libc_629.html">putchar</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3227" HREF="libc_630.html">putenv</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3233" HREF="libc_631.html">puts</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3239" HREF="libc_632.html">puttext</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3245" HREF="libc_633.html">putw</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3251" HREF="libc_634.html">pwrite</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3257" HREF="libc_635.html">qsort</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3263" HREF="libc_636.html">raise</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3268" HREF="libc_637.html">rand</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3274" HREF="libc_638.html">rand48</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3280" HREF="libc_639.html">random</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3286" HREF="libc_640.html">rawclock</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3292" HREF="libc_641.html">_rdtsc</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3298" HREF="libc_642.html">read</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3304" HREF="libc_643.html">_read</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3309" HREF="libc_644.html">read_child</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3314" HREF="libc_645.html">read_sel_addr</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3319" HREF="libc_646.html">readdir</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3325" HREF="libc_647.html">readlink</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3331" HREF="libc_648.html">realloc</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3337" HREF="libc_649.html">realpath</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3343" HREF="libc_650.html">redir_cmdline_delete</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3348" HREF="libc_651.html">redir_cmdline_parse</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3354" HREF="libc_652.html">redir_debug_init</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3360" HREF="libc_653.html">redir_to_child</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3366" HREF="libc_654.html">redir_to_debugger</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3372" HREF="libc_655.html">regcomp</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3380" HREF="libc_656.html">regerror</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3385" HREF="libc_657.html">regexec</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3392" HREF="libc_658.html">regfree</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3396" HREF="libc_659.html">remove</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3402" HREF="libc_660.html">remque</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3407" HREF="libc_661.html">_rename</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3412" HREF="libc_662.html">rename</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3418" HREF="libc_663.html">rewind</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3424" HREF="libc_664.html">rewinddir</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3430" HREF="libc_665.html">rindex</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3436" HREF="libc_666.html">rmdir</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3442" HREF="libc_667.html">run_child</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3447" HREF="libc_668.html">save_npx</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3452" HREF="libc_669.html">sbrk</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3458" HREF="libc_670.html">scanf</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3464" HREF="libc_671.html">SCN</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3470" HREF="libc_672.html">Screen Variables</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3474" HREF="libc_673.html">ScreenClear</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3480" HREF="libc_674.html">ScreenCols</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3486" HREF="libc_675.html">ScreenGetChar</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3492" HREF="libc_676.html">ScreenGetCursor</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3498" HREF="libc_677.html">ScreenMode</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3504" HREF="libc_678.html">ScreenPutChar</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3510" HREF="libc_679.html">ScreenPutString</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3516" HREF="libc_680.html">ScreenRetrieve</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3522" HREF="libc_681.html">ScreenRows</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3528" HREF="libc_682.html">ScreenSetCursor</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3534" HREF="libc_683.html">ScreenUpdate</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3540" HREF="libc_684.html">ScreenUpdateLine</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3546" HREF="libc_685.html">ScreenVisualBell</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3552" HREF="libc_686.html">searchpath</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3558" HREF="libc_687.html">seekdir</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3564" HREF="libc_688.html">select</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3571" HREF="libc_689.html">__set_fd_flags</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3576" HREF="libc_690.html">__set_fd_properties</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3581" HREF="libc_691.html">_set_screen_lines</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3586" HREF="libc_692.html">setbuf</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3592" HREF="libc_693.html">setbuffer</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3598" HREF="libc_694.html">setcbrk</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3603" HREF="libc_695.html">_setcursortype</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3608" HREF="libc_696.html">setdate</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3614" HREF="libc_697.html">setdisk</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3620" HREF="libc_698.html">setenv</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3625" HREF="libc_699.html">setftime</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3631" HREF="libc_700.html">setgid</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3636" HREF="libc_701.html">setgrent</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3641" HREF="libc_702.html">setitimer</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3648" HREF="libc_703.html">setjmp</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3654" HREF="libc_704.html">setlinebuf</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3660" HREF="libc_705.html">setlocale</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3666" HREF="libc_706.html">setmntent</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3672" HREF="libc_707.html">setmode</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3678" HREF="libc_708.html">setpgid</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3682" HREF="libc_709.html">setpwent</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3687" HREF="libc_710.html">setrlimit</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3692" HREF="libc_711.html">setsid</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3697" HREF="libc_712.html">setstate</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3702" HREF="libc_713.html">settime</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3708" HREF="libc_714.html">settimeofday</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3713" HREF="libc_715.html">setuid</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3718" HREF="libc_716.html">setvbuf</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3724" HREF="libc_717.html">sigaction</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3729" HREF="libc_718.html">sigaddset</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3734" HREF="libc_719.html">sigdelset</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3739" HREF="libc_720.html">sigemptyset</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3744" HREF="libc_721.html">sigfillset</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3750" HREF="libc_722.html">sigismember</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3755" HREF="libc_723.html">siglongjmp</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3759" HREF="libc_724.html">signal</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3765" HREF="libc_725.html">sigpending</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3771" HREF="libc_726.html">sigprocmask</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3777" HREF="libc_727.html">sigsetjmp</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3781" HREF="libc_728.html">sin</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3787" HREF="libc_729.html">sincos</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3792" HREF="libc_730.html">sinh</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3797" HREF="libc_731.html">sleep</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3803" HREF="libc_732.html">snprintf</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3808" HREF="libc_733.html">__solve_dir_symlinks</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3814" HREF="libc_734.html">__solve_symlinks</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3820" HREF="libc_735.html">sound</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3824" HREF="libc_736.html">spawn*</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3830" HREF="libc_737.html">sprintf</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3835" HREF="libc_738.html">sqrt</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3840" HREF="libc_739.html">srand</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3845" HREF="libc_740.html">srandom</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3851" HREF="libc_741.html">sscanf</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3856" HREF="libc_742.html">Stack overflow handler</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3861" HREF="libc_743.html">stackavail</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3866" HREF="libc_744.html">stat</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3873" HREF="libc_745.html">statfs</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3879" HREF="libc_746.html">_status87</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3883" HREF="libc_747.html">statvfs</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3888" HREF="libc_748.html">_stklen</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3893" HREF="libc_749.html">stpcpy</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3898" HREF="libc_750.html">stpncpy</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3903" HREF="libc_751.html">strcasecmp</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3909" HREF="libc_752.html">strcat</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3915" HREF="libc_753.html">strchr</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3921" HREF="libc_754.html">strcmp</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3927" HREF="libc_755.html">strcoll</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3933" HREF="libc_756.html">strcpy</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3939" HREF="libc_757.html">strcspn</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3945" HREF="libc_758.html">strdup</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3951" HREF="libc_759.html">strerror</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3957" HREF="libc_760.html">strftime</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3963" HREF="libc_761.html">stricmp</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3969" HREF="libc_762.html">strlcat</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3975" HREF="libc_763.html">strlcpy</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3981" HREF="libc_764.html">strlen</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3987" HREF="libc_765.html">strlwr</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3993" HREF="libc_766.html">strncasecmp</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC3999" HREF="libc_767.html">strncat</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4005" HREF="libc_768.html">strncmp</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4011" HREF="libc_769.html">strncpy</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4017" HREF="libc_770.html">strnicmp</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4023" HREF="libc_771.html">strpbrk</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4029" HREF="libc_772.html">strrchr</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4035" HREF="libc_773.html">strsep</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4041" HREF="libc_774.html">strspn</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4047" HREF="libc_775.html">strstr</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4053" HREF="libc_776.html">strtod</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4059" HREF="libc_777.html">strtof</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4065" HREF="libc_778.html">strtoimax</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4071" HREF="libc_779.html">strtok</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4077" HREF="libc_780.html">strtol</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4083" HREF="libc_781.html">strtold</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4089" HREF="libc_782.html">_strtold</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4095" HREF="libc_783.html">strtoll</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4101" HREF="libc_784.html">strtoul</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4107" HREF="libc_785.html">strtoull</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4113" HREF="libc_786.html">strtoumax</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4119" HREF="libc_787.html">strupr</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4125" HREF="libc_788.html">strxfrm</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4130" HREF="libc_789.html">swab</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4135" HREF="libc_790.html">symlink</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4141" HREF="libc_791.html">syms_init</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4146" HREF="libc_792.html">syms_line2val</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4152" HREF="libc_793.html">syms_listwild</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4158" HREF="libc_794.html">syms_module</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4163" HREF="libc_795.html">syms_name2val</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4169" HREF="libc_796.html">syms_val2line</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4175" HREF="libc_797.html">syms_val2name</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4181" HREF="libc_798.html">sync</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4187" HREF="libc_799.html">sys_errlist</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4192" HREF="libc_800.html">sys_nerr</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4197" HREF="libc_801.html">sysconf</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4202" HREF="libc_802.html">system</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4208" HREF="libc_803.html">tan</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4213" HREF="libc_804.html">tanh</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4218" HREF="libc_805.html">tcdrain</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4223" HREF="libc_806.html">tcflow</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4228" HREF="libc_807.html">tcflush</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4233" HREF="libc_808.html">tcgetattr</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4239" HREF="libc_809.html">tcgetpgrp</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4244" HREF="libc_810.html">tcsendbreak</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4249" HREF="libc_811.html">tcsetattr</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4255" HREF="libc_812.html">tcsetpgrp</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4260" HREF="libc_813.html">tell</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4266" HREF="libc_814.html">telldir</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4272" HREF="libc_815.html">tempnam</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4278" HREF="libc_816.html">Termios</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4279" HREF="libc_817.html">textattr</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4285" HREF="libc_818.html">textbackground</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4290" HREF="libc_819.html">textcolor</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4295" HREF="libc_820.html">textmode</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4300" HREF="libc_821.html">time</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4306" HREF="libc_822.html">times</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4312" HREF="libc_823.html">tmpfile</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4318" HREF="libc_824.html">tmpnam</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4324" HREF="libc_825.html">toascii</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4330" HREF="libc_826.html">tolower</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4336" HREF="libc_827.html">toupper</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4342" HREF="libc_828.html">_truename</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4348" HREF="libc_829.html">_truename_sfn</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4354" HREF="libc_830.html">truncate</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4360" HREF="libc_831.html">ttyname</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4366" HREF="libc_832.html">tzset</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4371" HREF="libc_833.html">tzsetwall</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4376" HREF="libc_834.html">uclock</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4382" HREF="libc_835.html">umask</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4386" HREF="libc_836.html">uname</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4391" HREF="libc_837.html">ungetc</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4397" HREF="libc_838.html">ungetch</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4403" HREF="libc_839.html">unlink</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4409" HREF="libc_840.html">unlock</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4414" HREF="libc_841.html">unlock64</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4419" HREF="libc_842.html">unsetenv</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4424" HREF="libc_843.html">_use_lfn</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4430" HREF="libc_844.html">usleep</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4436" HREF="libc_845.html">utime</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4442" HREF="libc_846.html">utimes</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4448" HREF="libc_847.html">v2loadimage</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4454" HREF="libc_848.html">valloc</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4460" HREF="libc_849.html">varargs</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4466" HREF="libc_850.html">vfork</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4470" HREF="libc_851.html">vfprintf</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4476" HREF="libc_852.html">vfscanf</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4481" HREF="libc_853.html">vprintf</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4486" HREF="libc_854.html">vscanf</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4491" HREF="libc_855.html">vsnprintf</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4496" HREF="libc_856.html">vsprintf</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4501" HREF="libc_857.html">vsscanf</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4506" HREF="libc_858.html">wait</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4512" HREF="libc_859.html">waitpid</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4518" HREF="libc_860.html">wcstombs</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4524" HREF="libc_861.html">wctomb</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4530" HREF="libc_862.html">wherex</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4535" HREF="libc_863.html">wherey</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4540" HREF="libc_864.html">wild</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4545" HREF="libc_865.html">window</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4550" HREF="libc_866.html">write</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4556" HREF="libc_867.html">_write</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4562" HREF="libc_868.html">write_child</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4567" HREF="libc_869.html">write_sel_addr</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4572" HREF="libc_870.html">xfree</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4577" HREF="libc_871.html">xmalloc</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4583" HREF="libc_872.html">xrealloc</A>
+<tt></tt><BR>
+
+<A TARGET="right" NAME="TOC4589" HREF="libc_873.html">2. Unimplemented Functions</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4590" HREF="libc_874.html">Function Index</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4591" HREF="libc_875.html">Variable Index</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4592" HREF="libc_876.html">Data Type Index</A>
+<tt></tt><BR>
+<A TARGET="right" NAME="TOC4593" HREF="libc_877.html">Concept Index</A>
+<tt></tt><BR>
+
+<!--#perl sub="trailer" -->

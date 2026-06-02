@@ -1,0 +1,93 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_634.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_633.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_635.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> pwrite </H2>
+<!--docid::SEC3251::-->
+<A NAME="SEC3252"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC3252::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;unistd.h&#62;
+
+int pwrite(int file, const void *buffer, size_t count, off_t offset);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3253"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC3253::-->
+<P>
+
+This function writes <VAR>count</VAR> bytes from <VAR>buffer</VAR> to
+<VAR>file</VAR> at position <VAR>offset</VAR>.  It returns the number of bytes
+actually written.  It will return zero or a number less than
+<VAR>count</VAR> if the disk is full, and may return less than <VAR>count</VAR>
+even under valid conditions.
+</P><P>
+
+Note that if <VAR>file</VAR> is a text file, <CODE>pwrite</CODE> may write more
+bytes than it reports. 
+</P><P>
+
+If <VAR>count</VAR> is zero, the function does nothing and returns zero.
+Use <CODE>_write</CODE> if you want to actually ask DOS to write zero bytes.
+</P><P>
+
+The precise behavior of <CODE>pwrite</CODE> when the target filesystem is full
+are somewhat troublesome, because DOS doesn't fail the underlying system
+call.  If your application needs to rely on <CODE>errno</CODE> being set to
+<CODE>ENOSPC</CODE> in such cases, you need to invoke <CODE>pwrite</CODE> as shown in
+an example for <CODE>write</CODE> (see section <A HREF="libc_866.html">write</A>).  In a nutshell, the trick is
+to call <CODE>pwrite</CODE> one more time after it returns a value smaller
+than the <VAR>count</VAR> parameter; then it will <EM>always</EM> set <CODE>errno</CODE>
+if the disk is full.
+</P><P>
+
+<A NAME="SEC3254"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC3254::-->
+<P>
+
+The number of bytes written, zero at EOF, or -1 on error.
+</P><P>
+
+<A NAME="SEC3255"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC3255::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.1-2001; not 1003.2-1992
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3256"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC3256::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>const char buf[] = "abc";
+const size_t bufsize = strlen(buf);
+
+/* Write out buf, then overwrite 'b' with 'd'. NB: We should check
+ * for errors. */
+lseek(fd, 0L, SEEK_SET);
+write(fd, buf, bufsize);
+pwrite(fd, "d", 1, 1);
+</pre></td></tr></table><A NAME="qsort"></A>
+<!--#perl sub="trailer" -->

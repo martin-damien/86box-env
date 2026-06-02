@@ -1,0 +1,66 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_562.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_561.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_563.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> memalign </H2>
+<!--docid::SEC2872::-->
+<A NAME="SEC2873"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC2873::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdlib.h&#62;
+
+void *memalign(size_t size, size_t alignment);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2874"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC2874::-->
+<P>
+
+This function is like <CODE>malloc</CODE> (see section <A HREF="libc_551.html">malloc</A>) except the returned
+pointer is a multiple of <VAR>alignment</VAR>. <VAR>alignment</VAR> must be a power of
+2.
+</P><P>
+
+<A NAME="SEC2875"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC2875::-->
+<P>
+
+A pointer to a newly allocated block of memory. 
+</P><P>
+
+<A NAME="SEC2876"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC2876::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2877"></A>
+<H3> Example                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC2877::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>char *page = memalign(1024, 1024 * 4);
+</pre></td></tr></table><A NAME="memccpy"></A>
+<!--#perl sub="trailer" -->

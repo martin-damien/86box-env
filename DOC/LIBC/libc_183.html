@@ -1,0 +1,67 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_183.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_182.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_184.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _dos_unlk64 </H2>
+<!--docid::SEC842::-->
+<A NAME="SEC843"></A>
+<H3> Syntax                                                                                                                                                     </H3>
+<!--docid::SEC843::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;io.h&#62;
+
+int _dos_unlk64(int fd, long long offset, long long length);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC844"></A>
+<H3> Description                                                                                                                                                  </H3>
+<!--docid::SEC844::-->
+<P>
+
+Removes an advisory lock to the specified region of the file.
+</P><P>
+
+Arguments <VAR>offset</VAR> and <VAR>length</VAR> must be of type <CODE>long
+long</CODE>, thus enabling you to unlock with offsets and lengths as large as
+~<EM>2^63</EM> (FAT16 limits this to ~<EM>2^31</EM>; FAT32 limits this to
+<EM>2^32-2</EM>).
+</P><P>
+
+See section <A HREF="libc_174.html">_dos_lk64</A>.
+</P><P>
+
+<A NAME="SEC845"></A>
+<H3> Return Value                                                                                                                                </H3>
+<!--docid::SEC845::-->
+<P>
+
+Zero if the lock was removed, nonzero otherwise.
+</P><P>
+
+<A NAME="SEC846"></A>
+<H3> Portability                                                                                                                                                    </H3>
+<!--docid::SEC846::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="_dos_unlock"></A>
+<!--#perl sub="trailer" -->

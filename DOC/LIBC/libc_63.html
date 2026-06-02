@@ -1,0 +1,197 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_63.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_62.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_64.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _bios_disk </H2>
+<!--docid::SEC191::-->
+<A NAME="SEC192"></A>
+<H3> Syntax                             </H3>
+<!--docid::SEC192::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;bios.h&#62;
+
+unsigned _bios_disk(unsigned cmd, struct diskinfo_t *di)
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC193"></A>
+<H3> Description                            </H3>
+<!--docid::SEC193::-->
+<P>
+
+This function interfaces with the BIOS disk sevice (interrupt 0x13).
+The parameter <VAR>cmd</VAR> select the corresponding disk service and
+the structure <VAR>di</VAR> holds the disk parameters.
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct diskinfo_t {
+  unsigned drive;       /* Drive number. */
+  unsigned head;        /* Head number. */
+  unsigned track;       /* Track number. */
+  unsigned sector;      /* Sector number. (1-63) */
+  unsigned nsectors;    /* Number of sectors to read/write/verify. */
+  void    *buffer;      /* Buffer for reading/writing/verifying. */
+}
+</pre></td></tr></table></P><P>
+
+The following services are available based on value of <VAR>cmd</VAR>:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>_DISK_RESET</CODE>
+<DD><P>
+
+Forces the disk controller to do a hard reset, preparing for floppy-disk
+I/O. This is useful after an error occurs in another operation, such
+as a read. If this service is specified, the <VAR>di</VAR> argument is
+ignored. Status is returned in the 8 high-order bits (AH) of the return
+value. If there is an error, the high-order byte will contain a set of
+status flags, as defined below under Return Value.
+</P><P>
+
+<DT><CODE>_DISK_STATUS</CODE>
+<DD><P>
+
+Obtains the status of the last disk operation. If this service is specified,
+the &#60;diskinfo&#62; argument is ignored. Status is returned in the 8 low-order bits
+(AL) of the return value. If there is an error, the low-order byte (AL) will
+contain a set of status flags, as defined below under Return Value.
+</P><P>
+
+<DT><CODE>_DISK_READ</CODE>
+<DD><P>
+
+Reads one or more disk sectors into memory. This service uses all fields
+of the structure pointed to by <VAR>diskinfo</VAR>. If no error occurs, the
+function returns 0 in the high-order byte and the number of sectors read
+in the low-order byte. If there is an error, the high-order byte (AH) will
+contain a set of status flags, as defined below under Return Value.
+</P><P>
+
+<DT><CODE>_DISK_WRITE</CODE>
+<DD><P>
+
+Writes data from memory to one or more disk sectors. This service uses
+all fields of the structure pointed to by &#60;diskinfo&#62;. If no error occurs,
+the function returns 0 in the high-order byte (AH) and the number of
+sectors written in the low-order byte (AL). If there is an error,
+the high-order byte will contain a set of status flags, as defined below
+under Return Value.
+</P><P>
+
+<DT><CODE>_DISK_FORMAT</CODE>
+<DD><P>
+
+Formats the track specified by <VAR>diskinfo</VAR>. The <VAR>head</VAR> and <VAR>track</VAR>
+fields indicate the track to format. Only one track can be formatted
+in a single call. The <VAR>buffer</VAR> field points to a set of sector markers.
+The format of the markers depends on the type of disk drive (see a technical
+reference to the PC BIOS to determine the marker format). The high-order
+byte (AH) of the return value contains the status of the call; 0 equals
+success. If there is an error, the high-order byte will contain a set of
+status flags, as defined below under Return Value.
+</P><P>
+
+<DT><CODE>_DISK_VERIFY</CODE>
+<DD><P>
+
+Checks the disk to be sure the specified sectors exist and can be read.
+It also runs a CRC (cyclic redundancy check) test. This service uses all
+fields (except <VAR>buffer</VAR>) of the structure pointed to by <VAR>diskinfo</VAR>.
+If no error occurs, the function returns 0 in the high-order byte (AH)
+and the number of sectors compared in the low-order byte (AL), as defined
+below under Return Value.
+</P><P>
+
+</DL>
+<P>
+
+<A NAME="SEC194"></A>
+<H3> Return Value                            </H3>
+<!--docid::SEC194::-->
+<P>
+
+Return value of AX register. The meaning of high-order byte (AH):
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>0x00  No error
+0x01  Invalid request or a bad command
+0x02  Address mark not found
+0x03  Disk write protected
+0x04  Sector not found
+0x05  Reset failed
+0x06  Floppy disk removed
+0x07  Drive parameter activity failed
+0x08  Direct Memory Access (DMA) overrun
+0x09  DMA crossed 64K boundary
+0x0A  Bad sector flag detected
+0x0B  Bad track flag detected
+0x0C  Media type not found
+0x0D  Invalid number of sectors on format
+0x0E  Control data access mark detected
+0x0F  DMA arbitration level out of range
+0x10  Data read (CRC or ECC) error
+0x11  Corrected data read (ECC) error
+0x20  Controller failure
+0x40  Seek error
+0x80  Disk timed out or failed to respond
+0xAA  Drive not ready
+0xBB  Undefined error
+0xCC  Write fault on drive
+0xE0  Status error
+0xFF  Sense operation failed
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC195"></A>
+<H3> Portability                             </H3>
+<!--docid::SEC195::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC196"></A>
+<H3> Example                   </H3>
+<!--docid::SEC196::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>char record_buffer[512];
+struct diskinfo_t di;
+
+di.drive    = 0x80;
+di.head     = 0;
+di.track    = 0;
+di.sector   = 1;
+di.nsectors = 1;
+di.buffer   = &#38;record_buffer;
+if ( _bios_disk(_DISK_READ, &#38;di) )
+  puts("Disk error.");
+</pre></td></tr></table><A NAME="_bios_equiplist"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_62.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_64.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

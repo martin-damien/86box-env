@@ -1,0 +1,565 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+  <meta name="keywords" content="VGA, VGA programming, game programming, C, mouse, lines, circles, rectangles, polygons,  bitmaps, vertical retrace, animation, 256 color, pixel plotting, mode 13, mode x, double buffering, page flipping, unchained mode, flicker-free" />
+  <meta name="description" content="VGA basics, lines and shapes, bitmaps, mouse, double buffering, page flipping, unchained mode, and more" />
+  <link rel="stylesheet" type="text/css" media="all" href="default.css" />
+  <link rel="stylesheet" type="text/css" media="print" href="print.css" />
+  <title>256-Color VGA Programming in C - Primitive Shapes &amp; Lines</title>
+</head>
+
+<body>
+<div id="nav">
+  <a href="http://www.brackeen.com/"><img src="../images/logo.png" alt="David Brackeen" /></a>
+</div>
+
+<div id="header">
+  <a href="index.html">256-Color VGA Programming in C</a>
+ 
+  <h1>Primitive Shapes &amp; Lines</h1>
+  
+  <p>Contents in this section:</p>
+  <ul>
+  <li><a href="#1">Why shapes and lines?</a></li>
+  <li><a href="#2">Drawing lines</a></li>
+  <li><a href="#3">Bresenham's algorithm</a></li>
+  <li><a href="#4">Program: lines.c</a></li>
+  <li><a href="#5">Drawing polygons</a></li>
+  <li><a href="#6">Drawing rectangles</a></li>
+  <li><a href="#7">Program: rect.c</a></li>
+  <li><a href="#8">Using tables to speed up calculations</a></li>
+  <li><a href="#9">Fixed-point math</a></li>
+  <li><a href="#10">Drawing circles</a></li>
+  <li><a href="#11">Program: circle.c</a></li>
+  </ul>
+</div>
+<div id="content">
+  
+  <h2><a name="1">Why shapes and lines?</a></h2>
+  
+  <p>This section covers three basic drawing elements: lines,
+  rectangles, and circles. Some of the programming techniques in
+  this chapter may not appear to have any clear use, but the
+  information here is a valuable resource and provides a good
+  foundation. </p>
+  
+  <h2><a name="2">Drawing lines</a></h2>
+  
+  <p>One problem with line drawing is that the screen is arranged
+  in a grid of horizontal and vertical lines. A line drawn on the
+  screen will cross both horizontal <i>and</i> vertical grid lines
+  unless the line itself is either horizontal or vertical (Figure
+  4). </p>
+  
+  <dl class="image">
+    <dt>
+      <img src="images/img00004.gif" alt="Drawing a line." width="273" height="177" />
+    </dt>
+    <dd>
+      <b>Figure 4.</b>
+      Drawing a line.
+    </dd>
+  </dl>
+  
+  <p>Therefore, the line drawn on the screen will not be exact; it
+  will only be a representation of the line. The shaded areas in
+  Figure 5 show the line drawn on a grid. </p>
+  
+  <dl class="image">
+    <dt>
+      <img src="images/img00005.gif" alt="How the line appears on a grid." width="273" height="177" />
+    </dt>
+    <dd>
+      <b>Figure 5.</b>
+      How the line appears on a grid.
+    </dd>
+  </dl>
+  
+  <p>One way to draw a line is to first calculate the slope of the
+  line, then plot a pixel at each specified step along the major
+  axis. To do this, we use a form of the point-slope equation of a
+  line, which is </p>
+  
+  <p class="formula"><img src="images/img00006.gif" width="141"
+  height="22" alt="y = slope(x-x1) + y1" />. </p>
+  
+  <p>In the example in Figure 5, the major axis is the <i>x</i>
+  axis because the line is more horizontal than vertical. The
+  formula for the slope of a line is </p>
+  
+  <p class="formula"><img src="images/img00007.gif" width="102"
+  height="42" alt="slope = (y2 - y1) / (x2 - x1)" />. </p>
+  
+  <p>Using (4,23) as (<i>x</i><sub>1</sub>,<i>y</i><sub>1</sub>)
+  and (13,21) as (<i>x</i><sub>2</sub>,<i>y</i><sub>2</sub>), </p>
+  
+  <p class="formula"><img src="images/img00008.gif" width="141"
+  height="42" alt="slope = (21 - 23) / (13 - 4) = -2 / 9" />. </p>
+  
+  <p>Plot a pixel for each <i>x</i> 4 through 13 inclusive using
+  the point-slope equation of a line. The first pixel plotted in
+  this example is </p>
+  
+  <p class="formula"><img src="images/img00009.gif" width="137"
+  height="49" alt="x=4, y=-2/9 * (4 - 4) + 23" />, </p>
+  
+  <p>or (4,23). The second, third and fourth pixels plotted is (5,
+  22.778), (6,22.556), and (7,22.333), or (5,23), (6,23), (7,22).
+  See Table II for all the <i>x</i> and <i>y</i> values computed
+  for this line. </p>
+  
+  <dl class="image">
+    <dt>
+      <img src="images/img00010.gif" alt="Calculating the pixels plotted." width="273" height="177" />
+    </dt>
+    <dd>
+      <b>Figure 6.</b>
+      Calculating the pixels plotted.
+    </dd>
+  </dl>
+  
+  
+  <div class="table">
+      <table>
+          <tr>
+              <th><i>x</i></th>
+              <th><i>y</i> = <i>slope</i>(<i>x</i>-<i>x</i><sub>1</sub>)+<i>y</i><sub>1</sub></th>
+          </tr>  
+          <tr>   
+              <td>4</td>
+              <td>-2/9(4-4) +23 = 23</td>
+          </tr>  
+          <tr>   
+              <td>5</td>
+              <td>-2/9(5-4) +23 = 22.778 = 23</td>
+          </tr>  
+          <tr>   
+              <td>6</td>
+              <td>-2/9(6-4) +23 = 22.556 = 23 </td>
+          </tr>  
+          <tr>   
+              <td>7</td>
+              <td>-2/9(7-4) +23 = 22.333 = 22 </td>
+          </tr>  
+          <tr>   
+              <td>8</td>
+              <td>-2/9(8-4) +23 = 22.111 = 22 </td>
+          </tr>  
+          <tr>   
+              <td>9</td>
+              <td>-2/9(9-4) +23 = 21.889 = 22 </td>
+          </tr>  
+          <tr>   
+              <td>10</td>
+              <td>-2/9(10-4) +23 = 21.667 = 22 </td>
+          </tr>  
+          <tr>   
+              <td>11</td>
+              <td>-2/9(11-4) +23 = 21.444 = 21 </td>
+          </tr>  
+          <tr>   
+              <td>12</td>
+              <td>-2/9(12-4) +23 = 21.222 = 21 </td>
+          </tr>  
+          <tr>   
+              <td>13</td>
+              <td>-2/9(13-4) +23 = 21</td>
+          </tr>
+      </table>
+    <p>
+      <b>Table II.</b>
+      Example calculations from the line in Figure 6.
+    </p>
+  </div>
+  
+  <h2><a name="3">Bresenham's algorithm</a></h2>
+  
+  <p>Another way to draw a line is to use Bresenham's line-drawing
+  algorithm. The previous algorithm derives it, but uses a
+  technique called incremental multiplication and division, which
+  means the algorithm involves no <i>actual</i> multiplication or
+  division, only additions or subtractions. An example of
+  incremental multiplication would be computing 5+5+5 instead of
+  5*3. For incremental division, add the denominator to itself as
+  long as the sum it is less than or equal to the numerator. For <img
+  src="images/img00011.gif" alt="8/2" class="formula" width="17"
+  height="42" />, 2+2+2+2=8, and since 2 was added to itself 4 times,
+  the answer is 4. For <img src="images/img00012.gif" class="formula" alt="11/4"
+   width="22" height="41" />, 4+4&lt;11, so the
+  answer is 2 with a remainder of 11-8 or 3. </p>
+  
+  <p>The following program, which draws 5,000 lines on the screen,
+  gives the complete code of Bresenham's line-drawing algorithm. </p>
+  
+  <h2><a name="4">Program: lines.c</a></h2>
+  
+  <div class="download">
+  
+    <dl>
+      <dt>DJGPP 2.0</dt>
+      <dd><a href="source/djgpp20/lines.c.html">View lines.c</a><br />
+      <a href="download/djgpp20/lines.zip">Download lines.zip</a> (Contains lines.c, lines.exe)</dd>
+    
+      <dt>Borland C, Turbo C, etc.</dt>
+      <dd><a href="source/bc31/lines.c.html">View lines.c</a><br />
+      <a href="download/bc31/lines.zip">Download lines.zip</a> (Contains lines.c, lines.exe)</dd>
+      
+    </dl>
+  
+    <p>Having trouble compiling or running the program? 
+    See the <a href="trouble.html">Troubleshooting</a> page.</p>
+  </div>
+  
+  <dl class="image">
+    <dt>
+      <img src="images/img00013.gif" alt="Screenshot of lines.exe" width="320" height="200" />
+    </dt>
+    <dd>
+      <b>Figure 7.</b>
+      Screenshot of <code>lines.exe</code>.
+    </dd>
+  </dl>
+  
+  <p>The results from <code>lines.exe</code> were as follows: </p>
+  
+<pre>Slow line drawing took 4.285714 seconds.
+Fast line drawing took 1.758242 seconds.
+Fast line drawing was 2.437500 times faster.
+</pre>
+  
+  <p>The reason Bresenham's line drawing algorithm is faster is
+  that it uses no multiplication or division. Multiplication and
+  division are slow on a computer, even on a computer with a math
+  coprocessor. </p>
+  
+  <h2><a name="5">Drawing polygons</a></h2>
+  
+  <p>Using the line-drawing function from the <code>lines.c</code>
+  program, a polygon function can easily be created. The following
+  code segment demonstrates this. </p>
+  
+<pre>void polygon(int num_vertices, 
+             int *vertices,
+             byte color) 
+{
+  int i;
+
+  for(i=0;i&lt;num_vertices-1;i++)
+  {
+    line(vertices[(i&lt;&lt;1)+0],
+         vertices[(i&lt;&lt;1)+1],
+         vertices[(i&lt;&lt;1)+2],
+         vertices[(i&lt;&lt;1)+3],
+         color);
+  }
+  line(vertices[0],
+       vertices[1],
+       vertices[(num_vertices&lt;&lt;1)-2],
+       vertices[(num_vertices&lt;&lt;1)-1],
+       color);
+}
+</pre>
+  
+  <p>The <code>polygon</code> function could be used to draw a
+  triangle as follows: </p>
+  
+<pre>int num_vertices=3;
+int vertices[6]={5,0,    /* (x1,y1) */
+                 7,5,    /* (x2,y2) */
+                 1,4};   /* (x3,y3) */
+polygon(3,vertices,15);</pre>
+  
+  <h2><a name="6">Drawing rectangles</a></h2>
+  
+  <p>Although this function is very flexible, it is not suitable
+  for simple shapes like rectangles because rectangles are drawn
+  with horizontal and vertical lines. The line-drawing function is
+  not optimized for drawing those types of lines. Vertical and
+  horizontal line drawing is as simple as plotting a pixel and
+  incrementing the pointer to video memory. The program <code>rect.c</code>
+  shows the difference between drawing rectangles using a
+  previously created function and drawing rectangles from scratch.
+  It also illustrates drawing solid rectangles. </p>
+  
+  <h2><a name="7">Program: rect.c</a></h2>
+  
+   <div class="download">
+  
+    <dl>
+      <dt>DJGPP 2.0</dt>
+      <dd><a href="source/djgpp20/rect.c.html">View rect.c</a><br />
+      <a href="download/djgpp20/rect.zip">Download rect.zip</a> (Contains rect.c, rect.exe)</dd>
+    
+      <dt>Borland C, Turbo C, etc.</dt>
+      <dd><a href="source/bc31/rect.c.html">View rect.c</a><br />
+      <a href="download/bc31/rect.zip">Download rect.zip</a> (Contains rect.c, rect.exe)</dd>
+      
+    </dl>
+  
+    <p>Having trouble compiling or running the program? 
+    See the <a href="trouble.html">Troubleshooting</a> page.</p>
+  </div>
+  
+  <dl class="image">
+    <dt>
+      <img src="images/img00014.gif" alt="Screenshot of rect.exe" width="320" height="200" />
+    </dt>
+    <dd>
+      <b>Figure 8.</b>
+      Screenshot of <code>rect.exe</code>.
+    </dd>
+  </dl>
+  
+<pre>Slow rectangle drawing took 4.230769 seconds.
+Fast rectangle drawing took 1.153846 seconds.
+Fast rectangle drawing was 3.666667 times faster.
+</pre>
+  
+  <p>Rectangle fills are one of more useful things when programming
+  a graphical user interface. Circles, on the other hand, are not
+  as common, but are described in the following sections to help
+  the reader understand some important programming techniques that
+  are used in many different applications. </p>
+  
+  <h2><a name="8">Using tables to speed up calculations</a></h2>
+  
+  <p>In some applications, like drawing curves or animation,
+  certain math functions like cosine and sine are used. On problem
+  with these functions is that they are slow because of the time it
+  takes the computer to calculate them. Not only that, but certain
+  angles may be called more than once, like <img
+  src="images/img00015.gif" class="formula" alt="sin(pi/2)" 
+  width="40" height="42" />, so the computer has to calculate them
+  multiple times. </p>
+  
+  <p>To overcome this problem, tables can be used. When the program
+  starts up, the sine and cosine of every angle is stored in an
+  array: </p>
+  
+<pre>#include &lt;math.h&gt;
+...
+float COS_TABLE[360], SIN_TABLE[360];
+float pi=3.14159;
+...
+for(i=0;i&lt;360;i++)
+{
+  COS_TABLE[i]=cos((float)i/180 * pi);
+  SIN_TABLE[i]=sin((float)i/180 * pi);
+}
+</pre>
+  
+  <p>In this example, the angles are mapped from zero to 359, but
+  they could be mapped in any way. A common mapping is zero to 255
+  because it fits in one byte. Also, tables are not limited to just
+  sine and cosine functions. The table used in the program <code>circle.c</code>
+  is more complex than sine or cosine, and is mapped from 0 to
+  1023. </p>
+  
+  <h2><a name="9">Fixed-point math</a></h2>
+  
+  <p>In many situations, like the one in the previous example,
+  floating point numbers are used. Floating point numbers are very
+  accurate on computers, but are very slow when multiplication or
+  other math functions are used on them. </p>
+  
+  <p>An alternative to floating point numbers are fixed-point
+  numbers. Fixed point numbers are faster than floating point, but
+  are not as accurate. The accuracy is suitable for most
+  applications involving VGA graphics, however. </p>
+  
+  <p>Fixed-point numbers are integers with an imaginary decimal
+  point somewhere in the middle of the number. Fixed-point numbers
+  are referenced by the number of bits in the whole part, <i>w</i>,
+  and the number of bits in the fraction part, <i>f</i>. Thus, a
+  6:2 fixed point number would have six bits in the whole part and
+  two bits in the fraction part (Figure 9). </p>
+  
+  <dl class="image">
+    <dt>
+      <img src="images/img00016.gif" alt="A 6:2 fixed-point number." width="223" height="70" />
+    </dt>
+    <dd>
+      <b>Figure 9.</b>
+      A 6:2 fixed-point number.
+    </dd>
+  </dl>
+  
+  <p>To assign floating point values to fixed point numbers,
+  multiply the floating point number by 2<sup><i>f</i></sup>: </p>
+  
+<pre>unsigned char a,b,c;
+...
+whole_part=6;
+fraction_part=2;
+a=14.75 * (1&lt;&lt;fraction_part);
+b=32.5  * (1&lt;&lt;fraction_part);
+</pre>
+  
+  <p>To display a fixed point number, divide the fixed point number
+  by 2<sup><i>f</i></sup>. </p>
+  
+<pre>printf(&quot;a=%f&quot;,(float)a / (1&lt;&lt;fraction_part));
+</pre>
+  
+  <p>Adding or subtracting fixed point numbers is the same as
+  adding or subtracting two integers. For example, 001110.11 +
+  100000.10 = 101111.01, or 14.75 + 32.5 = 47.25. </p>
+  
+<pre>c=a+b;
+printf(&quot;a*b=%f\n&quot;,(float)c/4);
+</pre>
+  
+  <p>Multiplying two fixed point numbers is different: both the
+  whole part and the fraction part will double in length. For
+  example, multiplying two 6:2 fixed-point numbers generates a 12:4
+  number. The solution to this problem is to shift the number right
+  by <i>f</i> bits, and ignore the upper <i>w</i> bits of the
+  product. </p>
+  
+<pre>c=(a*b) &gt;&gt; fraction_part;
+</pre>
+  
+  <p>The program <code>circle.c</code> uses 16:16 fixed-point
+  numbers to increase the speed of drawing circles. </p>
+  
+  <h2><a name="10">Drawing circles</a></h2>
+  
+  <p>A simple way to draw a circle is to divide it into octants
+  (Figure 10). First calculate only one octant of the circle; the
+  rest of the circle is &ldquo;mirrored&rdquo; from the first octant.
+  </p>
+  
+  <dl class="image">
+    <dt>
+      <img src="images/img00017.gif" alt=" Dividing a circle into octants to reduce computation" width="251" height="179" />
+    </dt>
+    <dd>
+      <b>Figure 10.</b>
+      Dividing a circle into octants to reduce computation.
+    </dd>
+  </dl>
+  
+  <p>A formula for finding points along a common radius, like that
+  of a circle, is </p>
+  
+  <p class="formula">(<i>x</i>, <i>y</i>) = (<i>r </i>cos , <i>r </i>sin
+  ), </p>
+  
+  <p>where <i>r</i> is the radius of the circle and is the angle at
+  which to plot the point. This formula is changed to </p>
+  
+  <p class="formula"><img class="formula" src="images/img00018.gif"
+  alt="theta=arccos(x/r)" width="85" height="42" />,
+  <img class="formula" src="images/img00019.gif" alt="theta=arcsin(y/r)"
+  width="84" height="42" />, </p>
+  
+  <p>which is reduced to </p>
+  
+  <p class="formula"><img src="images/img00020.gif"
+  alt="y=r*sin(arccos(x/r))" width="128"
+  height="46" />. </p>
+  
+  <p>This formula is used to find the <i>y</i> value for an <i>x</i>
+  value and a radius. If the first octant calculated is octant 1,
+  the <i>x</i> value starts at zero and increments, calculating <i>y</i>
+  for every <i>x</i>. The loop finishes when <i>x</i>&gt;<i>y </i>(Figure
+  11). The rest of the circle is mirrored from octant 1. </p>
+  
+  <dl class="image">
+    <dt>
+      <img src="images/img00021.gif" alt="The arc is drawn" width="206" height="173" />
+    </dt>
+    <dd>
+      <b>Figure 11.</b>
+      The arc is drawn in Octant 1 for all 0&lt;=<i>x</i>&lt;= <i>y.</i>
+    </dd>
+  </dl>
+  
+  <h2><a name="11">Program: circle.c</a></h2>
+  
+  <p>This is not the fastest algorithm for drawing circles, but is
+  used in the following program to demonstrate using tables and
+  fixed-point numbers. <code>circle.c </code>also demonstrates
+  drawing filled circles. </p>
+  
+   <div class="download">
+  
+    <dl>
+      <dt>DJGPP 2.0</dt>
+      <dd><a href="source/djgpp20/circle.c.html">View circle.c</a><br />
+      <a href="download/djgpp20/circle.zip">Download circle.zip</a> (Contains circle.c, circle.exe)</dd>
+    
+      <dt>Borland C, Turbo C, etc.</dt>
+      <dd><a href="source/bc31/circle.c.html">View circle.c</a><br />
+      <a href="download/bc31/circle.zip">Download circle.zip</a> (Contains circle.c, circle.exe)</dd>
+      
+    </dl>
+  
+    <p>Having trouble compiling or running the program? 
+    See the <a href="trouble.html">Troubleshooting</a> page.</p>
+  </div>
+  
+  <dl class="image">
+    <dt>
+      <img src="images/img00022.gif" alt="Screenshot of circle.exe" width="320" height="200" />
+    </dt>
+    <dd>
+      <b>Figure 12.</b>
+      Screenshot of <code>circle.exe.</code>
+    </dd>
+  </dl>
+  
+<pre>Slow circle drawing took 6.868132 seconds.
+Fast circle drawing took 1.098901 seconds.
+Fast circle drawing was 6.249999 times faster.
+</pre>
+  
+  <p>Something noticeable about the output from <code>circle.exe</code>
+  is that the circles do not appear as circles, they appear as
+  ellipses. This is because of the odd aspect ratio of mode 0x13.
+  Instead of a 4:3 aspect ratio, it has an 8:5 aspect ratio, which
+  looks distorted on a screen. To overcome this, a circle's width
+  must be 1.2 times longer than its height. This is also something
+  to consider when drawing bitmaps; the next section covers
+  bitmaps. </p>
+  
+  <div class="linkprev"><a href="basics.html">&laquo; Previous: VGA Basics</a></div>
+  <div class="linknext"><a href="bitmaps.html">Next: Bitmaps &amp; Palette Manipulation &raquo;</a></div>
+
+</div>
+
+<div id="footer">
+  <hr />
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="intro.html">Introduction</a></li>
+    <li><a href="basics.html">VGA Basics</a></li>
+    <li class="youarehere">Primitive Shapes &amp; Lines</li>
+    <li><a href="bitmaps.html">Bitmaps &amp; Palette Manipulation</a></li>
+    <li><a href="mouse.html">Mouse Support &amp; Animation</a></li>
+    <li><a href="unchain.html">Double Buffering, Page Flipping, &amp; Unchained Mode</a></li>
+  </ul>
+  <ul>
+    <li><a href="resource.html">Links and Other Resources</a></li>
+    <li><a href="download.html">Download</a></li>
+    <li><a href="trouble.html">FAQ and Troubleshooting</a></li>
+  </ul>
+  
+  <div id="license">
+    <!--Creative Commons License-->
+    <a rel="license" href="http://creativecommons.org/licenses/by-sa/2.5/"><img alt="Creative Commons License" src="http://creativecommons.org/images/public/somerights20.png"/></a><br/>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/2.5/">Creative Commons Attribution-ShareAlike 2.5 License</a>.
+    <!--/Creative Commons License-->
+    <!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+        <Work rdf:about="">
+          <license rdf:resource="http://creativecommons.org/licenses/by-sa/2.5/" />
+      <dc:type rdf:resource="http://purl.org/dc/dcmitype/Text" />
+        </Work>
+        <License rdf:about="http://creativecommons.org/licenses/by-sa/2.5/"><permits rdf:resource="http://web.resource.org/cc/Reproduction"/><permits rdf:resource="http://web.resource.org/cc/Distribution"/><requires rdf:resource="http://web.resource.org/cc/Notice"/><requires rdf:resource="http://web.resource.org/cc/Attribution"/><permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/><requires rdf:resource="http://web.resource.org/cc/ShareAlike"/></License></rdf:RDF> -->
+    </div>
+</div>
+
+</body>
+</html>

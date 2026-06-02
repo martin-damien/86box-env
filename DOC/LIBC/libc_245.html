@@ -1,0 +1,106 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_245.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_244.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_246.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __dpmi_install_resident_service_provider_callback </H2>
+<!--docid::SEC1160::-->
+<A NAME="SEC1161"></A>
+<H3> Syntax                                                                                                                                                                                                                 </H3>
+<!--docid::SEC1161::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre>#include &#60;dpmi.h&#62;
+
+int __dpmi_install_resident_service_provider_callback(
+        __dpmi_callback_info *info
+);
+</FONT></pre></td></tr></table></P><P>
+
+<A NAME="SEC1162"></A>
+<H3> Description                                                                                                                                                                                                              </H3>
+<!--docid::SEC1162::-->
+<P>
+
+Please refer to the DPMI Specification (see section <A HREF="libc_200.html">DPMI Specification</A>)
+for details on DPMI function call operation.  Also see
+the DPMI Overview (see section <A HREF="libc_199.html">DPMI Overview</A>) for general information.
+</P><P>
+
+DPMI function AX = 0x0c00 (DPMI 1.0 only).  Not supported by CWSDPMI and
+Windows.
+</P><P>
+
+This function installs a resident service provider callback and declares
+an intent to provide resident protected-mode services after terminating
+with a call to <CODE>__dpmi_terminate_and_stay_resident</CODE>
+(see section <A HREF="libc_277.html">__dpmi_terminate_and_stay_resident</A>).
+</P><P>
+
+The various members of <VAR>info</VAR> should be filled as follows:
+</P><P>
+
+<DL COMPACT>
+<DT><CODE>data16</CODE>
+<DD>An 8-byte descriptor for the 16-bit data segment.
+<P>
+
+<DT><CODE>code16</CODE>
+<DD>An 8-byte descriptor for the 16-bit code segment (zeros if not
+supported).
+<P>
+
+<DT><CODE>ip</CODE>
+<DD>A 16-bit offset of the 16-bit callback procedure.
+<P>
+
+<DT><CODE>data32</CODE>
+<DD>An 8-byte descriptor for 32-bit data segment.
+<P>
+
+<DT><CODE>code32</CODE>
+<DD>An 8-byte descriptor for 32-bit code segment (zeros if not supported).
+<P>
+
+<DT><CODE>eip</CODE>
+<DD>A 32-bit offset of the 32-bit callback procedure.
+</DL>
+<P>
+
+See section <A HREF="libc_223.html">__dpmi_get_descriptor</A>, for the details about the layout of the
+8-byte segment descriptor.
+</P><P>
+
+<A NAME="SEC1163"></A>
+<H3> Return Value                                                                                                                                                                                           </H3>
+<!--docid::SEC1163::-->
+<P>
+
+-1 on error, else zero.
+</P><P>
+
+<A NAME="SEC1164"></A>
+<H3> Portability                                                                                                                                                                                                                </H3>
+<!--docid::SEC1164::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="__dpmi_int"></A>
+<!--#perl sub="trailer" -->

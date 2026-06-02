@@ -1,0 +1,84 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_263.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_262.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_264.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __dpmi_set_descriptor_access_rights </H2>
+<!--docid::SEC1251::-->
+<A NAME="SEC1252"></A>
+<H3> Syntax                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC1252::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dpmi.h&#62;
+
+int __dpmi_set_descriptor_access_rights(int _selector, int _rights);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1253"></A>
+<H3> Description                                                                                                                                                                                                                                </H3>
+<!--docid::SEC1253::-->
+<P>
+
+Please refer to the DPMI Specification (see section <A HREF="libc_200.html">DPMI Specification</A>)
+for details on DPMI function call operation.  Also see
+the DPMI Overview (see section <A HREF="libc_199.html">DPMI Overview</A>) for general information.
+</P><P>
+
+DPMI function AX = 0x0009
+</P><P>
+
+This sets the access rights of <VAR>_selector</VAR> to <VAR>_rights</VAR>.
+</P><P>
+
+The meaning of the individual bit fields of <VAR>_rights</VAR> is described
+below.  For more details, please refer to <A HREF="libc_223.html">__dpmi_get_descriptor</A>.
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>---- ---- ---- ---X = 0=not accessed, 1=accessed
+---- ---- ---- --X- = data: 0=read, 1=r/w; code: 1=readable
+---- ---- ---- -X-- = data: 0=expand-up, 1=expand-down; 
+                      code: 0=non-conforming
+---- ---- ---- X--- = 0=data, 1=code
+---- ---- ---1 ---- = must be 1
+---- ---- -XX- ---- = priviledge level (must equal CPL)
+---- ---- X--- ---- = 0=absent, 1=present
+---X ---- ---- ---- = available for the user
+--0- ---- ---- ---- = must be 0
+-X-- ---- ---- ---- = 0=16-bit 1=32-bit
+X--- ---- ---- ---- = 0=byte granular (small) 1=page-granular (big)
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1254"></A>
+<H3> Return Value                                                                                                                                                                                                             </H3>
+<!--docid::SEC1254::-->
+<P>
+
+-1 on error, else zero.
+</P><P>
+
+<A NAME="SEC1255"></A>
+<H3> Portability                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC1255::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="__dpmi_set_extended_exception_handler_vector_pm"></A>
+<!--#perl sub="trailer" -->

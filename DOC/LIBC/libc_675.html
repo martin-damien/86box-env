@@ -1,0 +1,81 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_675.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_674.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_676.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> ScreenGetChar </H2>
+<!--docid::SEC3486::-->
+<A NAME="SEC3487"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC3487::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;pc.h&#62;
+
+void  ScreenGetChar(int *ch, int *attr, int col, int row);
+
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3488"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC3488::-->
+<P>
+
+This function stores the character and attribute of the current
+primary screen at row given by <VAR>row</VAR> and column given by <VAR>col</VAR>
+(these are zero-based) into the integers whose address is specified by
+<VAR>ch</VAR> and <VAR>attr</VAR>.  It does so by directly accessing the video memory,
+so it will only work when the screen is in text mode.  You can pass the value
+<CODE>NULL</CODE> in each of the pointers if you do not want to retrieve the 
+the corresponding information.
+</P><P>
+
+<EM>Warning:</EM> note that both the variables <VAR>ch</VAR> and <VAR>attr</VAR> are
+pointers to an <CODE>int</CODE>, not to a <CODE>char</CODE>!  You <STRONG>must</STRONG> pass
+a pointer to an <CODE>int</CODE> there, or your program will crash or work
+erratically.
+</P><P>
+
+<A NAME="SEC3489"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC3489::-->
+<P>
+
+None.
+</P><P>
+
+<A NAME="SEC3490"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC3490::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3491"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC3491::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>int ch, attr;
+
+ScreenGetChar(&#38;ch, &#38;attr, 0, 0);
+</pre></td></tr></table></P><P>
+
+<A NAME="ScreenGetCursor"></A>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,67 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_101.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_100.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_102.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __clear_fd_properties </H2>
+<!--docid::SEC400::-->
+<A NAME="SEC401"></A>
+<H3> Syntax                                                                   </H3>
+<!--docid::SEC401::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;libc/fd_props.h&#62;
+
+int __clear_fd_properties(int fd);
+
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC402"></A>
+<H3> Description                                                                  </H3>
+<!--docid::SEC402::-->
+<P>
+
+This internal function is called when the file descriptor <VAR>fd</VAR> is
+no longer valid.  The usage count of the associated <CODE>fd_properties</CODE> struct
+is decremented.  And if it becomes zero, this function performs cleanup
+and releases the memory used by the <CODE>fd_properties</CODE> struct.
+</P><P>
+
+For more information, see <CODE>__set_fd_properties</CODE>
+(see section <A HREF="libc_690.html">__set_fd_properties</A>) and <CODE>__dup_fd_properties</CODE>
+(see section <A HREF="libc_283.html">__dup_fd_properties</A>).
+</P><P>
+
+<A NAME="SEC403"></A>
+<H3> Return Value                                                               </H3>
+<!--docid::SEC403::-->
+<P>
+
+Always returns 0 for success.
+</P><P>
+
+<A NAME="SEC404"></A>
+<H3> Portability                                                                  </H3>
+<!--docid::SEC404::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="clearerr"></A>
+<!--#perl sub="trailer" -->

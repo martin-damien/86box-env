@@ -1,0 +1,84 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_822.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_821.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_823.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> times </H2>
+<!--docid::SEC4306::-->
+<A NAME="SEC4307"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC4307::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;sys/times.h&#62;
+
+clock_t times(struct tms *buf);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC4308"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC4308::-->
+<P>
+
+This function returns the number of clock ticks used by the current
+process and all of its children until the moment of call.  The number
+of tics per second is <CODE>CLOCKS_PER_SEC</CODE>, defined on time.h.
+</P><P>
+
+This is the structure in which <CODE>times</CODE> returns its info:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct  tms {
+  clock_t tms_cstime;
+  clock_t tms_cutime;
+  clock_t tms_stime;
+  clock_t tms_utime;
+};
+</pre></td></tr></table></P><P>
+
+Currently, the elapsed time of the running program is returned in the
+<CODE>tms_utime</CODE> field, and all other fields return as zero.
+</P><P>
+
+<A NAME="SEC4309"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC4309::-->
+<P>
+
+The number of elapsed tics since the program started.
+</P><P>
+
+<A NAME="SEC4310"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC4310::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC4311"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC4311::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>printf("We used %d seconds of elapsed time\n",
+       times(&#38;buf)/CLOCKS_PER_SEC);
+</pre></td></tr></table></P><P>
+
+<A NAME="tmpfile"></A>
+<!--#perl sub="trailer" -->

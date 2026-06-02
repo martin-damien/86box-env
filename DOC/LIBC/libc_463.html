@@ -1,0 +1,68 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_463.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_462.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_464.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> highvideo </H2>
+<!--docid::SEC2350::-->
+<A NAME="SEC2351"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC2351::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;conio.h&#62;
+
+void highvideo(void);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2352"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC2352::-->
+<P>
+
+Causes any new characters put on the screen to be bright.
+</P><P>
+
+<A NAME="SEC2353"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC2353::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2354"></A>
+<H3> Implementation Note              </H3>
+<!--docid::SEC2354::-->
+<P>
+
+It's not safe to call this function inside static constructors, because
+conio needs to be initialized, and its initialization is done by a
+static constructor.  Since you don't have any control on the order in
+which static constructors are called (it's entirely up to the linker),
+you could have problems.
+</P><P>
+
+If you can detect the situation when one of the conio functions is
+called for the very first time since program start, you could work
+around this problem by calling the <CODE>gppconio_init</CODE> function
+manually (this is the function called by a static constructor).
+</P><P>
+
+<A NAME="htonl"></A>
+<!--#perl sub="trailer" -->

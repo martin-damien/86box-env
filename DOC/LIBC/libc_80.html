@@ -1,0 +1,67 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_80.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_79.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_81.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> bzero </H2>
+<!--docid::SEC290::-->
+<A NAME="SEC291"></A>
+<H3> Syntax                                              </H3>
+<!--docid::SEC291::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;string.h&#62;
+
+void bzero(void *pointer, int length);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC292"></A>
+<H3> Description                                             </H3>
+<!--docid::SEC292::-->
+<P>
+
+The data at <VAR>pointer</VAR> is filled with <VAR>length</VAR> zeros. 
+</P><P>
+
+<A NAME="SEC293"></A>
+<H3> Return Value                                           </H3>
+<!--docid::SEC293::-->
+<P>
+
+None.
+</P><P>
+
+<A NAME="SEC294"></A>
+<H3> Portability                                              </H3>
+<!--docid::SEC294::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC295"></A>
+<H3> Example                                   </H3>
+<!--docid::SEC295::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>char foo[100];
+bzero(foo,100);
+</pre></td></tr></table></P><P>
+
+<A NAME="calloc"></A>
+<!--#perl sub="trailer" -->

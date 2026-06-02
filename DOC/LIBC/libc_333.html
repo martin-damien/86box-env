@@ -1,0 +1,63 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_333.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_332.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_334.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _fmode </H2>
+<!--docid::SEC1623::-->
+<A NAME="SEC1624"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC1624::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;fcntl.h&#62;
+
+extern int _fmode;
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1625"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC1625::-->
+<P>
+
+This variable may be set to <CODE>O_TEXT</CODE> or <CODE>O_BINARY</CODE> to specify
+the mode that newly opened files should be opened in if the open call
+did not specify.  See section <A HREF="libc_600.html">open</A>. See section <A HREF="libc_337.html">fopen</A>.
+</P><P>
+
+The default value is <CODE>O_TEXT</CODE>.
+</P><P>
+
+<A NAME="SEC1626"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC1626::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1627"></A>
+<H3> Example                                                                                                                                  </H3>
+<!--docid::SEC1627::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>_fmode = O_BINARY;
+</pre></td></tr></table></P><P>
+
+<A NAME="fnmatch"></A>
+<!--#perl sub="trailer" -->

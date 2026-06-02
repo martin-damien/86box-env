@@ -1,0 +1,175 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_326.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_325.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_327.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> findfirst </H2>
+<!--docid::SEC1584::-->
+<A NAME="SEC1585"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC1585::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dir.h&#62;
+
+int findfirst(const char *pathname, struct ffblk *ffblk, int attrib);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1586"></A>
+<H3> Description                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC1586::-->
+<P>
+
+This function and the related <CODE>findnext</CODE> (see section <A HREF="libc_327.html">findnext</A>) are used
+to scan directories for the list of files therein.  The <VAR>pathname</VAR>
+is a wildcard that specifies the directory and files to search for (such
+as <CODE>subdir/*.c</CODE>), <VAR>ffblk</VAR> is a structure to hold the results and
+state of the search, and <VAR>attrib</VAR> is a combination of the following:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>FA_RDONLY</CODE>
+<DD><P>
+
+Include read-only files in the search (Ignored.)
+</P><P>
+
+<DT><CODE>FA_HIDDEN</CODE>
+<DD><P>
+
+Include hidden files in the search
+</P><P>
+
+<DT><CODE>FA_SYSTEM</CODE>
+<DD><P>
+
+Include system files in the search
+</P><P>
+
+<DT><CODE>FA_LABEL</CODE>
+<DD><P>
+
+Include the volume label in the search
+</P><P>
+
+<DT><CODE>FA_DIREC</CODE>
+<DD><P>
+
+Include subdirectories in the search
+</P><P>
+
+<DT><CODE>FA_ARCH</CODE>
+<DD><P>
+
+Include modified files in the search (Ignored.)
+</P><P>
+
+</DL>
+<P>
+
+If a file has flag bits that are not specified in the <VAR>attrib</VAR>
+parameter, the file will be excluded from the results.  Thus, if you
+specified <CODE>FA_DIREC</CODE> and <CODE>FA_LABEL</CODE>, subdirectories and the
+volume label will be included in the results.  Hidden and system files
+will be excluded.
+</P><P>
+
+Since <CODE>findfirst</CODE> calls DOS function 4eh, it is not possible to
+exclude read-only files or archive files from the results.  Even if
+the FA_ARCH and FA_RDONLY bits are not specified in the attrib
+parameter, the results will include any read-only and archive files in
+the directory searched.   
+</P><P>
+
+This function supports long file names.
+</P><P>
+
+The results of the search are stored in <VAR>ffblk</VAR>, which is extended
+when the LFN API (see section <A HREF="libc_843.html">LFN</A>) is supported.  Fields marked
+LFN are only valid if the <CODE>lfn_magic</CODE> member is set to "LFN32".
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct ffblk {
+  char lfn_magic[6];	    /* LFN: the magic "LFN32" signature */
+  short lfn_handle;	    /* LFN: the handle used by findfirst/findnext */
+  unsigned short lfn_ctime; /* LFN: file creation time */
+  unsigned short lfn_cdate; /* LFN: file creation date */
+  unsigned short lfn_atime; /* LFN: file last access time (usually 0) */
+  unsigned short lfn_adate; /* LFN: file last access date */
+  char ff_reserved[5];      /* used to hold the state of the search */
+  unsigned char ff_attrib;  /* actual attributes of the file found */
+  unsigned short ff_ftime;  /* hours:5, minutes:6, (seconds/2):5 */
+  unsigned short ff_fdate;  /* (year-1980):7, month:4, day:5 */
+  unsigned long ff_fsize;   /* size of file */
+  char ff_name[260];        /* name of file as ASCIIZ string */
+}
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1587"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC1587::-->
+<P>
+
+Zero if a match is found, nonzero if none found.
+</P><P>
+
+<A NAME="SEC1588"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC1588::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1589"></A>
+<H3> Example                                                                                                                              </H3>
+<!--docid::SEC1589::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct ffblk f;
+int done = findfirst("*.exe", &#38;f, FA_HIDDEN | FA_SYSTEM);
+while (!done)
+{
+  printf("%10u %2u:%02u:%02u %2u/%02u/%4u %s\n",
+    f.ff_fsize,
+    (f.ff_ftime &#62;&#62; 11) &#38; 0x1f,
+    (f.ff_ftime &#62;&#62;  5) &#38; 0x3f,
+    (f.ff_ftime &#38; 0x1f) * 2,
+    (f.ff_fdate &#62;&#62;  5) &#38; 0x0f,
+    (f.ff_fdate &#38; 0x1f),
+    ((f.ff_fdate &#62;&#62; 9) &#38; 0x7f) + 1980,
+    f.ff_name);
+  done = findnext(&#38;f);
+}
+</pre></td></tr></table></P><P>
+
+<A NAME="findnext"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_325.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_327.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

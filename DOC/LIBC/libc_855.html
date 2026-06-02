@@ -1,0 +1,76 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_855.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_854.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_856.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> vsnprintf </H2>
+<!--docid::SEC4491::-->
+<A NAME="SEC4492"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC4492::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdio.h&#62;
+#include &#60;stdarg.h&#62;
+
+int vsnprintf (char *<VAR>buffer</VAR>, size_t <VAR>n</VAR>, const char *<VAR>format</VAR>,
+               va_list <VAR>ap</VAR>);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC4493"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC4493::-->
+<P>
+
+This function works similarly to <CODE>vsprintf()</CODE> (see section <A HREF="libc_856.html">vsprintf</A>), but
+the size <VAR>n</VAR> of the <VAR>buffer</VAR> is also taken into account.  This
+function will write <VAR>n</VAR> - 1 characters.  The <VAR>n</VAR>th character is used
+for the terminating nul.  If <VAR>n</VAR> is zero, <VAR>buffer</VAR> is not touched.
+</P><P>
+
+<A NAME="SEC4494"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC4494::-->
+<P>
+
+The number of characters that would have been written (excluding the trailing
+nul) is returned; otherwise -1 is returned to flag encoding or buffer space
+errors.
+</P><P>
+
+The maximum accepted value of <VAR>n</VAR> is <CODE>INT_MAX</CODE>.  <CODE>INT_MAX</CODE> is
+defined in <CODE>&#60;limits.h&#62;</CODE>.  -1 is returned and <CODE>errno</CODE> is set to
+<CODE>EFBIG</CODE>, if <VAR>n</VAR> is greater than this limit.
+</P><P>
+
+<A NAME="SEC4495"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC4495::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C89; C99 (see note 1)
+</TR></TABLE>
+<P>
+
+Notes:
+</P><P>
+
+<OL>
+<LI>
+The buffer size limit is imposed by DJGPP.  Other systems may not have this limitation.
+<P>
+
+</OL>
+<A NAME="vsprintf"></A>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,261 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_688.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_687.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_689.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> select </H2>
+<!--docid::SEC3564::-->
+<A NAME="SEC3565"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC3565::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;time.h&#62;
+#include &#60;string.h&#62;
+
+int
+select(int nfds,
+	fd_set *readfds,
+	fd_set *writefds,
+	fd_set *exceptfds,
+	struct timeval *timeout)
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3566"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC3566::-->
+<P>
+
+This function waits for files to be ready for input or output, or to
+have exceptional condition pending, or for a timeout.
+</P><P>
+
+Each <CODE>fd_set</CODE> variable is a bitmap representation of a set of file
+descriptors, one bit for every descriptor.  The following macros shall
+be used to deal with these sets (in the table below, <VAR>p</VAR> is a
+pointer to an <CODE>fd_set</CODE> object and <VAR>n</VAR> is a file descriptor):
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>FD_ZERO(p)</CODE>
+<DD><P>
+
+Initialize the set <VAR>p</VAR> to all zeros.
+</P><P>
+
+<DT><CODE>FD_SET(n, p)</CODE>
+<DD><P>
+
+Set member <VAR>n</VAR> in set <VAR>p</VAR>.
+</P><P>
+
+<DT><CODE>FD_CLR(n, p)</CODE>
+<DD><P>
+
+Clear member <VAR>n</VAR> in set <VAR>p</VAR>.
+</P><P>
+
+<DT><CODE>FD_ISSET(n, p)</CODE>
+<DD><P>
+
+Return the value of member <VAR>n</VAR> in set <VAR>p</VAR>.
+</P><P>
+
+<DT><CODE>FD_SETSIZE</CODE>
+<DD><P>
+
+The maximum number of descriptors supported by the system.
+</P><P>
+
+</DL>
+<P>
+
+The <VAR>nfds</VAR> parameter is the number of bits to be examined in each of
+the <CODE>fd_set</CODE> sets: the function will only check file descriptors
+<CODE>0</CODE> through <CODE><VAR>nfds</VAR> - 1</CODE>, even if some bits are set for
+descriptors beyond that.
+</P><P>
+
+On input, some of the bits of each one of the <CODE>fd_set</CODE> sets for
+which the function should wait, should be set using the <CODE>FD_SET</CODE>
+macro.  <CODE>select</CODE> examines only those descriptors whose bits are
+set.
+</P><P>
+
+Any of <CODE>readfds</CODE>, <CODE>writefds</CODE>, and <CODE>exceptfds</CODE> can be a
+<CODE>NULL</CODE> pointer, if the caller is not interested in testing the
+corresponding conditions.
+</P><P>
+
+On output, if <CODE>select</CODE> returns a non-negative value, each
+non-<CODE>NULL</CODE> argument of the three sets will be replaced with a
+subset in which a bit is set for every descriptor that was found to be,
+respectively, ready for input, ready for output, and pending an
+exceptional condition.  Note that if <CODE>select</CODE> returns -1, meaning a
+failure, the descriptor sets are <EM>unchanged</EM>, so you should always
+test the return value before looking at the bits in the returned sets.
+</P><P>
+
+The <VAR>timeout</VAR> value may be a NULL pointer (no timeout, i.e., wait
+forever), a pointer to a zero-value structure (poll mode, i.e., test
+once and exit immediately), or a pointer to a <CODE>struct timeval</CODE>
+variable (timeout: <CODE>select</CODE> will repeatedly test all the
+descriptors until some of them become ready, or the timeout expires).
+</P><P>
+
+<CODE>struct timeval</CODE> is defined as follows:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct timeval {
+  time_t tv_sec;
+  long tv_usec;
+};
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3567"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC3567::-->
+<P>
+
+On successfull return, <CODE>select</CODE> returns the number of files ready,
+or 0, if the timeout expired.  The input sets are replaced with subsets
+that describe which files are ready for which operations.  If
+<CODE>select</CODE> returns 0 (i.e., the timeout has expired), all the
+non-<CODE>NULL</CODE> sets have all their bits reset to zero.
+</P><P>
+
+On failure, <CODE>select</CODE> returns -1, sets <CODE>errno</CODE> to a suitable
+value, and leaves the descriptor sets unchanged.
+</P><P>
+
+<A NAME="SEC3568"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC3568::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3569"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC3569::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>  struct timeval timeout;
+  fd_set read_fds, write_fds;
+  int i, select_result;
+
+  timeout.tv_sec = 5;  /* 5-second timeout */
+  timeout.tv_usec = 0;
+
+  /* Display status of the 5 files open by default.  */
+  for (i = 0; i &#60; 5; i++)
+    {
+
+      FD_ZERO (&#38;read_fds);
+      FD_SET (i, &#38;read_fds);
+      select_result = select (i + 1, &#38;read_fds, 0, 0, &#38;timeout);
+      if (select_result == -1)
+        {
+          fprintf(stderr, "%d: Failure for input", i);
+          perror("");
+        }
+      else
+        fprintf(stderr,
+                "%d: %s ready for input\n", i,
+                select_result ? "" : "NOT");
+      FD_ZERO (&#38;write_fds);
+      FD_SET (i, &#38;write_fds);
+      select_result = select (i + 1, 0, &#38;write_fds, 0, &#38;timeout);
+      if (select_result == -1)
+        {
+          fprintf(stderr, "%d: Failure for output", i);
+          perror("");
+        }
+      else
+        fprintf(stderr,
+                "%d: %s ready for output\n", i,
+                select_result ? "" : "NOT");
+    }
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3570"></A>
+<H3> Implementation Notes    </H3>
+<!--docid::SEC3570::-->
+<P>
+
+The following notes describe some details pertinent to the DJGPP
+implementation of <CODE>select</CODE>:
+</P><P>
+
+<UL>
+<LI>
+While <CODE>select</CODE> waits for the timeout to expire, it repeatedly calls
+the <CODE>__dpmi_yield</CODE> function (see section <A HREF="libc_279.html">__dpmi_yield</A>), so that any
+other programs that run at the same time (e.g., on Windows) get more CPU
+time.
+<P>
+
+<LI>
+A file handle that belongs to a <CODE>FILE</CODE> object created by
+<CODE>fopen</CODE> or <CODE>fdopen</CODE> (see section <A HREF="libc_337.html">fopen</A>) for which <CODE>feof</CODE> or
+<CODE>ferror</CODE> return non-zero, will be reported in the <CODE>exceptfds</CODE>
+set; also, such a handle will be reported not input-ready if there are
+no pending buffered characters in the <CODE>FILE</CODE> object.  This might be
+a feature or a bug, depending on your point of view; in particular, Unix
+implementations usually don't check buffered input.  Portable programs
+should refrain from mixing <CODE>select</CODE> with buffered I/O.
+<P>
+
+<LI>
+DOS doesn't support exceptional conditions, so file handles used for
+unbuffered I/O will <EM>never</EM> be marked in <CODE>exceptfds</CODE>.
+<P>
+
+<LI>
+DOS always returns an output-ready indication for a file descriptor
+connected to a disk file.  So use of <CODE>writefds</CODE> is only meaningful
+for character devices.
+<P>
+
+<LI>
+The usual text-mode input from the keyboard and other character devices
+is line-buffered by DOS.  This means that if you type one character,
+<CODE>select</CODE> will indicate that file handle 0 is ready for input, but a
+call to <CODE>getc</CODE> will still block until the <KBD>Enter</KBD> key is
+pressed.  If you need to make sure that reading a single character won't
+block, you should read either with BIOS functions such as <CODE>getkey</CODE>
+(see section <A HREF="libc_402.html">getkey</A>) or with raw input DOS functions such as <CODE>getch</CODE>
+(see section <A HREF="libc_383.html">getch</A>), or switch the handle to binary mode with a call to
+<CODE>setmode</CODE> (see section <A HREF="libc_707.html">setmode</A>).
+</UL>
+<A NAME="__set_fd_flags"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_687.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_689.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

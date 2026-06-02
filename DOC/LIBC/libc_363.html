@@ -1,0 +1,172 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_363.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_362.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_364.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> fstat </H2>
+<!--docid::SEC1786::-->
+<A NAME="SEC1787"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC1787::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;sys/stat.h&#62;
+
+int fstat(int file, struct stat *sbuf);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1788"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC1788::-->
+<P>
+
+This function obtains the status of the open file <VAR>file</VAR> and stores
+it in <VAR>sbuf</VAR>.  See section <A HREF="libc_744.html">stat</A>, for the description of members of
+<CODE>struct stat</CODE>.
+</P><P>
+
+The <CODE>st_size</CODE> member is an signed 32-bit integer type, so it will
+overflow on FAT32 volumes for files that are larger than 2GB.
+Therefore, if your program needs to support large files, you should
+treat the value of <CODE>st_size</CODE> as an unsigned value.
+</P><P>
+
+For some drives <CODE>st_blksize</CODE> has a default value, to improve
+performance.  The floppy drives A: and B: default to a block size
+of 512 bytes.  Network drives default to a block size of 4096 bytes.
+</P><P>
+
+Some members of <CODE>struct stat</CODE> are very expensive to compute.  If
+your application is a heavy user of <CODE>fstat</CODE> and is too slow, you
+can disable computation of the members your application doesn't need, as
+described in <A HREF="libc_151.html">_djstat_flags</A>.
+</P><P>
+
+<A NAME="SEC1789"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC1789::-->
+<P>
+
+Zero on success, nonzero on failure (and <CODE>errno</CODE> set). 
+</P><P>
+
+<A NAME="SEC1790"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC1790::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1791"></A>
+<H3> Example                                                                                                                                                      </H3>
+<!--docid::SEC1791::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct stat s;
+fstat(fileno(stdin), &#38;s);
+if (S_ISREG(s.st_mode))
+  puts("STDIN is a redirected disk file");
+else if (S_ISCHR(s.st_mode))
+  puts("STDIN is a character device");
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1792"></A>
+<H3> Bugs </H3>
+<!--docid::SEC1792::-->
+<P>
+
+If a file was open in write-only mode, its execute and symlink mode 
+bits might be incorrectly reported as if the file were non-executable
+or non-symlink.  This is because executables and symlinks are only 
+recognized by reading their first few bytes, which cannot be done for 
+files open in write-only mode.
+</P><P>
+
+For <CODE>fstat</CODE> to return correct info, you should make sure that all
+the data written to the file has been delivered to the operating system,
+e.g. by calling both <CODE>fflush</CODE> and <CODE>fsync</CODE>.  Otherwise, the
+buffering of the library I/O functions and the OS might cause stale info
+to be returned.
+</P><P>
+
+<A NAME="SEC1793"></A>
+<H3> Implementation Notes </H3>
+<!--docid::SEC1793::-->
+<P>
+
+Supplying a 100% Unix-compatible <CODE>fstat</CODE> function under DOS is an
+implementation nightmare.  The following notes describe some of the
+obscure points specific to <CODE>fstat</CODE>s behavior in DJGPP.
+</P><P>
+
+1. The <SAMP>`drive'</SAMP> for character devices (like <CODE>con</CODE>, <CODE>/dev/null</CODE>
+and others is returned as -1.  For drives networked by Novell Netware, it
+is returned as -2.
+</P><P>
+
+2. The starting cluster number of a file serves as its inode number.
+For files whose starting cluster number is inaccessible (empty files,
+all files on Windows, files on networked drives, etc.) the
+<CODE>st_inode</CODE> field will be <CITE>invented</CITE> in a way which guarantees
+that no two different files will get the same inode number (thus it is
+unique).  This invented inode will also be different from any real
+cluster number of any local file.  However, only for local, non-empty
+files/directories the inode is guaranteed to be consistent between
+<CODE>stat</CODE> and <CODE>fstat</CODE> function calls.  (Note that files on
+different drives can have identical inode numbers, and thus comparing
+files for identity should include comparison of the <CODE>st_dev</CODE>
+member.)
+</P><P>
+
+3. On all versions of Windows except Windows 3.X, the inode number is
+invented using the file name.  <CODE>fstat</CODE> can probably use the file name
+that was used to open the file, when generating the inode.  This is done
+such that the same inode will be generated irrespective of the actual path
+used to open the file (e.g.: <TT>`foo.txt'</TT>, <TT>`./foo.txt'</TT>,
+<TT>`../somedir/foo.txt'</TT>).  If file names cannot be used, <CODE>fstat</CODE>
+always returns different inode numbers for any two files open
+on different handles, even if the same file is open twice
+on two different handles.
+</P><P>
+
+4. The WRITE access mode bit is set only for the user (unless the file is
+read-only, hidden or system).  EXECUTE bit is set for directories,  files
+which can be executed from the DOS prompt (batch files, .com, .dll and .exe
+executables) or run by <CODE>go32-v2.exe</CODE>.  For files which reside on
+networked drives under Novell Netware, this can sometimes fail, in which
+case only the read access bit is set.
+</P><P>
+
+5. The variable <CODE>_djstat_flags</CODE> (see section <A HREF="libc_151.html">_djstat_flags</A>) controls
+what hard-to-get fields of <CODE>struct stat</CODE> are needed by the
+application.
+<A NAME="fstatvfs"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_362.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_364.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

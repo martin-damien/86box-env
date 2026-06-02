@@ -1,0 +1,120 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_336.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_335.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_337.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> fnsplit </H2>
+<!--docid::SEC1640::-->
+<A NAME="SEC1641"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC1641::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dir.h&#62;
+
+int fnsplit (const char *path, char *drive, char *dir, 
+		char *name, char *ext);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1642"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC1642::-->
+<P>
+
+This function decomposes a <VAR>path</VAR> into its components.  It is smart
+enough to know that <CODE>.</CODE> and <CODE>..</CODE> are directories, and that
+file names with a leading dot, like <TT>`.emacs'</TT>, are not all extensions.
+</P><P>
+
+The <VAR>drive</VAR>, <VAR>dir</VAR>, <VAR>name</VAR> and <VAR>ext</VAR> arguments should
+all be passed, but some or even all of them might be <CODE>NULL</CODE> pointers.
+Those of them which are non-<CODE>NULL</CODE> should point to buffers which have
+enough room for the strings they would hold.  The constants <CODE>MAXDRIVE</CODE>,
+<CODE>MAXDIR</CODE>, <CODE>MAXFILE</CODE> and <CODE>MAXEXT</CODE>, defined on dir.h, define
+the maximum length of these buffers.
+</P><P>
+
+See section <A HREF="libc_335.html">fnmerge</A>.
+</P><P>
+
+<A NAME="SEC1643"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC1643::-->
+<P>
+
+A flag that indicates which components were found:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>DRIVE</CODE>
+<DD><P>
+
+The drive letter was found.
+</P><P>
+
+<DT><CODE>DIRECTORY</CODE>
+<DD><P>
+
+A directory or subdirectories was found.
+</P><P>
+
+<DT><CODE>FILENAME</CODE>
+<DD><P>
+
+A filename was found.
+</P><P>
+
+<DT><CODE>EXTENSION</CODE>
+<DD><P>
+
+An extension was found.
+</P><P>
+
+<DT><CODE>WILDCARDS</CODE>
+<DD><P>
+
+The path included <CODE>*</CODE> or <CODE>?</CODE>.
+</P><P>
+
+</DL>
+<P>
+
+<A NAME="SEC1644"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC1644::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1645"></A>
+<H3> Example                                                                                                                                     </H3>
+<!--docid::SEC1645::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>char d[MAXDRIVE], p[MAXDIR], f[MAXFILE], e[MAXEXT];
+int which = fnsplit("d:/djgpp/bin/gcc.exe", d, p, f, e);
+d = "d:"
+p = "/djgpp/bin/"
+f = "gcc"
+e = ".exe"
+</pre></td></tr></table></P><P>
+
+<A NAME="fopen"></A>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,65 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_593.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_592.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_594.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> nanf </H2>
+<!--docid::SEC3036::-->
+<A NAME="SEC3037"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC3037::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+
+float nanf(const char *tagp);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3038"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC3038::-->
+<P>
+
+<CODE>nanf</CODE> returns a quiet NaN with contents indicated by <VAR>tagp</VAR>.
+</P><P>
+
+<A NAME="SEC3039"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC3039::-->
+<P>
+
+The quiet NaN.
+</P><P>
+
+If quiet NaNs are not supported, zero is returned. DJGPP supports
+quiet NaNs.
+</P><P>
+
+<A NAME="SEC3040"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC3040::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C99; not C89
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3041"></A>
+<H3> Example                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC3041::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>float f = nanf("0x1234");
+</pre></td></tr></table><A NAME="nanl"></A>
+<!--#perl sub="trailer" -->

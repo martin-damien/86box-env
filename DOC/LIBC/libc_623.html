@@ -1,0 +1,185 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_623.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_622.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_624.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> PRI </H2>
+<!--docid::SEC3187::-->
+<A NAME="SEC3188"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC3188::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;inttypes.h&#62;
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3189"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC3189::-->
+<P>
+
+The <CODE>PRI</CODE> family of macros allows integers to be displayed
+in a portable manner using the <CODE>printf</CODE> family of functions
+(see section <A HREF="libc_624.html">printf</A>).  They include a conversion qualifier, to specify
+the width of the type (e.g.: <CODE>l</CODE> for <CODE>long</CODE>),
+and the conversion type specifier (e.g.: <CODE>d</CODE> for decimal
+display of integers).
+</P><P>
+
+The <CODE>PRI</CODE> family of macros should be used with the types defined
+in the header <CODE>&#60;stdint.h&#62;</CODE>.  For example: <CODE>int8_t</CODE>,
+<CODE>uint_fast32_t</CODE>, <CODE>uintptr_t</CODE>, <CODE>intmax_t</CODE>.
+</P><P>
+
+Below <VAR>N</VAR> can be 8, 16, 32 or 64.  The <CODE>PRI</CODE> macros are:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>PRId<VAR>N</VAR></CODE>
+<DD><DT><CODE>PRIi<VAR>N</VAR></CODE>
+<DD><P>
+
+The <CODE>d</CODE> and <CODE>i</CODE> type conversion specifiers
+for a type <CODE>int<VAR>N</VAR>_t</CODE> of <VAR>N</VAR> bits.
+</P><P>
+
+<DT><CODE>PRIdLEAST<VAR>N</VAR></CODE>
+<DD><DT><CODE>PRIiLEAST<VAR>N</VAR></CODE>
+<DD><P>
+
+The <CODE>d</CODE> and <CODE>i</CODE> type conversion specifiers
+for a type <CODE>int_least<VAR>N</VAR>_t</CODE> of <VAR>N</VAR> bits.
+</P><P>
+
+<DT><CODE>PRIdFAST<VAR>N</VAR></CODE>
+<DD><DT><CODE>PRIiFAST<VAR>N</VAR></CODE>
+<DD><P>
+
+The <CODE>d</CODE> and <CODE>i</CODE> type conversion specifiers
+for a type <CODE>int_fast<VAR>N</VAR>_t</CODE> of <VAR>N</VAR> bits.
+</P><P>
+
+<DT><CODE>PRIdMAX</CODE>
+<DD><DT><CODE>PRIiMAX</CODE>
+<DD><P>
+
+The <CODE>d</CODE> and <CODE>i</CODE> type conversion specifiers
+for a type <CODE>intmax_t</CODE>.
+</P><P>
+
+<DT><CODE>PRIdPTR</CODE>
+<DD><DT><CODE>PRIiPTR</CODE>
+<DD><P>
+
+The <CODE>d</CODE> and <CODE>i</CODE> type conversion specifier
+for a type <CODE>intptr_t</CODE>.
+</P><P>
+
+<DT><CODE>PRIo<VAR>N</VAR></CODE>
+<DD><DT><CODE>PRIu<VAR>N</VAR></CODE>
+<DD><DT><CODE>PRIx<VAR>N</VAR></CODE>
+<DD><DT><CODE>PRIX<VAR>N</VAR></CODE>
+<DD><P>
+
+The <CODE>o</CODE>, <CODE>u</CODE>, <CODE>x</CODE> and <CODE>X</CODE> type conversion specifiers
+for a type <CODE>uint<VAR>N</VAR>_t</CODE> of <VAR>N</VAR> bits.
+</P><P>
+
+<DT><CODE>PRIoLEAST<VAR>N</VAR></CODE>
+<DD><DT><CODE>PRIuLEAST<VAR>N</VAR></CODE>
+<DD><DT><CODE>PRIxLEAST<VAR>N</VAR></CODE>
+<DD><DT><CODE>PRIXLEAST<VAR>N</VAR></CODE>
+<DD><P>
+
+The <CODE>o</CODE>, <CODE>u</CODE>, <CODE>x</CODE> and <CODE>X</CODE> type conversion specifiers
+for a type <CODE>uint_LEAST<VAR>N</VAR>_t</CODE> of <VAR>N</VAR> bits.
+</P><P>
+
+<DT><CODE>PRIoFAST<VAR>N</VAR></CODE>
+<DD><DT><CODE>PRIuFAST<VAR>N</VAR></CODE>
+<DD><DT><CODE>PRIxFAST<VAR>N</VAR></CODE>
+<DD><DT><CODE>PRIXFAST<VAR>N</VAR></CODE>
+<DD><P>
+
+The <CODE>o</CODE>, <CODE>u</CODE>, <CODE>x</CODE> and <CODE>X</CODE> type conversion specifiers
+for a type <CODE>uint_FAST<VAR>N</VAR>_t</CODE> of <VAR>N</VAR> bits.
+</P><P>
+
+<DT><CODE>PRIoMAX</CODE>
+<DD><DT><CODE>PRIuMAX</CODE>
+<DD><DT><CODE>PRIxMAX</CODE>
+<DD><DT><CODE>PRIXMAX</CODE>
+<DD><P>
+
+The <CODE>o</CODE>, <CODE>u</CODE>, <CODE>x</CODE> and <CODE>X</CODE> type conversion specifiers
+for a type <CODE>uintmax_t</CODE>.
+</P><P>
+
+<DT><CODE>PRIoPTR</CODE>
+<DD><DT><CODE>PRIuPTR</CODE>
+<DD><DT><CODE>PRIxPTR</CODE>
+<DD><DT><CODE>PRIXPTR</CODE>
+<DD><P>
+
+The <CODE>o</CODE>, <CODE>u</CODE>, <CODE>x</CODE> and <CODE>X</CODE> type conversion specifiers
+for a type <CODE>uintptr_t</CODE>.
+</P><P>
+
+</DL>
+<P>
+
+<A NAME="SEC3190"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC3190::-->
+<P>
+
+Not applicable.
+</P><P>
+
+<A NAME="SEC3191"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC3191::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C99; not C89
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.1-2001; not 1003.2-1992
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3192"></A>
+<H3> Example                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC3192::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>uintmax_t foo = 500;
+
+printf("foo is %" PRIuMAX " in decimal and 0x%" PRIxMAX " in hex.\n",
+       foo, foo);
+</pre></td></tr></table><A NAME="printf"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_622.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_624.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

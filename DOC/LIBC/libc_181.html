@@ -1,0 +1,121 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_181.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_180.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_182.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _dos_setftime </H2>
+<!--docid::SEC830::-->
+<A NAME="SEC831"></A>
+<H3> Syntax                                                                                                                                                   </H3>
+<!--docid::SEC831::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dos.h&#62;
+
+unsigned int _dos_setftime(int handle,
+                           unsigned int date, unsigned time);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC832"></A>
+<H3> Description                                                                                                                                                </H3>
+<!--docid::SEC832::-->
+<P>
+
+This function sets the date and time of the given file. The meaning
+of DOS date in the <VAR>date</VAR> variable is the following:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>F E D C B A 9 8 7 6 5 4 3 2 1 0 (bits)
+x x x x x x x x x x x x x x x x
+*-----------* *-----* *-------*
+    year       month     day
+
+year  = 0-119 (relative to 1980)
+month = 1-12
+day   = 1-31
+</pre></td></tr></table></P><P>
+
+The meaning of DOS time in the <VAR>time</VAR> variable is the following:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>F E D C B A 9 8 7 6 5 4 3 2 1 0 (bits)
+x x x x x x x x x x x x x x x x
+*-------* *---------* *-------*
+  hours     minutes    seconds
+
+hours   = 0-23
+minutes = 0-59
+seconds = 0-29 in two-second intervals
+</pre></td></tr></table></P><P>
+
+See section <A HREF="libc_172.html">_dos_getftime</A>.
+</P><P>
+
+This function cannot be used to set the last access date and time, even
+on systems where the LFN API (see section <A HREF="libc_843.html">LFN</A>) is available.  For
+LFN-aware functions with similar functionality see <A HREF="libc_845.html">utime</A>, which is
+Posix-standard, and see <A HREF="libc_846.html">utimes</A>.
+</P><P>
+
+<A NAME="SEC833"></A>
+<H3> Return Value                                                                                                                              </H3>
+<!--docid::SEC833::-->
+<P>
+
+Returns 0 if successful and return DOS error on error (and sets
+<CODE>errno</CODE>=EBADF).
+</P><P>
+
+<A NAME="SEC834"></A>
+<H3> Portability                                                                                                                                                  </H3>
+<!--docid::SEC834::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC835"></A>
+<H3> Example                                                                                 </H3>
+<!--docid::SEC835::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct dosdate_t d;
+struct dostime_t t;
+unsigned int handle, date, time;
+
+_dos_open("FOO.DAT", O_RDWR, &#38;handle);
+_dos_getdate(&#38;d);
+_dos_gettime(&#38;t);
+date = ((d.year - 1980) &#60;&#60; 9) | (d.month &#60;&#60; 5) | d.day;
+time = (t.hour &#60;&#60; 11) | (t.minute &#60;&#60; 5) | (t.second / 2);
+_dos_setftime(handle, date, time);
+_dos_close(handle);
+</pre></td></tr></table><A NAME="_dos_settime"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_180.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_182.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

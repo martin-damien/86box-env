@@ -1,0 +1,74 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_132.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_131.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_133.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> dirname </H2>
+<!--docid::SEC566::-->
+<A NAME="SEC567"></A>
+<H3> Syntax                                                                                                  </H3>
+<!--docid::SEC567::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;unistd.h&#62;
+
+char * dirname (const char *fname);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC568"></A>
+<H3> Description                                                                                                 </H3>
+<!--docid::SEC568::-->
+<P>
+
+This function returns the directory part of the argument <VAR>fname</VAR>
+copied to a buffer allocated by calling <CODE>malloc</CODE>.  The directory
+part is everything up to but not including the rightmost slash (either
+forward- or backslash) in <VAR>fname</VAR>.  If <VAR>fname</VAR> includes a drive
+letter but no slashes, the function will return <CODE><VAR>x</VAR>:.</CODE> where
+<VAR>x</VAR> is the drive letter.  If <VAR>fname</VAR> includes neither the drive
+letter nor any slashes, <CODE>"."</CODE> will be returned.  Trailing slashes
+are removed from the result, unless it is a root directory, with or
+without a drive letter.
+</P><P>
+
+<A NAME="SEC569"></A>
+<H3> Return value </H3>
+<!--docid::SEC569::-->
+<P>
+
+The directory part in malloc'ed storage, or a NULL pointer of either
+there's not enough free memory, or <VAR>fname</VAR> is a NULL pointer.
+</P><P>
+
+<A NAME="SEC570"></A>
+<H3> Portability                                                                                                 </H3>
+<!--docid::SEC570::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC571"></A>
+<H3> Example                                                  </H3>
+<!--docid::SEC571::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre> printf ("The parent of current directory is %s\n", 
+         dirname (getcwd (0, PATH_MAX)));
+</pre></td></tr></table><A NAME="disable"></A>
+<!--#perl sub="trailer" -->

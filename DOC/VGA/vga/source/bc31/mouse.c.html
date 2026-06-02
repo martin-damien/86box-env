@@ -1,0 +1,675 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+  <meta name="classification" content="computers, programming, graphics, VGA" />
+  <meta name="description" content="VGA basics, lines and shapes, bitmaps, mouse, double buffering, page flipping, unchained mode, and others..." />
+  <meta name="keywords" content="VGA, VGA programming, game programming, C, mouse, lines, circles, rectangles, polygons,  bitmaps, vertical retrace, animation, 256 color, pixel plotting, mode 13, mode x, double buffering, page flipping, unchained mode, flicker-free" />
+  <link rel="stylesheet" type="text/css" media="all" href="../../default.css" />
+  <link rel="stylesheet" type="text/css" media="print" href="../../print.css" />
+  <title>256-Color VGA Programming in C - mouse.c</title>
+</head>
+
+<body>
+<div id="nav">
+  <a href="http://www.brackeen.com/"><img src="../../../images/logo.png" alt="David Brackeen" /></a>
+</div>
+
+<div id="header">
+  <p><a href="../../index.html">256-Color VGA Programming in C</a>&nbsp; &gt;&nbsp;
+  <a href="../../mouse.html">Mouse Support &amp; Animation</a></p>
+  <h1>mouse.c</h1>
+  <p class="plainTextLink"><a href="mouse.c">View as plain text</a></p>
+
+</div>
+
+<div id="content">
+
+<pre class="fullSource">/**************************************************************************
+ * mouse.c                                                                *
+ * written by David Brackeen                                              *
+ * http://www.brackeen.com/home/vga/                                      *
+ *                                                                        *
+ * This is a 16-bit program.                                              *
+ * Tab stops are set to 2.                                                *
+ * Remember to compile in the LARGE memory model!                         *
+ * To compile in Borland C: bcc -ml mouse.c                               *
+ *                                                                        *
+ * This program will only work on DOS- or Windows-based systems with a    *
+ * VGA, SuperVGA or compatible video adapter.                             *
+ *                                                                        *
+ * Please feel free to copy this source code.                             *
+ *                                                                        *
+ * DESCRIPTION: This program demostrates mouse functions.                 *
+ **************************************************************************/
+
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;dos.h&gt;
+
+#define VIDEO_INT           0x10      /* the BIOS video interrupt. */
+#define SET_MODE            0x00      /* BIOS func to set the video mode. */
+#define VGA_256_COLOR_MODE  0x13      /* use to set 256-color mode. */
+#define TEXT_MODE           0x03      /* use to set 80x25 text mode. */
+
+#define PALETTE_INDEX       0x03c8
+#define PALETTE_DATA        0x03c9
+#define INPUT_STATUS        0x03da
+#define VRETRACE            0x08
+
+#define SCREEN_WIDTH        320       /* width in pixels of mode 0x13 */
+#define SCREEN_HEIGHT       200       /* height in pixels of mode 0x13 */
+#define NUM_COLORS          256       /* number of colors in mode 0x13 */
+
+#define MOUSE_INT           0x33
+#define MOUSE_RESET         0x00
+#define MOUSE_GETPRESS      0x05
+#define MOUSE_GETRELEASE    0x06
+#define MOUSE_GETMOTION     0x0B
+#define LEFT_BUTTON         0x00
+#define RIGHT_BUTTON        0x01
+#define MIDDLE_BUTTON       0x02
+
+
+#define MOUSE_WIDTH         24
+#define MOUSE_HEIGHT        24
+#define MOUSE_SIZE          (MOUSE_HEIGHT*MOUSE_WIDTH)
+
+#define BUTTON_WIDTH        48
+#define BUTTON_HEIGHT       24
+#define BUTTON_SIZE         (BUTTON_HEIGHT*BUTTON_WIDTH)
+#define BUTTON_BITMAPS      3
+#define STATE_NORM          0
+#define STATE_ACTIVE        1
+#define STATE_PRESSED       2
+#define STATE_WAITING       3
+
+#define NUM_BUTTONS         2
+#define NUM_MOUSEBITMAPS    9
+
+typedef unsigned char  byte;
+typedef unsigned short word;
+typedef unsigned long  dword;
+typedef short sword;                  /* signed word */
+
+byte *VGA=(byte *)0xA0000000L;        /* this points to video memory. */
+word *my_clock=(word *)0x0000046C;    /* this points to the 18.2hz system
+                                         clock. */
+
+typedef struct                         /* the structure for a bitmap. */
+{
+  word width;
+  word height;
+  byte palette[256*3];
+  byte *data;
+} BITMAP;
+                                      /* the structure for animated
+                                         mouse pointers. */
+typedef struct tagMOUSEBITMAP MOUSEBITMAP;
+struct tagMOUSEBITMAP
+{
+  int hot_x;
+  int hot_y;
+  byte data[MOUSE_SIZE];
+  MOUSEBITMAP *next;   /* points to the next mouse bitmap, if any */
+};
+
+typedef struct            /* the structure for a mouse. */
+{
+  byte on;
+  byte button1;
+  byte button2;
+  byte button3;
+  int num_buttons;
+  sword x;
+  sword y;
+  byte under[MOUSE_SIZE];
+  MOUSEBITMAP *bmp;
+
+} MOUSE;
+
+typedef struct              /* the structure for a button. */
+{
+  int x;
+  int y;
+  int state;
+  byte bitmap[BUTTON_BITMAPS][BUTTON_SIZE];
+
+} BUTTON;
+
+/**************************************************************************
+ *  fskip                                                                 *
+ *     Skips bytes in a file.                                             *
+ **************************************************************************/
+
+void fskip(FILE *fp, int num_bytes)
+{
+   int i;
+   for (i=0; i&lt;num_bytes; i++)
+      fgetc(fp);
+}
+
+/**************************************************************************
+ *  set_mode                                                              *
+ *     Sets the video mode.                                               *
+ **************************************************************************/
+
+void set_mode(byte mode)
+{
+  union REGS regs;
+
+  regs.h.ah = SET_MODE;
+  regs.h.al = mode;
+  int86(VIDEO_INT, &amp;regs, &amp;regs);
+}
+
+/**************************************************************************
+ *  load_bmp                                                              *
+ *    Loads a bitmap file into memory.                                    *
+ **************************************************************************/
+
+void load_bmp(char *file,BITMAP *b)
+{
+  FILE *fp;
+  long index;
+  word num_colors;
+  int x;
+
+  /* open the file */
+  if ((fp = fopen(file,"rb")) == NULL)
+  {
+    printf("Error opening file %s.\n",file);
+    exit(1);
+  }
+
+  /* check to see if it is a valid bitmap file */
+  if (fgetc(fp)!='B' || fgetc(fp)!='M')
+  {
+    fclose(fp);
+    printf("%s is not a bitmap file.\n",file);
+    exit(1);
+  }
+
+  /* read in the width and height of the image, and the
+     number of colors used; ignore the rest */
+  fskip(fp,16);
+  fread(&amp;b-&gt;width, sizeof(word), 1, fp);
+  fskip(fp,2);
+  fread(&amp;b-&gt;height,sizeof(word), 1, fp);
+  fskip(fp,22);
+  fread(&amp;num_colors,sizeof(word), 1, fp);
+  fskip(fp,6);
+
+  /* assume we are working with an 8-bit file */
+  if (num_colors==0) num_colors=256;
+
+  /* try to allocate memory */
+  if ((b-&gt;data = (byte *) malloc((word)(b-&gt;width*b-&gt;height))) == NULL)
+  {
+    fclose(fp);
+    printf("Error allocating memory for file %s.\n",file);
+    exit(1);
+  }
+
+  /* read the palette information */
+  for(index=0;index&lt;num_colors;index++)
+  {
+    b-&gt;palette[(int)(index*3+2)] = fgetc(fp) &gt;&gt; 2;
+    b-&gt;palette[(int)(index*3+1)] = fgetc(fp) &gt;&gt; 2;
+    b-&gt;palette[(int)(index*3+0)] = fgetc(fp) &gt;&gt; 2;
+    x=fgetc(fp);
+  }
+
+  /* read the bitmap */
+  for(index=(b-&gt;height-1)*b-&gt;width;index&gt;=0;index-=b-&gt;width)
+    for(x=0;x&lt;b-&gt;width;x++)
+      b-&gt;data[(word)(index+x)]=(byte)fgetc(fp);
+
+  fclose(fp);
+}
+
+/**************************************************************************
+ *  set_palette                                                           *
+ *    Sets all 256 colors of the palette.                                 *
+ **************************************************************************/
+
+void set_palette(byte *palette)
+{
+  int i;
+
+  outp(PALETTE_INDEX,0);              /* tell the VGA that palette data
+                                         is coming. */
+  for(i=0;i&lt;256*3;i++)
+    outp(PALETTE_DATA,palette[i]);    /* write the data */
+}
+
+/**************************************************************************
+ *  wait_for_retrace                                                      *
+ *    Wait until the *beginning* of a vertical retrace cycle (60hz).      *
+ **************************************************************************/
+
+void wait_for_retrace(void)
+{
+    /* wait until done with vertical retrace */
+    while  ((inp(INPUT_STATUS) &amp; VRETRACE));
+    /* wait until done refreshing */
+    while (!(inp(INPUT_STATUS) &amp; VRETRACE));
+}
+
+/**************************************************************************
+ *  get_mouse_motion                                                      *
+ *    Returns the distance the mouse has moved since it was lasted        *
+ *    checked.                                                            *
+ **************************************************************************/
+
+void get_mouse_motion(sword *dx, sword *dy)
+{
+  union REGS regs;
+
+  regs.x.ax = MOUSE_GETMOTION;
+  int86(MOUSE_INT, &amp;regs, &amp;regs);
+  *dx=regs.x.cx;
+  *dy=regs.x.dx;
+}
+
+/**************************************************************************
+ *  init_mouse                                                            *
+ *    Resets the mouse.  Returns 0 if mouse not found.                    *
+ **************************************************************************/
+
+sword init_mouse(MOUSE *mouse)
+{
+  sword dx,dy;
+  union REGS regs;
+
+  regs.x.ax = MOUSE_RESET;
+  int86(MOUSE_INT, &amp;regs, &amp;regs);
+  mouse-&gt;on=regs.x.ax;
+  mouse-&gt;num_buttons=regs.x.bx;
+  mouse-&gt;button1=0;
+  mouse-&gt;button2=0;
+  mouse-&gt;button3=0;
+  mouse-&gt;x=SCREEN_WIDTH/2;
+  mouse-&gt;y=SCREEN_HEIGHT/2;
+  get_mouse_motion(&amp;dx,&amp;dy);
+  return mouse-&gt;on;
+}
+
+/**************************************************************************
+ *  get_mouse_press                                                       *
+ *    Returns 1 if a button has been pressed since it was last checked.   *
+ **************************************************************************/
+
+sword get_mouse_press(sword button)
+{
+  union REGS regs;
+
+  regs.x.ax = MOUSE_GETPRESS;
+  regs.x.bx = button;
+  int86(MOUSE_INT, &amp;regs, &amp;regs);
+  return regs.x.bx;
+}
+
+/**************************************************************************
+ *  get_mouse_release                                                     *
+ *    Returns 1 if a button has been released since it was last checked.  *
+ **************************************************************************/
+
+sword get_mouse_release(sword button)
+{
+  union REGS regs;
+
+  regs.x.ax = MOUSE_GETRELEASE;
+  regs.x.bx = button;
+  int86(MOUSE_INT, &amp;regs, &amp;regs);
+  return regs.x.bx;
+}
+
+/**************************************************************************
+ *  show_mouse                                                            *
+ *    Displays the mouse.  This code is not optimized.                    *
+ **************************************************************************/
+
+void show_mouse(MOUSE *mouse)
+{
+  int x, y;
+  int mx = mouse-&gt;x - mouse-&gt;bmp-&gt;hot_x;
+  int my = mouse-&gt;y - mouse-&gt;bmp-&gt;hot_y;
+  long screen_offset = (my&lt;&lt;8)+(my&lt;&lt;6);
+  word bitmap_offset = 0;
+  byte data;
+
+  for(y=0;y&lt;MOUSE_HEIGHT;y++)
+  {
+    for(x=0;x&lt;MOUSE_WIDTH;x++,bitmap_offset++)
+    {
+      mouse-&gt;under[bitmap_offset] = VGA[(word)(screen_offset+mx+x)];
+      /* check for screen boundries */
+      if (mx+x &lt; SCREEN_WIDTH  &amp;&amp; mx+x &gt;= 0 &amp;&amp;
+          my+y &lt; SCREEN_HEIGHT &amp;&amp; my+y &gt;= 0)
+      {
+        data = mouse-&gt;bmp-&gt;data[bitmap_offset];
+        if (data) VGA[(word)(screen_offset+mx+x)] = data;
+      }
+    }
+    screen_offset+=SCREEN_WIDTH;
+  }
+}
+
+/**************************************************************************
+ *  hide_mouse                                                            *
+ *    hides the mouse.  This code is not optimized.                       *
+ **************************************************************************/
+
+void hide_mouse(MOUSE *mouse)
+{
+  int x, y;
+  int mx = mouse-&gt;x - mouse-&gt;bmp-&gt;hot_x;
+  int my = mouse-&gt;y - mouse-&gt;bmp-&gt;hot_y;
+  long screen_offset = (my&lt;&lt;8)+(my&lt;&lt;6);
+  word bitmap_offset = 0;
+
+  for(y=0;y&lt;MOUSE_HEIGHT;y++)
+  {
+    for(x=0;x&lt;MOUSE_WIDTH;x++,bitmap_offset++)
+    {
+      /* check for screen boundries */
+      if (mx+x &lt; SCREEN_WIDTH  &amp;&amp; mx+x &gt;= 0 &amp;&amp;
+          my+y &lt; SCREEN_HEIGHT &amp;&amp; my+y &gt;= 0)
+      {
+
+        VGA[(word)(screen_offset+mx+x)] = mouse-&gt;under[bitmap_offset];
+      }
+    }
+
+    screen_offset+=SCREEN_WIDTH;
+  }
+}
+
+/**************************************************************************
+ *  draw_button                                                           *
+ *    Draws a button.                                                     *
+ **************************************************************************/
+
+void draw_button(BUTTON *button)
+{
+  int x, y;
+  word screen_offset = (button-&gt;y&lt;&lt;8)+(button-&gt;y&lt;&lt;6);
+  word bitmap_offset = 0;
+  byte data;
+
+  for(y=0;y&lt;BUTTON_HEIGHT;y++)
+  {
+    for(x=0;x&lt;BUTTON_WIDTH;x++,bitmap_offset++)
+    {
+      data = button-&gt;bitmap[button-&gt;state%BUTTON_BITMAPS][bitmap_offset];
+      if (data) VGA[screen_offset+button-&gt;x+x] = data;
+    }
+    screen_offset+=SCREEN_WIDTH;
+  }
+}
+
+/**************************************************************************
+ *  Main                                                                  *
+ **************************************************************************/
+
+void main()
+{
+  BITMAP bmp;
+  MOUSE  mouse;
+  MOUSEBITMAP *mb[NUM_MOUSEBITMAPS],
+    *mouse_norm, *mouse_wait, *mouse_new=NULL;
+
+  BUTTON *button[NUM_BUTTONS];
+  word redraw;
+  sword dx = 0, dy = 0, new_x, new_y;
+  word press, release;
+  int i,j, done = 0, x,y;
+  word last_time;
+
+  for (i=0; i&lt;NUM_MOUSEBITMAPS; i++)
+  {
+    if ((mb[i] = (MOUSEBITMAP *) malloc(sizeof(MOUSEBITMAP))) == NULL)
+    {
+      printf("Error allocating memory for bitmap.\n");
+      exit(1);
+    }
+  }
+
+  for (i=0; i&lt;NUM_BUTTONS; i++)
+  {
+    if ((button[i] = (BUTTON *) malloc(sizeof(BUTTON))) == NULL)
+    {
+      printf("Error allocating memory for bitmap.\n");
+      exit(1);
+    }
+  }
+  mouse_norm = mb[0];
+  mouse_wait = mb[1];
+
+  mouse.bmp = mouse_norm;
+
+  button[0]-&gt;x     = 48;               /* set button states */
+  button[0]-&gt;y     = 152;
+  button[0]-&gt;state = STATE_NORM;
+
+  button[1]-&gt;x     = 224;
+  button[1]-&gt;y     = 152;
+  button[1]-&gt;state = STATE_NORM;
+
+  if (!init_mouse(&amp;mouse))            /* init mouse */
+  {
+    printf("Mouse not found.\n");
+    exit(1);
+  }
+
+  load_bmp("images.bmp",&amp;bmp);        /* load icons */
+  set_mode(VGA_256_COLOR_MODE);       /* set the video mode. */
+
+
+  for(i=0;i&lt;NUM_MOUSEBITMAPS;i++)     /* copy mouse pointers */
+    for(y=0;y&lt;MOUSE_HEIGHT;y++)
+      for(x=0;x&lt;MOUSE_WIDTH;x++)
+      {
+        mb[i]-&gt;data[x+y*MOUSE_WIDTH] = bmp.data[i*MOUSE_WIDTH+x+y*bmp.width];
+        mb[i]-&gt;next = mb[i+1];
+        mb[i]-&gt;hot_x = 12;
+        mb[i]-&gt;hot_y = 12;
+      }
+
+  mb[0]-&gt;next  = mb[0];
+  mb[8]-&gt;next  = mb[1];
+  mb[0]-&gt;hot_x = 7;
+  mb[0]-&gt;hot_y = 2;
+                                      /* copy button bitmaps */
+  for(i=0;i&lt;NUM_BUTTONS;i++)
+    for(j=0;j&lt;BUTTON_BITMAPS;j++)
+      for(y=0;y&lt;BUTTON_HEIGHT;y++)
+        for(x=0;x&lt;BUTTON_WIDTH;x++)
+        {
+          button[i]-&gt;bitmap[j][x+y*BUTTON_WIDTH] =
+            bmp.data[i*(bmp.width&gt;&gt;1) + j*BUTTON_WIDTH + x +
+            (BUTTON_HEIGHT+y)*bmp.width];
+        }
+
+  free(bmp.data);                     /* free up memory used */
+
+  set_palette(bmp.palette);
+
+  for(y=0;y&lt;SCREEN_HEIGHT;y++)        /* display a background */
+    for(x=0;x&lt;SCREEN_WIDTH;x++)
+      VGA[(y&lt;&lt;8)+(y&lt;&lt;6)+x]=y;
+
+  new_x=mouse.x;
+  new_y=mouse.y;
+  redraw=0xFFFF;
+  show_mouse(&amp;mouse);
+  last_time=*my_clock;
+  while (!done)                       /* start main loop */
+  {
+    if (redraw)                       /* draw the mouse only as needed */
+    {
+      wait_for_retrace();
+      hide_mouse(&amp;mouse);
+      if (redraw&gt;1)
+      {
+        for(i=0;i&lt;NUM_BUTTONS;i++)
+          if (redraw &amp; (2&lt;&lt;i)) draw_button(button[i]);
+      }
+      if (mouse_new!=NULL) mouse.bmp=mouse_new;
+      mouse.x=new_x;
+      mouse.y=new_y;
+      show_mouse(&amp;mouse);
+      last_time=*my_clock;
+      redraw=0;
+      mouse_new=NULL;
+    }
+
+    do {                              /* check mouse status */
+      get_mouse_motion(&amp;dx,&amp;dy);
+      press   = get_mouse_press(LEFT_BUTTON);
+      release = get_mouse_release(LEFT_BUTTON);
+    } while (dx==0 &amp;&amp; dy==0 &amp;&amp; press==0 &amp;&amp; release==0 &amp;&amp;
+      *my_clock==last_time);
+
+    if (*my_clock!=last_time)         /* check animation clock */
+    {
+      if (mouse.bmp!=mouse.bmp-&gt;next)
+      {
+        redraw=1;
+        mouse.bmp = mouse.bmp-&gt;next;
+      }
+      else
+        last_time = *my_clock;
+    }
+
+    if (press) mouse.button1=1;
+    if (release) mouse.button1=0;
+
+    if (dx || dy)                     /* calculate movement */
+    {
+      new_x = mouse.x+dx;
+      new_y = mouse.y+dy;
+      if (new_x&lt;0)   new_x=0;
+      if (new_y&lt;0)   new_y=0;
+      if (new_x&gt;319) new_x=319;
+      if (new_y&gt;199) new_y=199;
+      redraw=1;
+    }
+
+    for(i=0;i&lt;NUM_BUTTONS;i++)        /* check button status */
+    {
+      if (new_x &gt;= button[i]-&gt;x &amp;&amp; new_x &lt; button[i]-&gt;x+48 &amp;&amp;
+          new_y &gt;= button[i]-&gt;y &amp;&amp; new_y &lt; button[i]-&gt;y+24)
+      {
+        if (release &amp;&amp; button[i]-&gt;state==STATE_PRESSED)
+        {
+          button[i]-&gt;state=STATE_ACTIVE;
+          redraw|=(2&lt;&lt;i);
+          if (i==0)
+          {
+            if (mouse.bmp==mouse_norm)
+              mouse_new=mouse_wait;
+            else
+              mouse_new=mouse_norm;
+          }
+          else if (i==1) done=1;
+        }
+        else if (press)
+        {
+          button[i]-&gt;state=STATE_PRESSED;
+          redraw|=(2&lt;&lt;i);
+        }
+        else if (button[i]-&gt;state==STATE_NORM &amp;&amp; mouse.button1==0)
+        {
+          button[i]-&gt;state=STATE_ACTIVE;
+          redraw|=(2&lt;&lt;i);
+        }
+        else if (button[i]-&gt;state==STATE_WAITING)
+        {
+          if (mouse.button1)
+          {
+            button[i]-&gt;state=STATE_PRESSED;
+          }
+          else
+          {
+            button[i]-&gt;state=STATE_ACTIVE;
+          }
+          redraw|=(2&lt;&lt;i);
+        }
+      }
+      else if (button[i]-&gt;state==STATE_ACTIVE)
+      {
+        button[i]-&gt;state=STATE_NORM;
+        redraw|=(2&lt;&lt;i);
+      }
+      else if (button[i]-&gt;state==STATE_PRESSED &amp;&amp; mouse.button1)
+      {
+        button[i]-&gt;state=STATE_WAITING;
+        redraw|=(2&lt;&lt;i);
+      }
+      else if (button[i]-&gt;state==STATE_WAITING &amp;&amp; release)
+      {
+        button[i]-&gt;state=STATE_NORM;
+        redraw|=(2&lt;&lt;i);
+      }
+
+    }
+  }                                   /* end while loop */
+
+  for (i=0; i&lt;NUM_MOUSEBITMAPS; i++)  /* free allocated memory */
+  {
+    free(mb[i]);
+  }
+
+  for (i=0; i&lt;NUM_BUTTONS; i++)       /* free allocated memory */
+  {
+    free(button[i]);
+  }
+
+  set_mode(TEXT_MODE);                /* set the video mode back to
+                                         text mode. */
+
+  return;
+}
+
+</pre>
+  
+<div class="linkprev"><a href="../../mouse.html">&laquo; Back to Mouse Support &amp; Animation</a></div> 
+</div>
+
+
+<div id="footer">
+  <hr />
+  <ul>
+    <li><a href="../../index.html">Home</a></li>
+    <li><a href="../../intro.html">Introduction</a></li>
+    <li><a href="../../basics.html">VGA Basics</a></li>
+    <li><a href="../../shapes.html">Primitive Shapes &amp; Lines</a></li>
+    <li><a href="../../bitmaps.html">Bitmaps &amp; Palette Manipulation</a></li>
+    <li><a href="../../mouse.html">Mouse Support &amp; Animation</a></li>
+    <li><a href="../../unchain.html">Double Buffering, Page Flipping, &amp; Unchained Mode</a></li>
+  </ul>
+  <ul>
+    <li><a href="../../resource.html">Links and Other Resources</a></li>
+    <li><a href="../../download.html">Download</a></li>
+    <li><a href="../../trouble.html">FAQ and Troubleshooting</a></li>
+  </ul>
+  
+  <div id="license">
+    <!--Creative Commons License-->
+    <a rel="license" href="http://creativecommons.org/licenses/by-sa/2.5/"><img alt="Creative Commons License" src="http://creativecommons.org/images/public/somerights20.png"/></a><br/>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/2.5/">Creative Commons Attribution-ShareAlike 2.5 License</a>.
+    <!--/Creative Commons License-->
+    <!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+        <Work rdf:about="">
+          <license rdf:resource="http://creativecommons.org/licenses/by-sa/2.5/" />
+      <dc:type rdf:resource="http://purl.org/dc/dcmitype/Text" />
+        </Work>
+        <License rdf:about="http://creativecommons.org/licenses/by-sa/2.5/"><permits rdf:resource="http://web.resource.org/cc/Reproduction"/><permits rdf:resource="http://web.resource.org/cc/Distribution"/><requires rdf:resource="http://web.resource.org/cc/Notice"/><requires rdf:resource="http://web.resource.org/cc/Attribution"/><permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/><requires rdf:resource="http://web.resource.org/cc/ShareAlike"/></License></rdf:RDF> -->
+    </div>
+</div>
+
+</body>
+</html>

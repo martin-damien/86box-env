@@ -1,0 +1,88 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_136.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_135.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_137.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __djgpp_map_physical_memory </H2>
+<!--docid::SEC589::-->
+<A NAME="SEC590"></A>
+<H3> Syntax                                                                                                      </H3>
+<!--docid::SEC590::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dpmi.h&#62;
+
+int __djgpp_map_physical_memory(void *our_addr, unsigned long num_bytes,
+			        unsigned long phys_addr);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC591"></A>
+<H3> Description                                                                                                     </H3>
+<!--docid::SEC591::-->
+<P>
+
+This function attempts to map a range of physical memory over the
+specified addresses.  One common use of this routine is to map device
+memory, such as a linear frame buffer, into the address space of the
+calling program.  <VAR>our_addr</VAR>, <VAR>num_bytes</VAR>, and <VAR>phys_addr</VAR>
+must be page-aligned.  If they are not page-aligned, <CODE>errno</CODE> will
+be set to <CODE>EINVAL</CODE> and the routine will fail.
+</P><P>
+
+This routine properly handles memory ranges that span multiple DPMI
+handles, while <CODE>__dpmi_map_device_in_memory_block</CODE> does not.
+</P><P>
+
+Consult DPMI documentation on function 0508H for details on how this
+function works.  Note: since 0508H is a DPMI service new with DPMI
+1.0, this call will fail on most DPMI 0.9 servers.  For your program
+to work on a wide range of systems, you should not assume this call
+will succeed.
+</P><P>
+
+Even on failure, this routine may affect a subset of the pages specified.
+</P><P>
+
+<A NAME="SEC592"></A>
+<H3> Return Value                                                                                          </H3>
+<!--docid::SEC592::-->
+<P>
+
+0 on success, -1 on failure.  On failure, <CODE>errno</CODE> will be set to
+<CODE>EINVAL</CODE> for illegal input parameters, or <CODE>EACCES</CODE> if the
+DPMI server rejected the mapping request.
+</P><P>
+
+<A NAME="SEC593"></A>
+<H3> Portability                                                                                                     </H3>
+<!--docid::SEC593::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC594"></A>
+<H3> Example                                                      </H3>
+<!--docid::SEC594::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>if (__djgpp_map_physical_memory (my_page_aligned_memory, 16384,
+                                 0x40000000))
+  printf ("Failed to map physical addresses!\n");
+</pre></td></tr></table><A NAME="__djgpp_memory_handle"></A>
+<!--#perl sub="trailer" -->

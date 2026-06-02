@@ -1,0 +1,105 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_67.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_66.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_68.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _bios_printer </H2>
+<!--docid::SEC214::-->
+<A NAME="SEC215"></A>
+<H3> Syntax                                 </H3>
+<!--docid::SEC215::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;bios.h&#62;
+
+unsigned _bios_printer(unsigned cmd, unsigned printer, unsigned data);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC216"></A>
+<H3> Description                                </H3>
+<!--docid::SEC216::-->
+The _bios_printer routine uses INT 0x17 to perform printer output
+services for parallel printers. The <VAR>printer</VAR> argument specifies
+the affected printer, where 0 is LPT1, 1 is LPT2, and so on.
+The <VAR>cmd</VAR> argument can be any of the following manifest
+constants:
+<P>
+
+<DL COMPACT>
+
+<DT><CODE>_PRINTER_INIT</CODE>
+<DD><P>
+
+<DT><CODE>Reset and initialize the specified printer port</CODE>
+<DD><P>
+
+<DT><CODE>_PRINTER_STATUS</CODE>
+<DD><P>
+
+Return the status of the specified printer port
+</P><P>
+
+<DT><CODE>_PRINTER_WRITE</CODE>
+<DD><P>
+
+Print the <VAR>data</VAR> argument to the specified printer port
+</P><P>
+
+</DL>
+<P>
+
+<A NAME="SEC217"></A>
+<H3> Return Value                               </H3>
+<!--docid::SEC217::-->
+<P>
+
+The _bios_printer function returns the value in the AX register
+after the BIOS interrupt. The high-order byte (AH) of the return
+value indicates the printer status after the operation, as defined
+below:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>Bit     Meaning if True
+
+0       Printer timed out
+1       Not used
+2       Not used
+3       I/O error
+4       Printer selected
+5       Out of paper
+6       Acknowledge
+7       Printer not busy
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC218"></A>
+<H3> Portability                                 </H3>
+<!--docid::SEC218::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC219"></A>
+<H3> Example                       </H3>
+<!--docid::SEC219::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>while (*c)
+  _bios_printer(_PRINTER_WRITE, *c++, 0);
+</pre></td></tr></table><A NAME="_bios_serialcom"></A>
+<!--#perl sub="trailer" -->

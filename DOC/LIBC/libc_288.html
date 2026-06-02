@@ -1,0 +1,72 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_288.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_287.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_289.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> edi_init </H2>
+<!--docid::SEC1379::-->
+<A NAME="SEC1380"></A>
+<H3> Syntax                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC1380::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;debug/dbgcom.h&#62;
+
+void edi_init (jmp_buf start_state);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1381"></A>
+<H3> Description                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC1381::-->
+<P>
+
+This function is part of the DJGPP <EM>debugging support</EM>.  It should be
+called after a call to <CODE>v2loadimage</CODE> (see section <A HREF="libc_847.html">v2loadimage</A>) which
+loads an executable program as a debuggee.  <CODE>edi_init</CODE> then takes
+care of initializing the data structures which need to be set before the
+debugger can set breakpoints and run the debuggee.
+</P><P>
+
+The argument <VAR>start_state</VAR> is usually set by a preceding call to
+<CODE>v2loadimage</CODE>.
+</P><P>
+
+<A NAME="SEC1382"></A>
+<H3> Portability                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC1382::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1383"></A>
+<H3> Example                                                                                                         </H3>
+<!--docid::SEC1383::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre> if (v2loadimage (exec_file, cmdline, start_state))
+   {
+      printf ("Load failed for image %s\n", exec_file);
+      exit (1);
+   }
+
+  edi_init (start_state);
+</pre></td></tr></table></P><P>
+
+<A NAME="enable"></A>
+<!--#perl sub="trailer" -->

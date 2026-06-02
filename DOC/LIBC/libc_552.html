@@ -1,0 +1,133 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_552.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_551.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_553.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> malloc hook functions </H2>
+<!--docid::SEC2815::-->
+<A NAME="SEC2816"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC2816::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdlib.h&#62;
+#include &#60;libc/malloc.h&#62;
+
+void (*__libc_malloc_hook)(size_t size, void *block);
+void (*__libc_malloc_fail_hook)(size_t size);
+void (*__libc_free_hook)(void *block);
+void (*__libc_free_null_hook)(void);
+void (*__libc_realloc_hook)(void *block, size_t size);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2817"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC2817::-->
+<P>
+
+These hooks are provided for building custom <CODE>malloc</CODE> debugging
+packages.  Such packages typically need to be notified when memory is
+allocated and freed by the application, in order to be able to find
+memory leaks, code that writes beyond the limits of allocated buffers or
+attempts to free buffers which were not allocated by <CODE>malloc</CODE>, etc.
+These hooks can be used to define callback functions which will be
+called by the library at strategic points.  Each callback is only called
+if it is non-<CODE>NULL</CODE>; by default, all of them are initialized to a
+<CODE>NULL</CODE> value.
+</P><P>
+
+<DL COMPACT>
+<DT><CODE>__libc_malloc_hook</CODE>
+<DD>Called just before a chunk of memory is about to be returned to the
+application in response to an allocation request.  <VAR>size</VAR> is the
+size requested by the application (<STRONG>not</STRONG> the actual size of the
+allocated buffer, which may be larger).  <VAR>block</VAR> is a pointer to the
+block that was allocated, which is 4 bytes before the pointer that
+<CODE>malloc</CODE> will return to the application; these 4 bytes are used to
+record the actual size of the buffer.  An additional copy of the block's
+size is recorded immediately after the buffer's end.  Thus,
+<CODE>*(size_t *)((char *)block + 4 + (BLOCK *)block-&#62;size)</CODE> gives
+the second copy of the block's size.
+<P>
+
+<DT><CODE>__libc_malloc_fail_hook</CODE>
+<DD>Called if <CODE>malloc</CODE> failed to find a free block large enough to
+satisfy a request, and also failed to obtain additional memory from
+<CODE>sbrk</CODE>.  <VAR>size</VAR> is the requested allocation size.
+<P>
+
+<DT><CODE>__libc_free_hook</CODE>
+<DD>Called when a buffer is about to be freed.  <VAR>block</VAR> is a pointer 4
+bytes before the address passed to <CODE>free</CODE> by the application,
+i.e. it is a pointer to the beginning of the size information
+maintained before the user buffer.
+<P>
+
+<DT><CODE>__libc_free_null_hook</CODE>
+<DD>Called whenever a <CODE>NULL</CODE> pointer is passed to <CODE>free</CODE>.
+<FONT SIZE="-1">ANSI</FONT> C specifically rules that this is allowed and should have
+no effect, but you might want to catch such cases if your program needs
+to be portable to old compilers whose libraries don't like <CODE>NULL</CODE>
+pointers in <CODE>free</CODE>.
+<P>
+
+<DT><CODE>__libc_realloc_hook</CODE>
+<DD>Called at entry to <CODE>realloc</CODE>, before the actual reallocation.
+<VAR>block</VAR> is a pointer 4 bytes before the address passed to
+<CODE>free</CODE> by the application, i.e. it is a pointer to the beginning
+of the size information maintained before the user buffer.  <VAR>size</VAR>
+is the new size requested by the application.  (This hook is called
+<EM>in addition</EM> to the other hooks which will be called by
+<CODE>free</CODE> and <CODE>malloc</CODE> if and when <CODE>realloc</CODE> calls them.)
+</DL>
+<P>
+
+The <CODE>BLOCK</CODE> data type is used by <CODE>malloc</CODE> and <CODE>free</CODE> to
+maintain the heap.  The only member which is always guaranteed to be
+valid is <CODE>size</CODE> (the additional copy of the size, recorded beyond
+the buffer's end, is also guaranteed to be valid).  The <CODE>next</CODE>
+member is valid in all blocks that are part of the free list.  This
+means that <CODE>__libc_malloc_hook</CODE> can use the <CODE>next</CODE> member, but
+<CODE>__libc_free_hook</CODE> cannot.
+</P><P>
+
+<A NAME="SEC2818"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC2818::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+These hooks are specific to DJGPP.
+</P><P>
+
+<A NAME="malloc_debug"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_551.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_553.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

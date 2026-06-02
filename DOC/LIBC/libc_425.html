@@ -1,0 +1,76 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_425.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_424.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_426.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> getxkey </H2>
+<!--docid::SEC2138::-->
+<A NAME="SEC2139"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC2139::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;pc.h&#62;
+#include &#60;keys.h&#62;
+
+int getxkey(void);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2140"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC2140::-->
+<P>
+
+Waits for the user to press one key, then returns that key.  Alt-key
+combinations have 0x100 added to them, and extended keys have 0x200
+added to them. 
+</P><P>
+
+The file <TT>`keys.h'</TT> has symbolic names for many of the keys.
+</P><P>
+
+See section <A HREF="libc_402.html">getkey</A>.
+</P><P>
+
+<A NAME="SEC2141"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC2141::-->
+<P>
+
+The key pressed.
+</P><P>
+
+<A NAME="SEC2142"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC2142::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2143"></A>
+<H3> Example                                                                                                                                                                                          </H3>
+<!--docid::SEC2143::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>while (getxkey() != K_EEnd)
+  do_something();
+</pre></td></tr></table></P><P>
+
+<A NAME="glob"></A>
+<!--#perl sub="trailer" -->

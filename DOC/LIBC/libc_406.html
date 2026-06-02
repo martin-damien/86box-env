@@ -1,0 +1,132 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_406.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_405.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_407.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> getopt </H2>
+<!--docid::SEC2033::-->
+<A NAME="SEC2034"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC2034::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;unistd.h&#62;
+
+int getopt(int argc, char * const *argv, const char *options);
+extern char *optarg;
+extern int optind, opterr, optopt;
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2035"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC2035::-->
+<P>
+
+Parse options from the command line.  <VAR>options</VAR> is a string of
+valid option characters.  If a given option takes an argument, that
+character should be followed by a colon.
+</P><P>
+
+For each valid switch, this function sets <CODE>optarg</CODE> to the argument
+(if the switch takes one), sets <CODE>optind</CODE> to the index in <VAR>argv</VAR>
+that it is using, sets <CODE>optopt</CODE> to the option letter found, and
+returns the option letter found.
+</P><P>
+
+If an unexpected option is found, a question mark (<SAMP>`?'</SAMP>) is returned.  
+If an option argument is missing, a colon (<SAMP>`:'</SAMP>) is returned if the
+first character in <VAR>options</VAR> is a colon, otherwise a question mark is
+returned.  In both cases, if <CODE>opterr</CODE> is nonzero and the first character
+in <VAR>options</VAR> is not a colon, an error message is printed to
+<CODE>stderr</CODE>.
+</P><P>
+
+The example below shows how <SAMP>`?'</SAMP> can still be used as an option
+(e.g., to request a summary of program usage) in addition to flagging
+an unexpected option and a missing argument.
+</P><P>
+
+<A NAME="SEC2036"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC2036::-->
+<P>
+
+The option character is returned when found.  -1 is returned when there are no
+more options.  A colon (<SAMP>`:'</SAMP>) is returned when an option argument is
+missing and the first character in <VAR>options</VAR> is a colon.  A question mark
+(<SAMP>`?'</SAMP>) is returned when an invalid option is found or an option argument
+is missing and the first character in <VAR>options</VAR> is not a colon.
+</P><P>
+
+<A NAME="SEC2037"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC2037::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2038"></A>
+<H3> Example                                                                                                                                                                                 </H3>
+<!--docid::SEC2038::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>int c;
+opterr = 0;
+while ((c=getopt(argc, argv, ":?vbf:")) != -1)
+{
+  switch (c)
+  {
+    case 'v':
+      verbose_flag ++;
+      break;
+    case 'b':
+      binary_flag ++;
+      break;
+    case 'f':
+      output_filename = optarg;
+      break;
+    case ':':
+      printf("Missing argument %c\n", optopt);
+      usage();
+      exit(1);
+    case '?':
+      if (optopt == '?') {
+        usage();
+        exit(0);
+     } else {
+        printf("Unknown option %c\n", optopt);
+        usage();
+        exit(1);
+     }
+  }
+}
+</pre></td></tr></table><A NAME="getpagesize"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_405.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_407.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

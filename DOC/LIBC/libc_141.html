@@ -1,0 +1,89 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_141.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_140.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_142.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __djgpp_nearptr_enable </H2>
+<!--docid::SEC614::-->
+<A NAME="SEC615"></A>
+<H3> Syntax                                                                                                           </H3>
+<!--docid::SEC615::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;sys/nearptr.h&#62;
+
+int __djgpp_nearptr_enable(void);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC616"></A>
+<H3> Description                                                                                                          </H3>
+<!--docid::SEC616::-->
+<P>
+
+This function enables "near pointers" to be used to access the DOS
+memory arena.  Sort of.  When you call this function, it will return
+nonzero if it has successfully enabled near pointers.  If so, you must
+add the value <CODE>__djgpp_conventional_base</CODE> to the linear address
+of the physical memory.  For example:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>if (__djgpp_nearptr_enable())
+{
+  short *screen = (short *)(__djgpp_conventional_base + 0xb8000);
+  for (i=0; i&#60;80*24*2; i++)
+    screen[i] = 0x0720;
+  __djgpp_nearptr_disable();
+}
+</pre></td></tr></table></P><P>
+
+The variable <CODE>__djgpp_base_address</CODE> contains the linear base
+address of the application's data segment.  You can subtract this
+value from other linear addresses that DPMI functions might return
+in order to obtain a near pointer to those linear regions as well.
+</P><P>
+
+If using the Unix-like sbrk algorithm, near pointers are only valid 
+until the next <CODE>malloc</CODE>, <CODE>system</CODE>, <CODE>spawn*</CODE>, or 
+<CODE>exec*</CODE> function call, since the linear base address of the 
+application may be changed by these calls.
+</P><P>
+
+WARNING: When you enable near pointers, you disable all the protection
+that the system is providing.  If you are not careful, your
+application may destroy the data in your computer.  USE AT YOUR OWN
+RISK!
+</P><P>
+
+<A NAME="SEC617"></A>
+<H3> Return Value                                                                                            </H3>
+<!--docid::SEC617::-->
+<P>
+
+Returns 0 if near pointers are not available, or nonzero if they are.
+</P><P>
+
+<A NAME="SEC618"></A>
+<H3> Portability                                                                                                          </H3>
+<!--docid::SEC618::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="__djgpp_set_ctrl_c"></A>
+<!--#perl sub="trailer" -->

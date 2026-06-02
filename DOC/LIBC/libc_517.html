@@ -1,0 +1,74 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_517.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_516.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_518.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> itoa </H2>
+<!--docid::SEC2621::-->
+<A NAME="SEC2622"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC2622::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdlib.h&#62;
+
+char * itoa(int value, char *string, int radix)
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2623"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC2623::-->
+<P>
+
+This function converts its argument <VAR>value</VAR> into a null-terminated
+character string using <VAR>radix</VAR> as the base of the number system.  The
+resulting string with a length of upto 33 bytes (including the optional
+sign and the terminating <CODE>NULL</CODE> is put into the buffer whose address
+is given by <VAR>string</VAR>.  For radixes other than 10, <VAR>value</VAR> is
+treated as an unsigned int (i.e., the sign bit is not interpreted as
+such).  The argument <VAR>radix</VAR> should specify the base, between 2 and
+36, in which the string reprsentation of <VAR>value</VAR> is requested.
+</P><P>
+
+<A NAME="SEC2624"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC2624::-->
+  
+A pointer to <VAR>string</VAR>.
+<P>
+
+<A NAME="SEC2625"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC2625::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2626"></A>
+<H3> Example                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC2626::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>char binary_str[33];
+
+(void)itoa(num, binary_str, 2);
+</pre></td></tr></table></P><P>
+
+<A NAME="kbhit"></A>
+<!--#perl sub="trailer" -->

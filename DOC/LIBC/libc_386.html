@@ -1,0 +1,94 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_386.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_385.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_387.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> getcwd </H2>
+<!--docid::SEC1921::-->
+<A NAME="SEC1922"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC1922::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;unistd.h&#62;
+
+char *getcwd(char *buffer, int max);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1923"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC1923::-->
+<P>
+
+Get the current directory.  The return value includes the drive
+specifier.
+</P><P>
+
+If <VAR>buffer</VAR> is <CODE>NULL</CODE>, <CODE>getcwd</CODE> allocates
+a buffer of size <VAR>max</VAR> with <CODE>malloc</CODE>.  This is an extension
+of the POSIX standard, which is compatible with the behaviour of glibc
+(the C library used on Linux).
+</P><P>
+
+This call fails if more than <VAR>max</VAR> characters are required
+to specify the current directory.
+</P><P>
+
+<A NAME="SEC1924"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC1924::-->
+<P>
+
+The buffer, either <VAR>buffer</VAR> or a newly-allocated buffer, or
+<CODE>NULL</CODE> on error.
+</P><P>
+
+<A NAME="SEC1925"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC1925::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001 (see note 1)
+</TR></TABLE>
+<P>
+
+Notes:
+</P><P>
+
+<OL>
+<LI>
+The behaviour when <VAR>buffer</VAR> is <CODE>NULL</CODE> is unspecified for POSIX.
+<P>
+
+</OL>
+<P>
+
+<A NAME="SEC1926"></A>
+<H3> Example                                                                                                                                                                     </H3>
+<!--docid::SEC1926::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>char *buf = (char *)malloc(PATH_MAX);
+if (buf &#38;&#38; getcwd(buf, PATH_MAX))
+{
+  printf("cwd is %s\n", buf);
+  free(buf);
+}
+</pre></td></tr></table></P><P>
+
+<A NAME="getdate"></A>
+<!--#perl sub="trailer" -->

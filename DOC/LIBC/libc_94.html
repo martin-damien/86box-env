@@ -1,0 +1,128 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_94.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_93.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_95.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> chmod </H2>
+<!--docid::SEC366::-->
+<A NAME="SEC367"></A>
+<H3> Syntax                                                            </H3>
+<!--docid::SEC367::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;sys/stat.h&#62;
+
+int chmod(const char *path, mode_t mode);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC368"></A>
+<H3> Description                                                           </H3>
+<!--docid::SEC368::-->
+<P>
+
+This function changes the mode (writable or write-only) of the specified
+file.  The value of <VAR>mode</VAR> can be a combination of one or more of
+the following:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>S_IRUSR</CODE>
+<DD><P>
+
+Make the file readable for the owner.
+</P><P>
+
+<DT><CODE>S_IWUSR</CODE>
+<DD><P>
+
+Make the file writable for the owner.
+</P><P>
+
+<DT><CODE>S_IRGRP</CODE>
+<DD><P>
+
+Make the file readable for the group.
+</P><P>
+
+<DT><CODE>S_IWGRP</CODE>
+<DD><P>
+
+Make the file writeable for the group.
+</P><P>
+
+<DT><CODE>S_IROTH</CODE>
+<DD><P>
+
+Make the file readable for the world.
+</P><P>
+
+<DT><CODE>S_IWOTH</CODE>
+<DD><P>
+
+Make the file writeable for the world.
+</P><P>
+
+</DL>
+<P>
+
+Some <CODE>S_I*</CODE> constants are ignored for regular files:
+</P><P>
+
+<UL>
+<LI>
+<CODE>S_I*GRP</CODE> and <CODE>S_I*OTH</CODE> are ignored, because DOS/Windows
+has no concept of ownership, so all files are considered to belong
+to the user;
+<P>
+
+<LI>
+<CODE>S_IR*</CODE> are ignored, because files are always readable on DOS/Windows.
+</UL>
+<P>
+
+This function can be hooked by File System Extensions
+(see section <A HREF="libc_321.html">File System Extensions</A>).
+</P><P>
+
+<A NAME="SEC369"></A>
+<H3> Return Value                                                         </H3>
+<!--docid::SEC369::-->
+<P>
+
+Zero if the file exists and the mode was changed, else nonzero. 
+</P><P>
+
+<A NAME="SEC370"></A>
+<H3> Portability                                                            </H3>
+<!--docid::SEC370::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC371"></A>
+<H3> Example                                        </H3>
+<!--docid::SEC371::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>chmod("/tmp/dj.dat", S_IWUSR|S_IRUSR);
+</pre></td></tr></table></P><P>
+
+<A NAME="_chmod"></A>
+<!--#perl sub="trailer" -->

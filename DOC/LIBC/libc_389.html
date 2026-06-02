@@ -1,0 +1,67 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_389.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_388.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_390.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> getdisk </H2>
+<!--docid::SEC1939::-->
+<A NAME="SEC1940"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC1940::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dir.h&#62;
+
+int getdisk(void);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1941"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC1941::-->
+<P>
+
+Gets the current disk (0=A).
+</P><P>
+
+See section <A HREF="libc_697.html">setdisk</A>.
+</P><P>
+
+<A NAME="SEC1942"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC1942::-->
+<P>
+
+The current disk number.
+</P><P>
+
+<A NAME="SEC1943"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC1943::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1944"></A>
+<H3> Example                                                                                                                                                                        </H3>
+<!--docid::SEC1944::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>printf("This drive is %c:\n", getdisk() + 'A');
+</pre></td></tr></table><A NAME="getdtablesize"></A>
+<!--#perl sub="trailer" -->

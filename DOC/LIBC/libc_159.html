@@ -1,0 +1,67 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_159.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_158.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_160.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> dlsymresolver </H2>
+<!--docid::SEC703::-->
+<A NAME="SEC704"></A>
+<H3> Syntax                                                                                                                             </H3>
+<!--docid::SEC704::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;sys/dxe.h&#62;
+
+extern void *(*dlsymresolver) (const char *symname);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC705"></A>
+<H3> Description                                                                                                                          </H3>
+<!--docid::SEC705::-->
+<P>
+
+This is a pointer to a function (e.g. replaceable) containing a pointer to a
+function that is called when an unresolved symbol cannot be found in all
+the symbol tables that the dynamic loader have at his disposition.  For
+example, as a last resort, the routine could return the address of a dummy
+function -- this allows loading modules that you don't know in advance which
+unresolved symbols it contains.  Of course, the functions that use this
+last-resort dummy function will be, most likely, unuseable but at least you may
+query the address of some table inside the module, for example, and process it
+somehow.
+</P><P>
+
+<A NAME="SEC706"></A>
+<H3> Return Value                                                                                                        </H3>
+<!--docid::SEC706::-->
+<P>
+
+The handler should return <CODE>NULL</CODE> to rise a error condition, otherwise
+it should return a valid address.
+</P><P>
+
+<A NAME="SEC707"></A>
+<H3> Portability                                                                                                                            </H3>
+<!--docid::SEC707::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="dlunregsym"></A>
+<!--#perl sub="trailer" -->

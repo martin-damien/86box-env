@@ -1,0 +1,88 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_725.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_724.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_726.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> sigpending </H2>
+<!--docid::SEC3765::-->
+<A NAME="SEC3766"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC3766::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;signal.h&#62;
+
+int sigpending (sigset_t *set)
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3767"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC3767::-->
+<P>
+
+This function retrieves the signals that have been sent to the program,
+but are being blocked from delivery by the program's signal mask
+(see section <A HREF="libc_726.html">sigprocmask</A>).  The bit-mapped value which describes the pending
+signals is stored in the structure pointed to by <VAR>set</VAR>.  You can use
+the <CODE>sigismember</CODE> function (see section <A HREF="libc_722.html">sigismember</A>) to see what
+individual signals are pending.
+</P><P>
+
+<A NAME="SEC3768"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC3768::-->
+<P>
+
+0 on success, -1 on failure (and errno set to <CODE>EFAULT</CODE>).
+</P><P>
+
+<A NAME="SEC3769"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC3769::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3770"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC3770::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>
+#include &#60;signal.h&#62;
+
+  sigset_t pending_signals;
+
+  /* If SIGINT is pending, force it to be raised.  */
+  if (sigpending (&#38;pending_signals) == 0
+      &#38;&#38; sigismember (&#38;pending_signals, SIGINT))
+    {
+      sigset_t new_set, old_set;
+      sigemptyset (&#38;new_set);
+      sigaddset (&#38;new_set, SIGINT);
+
+      /* This sigprocmask() call will raise SIGINT. */
+      sigprocmask (SIG_UNBLOCK, &#38;new_set, &#38;old_set);
+
+      /* Restore mask */
+      sigprocmask (SIG_SETMASK, &#38;old_set, &#38;new_set);
+    }
+
+</pre></td></tr></table><A NAME="sigprocmask"></A>
+<!--#perl sub="trailer" -->

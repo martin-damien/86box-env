@@ -1,0 +1,80 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_563.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_562.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_564.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> memccpy </H2>
+<!--docid::SEC2878::-->
+<A NAME="SEC2879"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC2879::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;string.h&#62;
+
+void * memccpy(void *to, const void *from, int ch, size_t nbytes)
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2880"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC2880::-->
+<P>
+
+This function copies characters from memory area <VAR>from</VAR> into <VAR>to</VAR>,
+stopping after the first occurrence of character <VAR>ch</VAR> has been copied,
+or after <VAR>nbytes</VAR> characters have been copied, whichever comes first.
+The buffers should not overlap.
+</P><P>
+
+<A NAME="SEC2881"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC2881::-->
+<P>
+
+A pointer to the character after the copy of <VAR>ch</VAR> in <VAR>to</VAR>,
+or a <CODE>NULL</CODE> pointer if <VAR>ch</VAR> was not found in the first
+<VAR>nbytes</VAR> characters of <VAR>from</VAR>.
+</P><P>
+
+<A NAME="SEC2882"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC2882::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2883"></A>
+<H3> Example                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC2883::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>char inpbuf[256], dest[81];
+
+printf("Enter a path: ");
+fflush(stdout);
+gets(inpbuf);
+memset(dest, 0, sizeof(dest));
+if (memccpy(dest, inpbuf, '\\', 80))
+  printf("The first directory in path is %s\n", dest);
+else
+  printf("No explicit directory in path\n");
+</pre></td></tr></table></P><P>
+
+<A NAME="memchr"></A>
+<!--#perl sub="trailer" -->

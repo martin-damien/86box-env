@@ -1,0 +1,85 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_64.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_63.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_65.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _bios_equiplist </H2>
+<!--docid::SEC197::-->
+<A NAME="SEC198"></A>
+<H3> Syntax                              </H3>
+<!--docid::SEC198::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;bios.h&#62;
+
+unsigned _bios_equiplist(void)
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC199"></A>
+<H3> Description                             </H3>
+<!--docid::SEC199::-->
+<P>
+
+This function returns the equipment word from BIOS request 0x11.  The
+bits correspond to the following values:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>Bits  Meaning
+0     True (1) if disk drive(s) installed
+1     True (1) if math coprocessor installed
+2-3   System RAM in 16K blocks (16-64K)
+4-5   Initial video mode:
+           00 = Reserved
+           01 = 40 x 25 color
+           10 = 80 x 25 color
+           11 = 80 x 25 monochrome
+6-7   Number of floppy-disk drives installed
+      (00 = 1, 01 = 2, etc.)
+8     False (0) if and only if a Direct Memory Access (DMA)
+      chip is installed
+9-11  Number of RS232 serial ports installed
+12    True (1) if and only if a game adapter is installed
+13    True (1) if and only if an internal modem is installed
+14-15 Number of printers installed
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC200"></A>
+<H3> Return Value                             </H3>
+<!--docid::SEC200::-->
+<P>
+
+The equipment word.
+</P><P>
+
+<A NAME="SEC201"></A>
+<H3> Portability                              </H3>
+<!--docid::SEC201::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC202"></A>
+<H3> Example                    </H3>
+<!--docid::SEC202::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>if ( _bios_equiplist() &#38; 0xc000 )
+  do_printing();
+</pre></td></tr></table><A NAME="_bios_keybrd"></A>
+<!--#perl sub="trailer" -->

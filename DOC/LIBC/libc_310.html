@@ -1,0 +1,64 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_310.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_309.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_311.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> fcvt </H2>
+<!--docid::SEC1497::-->
+<A NAME="SEC1498"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC1498::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdlib.h&#62;
+
+char * fcvt (double value, int ndigits, int *decpt, int *sign)
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1499"></A>
+<H3> Description                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC1499::-->
+<P>
+
+This function converts the <VAR>value</VAR> into a null-terminated string,
+and returns a pointer to that string.
+</P><P>
+
+<CODE>fcvt</CODE> works exactly like <CODE>fcvtbuf</CODE> (see section <A HREF="libc_311.html">fcvtbuf</A>), except
+that it generates the string in an internal static buffer which is
+overwritten on each call.
+</P><P>
+
+<A NAME="SEC1500"></A>
+<H3> Return Value                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC1500::-->
+<P>
+
+A pointer to the generated string.
+</P><P>
+
+<A NAME="SEC1501"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC1501::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="fcvtbuf"></A>
+<!--#perl sub="trailer" -->

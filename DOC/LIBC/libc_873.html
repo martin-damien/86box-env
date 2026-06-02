@@ -1,0 +1,93 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_873.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_872.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H1> 2. Unimplemented Functions </H1>
+<!--docid::SEC4589::-->
+<P>
+
+The DJGPP standard C library is ANSI- and POSIX-compliant, and
+provides many additional functions for compatibility with Unix/Linux
+systems.  However, some of the functions needed for this compatibility
+are very hard or impossible to implement using DOS facilities.
+</P><P>
+
+Therefore, a small number of library functions are really just stubs:
+they are provided because POSIX requires them to be present in a
+compliant library, or because they are widely available on Unix systems,
+but they either always fail, or handle only the trivial cases and fail
+for all the others.  An example of the former behavior is the function
+<CODE>fork</CODE>: it always returns a failure indication; an example of the
+latter behavior is the function <CODE>mknode</CODE>: it handles the cases of
+regular files and existing character devices, but fails for all other
+file types.
+</P><P>
+
+This chapter lists all such functions.  This list is here for the
+benefit of programmers who write portable programs or port Unix packages
+to DJGPP.
+</P><P>
+
+Each function below is labeled as either "always fails" or
+"trivial", depending on which of the two classes described above it
+belongs to.  An additional class, labeled "no-op", includes functions
+which pretend to succeed, but have no real effect, since the underlying
+functionality is either always available or always ignored.
+</P><P>
+
+<BLOCKQUOTE><TABLE BORDER=0 CELLSPACING=0> 
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libc_42.html">addmntent</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Always fails.</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libc_84.html">cfgetispeed</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">No-op.</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libc_85.html">cfgetospeed</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">No-op.</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libc_88.html">cfsetispeed</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">No-op.</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libc_89.html">cfsetospeed</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">No-op.</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libc_96.html">chown</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Trivial.</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libc_307.html">fchown</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Trivial.</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libc_338.html">fork</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Always fails.</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libc_397.html">getgrgid</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Trivial.</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libc_398.html">getgrnam</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Trivial.</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libc_399.html">getgroups</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Trivial.</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libc_413.html">getpwnam</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Trivial.</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libc_414.html">getpwuid</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Trivial.</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libc_522.html">lchown</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Trivial.</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libc_571.html">mkfifo</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Always fails.</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libc_572.html">mknod</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Trivial.</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libc_595.html">nice</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">No-op.</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libc_700.html">setgid</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Trivial.</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libc_708.html">setpgid</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Trivial.</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libc_711.html">setsid</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Trivial.</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libc_715.html">setuid</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Trivial.</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libc_805.html">tcdrain</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">No-op.</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libc_810.html">tcsendbreak</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">No-op.</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libc_812.html">tcsetpgrp</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Trivial.</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libc_835.html">umask</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Trivial.</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libc_850.html">vfork</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Always fails.</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libc_858.html">wait</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Always fails.</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libc_859.html">waitpid</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Always fails.</TD></TR>
+</TABLE></BLOCKQUOTE>
+<P>
+
+<A NAME="Function Index"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_872.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

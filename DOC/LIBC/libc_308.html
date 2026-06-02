@@ -1,0 +1,68 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_308.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_307.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_309.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> fclose </H2>
+<!--docid::SEC1485::-->
+<A NAME="SEC1486"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC1486::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdio.h&#62;
+
+int fclose(FILE *file);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1487"></A>
+<H3> Description                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC1487::-->
+<P>
+
+This function closes the given <VAR>file</VAR>.
+</P><P>
+
+<A NAME="SEC1488"></A>
+<H3> Return Value                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC1488::-->
+<P>
+
+Zero on success, else <CODE>EOF</CODE>. 
+</P><P>
+
+<A NAME="SEC1489"></A>
+<H3> Portability                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC1489::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C89; C99
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1490"></A>
+<H3> Example                                                                                                                 </H3>
+<!--docid::SEC1490::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>FILE *f = fopen("data", "r");
+fprintf(f, "Hello\n");
+fclose(f);
+</pre></td></tr></table></P><P>
+
+<A NAME="fcntl"></A>
+<!--#perl sub="trailer" -->

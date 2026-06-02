@@ -1,0 +1,247 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_657.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_656.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_658.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> regexec </H2>
+<!--docid::SEC3385::-->
+<A NAME="SEC3386"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC3386::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;sys/types.h&#62;
+#include &#60;regex.h&#62;
+
+int regexec(const regex_t *preg, const char *string,
+            size_t nmatch, regmatch_t pmatch[], int eflags);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3387"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC3387::-->
+<P>
+
+<CODE>regexec</CODE> matches the compiled RE pointed to by <VAR>preg</VAR> against
+the <VAR>string</VAR>, subject to the flags in <VAR>eflags</VAR>, and reports
+results using <VAR>nmatch</VAR>, <VAR>pmatch</VAR>, and the returned value.  The
+RE must have been compiled by a previous invocation of <CODE>regcomp</CODE>
+(see section <A HREF="libc_655.html">regcomp</A>).  The compiled form is not altered during execution of
+<CODE>regexec</CODE>, so a single compiled RE can be used simultaneously by
+multiple threads.
+</P><P>
+
+By default, the NUL-terminated string pointed to by <VAR>string</VAR> is
+considered to be the text of an entire line, with the NUL indicating the
+end of the line.  (That is, any other end-of-line marker is considered
+to have been removed and replaced by the NUL.)
+</P><P>
+
+The <VAR>eflags</VAR> argument is the bitwise OR of zero or more of the
+following flags:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>REG_NOTBOL</CODE>
+<DD><P>
+
+The first character of the string is not the beginning of a line, so the
+<SAMP>`^'</SAMP> anchor should not match before it.  This does not affect the
+behavior of newlines under <CODE>REG_NEWLINE</CODE> (REG_NEWLINE,
+see section <A HREF="libc_655.html">regcomp</A>).
+</P><P>
+
+<DT><CODE>REG_NOTEOL</CODE>
+<DD><P>
+
+The NUL terminating the string does not end a line, so the <SAMP>`$'</SAMP> anchor
+should not match before it.  This does not affect the behavior of
+newlines under <CODE>REG_NEWLINE</CODE> (REG_NEWLINE, see section <A HREF="libc_655.html">regcomp</A>).
+</P><P>
+
+<DT><CODE>REG_STARTEND</CODE>
+<DD><P>
+
+The string is considered to start at
+<CODE><VAR>string</VAR> + <VAR>pmatch</VAR>[0].rm_so</CODE>
+and to have a terminating <CODE>NUL</CODE> located at
+<CODE><VAR>string</VAR> + <VAR>pmatch</VAR>[0].rm_eo</CODE> (there need not actually
+be a <CODE>NUL</CODE> at that location), regardless of the value of <VAR>nmatch</VAR>.
+See below for the definition of <VAR>pmatch</VAR> and <VAR>nmatch</VAR>.  This is
+an extension, compatible with but not specified by POSIX 1003.2,
+and should be used with caution in software intended to be portable to
+other systems.  Note that a non-zero <CODE>rm_so</CODE> does not imply
+<CODE>REG_NOTBOL</CODE>; <CODE>REG_STARTEND</CODE> affects only the location of the
+string, not how it is matched.
+</P><P>
+
+<DT><CODE>REG_TRACE</CODE>
+<DD><P>
+
+trace execution (printed to stdout)
+</P><P>
+
+<DT><CODE>REG_LARGE</CODE>
+<DD><P>
+
+force large representation
+</P><P>
+
+<DT><CODE>REG_BACKR</CODE>
+<DD><P>
+
+force use of backref code
+</P><P>
+
+</DL>
+<P>
+
+Regular Expressions' Syntax, See section <A HREF="libc_655.html">regcomp</A>, for a discussion of what is
+matched in situations where an RE or a portion thereof could match any
+of several substrings of <VAR>string</VAR>.
+</P><P>
+
+If <CODE>REG_NOSUB</CODE> was specified in the compilation of the RE
+(REG_NOSUB, see section <A HREF="libc_655.html">regcomp</A>), or if <VAR>nmatch</VAR> is 0, <CODE>regexec</CODE>
+ignores the <VAR>pmatch</VAR> argument (but see below for the case where
+<CODE>REG_STARTEND</CODE> is specified).  Otherwise, <VAR>pmatch</VAR> should point
+to an array of <VAR>nmatch</VAR> structures of type <CODE>regmatch_t</CODE>.  Such
+a structure has at least the members <CODE>rm_so</CODE> and <CODE>rm_eo</CODE>, both
+of type <CODE>regoff_t</CODE> (a signed arithmetic type at least as large as
+an <CODE>off_t</CODE> and a <CODE>ssize_t</CODE>), containing respectively the offset
+of the first character of a substring and the offset of the first
+character after the end of the substring.  Offsets are measured from the
+beginning of the <VAR>string</VAR> argument given to <CODE>regexec</CODE>.  An
+empty substring is denoted by equal offsets, both indicating the
+character following the empty substring.
+</P><P>
+
+When <CODE>regexec</CODE> returns, the 0th member of the <VAR>pmatch</VAR> array is
+filled in to indicate what substring of <VAR>string</VAR> was matched by the
+entire RE.  Remaining members report what substring was matched by
+parenthesized subexpressions within the RE; member <CODE>i</CODE> reports
+subexpression <CODE>i</CODE>, with subexpressions counted (starting at 1) by
+the order of their opening parentheses in the RE, left to right.  Unused
+entries in the array--corresponding either to subexpressions that did
+not participate in the match at all, or to subexpressions that do not
+exist in the RE (that is, <CODE>i &#62; preg-&#62;re_nsub</CODE>)---have both
+<CODE>rm_so</CODE> and <CODE>rm_eo</CODE> set to <CODE>-1</CODE>.  If a subexpression
+participated in the match several times, the reported substring is the
+last one it matched.  (Note, as an example in particular, that when the
+RE <SAMP>`(b*)+'</SAMP> matches "bbb", the parenthesized subexpression
+matches the three <SAMP>`b'</SAMP>s and then an infinite number of empty
+strings following the last <SAMP>`b'</SAMP>, so the reported substring is one of the
+empties.)
+</P><P>
+
+If <CODE>REG_STARTEND</CODE> is specified in <VAR>eflags</VAR>, <VAR>pmatch</VAR> must
+point to at least one <CODE>regmatch_t</CODE> variable (even if <VAR>nmatch</VAR>
+is 0 or <CODE>REG_NOSUB</CODE> was specified in the compilation of the RE,
+REG_NOSUB, see section <A HREF="libc_655.html">regcomp</A>), to hold the input offsets for
+<CODE>REG_STARTEND</CODE>.  Use for output is still entirely controlled by
+<VAR>nmatch</VAR>; if <VAR>nmatch</VAR> is 0 or <CODE>REG_NOSUB</CODE> was specified,
+the value of <CODE>pmatch[0]</CODE> will not be changed by a successful
+<CODE>regexec</CODE>.
+</P><P>
+
+<A NAME="SEC3388"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC3388::-->
+<P>
+
+Normally, <CODE>regexec</CODE> returns 0 for success and the non-zero code
+<CODE>REG_NOMATCH</CODE> for failure.  Other non-zero error codes may be
+returned in exceptional situations.  The list of possible error return
+values is below:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>REG_ESPACE</CODE>
+<DD><P>
+
+ran out of memory
+</P><P>
+
+<DT><CODE>REG_BADPAT</CODE>
+<DD><P>
+
+the passed argument <VAR>preg</VAR> doesn't point to an RE compiled by
+<CODE>regcomp</CODE>
+</P><P>
+
+<DT><CODE>REG_INVARG</CODE>
+<DD><P>
+
+invalid argument(s) (e.g.,
+<CODE><VAR>string</VAR> + <VAR>pmatch</VAR>[0].rm_eo</CODE> is less
+than <CODE><VAR>string</VAR> + <VAR>pmatch</VAR>[0].rm_so</CODE>)
+</P><P>
+
+</DL>
+<P>
+
+<A NAME="SEC3389"></A>
+<H3> History  </H3>
+<!--docid::SEC3389::-->
+<P>
+
+This implementation of the POSIX regexp functionality was written
+by <A HREF="mailto:henry@zoo.toronto.edu">Henry Spencer</A>.
+</P><P>
+
+<A NAME="SEC3390"></A>
+<H3> Bugs   </H3>
+<!--docid::SEC3390::-->
+<P>
+
+<CODE>regexec</CODE> performance is poor.  <VAR>nmatch</VAR> exceeding 0 is
+expensive; <VAR>nmatch</VAR> exceeding 1 is worse.  <CODE>regexec</CODE> is largely
+insensitive to RE complexity <EM>except</EM> that back references are
+massively expensive.  RE length does matter; in particular, there is a
+strong speed bonus for keeping RE length under about 30 characters, with
+most special characters counting roughly double.
+</P><P>
+
+The implementation of word-boundary matching is a bit of a kludge, and
+bugs may lurk in combinations of word-boundary matching and anchoring.
+</P><P>
+
+<A NAME="SEC3391"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC3391::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="regfree"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_656.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_658.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

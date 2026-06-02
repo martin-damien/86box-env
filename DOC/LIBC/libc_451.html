@@ -1,0 +1,186 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_451.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_450.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_452.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _go32_info_block </H2>
+<!--docid::SEC2291::-->
+<A NAME="SEC2292"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC2292::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;go32.h&#62;
+
+extern __Go32_Info_Block _go32_info_block;
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2293"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC2293::-->
+<P>
+
+The go32 information block is a mechanism for <TT>`go32'</TT> to pass
+information to the application.  Some of this information is generally
+useful, such as the pid or the transfer buffer, while some is used
+internally to <TT>`libc.a'</TT> only. 
+</P><P>
+
+The structure has this format:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>typedef struct {
+  unsigned long  size_of_this_structure_in_bytes;
+  unsigned long  linear_address_of_primary_screen;
+  unsigned long  linear_address_of_secondary_screen;
+  unsigned long  linear_address_of_transfer_buffer;
+  unsigned long  size_of_transfer_buffer;
+  unsigned long  pid;
+  unsigned char  master_interrupt_controller_base;
+  unsigned char  slave_interrupt_controller_base;
+  unsigned short selector_for_linear_memory;
+  unsigned long  linear_address_of_stub_info_structure;
+  unsigned long  linear_address_of_original_psp;
+  unsigned short run_mode;
+  unsigned short run_mode_info;
+} Go32_Info_Block;
+</pre></td></tr></table></P><P>
+
+The linear address fields provide values that are suitable for
+<CODE>dosmemget</CODE>, <CODE>dosmemput</CODE>, and <CODE>movedata</CODE>.  The
+selector_for_linear_memory is suitable for <CODE>&#60;sys/farptr.h&#62;</CODE>
+selector parameters.
+</P><P>
+
+Due to the length of these fields, and their popularity, the following
+macros are available:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>_dos_ds</CODE>
+<DD><P>
+
+This expands to _go32_info_block.selector_for_linear_memory
+</P><P>
+
+<DT><CODE>__tb</CODE>
+<DD><P>
+
+This expands to _go32_info_block.linear_address_of_transfer_buffer
+</P><P>
+
+<DT><CODE>__tb_size</CODE>
+<DD><P>
+
+This expands to _go32_info_block.size_of_transfer_buffer
+</P><P>
+
+</DL>
+<P>
+
+The <CODE>run_mode</CODE> field indicates the mode that the program is running
+in.  The following modes are defined:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>_GO32_RUN_MODE_UNDEF</CODE>
+<DD><P>
+
+This indicates that the extender did not (or could not) determine or
+provide the mode information.  The most probable reason is that it's an
+older extender that does not support this field.  The program should not
+assume anything about the run mode if it is this value. 
+</P><P>
+
+<DT><CODE>_GO32_RUN_MODE_RAW</CODE>
+<DD><P>
+
+This indicates that no CPU manager is being used, and no XMS manager is
+present.  The CPU is being managed directly from the extender, and
+memory was allocated from the extended memory pool. 
+</P><P>
+
+<DT><CODE>_GO32_RUN_MODE_XMS</CODE>
+<DD><P>
+
+This indicates that the extender is managing the CPU, but an XMS driver
+is managing the memory pool. 
+</P><P>
+
+<DT><CODE>_GO32_RUN_MODE_VCPI</CODE>
+<DD><P>
+
+This indicates that a VCPI server (like <CODE>emm386</CODE> or <CODE>qemm</CODE>) is
+managing both the CPU and the memory. 
+</P><P>
+
+<DT><CODE>_GO32_RUN_MODE_DPMI</CODE>
+<DD><P>
+
+This indicates that a DPMI server (like <CODE>qdpmi</CODE> or Windows) is
+managing both the CPU and memory.  Programs may rely on this value
+to determine if it is safe to use DPMI 0.9 functions.
+</P><P>
+
+If this value is set, the <CODE>run_mode_info</CODE> field has the DPMI
+specification version, in hex, shifted eight bits.  For example, DPMI
+0.9 has 0x005A in the <CODE>run_mode_info</CODE> field. 
+</P><P>
+
+</DL>
+<P>
+
+Note that the program should not assume that the value will be one of
+the listed values.  If the program is running with an extender that
+provides some other mode (say, a newly released extender) then the
+program should be able to handle that case gracefully. 
+</P><P>
+
+<A NAME="SEC2294"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC2294::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2295"></A>
+<H3> Example                                                                                                                                                                                                                 </H3>
+<!--docid::SEC2295::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>dosmemget(_go32_info_block.linear_address_of_primary_screen,
+          80*25*2, buf);
+</pre></td></tr></table></P><P>
+
+<A NAME="_go32_interrupt_stack_size"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_450.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_452.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,317 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_426.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_425.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_427.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> glob </H2>
+<!--docid::SEC2144::-->
+<A NAME="SEC2145"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC2145::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;glob.h&#62;
+
+int  glob(const char *pattern, int flags,
+          int (*errfunc)(const char *epath, int eerrno), glob_t *pglob);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2146"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC2146::-->
+<P>
+
+This function expands a filename wildcard which is passed as
+<VAR>pattern</VAR>.  The pattern may include these special characters:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>*</CODE>
+<DD><P>
+
+Matches zero of more characters.
+</P><P>
+
+<DT><CODE>?</CODE>
+<DD><P>
+
+Matches exactly one character (any character).
+</P><P>
+
+<DT><CODE>[...]</CODE>
+<DD><P>
+
+Matches one character from a group of characters.  If the first
+character is <CODE>!</CODE>, matches any character <EM>not</EM> in the group.  A
+group is defined as a list of characters between the brackets,
+e.g. <CODE>[dkl_]</CODE>, or by two characters separated by <CODE>-</CODE> to
+indicate all characters between and including these two.  For example,
+<CODE>[a-d]</CODE> matches <CODE>a</CODE>, <CODE>b</CODE>, <CODE>c</CODE>, or <CODE>d</CODE>, and
+<CODE>[!a-zA-Z0-9]</CODE> matches any character that is not alphanumeric. 
+</P><P>
+
+<DT><CODE>...</CODE>
+<DD><P>
+
+Matches all the subdirectories, recursively (VMS aficionados,
+rejoice!).
+</P><P>
+
+<DT><CODE>\</CODE>
+<DD><P>
+
+Causes the next character to not be treated as special.  For example,
+<CODE>\[</CODE> matches a literal <SAMP>`['</SAMP>.  If <VAR>flags</VAR> includes
+<CODE>GLOB_NOESCAPE</CODE>, this quoting is disabled and <SAMP>`\'</SAMP> is handled
+as a simple character. 
+</P><P>
+
+</DL>
+<P>
+
+The variable <VAR>flags</VAR> controls certain options of the expansion
+process.  Possible values for <VAR>flags</VAR> are as follows:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>GLOB_APPEND</CODE>
+<DD><P>
+
+Append the matches to those already present in the array
+<CODE>pglob-&#62;gl_pathv</CODE>.  By default, <CODE>glob</CODE> discards all previous
+contents of <CODE>pglob-&#62;gl_pathv</CODE> and allocates a new memory block for
+it.  If you use <CODE>GLOB_APPEND</CODE>, <CODE>pglob</CODE> should point to a
+structure returned by a previous call to <CODE>glob</CODE>.
+</P><P>
+
+<DT><CODE>GLOB_DOOFFS</CODE>
+<DD><P>
+
+Skip <CODE>pglob-&#62;gl_offs</CODE> entries in <CODE>gl_pathv</CODE> and put new
+matches after that point.  By default, <CODE>glob</CODE> puts the new matches
+beginning at <CODE>pglob-&#62;gl_pathv[0]</CODE>.  You can use this flag both with
+<CODE>GLOB_APPEND</CODE> (in which case the new matches will be put after the
+first <CODE>pglob-&#62;gl_offs</CODE> matches from previous call to <CODE>glob</CODE>),
+or without it (in which case the first <CODE>pglob-&#62;gl_offs</CODE> entries in
+<CODE>pglob-&#62;gl_pathv</CODE> will be filled by <CODE>NULL</CODE> pointers).
+</P><P>
+
+<DT><CODE>GLOB_ERR</CODE>
+<DD><P>
+
+Stop when an unreadable directory is encountered and call user-defined
+function <VAR>errfunc</VAR>.  This cannot happen under DOS (and thus
+<VAR>errfunc</VAR> is never used).
+</P><P>
+
+<DT><CODE>GLOB_MARK</CODE>
+<DD><P>
+
+Append a slash to each pathname that is a directory.
+</P><P>
+
+<DT><CODE>GLOB_NOCHECK</CODE>
+<DD><P>
+
+If no matches are found, return the pattern itself as the only match.
+By default, <CODE>glob</CODE> doesn't change <CODE>pglob</CODE> if no matches are
+found.
+</P><P>
+
+<DT><CODE>GLOB_NOESCAPE</CODE>
+<DD><P>
+
+Disable blackslash as an escape character.  By default, backslash quotes
+special meta-characters in wildcards described above.
+</P><P>
+
+<DT><CODE>GLOB_NOSORT</CODE>
+<DD><P>
+
+Do not sort the returned list.  By default, the list is sorted
+alphabetically.  This flag causes the files to be returned in the order
+they were found in the directory.
+</P><P>
+
+</DL>
+<P>
+
+Given the pattern and the flags, <CODE>glob</CODE> expands the pattern and
+returns a list of files that match the pattern in a structure a pointer
+to which is passed via <VAR>pglob</VAR>.  This structure is like this:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>typedef struct {
+  size_t gl_pathc;
+  char **gl_pathv;
+  size_t gl_offs;
+} glob_t;
+</pre></td></tr></table></P><P>
+
+In the structure, the <CODE>gl_pathc</CODE> field holds the number of
+filenames in <CODE>gl_pathv</CODE> list; this includes the filenames produced
+by this call, plus any previous filenames if <CODE>GLOB_APPEND</CODE> or
+<CODE>GLOB_DOOFFS</CODE> were set in <VAR>flags</VAR>.  The list of matches is
+returned as an array of pointers to the filenames; <CODE>gl_pathv</CODE> holds
+the address of the array.  Thus, the filenames which match the pattern
+can be accessed as <CODE>gl_pathv[0]</CODE>, <CODE>gl_pathv[1]</CODE>, etc.  If
+<CODE>GLOB_DOOFFS</CODE> was set in <VAR>flags</VAR>, the new matches begin at
+offset given by <CODE>gl_offs</CODE>.
+</P><P>
+
+<CODE>glob</CODE> allocates memory to hold the filenames.  This memory should be
+freed by calling <CODE>globfree</CODE> (see section <A HREF="libc_427.html">globfree</A>).
+</P><P>
+
+<A NAME="SEC2147"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC2147::-->
+<P>
+
+Zero on success, or one of these codes:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>GLOB_ABORTED</CODE>
+<DD><P>
+
+Not used in DJGPP implementation.
+</P><P>
+
+<DT><CODE>GLOB_NOMATCH</CODE>
+<DD><P>
+
+No files matched the given pattern.
+</P><P>
+
+<DT><CODE>GLOB_NOSPACE</CODE>
+<DD><P>
+
+Not enough memory to accomodate expanded filenames.
+</P><P>
+
+<DT><CODE>GLOB_ERR</CODE>
+<DD><P>
+
+Never happens on MSDOS, see above.
+</P><P>
+
+</DL>
+<P>
+
+<A NAME="SEC2148"></A>
+<H3> Notes </H3>
+<!--docid::SEC2148::-->
+<P>
+
+<CODE>glob</CODE> will not match names of volume labels.
+</P><P>
+
+On MSDOS, filenames are always matched case-insensitively.  On
+filesystems that preserve letter-case in filenames (such as Windows 9x),
+matches are case-insensitive unless the pattern includes uppercase
+characters.
+</P><P>
+
+On MSDOS, the list of expanded filenames will be returned in lower case,
+if all the characters of the pattern (except those between brackets
+[...]) are lower-case; if some of them are upper-case, the expanded
+filenames will be also in upper case.  On filesystems that preserve
+letter-case in filenames, long filenames are returned as they are found
+in the directory entry; DOS-style 8+3 filenames are returned as on MSDOS
+(in lower case if the pattern doesn't include any upper-case letters, in
+upper case otherwise).
+</P><P>
+
+When the environment variable <SAMP>`LFN'</SAMP> is set to <KBD>n</KBD>, <CODE>glob</CODE>
+behaves on Windows 9x exactly as it does on MSDOS.
+</P><P>
+
+Setting the environment variable <SAMP>`FNCASE'</SAMP> to <KBD>y</KBD>, or setting
+the <CODE>_CRT0_FLAG_PRESERVE_FILENAME_CASE</CODE> bit in the
+<CODE>_crt0_startup_flags</CODE> variable (see section <A HREF="libc_124.html">_crt0_startup_flags</A>)
+suppresses any letter-case conversions in filenames and forces
+case-sensitive filename matching.  See section <A HREF="libc_622.html">_preserve_fncase</A>.
+</P><P>
+
+<A NAME="SEC2149"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC2149::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2150"></A>
+<H3> Example                                                                                                                                                                                           </H3>
+<!--docid::SEC2150::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>
+#include &#60;stdlib.h&#62;
+#include &#60;string.h&#62;
+#include &#60;glob.h&#62;
+
+/* Convert a wildcard pattern into a list of blank-separated
+   filenames which match the wildcard.  */
+
+char * glob_pattern(char *wildcard)
+{
+  char *gfilename;
+  size_t cnt, length;
+  glob_t glob_results;
+  char **p;
+
+  glob(wildcard, GLOB_NOCHECK, 0, &#38;glob_results);
+
+  /* How much space do we need?  */
+  for (p = glob_results.gl_pathv, cnt = glob_results.gl_pathc;
+       cnt; p++, cnt--)
+    length += strlen(*p) + 1;
+
+  /* Allocate the space and generate the list.  */
+  gfilename = (char *) calloc(length, sizeof(char));
+  for (p = glob_results.gl_pathv, cnt = glob_results.gl_pathc;
+       cnt; p++, cnt--)
+    {
+      strcat(gfilename, *p);
+      if (cnt &#62; 1)
+        strcat(gfilename, " ");
+    }
+
+  globfree(&#38;glob_results);
+  return gfilename;
+}
+
+</pre></td></tr></table><A NAME="globfree"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_425.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_427.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

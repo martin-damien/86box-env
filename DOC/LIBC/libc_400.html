@@ -1,0 +1,78 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_400.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_399.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_401.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> gethostname </H2>
+<!--docid::SEC1998::-->
+<A NAME="SEC1999"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC1999::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;unistd.h&#62;
+#include &#60;sys/param.h&#62;
+
+int gethostname (char *buf, int size);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2000"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC2000::-->
+<P>
+
+Get the name of the host the program is executing on.  This name
+is obtained from the network software, if present, otherwise from
+the <CODE>"HOSTNAME"</CODE> environment variable, if present, finally
+defaulting to <CODE>"pc"</CODE>.
+</P><P>
+
+The call fails if more than <VAR>size</VAR> characters are required to
+specify the host name.  A buffer size of <CODE>MAXGETHOSTNAME</CODE> is
+guaranteed to be enough.
+</P><P>
+
+<A NAME="SEC2001"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC2001::-->
+<P>
+
+Zero on success, nonzero on failure.
+</P><P>
+
+<A NAME="SEC2002"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC2002::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2003"></A>
+<H3> Example                                                                                                                                                                            </H3>
+<!--docid::SEC2003::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>char *buf = (char *) malloc (MAXGETHOSTNAME);
+if (buf &#38;&#38; 0 == gethostname (buf, MAXGETHOSTNAME))
+  printf ("We're on %s\n", buf);
+if (buf) free(buf);
+</pre></td></tr></table></P><P>
+
+<A NAME="getitimer"></A>
+<!--#perl sub="trailer" -->

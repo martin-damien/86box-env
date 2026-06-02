@@ -1,0 +1,136 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_109.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_108.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_110.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> confstr </H2>
+<!--docid::SEC444::-->
+<A NAME="SEC445"></A>
+<H3> Syntax                                                                           </H3>
+<!--docid::SEC445::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;unistd.h&#62;
+
+size_t confstr(int name, char *buf, size_t len);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC446"></A>
+<H3> Description                                                                          </H3>
+<!--docid::SEC446::-->
+<P>
+
+This function stores various system-dependent configuration values
+in <VAR>buf</VAR>.  <VAR>name</VAR> is one of the following:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>_CS_PATH</CODE>
+<DD><P>
+
+Returns a path to the standard POSIX utilities.
+</P><P>
+
+<DT><CODE>_CS_POSIX_V6_ILP32_OFF32_CFLAGS</CODE>
+<DD><P>
+
+Returns the compile-time flags required to build an application using 32-bit
+<CODE>int</CODE>, <CODE>long</CODE>, pointer, and <CODE>off_t</CODE> types.
+</P><P>
+
+<DT><CODE>_CS_POSIX_V6_ILP32_OFF32_LDFLAGS</CODE>
+<DD><P>
+
+Returns the link-time flags required to build an application using 32-bit
+<CODE>int</CODE>, <CODE>long</CODE>, pointer, and <CODE>off_t</CODE> types.
+</P><P>
+
+<DT><CODE>_CS_POSIX_V6_ILP32_OFF32_LIBS</CODE>
+<DD><P>
+
+Returns the set of libraries required to build an application using 32-bit
+<CODE>int</CODE>, <CODE>long</CODE>, pointer, and <CODE>off_t</CODE> types.
+</P><P>
+
+</DL>
+<P>
+
+If <VAR>len</VAR> is not zero and <VAR>name</VAR> has a defined value, that value
+is copied into <VAR>buf</VAR> and null terminated.  If the length of the string
+to be copied plus the null terminator is greater than <VAR>len</VAR> bytes,
+the string is truncated to <EM><VAR>len</VAR>-1</EM> bytes and the result is
+null terminated.
+</P><P>
+
+If <VAR>len</VAR> is zero, nothing is copied into <VAR>buf</VAR> and the size of the
+buffer required to store the string is returned.
+</P><P>
+
+<A NAME="SEC447"></A>
+<H3> Return Value                                                                      </H3>
+<!--docid::SEC447::-->
+<P>
+
+If <VAR>name</VAR> has a defined value, the minimum size of the buffer required
+to hold the string including the terminating null is returned.  If this value
+is greater than <VAR>len</VAR>, then <VAR>buf</VAR> is truncated.
+</P><P>
+
+If <VAR>name</VAR> is valid but does not have a defined value, zero is returned.
+</P><P>
+
+If <VAR>name</VAR> is invalid, zero is returned and <CODE>errno</CODE> is set to
+<CODE>EINVAL</CODE>.
+</P><P>
+
+<A NAME="SEC448"></A>
+<H3> Portability                                                                          </H3>
+<!--docid::SEC448::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC449"></A>
+<H3> Example                                            </H3>
+<!--docid::SEC449::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>char *path;
+size_t path_len;
+
+path_len = confstr (_CS_PATH, NULL, 0);
+path = malloc(path_len);
+confstr(_CS_PATH, path, path_len);
+</pre></td></tr></table></P><P>
+
+<A NAME="_conio_gettext"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_108.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_110.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

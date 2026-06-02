@@ -1,0 +1,200 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_736.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_735.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_737.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> spawn* </H2>
+<!--docid::SEC3824::-->
+<A NAME="SEC3825"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC3825::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre>#include &#60;process.h&#62;
+
+int spawnl(int mode, const char *path, const char *argv0, ..., NULL);
+int spawnle(int mode, const char *path, const char *argv0, ...,
+            NULL /*, const char **envp */);
+int spawnlp(int mode, const char *path, const char *argv0, ..., NULL);
+int spawnlpe(int mode, const char *path, const char *argv0, ...,
+             NULL /*, const char **envp */);
+
+int spawnv(int mode, const char *path, char *const argv[]);
+int spawnve(int mode, const char *path, char *const argv[],
+            char *const envp[]);
+int spawnvp(int mode, const char *path, char *const argv[]);
+int spawnvpe(int mode, const char *path, char *const argv[],
+             char *const envp[]);
+</FONT></pre></td></tr></table></P><P>
+
+<A NAME="SEC3826"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC3826::-->
+<P>
+
+These functions run other programs.  The <VAR>path</VAR> points to the
+program to run, and may optionally include its extension.  These
+functions will look for a file <VAR>path</VAR> with the extensions
+<TT>`.com'</TT>, <TT>`.exe'</TT>, <TT>`.bat'</TT>, and <TT>`.btm'</TT>; if none are found,
+neither in the current directory nor along the <SAMP>`PATH'</SAMP>, they will look for
+<VAR>path</VAR> itself.
+</P><P>
+
+<TT>`.com'</TT>
+programs are invoked via the usual DOS calls; DJGPP <TT>`.exe'</TT> programs
+are invoked in a way that allows long command lines to be passed; other
+<TT>`.exe'</TT> programs are invoked via DOS; <TT>`.bat'</TT> and <TT>`.btm'</TT>
+programs are invoked via the command processor given by the
+<SAMP>`COMSPEC'</SAMP> environment variable; <TT>`.sh'</TT>, <TT>`.ksh'</TT> programs
+and programs with any other extensions that have <CODE>#!</CODE> as their
+first two characters are assumed to be Unix-style scripts and are
+invoked by calling a program whose pathname immediately follows the
+first two characters.  (If the name of that program is a Unix-style
+pathname, without a drive letter and without an extension, like
+<SAMP>`/bin/sh'</SAMP>, the <CODE>spawn</CODE> functions will additionally look them
+up on the <SAMP>`PATH'</SAMP>; this allows to run Unix scripts without editing,
+if you have a shell installed somewhere along your <SAMP>`PATH'</SAMP>.)  Any
+non-recognizable files will be also invoked via DOS calls.
+</P><P>
+
+<STRONG>WARNING!</STRONG>  DOS is rather stupid in invoking programs: if the
+file doesn't have the telltale "MZ" signature of the <TT>`.exe'</TT> style
+programs, DOS assumes it is a <TT>`.com'</TT> style image and tries to
+execute it directly.  If the file is not really an executable program,
+your application will almost certainly crash.  Applications that need to
+be robust in such situations should test whether the program file is
+indeed an executable, e.g. with calls to <CODE>stat</CODE> (see section <A HREF="libc_744.html">stat</A>) or
+<CODE>_is_executable</CODE> (see section <A HREF="libc_498.html">_is_executable</A>) library functions.
+</P><P>
+
+Note that built-in commands of the shells can <EM>not</EM> be invoked via
+these functions; use <CODE>system</CODE> instead, or invoke the appropriate
+shell with the built-in command as its argument.
+</P><P>
+
+The programs are invoked with the arguments given.  The zeroth argument
+is normally not used, since MS-DOS cannot pass it separately, but for
+compatibility it should be the name of the program.  There are
+two ways of passing arguments.  The <CODE>l</CODE> functions (like
+<CODE>spawnl</CODE>) take a list of arguments, with a <CODE>NULL</CODE> at the end of the
+list.  This is useful when you know how many argument there will be
+ahead of time.  The <CODE>v</CODE> functions (like <CODE>spawnv</CODE>) take a
+pointer to a list of arguments, which also must be <CODE>NULL</CODE>-terminated.  
+This is useful when you need to compute the number of arguments at runtime. 
+</P><P>
+
+In either case, you may also specify <CODE>e</CODE> to indicate that you will
+be giving an explicit environment, else the current environment is used. 
+You may also specify <CODE>p</CODE> to indicate that you would like
+<CODE>spawn*</CODE> to search the <CODE>PATH</CODE> (in either the environment you
+pass or the current environment) for the executable, else it will only
+check the explicit path given. 
+</P><P>
+
+Note that these function understand about other DJGPP programs, and will
+call them directly, so that you can pass command lines longer than 126
+characters to them without any special code.  DJGPP programs called by
+these functions will <EM>not</EM> glob the arguments passed to them; other
+programs also won't glob the arguments if they suppress expansion when
+given quoted filenames.
+</P><P>
+
+When the calling program runs on Windows 9X or Windows 2000 and calls
+the system shell to run the child program, or if the child program is a
+native Windows program (in <CODE>PE-COFF</CODE> format), or when the system
+shell is <TT>`4DOS'</TT> or <TT>`NDOS'</TT> and the shell is called to run the
+command, command lines longer than 126 characters are passed via the
+environment variable <CODE>CMDLINE</CODE>.
+</P><P>
+
+See section <A HREF="libc_294.html">exec*</A>.
+</P><P>
+
+<A NAME="SEC3827"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC3827::-->
+<P>
+
+If successful and <CODE>mode</CODE> is <CODE>P_WAIT</CODE>, these functions return
+the exit code of the child process in the lower 8 bits of the return
+value.  Note that if the program is run by a command processor (e.g., if
+it's a batch file), the exit code of that command processor will be
+returned.  <TT>`COMMAND.COM'</TT> is notorious for returning 0 even if it
+couldn't run the command.
+</P><P>
+
+If successful and <VAR>mode</VAR> is <CODE>P_OVERLAY</CODE>, these functions will
+not return. 
+</P><P>
+
+If there is an error (e.g., the program specified as <CODE>argv[0]</CODE>
+cannot be run, or the command line is too long), these functions return
+-1 and set <CODE>errno</CODE> to indicate the error.  If the child program was
+interrupted by <KBD>Ctrl-C</KBD> or a Critical Device error, <CODE>errno</CODE> is
+set to <CODE>EINTR</CODE> (even if the child's exit code is 0), and bits 8-17
+of the return value are set to <CODE>SIGINT</CODE> or <CODE>SIGABRT</CODE>,
+accordingly.  Note that you must set the signal handler for
+<CODE>SIGINT</CODE> to <CODE>SIG_IGN</CODE>, or arrange for the handler to return,
+or else your program will be aborted before it will get chance to set
+the value of the return code.
+</P><P>
+
+<A NAME="SEC3828"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC3828::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3829"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC3829::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>
+char *environ[] = {
+  "PATH=c:\\dos;c:\\djgpp;c:\\usr\\local\\bin",
+  "DJGPP=c:/djgpp",
+  0
+};
+
+char *args[] = {
+  "gcc",
+  "-v",
+  "hello.c",
+  0
+};
+
+spawnvpe(P_WAIT, "gcc", args, environ);
+</pre></td></tr></table></P><P>
+
+<A NAME="sprintf"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_735.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_737.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

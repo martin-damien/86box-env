@@ -1,0 +1,599 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_670.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_669.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_671.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> scanf </H2>
+<!--docid::SEC3458::-->
+<A NAME="SEC3459"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC3459::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdio.h&#62;
+
+int scanf(const char *format, <small>...</small>);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3460"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC3460::-->
+<P>
+
+This function scans formatted text from <CODE>stdin</CODE> and stores it in
+the variables pointed to by the arguments.  See section <A HREF="libc_670.html">scanf</A>.
+</P><P>
+
+The format string contains regular characters which much match the input
+exactly as well as a conversion specifiers, which begin with a percent
+symbol.  Any whitespace in the format string matches zero or more of any
+whitespace characters in the input.  Thus, a single space may match a
+newline and two tabs in the input.  All conversions except <SAMP>`c'</SAMP> and
+<SAMP>`['</SAMP> also skip leading whitespace automatically.  Each conversion
+specifier contains the following fields:
+</P><P>
+
+<UL>
+
+<LI>An asterisk (<SAMP>`*'</SAMP>) which indicates that the input should be
+converted according to the conversion spec, but not stored anywhere. 
+This allows to describe an input field that is to be skipped.
+<P>
+
+<LI>A width specifier, which specifies the maximum number of input
+characters to use in the conversion. 
+<P>
+
+<LI>An optional conversion qualifier, which may be:
+<P>
+
+<DL COMPACT>
+<DT><CODE>hh</CODE>
+<DD>to specify <CODE>char</CODE>;
+<P>
+
+<DT><CODE>h</CODE>
+<DD>to specify <CODE>short</CODE> integers;
+<P>
+
+<DT><CODE>j</CODE>
+<DD>to specify <CODE>intmax_t</CODE> or <CODE>uintmax_t</CODE> integers;
+<P>
+
+<DT><CODE>l</CODE>
+<DD>to specify doubles or <CODE>long</CODE> integers;
+<P>
+
+<DT><CODE>ll</CODE>
+<DD>(two lower-case ell letters) to specify <CODE>long long</CODE> integers;
+to specify <CODE>long</CODE> doubles, although this is non-standard;
+<P>
+
+<DT><CODE>L</CODE>
+<DD>to specify <CODE>long</CODE> doubles;
+<P>
+
+<DT><CODE>t</CODE>
+<DD>to specify <CODE>ptrdiff_t</CODE>;
+<P>
+
+<DT><CODE>z</CODE>
+<DD>to specify <CODE>size_t</CODE>.
+</DL>
+<P>
+
+If the <SAMP>`h'</SAMP> qualifier appears before a specifier
+that implies conversion to a <CODE>long</CODE> or <CODE>float</CODE> or
+<CODE>double</CODE>, like in <SAMP>`%hD'</SAMP> or <SAMP>`%hf'</SAMP>, it is generally
+ignored.
+</P><P>
+
+<LI>The conversion type specifier<A NAME="DOCF2" HREF="libc_fot.html#FOOT2">(2)</A>:
+<P>
+
+<DL COMPACT>
+
+<DT><CODE>c</CODE>
+<DD><P>
+
+Copy the next character (or <VAR>width</VAR> characters) to the given buffer.
+This conversion suppresses skipping of the leading whitespace; use
+<SAMP>`%1s'</SAMP> to read the next non-whitespace character.  Unlike with
+<SAMP>`%s'</SAMP>, the copied characters are <STRONG>not</STRONG> terminated with a null
+character.  If the <VAR>width</VAR> parameter is not specified, a <VAR>width</VAR>
+of one is implied.
+</P><P>
+
+<DT><CODE>d</CODE>
+<DD><P>
+
+Convert the input to a signed <CODE>int</CODE> using 10 as the base of the
+number representation.
+</P><P>
+
+<DT><CODE>hhd</CODE>
+<DD><P>
+
+Convert the input to a signed <CODE>char</CODE> using 10 as the base.
+</P><P>
+
+<DT><CODE>hd</CODE>
+<DD><P>
+
+Convert the input to a signed <CODE>short</CODE> using 10 as the base.
+</P><P>
+
+<DT><CODE>jd</CODE>
+<DD><P>
+
+Convert the input to an <CODE>intmax_t</CODE> using 10 as the base.
+</P><P>
+
+<DT><CODE>ld</CODE>
+<DD><DT><CODE>D</CODE>
+<DD><P>
+
+Convert the input to a signed <CODE>long</CODE> using 10 as the base.
+</P><P>
+
+<DT><CODE>Ld</CODE>
+<DD><DT><CODE>lld</CODE>
+<DD><DT><CODE>lD</CODE>
+<DD><P>
+
+Convert the input to a signed <CODE>long long</CODE> using 10 as the base.
+</P><P>
+
+<DT><CODE>td</CODE>
+<DD><P>
+
+Convert the input to a <CODE>ptrdiff_t</CODE> using 10 as the base.
+</P><P>
+
+<DT><CODE>zd</CODE>
+<DD><P>
+
+Convert the input to a <CODE>size_t</CODE> using 10 as the base.
+</P><P>
+
+<DT><CODE>e</CODE>
+<DD><DT><CODE>E</CODE>
+<DD><DT><CODE>f</CODE>
+<DD><DT><CODE>F</CODE>
+<DD><DT><CODE>g</CODE>
+<DD><DT><CODE>G</CODE>
+<DD><P>
+
+Convert the input to a floating point number (a <CODE>float</CODE>).
+</P><P>
+
+<DT><CODE>le</CODE>
+<DD><DT><CODE>lE</CODE>
+<DD><DT><CODE>lf</CODE>
+<DD><DT><CODE>lF</CODE>
+<DD><DT><CODE>lg</CODE>
+<DD><DT><CODE>lG</CODE>
+<DD><P>
+
+Convert the input to a <CODE>double</CODE>.
+</P><P>
+
+<DT><CODE>Le</CODE>
+<DD><DT><CODE>LE</CODE>
+<DD><DT><CODE>lle</CODE>
+<DD><DT><CODE>llE</CODE>
+<DD><DT><CODE>Lf</CODE>
+<DD><DT><CODE>LF</CODE>
+<DD><DT><CODE>llf</CODE>
+<DD><DT><CODE>llF</CODE>
+<DD><DT><CODE>Lg</CODE>
+<DD><DT><CODE>LG</CODE>
+<DD><DT><CODE>llg</CODE>
+<DD><DT><CODE>llG</CODE>
+<DD><P>
+
+Convert the input to a <CODE>long double</CODE>.
+</P><P>
+
+<DT><CODE>i</CODE>
+<DD><P>
+
+Convert the input, determining base automatically by the presence of
+<CODE>0x</CODE> or <CODE>0</CODE> prefixes, and store in a signed <CODE>int</CODE>.
+See section <A HREF="libc_780.html">strtol</A>.
+</P><P>
+
+<DT><CODE>hhi</CODE>
+<DD><P>
+
+Like <SAMP>`i'</SAMP>, but stores the result in a signed <CODE>char</CODE>.
+</P><P>
+
+<DT><CODE>hi</CODE>
+<DD><P>
+
+Like <SAMP>`i'</SAMP>, but stores the result in a signed <CODE>short</CODE>.
+</P><P>
+
+<DT><CODE>ji</CODE>
+<DD><P>
+
+Like <SAMP>`i'</SAMP>, but stores the result in an <CODE>intmax_t</CODE>.
+</P><P>
+
+<DT><CODE>li</CODE>
+<DD><DT><CODE>I</CODE>
+<DD><P>
+
+Like <SAMP>`i'</SAMP>, but stores the result in a signed <CODE>long</CODE>.
+</P><P>
+
+<DT><CODE>Li</CODE>
+<DD><DT><CODE>lli</CODE>
+<DD><DT><CODE>lI</CODE>
+<DD><P>
+
+Like <SAMP>`i'</SAMP>, but stores the result in a signed <CODE>long long</CODE>.
+</P><P>
+
+<DT><CODE>ti</CODE>
+<DD><P>
+
+Like <SAMP>`i'</SAMP>, but stores the result in a <CODE>ptrdiff_t</CODE>.
+</P><P>
+
+<DT><CODE>zi</CODE>
+<DD><P>
+
+Like <SAMP>`i'</SAMP>, but stores the result in a <CODE>size_t</CODE>.
+</P><P>
+
+<DT><CODE>n</CODE>
+<DD><P>
+
+Store the number of characters scanned so far into the <CODE>int</CODE>
+pointed to by the argument.
+</P><P>
+
+<DT><CODE>hhn</CODE>
+<DD><P>
+
+Like <SAMP>`n'</SAMP>, but the argument should point to a signed <CODE>char</CODE>.
+</P><P>
+
+<DT><CODE>hn</CODE>
+<DD><P>
+
+Like <SAMP>`n'</SAMP>, but the argument should point to a signed <CODE>short</CODE>.
+</P><P>
+
+<DT><CODE>jn</CODE>
+<DD><P>
+
+Like <SAMP>`n'</SAMP>, but the argument should point to an <CODE>intmax_t</CODE>.
+</P><P>
+
+<DT><CODE>ln</CODE>
+<DD><P>
+
+Like <SAMP>`n'</SAMP>, but the argument should point to a signed <CODE>long</CODE>.
+</P><P>
+
+<DT><CODE>Ln</CODE>
+<DD><DT><CODE>lln</CODE>
+<DD><P>
+
+Like <SAMP>`n'</SAMP>, but the argument should point to a signed <CODE>long long</CODE>.
+</P><P>
+
+<DT><CODE>tn</CODE>
+<DD><P>
+
+Like <SAMP>`n'</SAMP>, but the argument should point to a <CODE>ptrdiff_t</CODE>.
+</P><P>
+
+<DT><CODE>zn</CODE>
+<DD><P>
+
+Like <SAMP>`n'</SAMP>, but the argument should point to a <CODE>size_t</CODE>.
+</P><P>
+
+<DT><CODE>o</CODE>
+<DD><P>
+
+Convert the input to an unsigned <CODE>int</CODE>, using base 8.
+</P><P>
+
+<DT><CODE>hho</CODE>
+<DD><P>
+
+Convert the input to an unsigned <CODE>char</CODE>, using base 8.
+</P><P>
+
+<DT><CODE>ho</CODE>
+<DD><P>
+
+Convert the input to an unsigned <CODE>short</CODE>, using base 8.
+</P><P>
+
+<DT><CODE>jo</CODE>
+<DD><P>
+
+Convert the input to an <CODE>uintmax_t</CODE>, using base 8.
+</P><P>
+
+<DT><CODE>lo</CODE>
+<DD><DT><CODE>O</CODE>
+<DD><P>
+
+Convert the input to an unsigned <CODE>long</CODE>, using base 8.
+</P><P>
+
+<DT><CODE>Lo</CODE>
+<DD><DT><CODE>llo</CODE>
+<DD><DT><CODE>lO</CODE>
+<DD><P>
+
+Convert the input to an unsigned <CODE>long long</CODE>, using base 8.
+</P><P>
+
+<DT><CODE>to</CODE>
+<DD><P>
+
+Convert the input to a <CODE>ptrdiff_t</CODE>, using base 8.
+</P><P>
+
+<DT><CODE>zo</CODE>
+<DD><P>
+
+Convert the input to a <CODE>size_t</CODE>, using base 8.
+</P><P>
+
+<DT><CODE>p</CODE>
+<DD><P>
+
+Convert the input to a pointer.  This is like using the <CODE>x</CODE> format. 
+</P><P>
+
+<DT><CODE>s</CODE>
+<DD><P>
+
+Copy the input to the given string, skipping leading whitespace and
+copying non-whitespace characters up to the next whitespace.  The string
+stored is then terminated with a null character. 
+</P><P>
+
+<DT><CODE>u</CODE>
+<DD><P>
+
+Convert the input to an unsigned <CODE>int</CODE> using 10 as the base.
+</P><P>
+
+<DT><CODE>hhu</CODE>
+<DD><P>
+
+Convert the input to an unsigned <CODE>char</CODE> using 10 as the base.
+</P><P>
+
+<DT><CODE>hu</CODE>
+<DD><P>
+
+Convert the input to an unsigned <CODE>short</CODE> using 10 as the base.
+</P><P>
+
+<DT><CODE>ju</CODE>
+<DD><P>
+
+Convert the input to an <CODE>uintmax_t</CODE> using 10 as the base.
+</P><P>
+
+<DT><CODE>lu</CODE>
+<DD><DT><CODE>U</CODE>
+<DD><P>
+
+Convert the input to an unsigned <CODE>long</CODE> using 10 as the base.
+</P><P>
+
+<DT><CODE>Lu</CODE>
+<DD><DT><CODE>llu</CODE>
+<DD><DT><CODE>lU</CODE>
+<DD><P>
+
+Convert the input to an unsigned <CODE>long long</CODE> using 10 as the base.
+</P><P>
+
+<DT><CODE>tu</CODE>
+<DD><P>
+
+Convert the input to a <CODE>ptrdiff_t</CODE> using 10 as the base.
+</P><P>
+
+<DT><CODE>zu</CODE>
+<DD><P>
+
+Convert the input to a <CODE>size_t</CODE> using 10 as the base.
+</P><P>
+
+<DT><CODE>x</CODE>
+<DD><DT><CODE>X</CODE>
+<DD><P>
+
+Convert the input to an unsigned <CODE>int</CODE>, using base 16.
+</P><P>
+
+<DT><CODE>hhx</CODE>
+<DD><DT><CODE>hhX</CODE>
+<DD><P>
+
+Convert the input to an unsigned <CODE>char</CODE>, using base 16.
+</P><P>
+
+<DT><CODE>hx</CODE>
+<DD><DT><CODE>hX</CODE>
+<DD><P>
+
+Convert the input to an unsigned <CODE>short</CODE>, using base 16.
+</P><P>
+
+<DT><CODE>jx</CODE>
+<DD><DT><CODE>jX</CODE>
+<DD><P>
+
+Convert the input to an <CODE>uintmax_t</CODE>, using base 16.
+</P><P>
+
+<DT><CODE>lx</CODE>
+<DD><DT><CODE>lX</CODE>
+<DD><P>
+
+Convert the input to an unsigned <CODE>long</CODE>, using base 16.
+</P><P>
+
+<DT><CODE>Lx</CODE>
+<DD><DT><CODE>LX</CODE>
+<DD><DT><CODE>llx</CODE>
+<DD><DT><CODE>llX</CODE>
+<DD><P>
+
+Convert the input to an unsigned <CODE>long long</CODE>, using base 16.
+</P><P>
+
+<DT><CODE>tx</CODE>
+<DD><DT><CODE>tX</CODE>
+<DD><P>
+
+Convert the input to a <CODE>ptrdiff_t</CODE>, using base 16.
+</P><P>
+
+<DT><CODE>zx</CODE>
+<DD><DT><CODE>zX</CODE>
+<DD><P>
+
+Convert the input to a <CODE>size_t</CODE>, using base 16.
+</P><P>
+
+<DT><CODE>[<small>...</small>]</CODE>
+<DD><P>
+
+Stores the matched characters in a <CODE>char</CODE> array, followed by a
+terminating null character.  If you do not specify the <VAR>width</VAR>
+parameter, <CODE>scanf</CODE> behaves as if <VAR>width</VAR> had a very large
+value.  Up to <VAR>width</VAR> characters are consumed and assigned, provided
+that they match the specification inside the brackets.  The characters
+between the brackets determine which characters are allowed, and thus
+when the copying stops.  These characters may be regular characters
+(example: <SAMP>`[abcd]'</SAMP>) or a range of characters (example:
+<SAMP>`[a-d]'</SAMP>).  If the first character is a caret (<SAMP>`^'</SAMP>), then the
+set specifies the set of characters that do not get copied (i.e.  the
+set is negated).  To specify that the set contains a close-bracket
+(<SAMP>`]'</SAMP>), put it immediately after <SAMP>`['</SAMP> or <SAMP>`[^'</SAMP>.  To specify
+a literal dash (<SAMP>`-'</SAMP>), write it either immediately after <SAMP>`['</SAMP> or
+<SAMP>`[^'</SAMP>, or immediately before the closing <SAMP>`]'</SAMP>.
+</P><P>
+
+<DT><CODE>%</CODE>
+<DD><P>
+
+This must match a percent character in the input. 
+</P><P>
+
+</DL>
+<P>
+
+</UL>
+<P>
+
+Integer formats make use of <CODE>strtol</CODE> or <CODE>strtoul</CODE> to perform
+the actual conversions.  Floating-point conversions use <CODE>strtod</CODE>
+and <CODE>_strtold</CODE>.
+</P><P>
+
+<A NAME="SEC3461"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC3461::-->
+<P>
+
+The number of items successfully matched and assigned.  If input ends,
+or if there is any input failure before the first item is converted and
+assigned, <CODE>EOF</CODE> is returned.  Note that literal characters
+(including whitespace) in the format string which matched input
+characters count as "converted items", so input failure <EM>after</EM>
+such characters were read and matched will <STRONG>not</STRONG> cause <CODE>EOF</CODE>
+to be returned.
+</P><P>
+
+<A NAME="SEC3462"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC3462::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C89; C99 (see note 1) (see note 2)
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+Notes:
+</P><P>
+
+<OL>
+<LI>
+The <CODE>hh</CODE>, <CODE>j</CODE>, <CODE>t</CODE>
+and <CODE>z</CODE> conversion specifiers first appeared
+in the ANSI C99 standard.
+<P>
+
+<LI>
+The conversion specifiers <SAMP>`F'</SAMP>, <SAMP>`D'</SAMP>, <SAMP>`I'</SAMP>,
+<SAMP>`O'</SAMP>, and <CODE>U</CODE> are DJGPP extensions; they are provided
+for compatibility with Borland C and other compilers.
+The conversion specifiers for the <CODE>long long</CODE> data type are
+GCC extensions.  The meaning of <SAMP>`[a-c]'</SAMP> as a range of characters
+is a very popular extension to ANSI (which merely says a dash
+"may have a special meaning" in that context).
+<P>
+
+</OL>
+<P>
+
+<A NAME="SEC3463"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC3463::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>int x, y;
+char buf[100];
+scanf("%d %d %s", &#38;x, &#38;y, buf);
+
+/* read to end-of-line */
+scanf("%d %[^\n]\n", &#38;x, buf);
+/* read letters only */
+scanf("%[a-zA-Z]", buf);
+</pre></td></tr></table></P><P>
+
+<A NAME="SCN"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_669.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_671.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

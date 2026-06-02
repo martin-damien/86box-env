@@ -1,0 +1,164 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_112.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_111.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_113.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _control87 </H2>
+<!--docid::SEC461::-->
+<A NAME="SEC462"></A>
+<H3> Syntax                                                                              </H3>
+<!--docid::SEC462::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;float.h&#62;
+
+unsigned int _control87(unsigned int newcw, unsigned int mask);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC463"></A>
+<H3> Description                                                                             </H3>
+<!--docid::SEC463::-->
+<P>
+
+This function sets and retrieves the FPU's <EM>control word</EM>.
+</P><P>
+
+The control word is a special 16-bit register maintained by the math
+coprocessor.  By setting and clearing bit fields in the control word,
+you can exercise control of certain aspects of coprocessor operation.
+The individual bits of the x87 control word are defined by macros in
+float.h, and shown in this table:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>---- ---- --XX XXXX = MCW_EM - exception masks (1=handle exception
+                                                internally, 0=fault)
+---- ---- ---- ---X = EM_INVALID - invalid operation
+---- ---- ---- --X- = EM_DENORMAL - denormal operand
+---- ---- ---- -X-- = EM_ZERODIVIDE - divide by zero
+---- ---- ---- X--- = EM_OVERFLOW - overflow
+---- ---- ---X ---- = EM_UNDERFLOW - underflow
+---- ---- --X- ---- = EM_INEXACT - rounding was required
+---- --XX ---- ---- = MCW_PC - precision control
+---- --00 ---- ---- = PC_24 - single precision
+---- --10 ---- ---- = PC_53 - double precision
+---- --11 ---- ---- = PC_64 - extended precision
+---- XX-- ---- ---- = MCW_RC - rounding control
+---- 00-- ---- ---- = RC_NEAR - round to nearest
+---- 01-- ---- ---- = RC_DOWN - round towards -Inf
+---- 10-- ---- ---- = RC_UP - round towards +Inf
+---- 11-- ---- ---- = RC_CHOP - round towards zero
+---X ---- ---- ---- = MCW_IC - infinity control (obsolete,
+                                                 always affine)
+---0 ---- ---- ---- = IC_AFFINE - -Inf &#60; +Inf
+---1 ---- ---- ---- = IC_PROJECTIVE - -Inf == +Inf
+</pre></td></tr></table></P><P>
+
+<CODE>_control87</CODE> uses the value of <VAR>newcw</VAR> and <VAR>mask</VAR> variables
+together to determine which bits of the FPU's control word should be
+set, and to what values.  For each bit in <VAR>mask</VAR> that is set (equals
+to 1), the corresponding bit in <VAR>newcw</VAR> specifies the new value of
+the same bit in the FPU's control word, which <CODE>_control87</CODE> should
+set.  Bits which correspond to reset (zero) bits in <VAR>mask</VAR> are not
+changed in the FPU's control word.  Thus, using a zero value for
+<VAR>mask</VAR> retrieves the current value of the control word without
+changing it.
+</P><P>
+
+The exception bits <CODE>MCW_EM</CODE> (the low-order 6 bits) of the control
+word define the exception <EM>mask</EM>.  That is, if a certain bit is
+set, the corresponding exception will be masked, i.e., it will not
+generate an FP exception (which normally causes signal <CODE>SIGFPE</CODE> to
+be delivered).  A masked exception will be handled internally by the
+coprocessor.  In general, that means that it will generate special
+results, such as <EM>NaN</EM>, Not-a-Number (e.g., when you attempt to
+compute a square root of a negative number), denormalized result (in
+case of underflow), or infinity (e.g., in the case of division by zero,
+or when the result overflows).
+</P><P>
+
+By default, DJGPP startup code masks all FP exceptions.
+</P><P>
+
+The precision-control field <CODE>MCW_PC</CODE> (bits 8 and 9) controls the
+internal precision of the coprocessor by selecting the number of
+precision bits in the mantissa of the FP numbers.  The values
+<CODE>PC_24</CODE>, <CODE>PC_53</CODE>, and <CODE>PC_64</CODE> set the precision to 24,
+53, and 64-bit mantissa, respectively.  This feature of the coprocessor
+is for compatibility with the <EM>IEEE 745 standard</EM> and only affect
+the <CODE>FADD</CODE>, <CODE>FSUB</CODE> <CODE>FSUBR</CODE>, <CODE>FMUL</CODE>, <CODE>FDIV</CODE>,
+<CODE>FDIVR</CODE>, and <CODE>FSQRT</CODE> instructions.  Lowering the precision
+will <STRONG>not</STRONG> decrease the execution time of FP instructions.
+</P><P>
+
+The <CODE>MCW_PC</CODE> field is set to use the full-precision 64-bit
+mantissa by the DJGPP startup code.
+</P><P>
+
+The rounding-control field <CODE>MCW_RC</CODE> (bits 10 and 11) controls the
+type (round or chop) and direction (-Inf or +Inf) of the rounding.  It
+only affects arithmetic instructions.  Set to round-to-nearest state by
+the DJGPP startup code.
+</P><P>
+
+The infinity-control bit <CODE>MCW_IC</CODE> has no effect on 80387 and later
+coprocessors.
+</P><P>
+
+<A NAME="SEC464"></A>
+<H3> Return Value                                                                         </H3>
+<!--docid::SEC464::-->
+<P>
+
+The previous control word.
+</P><P>
+
+(Note that this is different from what <CODE>_control87</CODE> from the
+Borland C library which returns the <EM>new</EM> control word.)
+</P><P>
+
+<A NAME="SEC465"></A>
+<H3> Portability                                                                             </H3>
+<!--docid::SEC465::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC466"></A>
+<H3> Example                                             </H3>
+<!--docid::SEC466::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>  /* mask all exceptions, except invalid operation */
+  _control87 (0x033e, 0xffff);
+</pre></td></tr></table></P><P>
+
+<A NAME="cos"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_111.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_113.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

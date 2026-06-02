@@ -1,0 +1,261 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_802.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_801.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_803.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> system </H2>
+<!--docid::SEC4202::-->
+<A NAME="SEC4203"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC4203::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdlib.h&#62;
+
+int system(const char *cmd);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC4204"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC4204::-->
+<P>
+
+This function runs the command or program specified by <VAR>cmd</VAR>.  If
+<VAR>cmd</VAR> is a null pointer, <CODE>system</CODE> returns non-zero only if a
+shell is available.  If <VAR>cmd</VAR> is an empty string, the command
+processor pointed to by <SAMP>`SHELL'</SAMP> or <SAMP>`COMSPEC'</SAMP> variables in the
+environment will be invoked interactively; type <KBD>exit <KBD>RET</KBD></KBD> to
+return to the program which called <CODE>system</CODE>.  (Note that some other
+DOS compilers treat a null pointer like an empty command line, contrary
+to ANSI C requirements.)
+</P><P>
+
+When calling programs compiled by DJGPP this function will not use
+<TT>`COMMAND.COM'</TT> and so will not be subject to its 126 character limit
+on command lines.
+</P><P>
+
+When the calling program runs on Windows 9X or Windows 2000 and calls
+the system shell to run the child program, or if the child program is a
+native Windows program (in <CODE>PE-COFF</CODE> format), or when the system
+shell is <TT>`4DOS'</TT> or <TT>`NDOS'</TT>, command lines longer than 126
+characters are passed via the environment variable <CODE>CMDLINE</CODE>.
+</P><P>
+
+Command lines and pipes (i.e., the use of <SAMP>`&#60;'</SAMP>, <SAMP>`&#62;'</SAMP>, <SAMP>`&#62;&#62;'</SAMP>,
+and <SAMP>`|'</SAMP>) will be simulated internally in this function; this means
+that you can have both long command lines and redirection/pipes when
+running DJGPP programs with this function.
+</P><P>
+
+By default, <TT>`COMMAND.COM'</TT> will only be invoked to run commands
+internal to it, or to run batch files (but this can be changed, see
+below).  In these cases, the returned error code will always be zero,
+since <TT>`COMMAND.COM'</TT> always exits with code 0.
+</P><P>
+
+Certain commands internal to <TT>`COMMAND.COM'</TT> that don't make sense or
+cause no effect in the context of <CODE>system</CODE> are ignored by this
+function.  These are <CODE>REM</CODE>, <CODE>EXIT</CODE>, <CODE>GOTO</CODE>, <CODE>SHIFT</CODE>;
+<CODE>SET</CODE>, <CODE>PATH</CODE> and <CODE>PROMPT</CODE> are ignored only if called
+with an argument.  You can disable this feature if you need, see below.
+</P><P>
+
+Some commands are emulated internally by <CODE>system</CODE>, because the
+emulation is better than the original.  Currently, the only emulated
+command is <SAMP>`CD'</SAMP> or <SAMP>`CHDIR'</SAMP>: the emulation knows about forward
+slashes and also switches the current drive.  This emulation can also be
+switched off, as explained below.
+</P><P>
+
+When <CODE>system</CODE> is presented with an internal shell command, it
+checks the environment variables <SAMP>`SHELL'</SAMP> and <SAMP>`COMSPEC'</SAMP> (in
+that order) and invokes the program that they point to.  If the shell
+thus found is one of the DOS shells (<TT>`COMMAND.COM'</TT>, <TT>`4DOS'</TT> or
+<TT>`NDOS'</TT>), they are called with the <SAMP>`/c'</SAMP> switch prepended to the
+command line.  Otherwise, <CODE>system</CODE> assumes that the shell is a
+Unix-style shell and passes it the entire command line via a temporary
+file, invoking the shell with a single argument which is the name of
+that file.
+</P><P>
+
+Shell scripts and batch files are invoked by calling either the program
+whose name appears on the first line (like in <SAMP>`#! /bin/sh'</SAMP>), or
+the default shell if none is specified by the script.  If the name of
+the shell specified by the script is a Unix-style pathname, without a
+drive letter and with no extension, <CODE>system</CODE> will additionally
+search for it on the <SAMP>`PATH'</SAMP>.  This allows to invoke Unix shell
+scripts unmodified, if you have a ported shell installed on your
+system.
+</P><P>
+
+You can customize the behavior of <CODE>system</CODE> using a bit-mapped
+variable <CODE>__system_flags</CODE>, defined on <TT>`&#60;stdlib.h&#62;'</TT>.  The
+following bits are currently defined:
+</P><P>
+
+<DL COMPACT>
+<DT><CODE>__system_redirect</CODE>
+<DD>When set (the default), specifies that <CODE>system</CODE> can use its
+internal redirection and pipe code.  If reset, any command line that
+includes an unquoted redirection symbol will be passed to the shell.
+<P>
+
+<DT><CODE>__system_call_cmdproc</CODE>
+<DD>When set, <CODE>system</CODE> will always call the shell to execute the
+command line.  If reset (the default), the shell will only be called
+when needed, as described above.
+<P>
+
+You should <EM>always</EM> set this bit if you use a real, Unix-style
+shell (also, set <CODE>__system_use_shell</CODE>, described below, and the
+<SAMP>`SHELL'</SAMP> environment variable).
+</P><P>
+
+<DT><CODE>__system_use_shell</CODE>
+<DD>When set (the default), the <SAMP>`SHELL'</SAMP> environment variable will take
+precedence upon <SAMP>`COMSPEC'</SAMP>; this allows you to specify a special
+shell for <CODE>system</CODE> that doesn't affect the rest of DOS.  If reset,
+only <SAMP>`COMSPEC'</SAMP> is used to find the name of the command processor.
+<P>
+
+<DT><CODE>__system_allow_multiple_cmds</CODE>
+<DD>When set, you can put multiple commands together separated by the
+<SAMP>`;'</SAMP> character.  If reset (the default), the command line passed to
+<CODE>system</CODE> is executed as a single command and <SAMP>`;'</SAMP> has no
+special meaning.
+<P>
+
+<DT><CODE>__system_allow_long_cmds</CODE>
+<DD>When set (the default), <CODE>system</CODE> will handle command lines longer
+than the DOS 126-character limit; this might crash your program in some
+cases, as the low-level functions that invoke the child program will
+only pass them the first 126 characters.  When reset, <CODE>system</CODE> will
+detect early that the command line is longer than 126 characters and
+refuse to run it, but you will not be able to call DJGPP programs with
+long command lines.
+<P>
+
+<DT><CODE>__system_emulate_command</CODE>
+<DD>If reset (the default), <CODE>system</CODE> will pass the entire command line
+to the shell if its name is one of the following: <TT>`sh.exe'</TT>,
+<TT>`sh16.exe'</TT>, <TT>`sh32.exe'</TT>, <TT>`bash.exe'</TT>, <TT>`tcsh.exe'</TT>.
+When set, <CODE>system</CODE> will attempt to emulate redirection and pipes
+internally, even if <SAMP>`COMSPEC'</SAMP> or <SAMP>`SHELL'</SAMP> point to a Unix-style
+shell.
+<P>
+
+<DT><CODE>__system_handle_null_commands</CODE>
+<DD>When set (the default), commands internal to <TT>`COMMAND.COM'</TT> and
+compatible shells which have no effect in the context of <CODE>system</CODE>,
+are ignored (the list of these commands was given above).  If reset,
+these commands are processed as all others, which means
+<TT>`COMMAND.COM'</TT> will be called to execute them.
+<P>
+
+Note that this bit shouldn't be used with a Unix-style shell, because it
+does the wrong thing then.  With Unix-style shells, you are supposed to
+set the <CODE>__system_call_cmdproc</CODE> bit which will always call the
+shell.
+</P><P>
+
+<DT><CODE>__system_ignore_chdir</CODE>
+<DD>If set, the <SAMP>`CD'</SAMP> and <SAMP>`CHDIR'</SAMP> commands are ignored.  When reset
+(the default), the processing of these commands depends on the
+<CODE>__system_emulate_chdir</CODE> bit, see below.
+<P>
+
+This bit is for compatibility with Unix, where a single <SAMP>`cd dir'</SAMP>
+command has no effect, because the current working directory there is
+not a global notion (as on MSDOS).  Don't set this bit if you use
+multiple commands (see <CODE>__system_allow_multiple_cmds</CODE> above).
+</P><P>
+
+<DT><CODE>__system_emulate_chdir</CODE>
+<DD>When set, the <SAMP>`CD'</SAMP> and <SAMP>`CHDIR'</SAMP> commands are emulated
+internally: they change the drive when the argument specifies a drive
+letter, and they support both forward slashes and backslashes in
+pathnames.  When <SAMP>`CD'</SAMP> is called without an argument, it prints the
+current working directory with forward slashes and down-cases DOS 8+3
+names.  If this bit is reset (the default), <SAMP>`CD'</SAMP> and <SAMP>`CHDIR'</SAMP>
+are passed to the shell.
+</DL>
+<P>
+
+The behavior of <CODE>system</CODE> can be customized at run time by defining
+the variable <SAMP>`DJSYSFLAGS'</SAMP> in the environment.  The value of that
+variable should be the numerical value of <CODE>__system_flags</CODE> that
+you'd like to set; it will override the value of <CODE>__system_flags</CODE>
+specified when the program was compiled.
+</P><P>
+
+<A NAME="SEC4205"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC4205::-->
+<P>
+
+If <VAR>cmd</VAR> is a null pointer, <CODE>system</CODE> returns non-zero if a
+shell is available.  The actual test for the existence of an executable
+file pointed to by <SAMP>`SHELL'</SAMP> or <SAMP>`COMSPEC'</SAMP> is only performed if
+the shell is to be invoked to process the entire command line; if most
+of the work is to be done by <CODE>system</CODE> itself, passing a null
+pointer always yields a non-zero return value, since the internal
+emulation is always "available".
+</P><P>
+
+Otherwise, the return value is the exit status of the child process in
+its lower 8 bits; bits 8-17 of the return value will hold <CODE>SIGINT</CODE>
+or <CODE>SIGABRT</CODE> if the child process was aborted by <KBD>Ctrl-C</KBD> or
+Critical Device Error, respectively; otherwise they will be zero<A NAME="DOCF4" HREF="libc_fot.html#FOOT4">(4)</A>.  If the
+child couldn't be run, <CODE>system</CODE> will return -1 and set <CODE>errno</CODE>
+to an appropriate value.  Note that if <TT>`COMMAND.COM'</TT> was used to
+run the child, it will always return a 0 status, even if the command
+didn't run successfully.  However, <CODE>system</CODE> only calls
+<TT>`COMMAND.COM'</TT> when it needs to run commands internal to it.
+</P><P>
+
+<A NAME="SEC4206"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC4206::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C89; C99
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC4207"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC4207::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>system("cc1plus.exe @cc123456.gp");
+</pre></td></tr></table></P><P>
+
+<A NAME="tan"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_801.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_803.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

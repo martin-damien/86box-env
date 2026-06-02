@@ -1,0 +1,116 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_828.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_827.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_829.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _truename </H2>
+<!--docid::SEC4342::-->
+<A NAME="SEC4343"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC4343::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;sys/stat.h&#62;
+
+char * _truename(const char *path, char *true_path);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC4344"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC4344::-->
+<P>
+
+Given a <VAR>path</VAR> of a file, returns in <VAR>true_path</VAR> its canonicalized
+pathname, with all letters uppercased, default drive and directory made
+explicit, forward slashes converted to backslashes, asterisks converted to
+appropriate number of of question marks, file and directory names
+truncated to 8.3 if necessary, "." and ".." resolved, extra slashes (but
+the last, if present) removed, SUBSTed, JOINed and ASSIGNed drives
+resolved.  Character devices return as "X:/DEVNAME" (note the forward
+slash!), where X is the CURRENT drive and DEVNAME is the device name (e.g.
+CON).  This is exactly what DOS TRUENAME command does.  See Ralph Brown's
+Interrupt List for more details.
+</P><P>
+
+The named <VAR>path</VAR> doesn't have to exist, but the drive, if given as
+part of it, should be a legal DOS drive, as this function hits the disk.
+</P><P>
+
+The function will fail if given a <VAR>path</VAR> which (1) is an empty string;
+or (2) contains only the drive letter (e.g. "c:"); or (3) has leading
+whitespace.  It will also fail if it couldn't allocate memory required for
+its communication with DOS or for <VAR>true_path</VAR> (see below).
+</P><P>
+
+<CODE>_truename</CODE> may not return what you expect for files that don't exist.
+For instance, if the current directory was entered using a short
+filename (<SAMP>`c:\thisis~1'</SAMP> instead of <SAMP>`c:\thisisalongname'</SAMP>, say),
+then the truename of an existing file will be a long filename,
+but the truename of an non-existing file will be a short filename.
+This can cause problems when comparing filenames.  Use
+<CODE>_truename_sfn</CODE> (see section <A HREF="libc_829.html">_truename_sfn</A>) instead in this case.
+</P><P>
+
+Upon success, the function will place the result in <VAR>true_path</VAR>,
+if that's non-NULL; the buffer should be large enough to contain the
+largest possible pathname (PATH_MAX characters).  If <VAR>true_path</VAR>
+is a NULL pointer, the space to hold the result will be allocated by
+calling <CODE>malloc</CODE> (see section <A HREF="libc_551.html">malloc</A>); it is up to the caller to release
+the buffer by calling <CODE>free</CODE> (see section <A HREF="libc_350.html">free</A>).
+</P><P>
+
+<A NAME="SEC4345"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC4345::-->
+<P>
+
+The function returns the pointer to the result.  In case of any failure,
+a NULL pointer is returned, and <CODE>errno</CODE> is set.
+</P><P>
+
+<A NAME="SEC4346"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC4346::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC4347"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC4347::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>  fprintf(stderr, 
+          "True name of %s is %s\n", path, _truename(path, (char *)0));
+</pre></td></tr></table></P><P>
+
+<A NAME="_truename_sfn"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_827.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_829.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,78 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_420.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_419.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_421.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> gettime </H2>
+<!--docid::SEC2110::-->
+<A NAME="SEC2111"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC2111::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dos.h&#62;
+
+void gettime(struct time *);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2112"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC2112::-->
+<P>
+
+This function gets the current time.  The return structure is as follows:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct time {
+  unsigned char ti_min;
+  unsigned char ti_hour;
+  unsigned char ti_hund;
+  unsigned char ti_sec;
+};
+</pre></td></tr></table></P><P>
+
+See section <A HREF="libc_713.html">settime</A>. See section <A HREF="libc_387.html">getdate</A>.
+</P><P>
+
+<A NAME="SEC2113"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC2113::-->
+<P>
+
+None.
+</P><P>
+
+<A NAME="SEC2114"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC2114::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2115"></A>
+<H3> Example                                                                                                                                                                                       </H3>
+<!--docid::SEC2115::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct time t;
+gettime(&#38;t);
+</pre></td></tr></table></P><P>
+
+<A NAME="gettimeofday"></A>
+<!--#perl sub="trailer" -->

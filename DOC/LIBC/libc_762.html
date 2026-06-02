@@ -1,0 +1,126 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_762.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_761.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_763.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> strlcat </H2>
+<!--docid::SEC3969::-->
+<A NAME="SEC3970"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC3970::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;string.h&#62;
+
+size_t strlcat (char *dest, const char *src, size_t size);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3971"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC3971::-->
+<P>
+
+Concatenate characters from <VAR>src</VAR> to <VAR>dest</VAR> and nul-terminate
+the resulting string.  As much of <VAR>src</VAR> is copied into <VAR>dest</VAR>
+as there is space for.
+</P><P>
+
+<VAR>size</VAR> should be the size of the destination string buffer <VAR>dest</VAR>
+plus the space for the nul-terminator.  <VAR>size</VAR> may be computed
+in many cases using the <CODE>sizeof</CODE> operator.
+</P><P>
+
+<CODE>strlcat</CODE> may be used as a less ambiguous alternative
+to <CODE>strncat</CODE> (see section <A HREF="libc_767.html">strncat</A>).  <CODE>strlcat</CODE> returns
+the length of the concatenated string whether or not it was possible
+to copy it all -- this makes it easier to calculate
+the required buffer size.
+</P><P>
+
+If <VAR>dest</VAR> is not nul-terminated, then <VAR>dest</VAR> is not modified.
+</P><P>
+
+<CODE>strlcat</CODE> will not examine more than <VAR>size</VAR> characters
+of <VAR>dest</VAR>.  This is to avoid overrunning the buffer <VAR>dest</VAR>.
+</P><P>
+
+If <VAR>dest</VAR> and <VAR>src</VAR> are overlapping buffers, the behavior
+is undefined.  One possible result is a buffer overrun - accessing
+out-of-bounds memory.
+</P><P>
+
+The original OpenBSD paper describing <CODE>strlcat</CODE>
+and <CODE>strlcpy</CODE> (see section <A HREF="libc_763.html">strlcpy</A>) is available on the web:
+<A HREF="http://www.openbsd.org/papers/strlcpy-paper.ps">http://www.openbsd.org/papers/strlcpy-paper.ps</A>.
+</P><P>
+
+<A NAME="SEC3972"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC3972::-->
+<P>
+
+The length of the string that <CODE>strlcat</CODE> tried to create is returned,
+whether or not <CODE>strlcat</CODE> could store it in <VAR>dest</VAR>.  If all
+of <VAR>src</VAR> was concatenated to <VAR>dst</VAR>, the return value will be less
+than <VAR>size</VAR>.
+</P><P>
+
+If <VAR>dest</VAR> is not nul-terminated, then <CODE>strlcat</CODE> will consider
+<VAR>dest</VAR> to be <VAR>size</VAR> in length and return <VAR>size</VAR> plus
+the length of <VAR>src</VAR>.
+</P><P>
+
+<A NAME="SEC3973"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC3973::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3974"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC3974::-->
+<P>
+
+The following example shows how you can check that
+the destination string buffer was large enough to store
+the source string concatenated to the destination string.
+In this case <CODE>somestring</CODE> is truncated, when it is concatenated
+to <CODE>buf</CODE>.
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>const char somestring[] = "bar";
+char buf[5] = "foo";
+
+if (strlcat(buf, somestring, sizeof(buf)) &#62;= sizeof(buf))
+  puts("somestring was truncated, when concatenating to buf.");
+</pre></td></tr></table><A NAME="strlcpy"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_761.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_763.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

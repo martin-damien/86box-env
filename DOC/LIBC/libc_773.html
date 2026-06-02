@@ -1,0 +1,82 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_773.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_772.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_774.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> strsep </H2>
+<!--docid::SEC4035::-->
+<A NAME="SEC4036"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC4036::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;string.h&#62;
+
+char *strsep(char **stringp, char *delim);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC4037"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC4037::-->
+<P>
+
+This function retrieves the next token from the given string, where
+<VAR>stringp</VAR> points to a variable holding, initially, the start of the
+string.  Tokens are delimited by a character from <VAR>delim</VAR>.  Each
+time the function is called, it returns a pointer to the next token, and
+sets *<VAR>stringp</VAR> to the next spot to check, or <CODE>NULL</CODE>. 
+</P><P>
+
+<A NAME="SEC4038"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC4038::-->
+<P>
+
+The next token, or NULL.
+</P><P>
+
+<A NAME="SEC4039"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC4039::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC4040"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC4040::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>main()
+{
+  char *buf = "Hello  there,stranger";
+  char **bp = &#38;buf;
+  char *tok;
+  while (tok = strsep(bp, " ,"))
+    printf("tok = `%s'\n", tok);
+}
+
+tok = `Hello'
+tok = `'
+tok = `there'
+tok = `stranger'
+</pre></td></tr></table></P><P>
+
+<A NAME="strspn"></A>
+<!--#perl sub="trailer" -->

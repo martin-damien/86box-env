@@ -1,0 +1,128 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_843.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_842.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_844.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _use_lfn </H2>
+<!--docid::SEC4424::-->
+<A NAME="SEC4425"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC4425::-->
+ 
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;fcntl.h&#62;
+ 
+char _use_lfn(const char *path);
+</pre></td></tr></table> 
+<A NAME="SEC4426"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC4426::-->
+ 
+The <CODE>_use_lfn</CODE> function returns a nonzero value if the low level
+libc routines will use the <EM>Long File Name</EM> (LFN) functions provided
+with Windows 9x (and other advanced filesystems), when accessing files
+and directories on the same filesystem as <VAR>path</VAR>.  <VAR>path</VAR> may be
+any legal pathname; however, the function only needs the name of the
+root directory on the particular drive in question.  If <VAR>path</VAR> is a
+<CODE>NULL</CODE> pointer, the function assumes that all the filesystems
+support (or do not support) LFN in the same manner, and returns the info
+pertinent to the last filesystem that was queried; this usually makes
+the call faster.  Note that on Windows 95 you don't need to distinguish
+between different drives: they all support LFN API.  If <VAR>path</VAR> does
+not specify the drive explicitly, the current drive is used.
+<P>
+
+The header <TT>`fcntl.h'</TT> defines a macro <CODE>_USE_LFN</CODE>; applications
+should use this macro instead of calling <CODE>_use_lfn</CODE> directly.  That
+is so this routine could be replaced with one which always returns 0 to
+disable using long file names.  Calling <CODE>_USE_LFN</CODE> also makes the
+code more portable to other operating systems, where the macro can be
+redefined to whatever is appropriate for that environment (e.g., it
+should be a constant 1 on Unix systems and constant 0 for environments
+that don't support LFN API, like some other MSDOS compilers).
+Currently, <CODE>_USE_LFN</CODE> assumes that LFN API does <EM>not</EM> depend
+on a drive.
+</P><P>
+
+Long file names can also be disabled by setting the flag
+<CODE>_CRT0_FLAG_NO_LFN</CODE> in <CODE>_crt0_startup_flags</CODE> for an image
+which should not allow use of long file names.  Long names can be
+suppressed at runtime on a global basis by setting the environment
+variable <CODE>LFN</CODE> to <CODE>N</CODE>, i.e. <SAMP>`SET LFN=N'</SAMP>.  This might be
+needed if a distribution expected the truncation of long file names to
+8.3 format to work.  For example, if a C source routine included the
+file exception.h (9 letters) and the file was unzipped as exceptio.h,
+then GCC would not find the file unless you set <SAMP>`LFN=n'</SAMP>.  The
+environment variable can be set in the <TT>`DJGPP.ENV'</TT> file to always
+disable LFN support on any system, or can be set in the DOS environment
+for a short term (single project) basis.  If you dual boot a system
+between Windows 95 and DOS, you probably should set <SAMP>`LFN=n'</SAMP> in your
+<TT>`DJGPP.ENV'</TT> file, since long file names would not be visible under
+DOS, and working with the short names under DOS will damage the long
+names when returning to Windows 95.
+</P><P>
+
+<A NAME="SEC4427"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC4427::-->
+ 
+If LFN APIs are supported and should be used, it returns 1, else 0.
+<P>
+
+Note that if the <CODE>_CRT0_FLAG_NO_LFN</CODE> bit is set, or <CODE>LFN</CODE> is
+set to <CODE>N</CODE> or <CODE>n</CODE> in the environment, both <CODE>_use_lfn</CODE> and
+<CODE>_USE_LFN</CODE> will always return 0 without querying the filesystem.
+You can reset the <CODE>_CRT0_FLAG_NO_LFN</CODE> bit at runtime to force
+filesystem to be queried.
+</P><P>
+
+<A NAME="SEC4428"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC4428::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC4429"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC4429::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>
+#include &#60;fcntl.h&#62;
+#include &#60;sys/stat.h&#62;
+
+  int fd = creat (_USE_LFN ? "MyCurrentJobFile.Text" : "currjob.txt",
+                  S_IRUSR | S_IWUSR);
+
+</pre></td></tr></table></P><P>
+
+<A NAME="usleep"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_842.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_844.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

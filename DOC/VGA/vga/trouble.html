@@ -1,0 +1,236 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+  <meta name="keywords" content="VGA, VGA programming, game programming, C, mouse, lines, circles, rectangles, polygons,  bitmaps, vertical retrace, animation, 256 color, pixel plotting, mode 13, mode x, double buffering, page flipping, unchained mode, flicker-free" />
+  <meta name="description" content="VGA basics, lines and shapes, bitmaps, mouse, double buffering, page flipping, unchained mode, and more" />
+  <link rel="stylesheet" type="text/css" media="all" href="default.css" />
+  <link rel="stylesheet" type="text/css" media="print" href="print.css" />
+  <title>256-Color VGA Programming in C - FAQ and Troubleshooting</title>
+</head>
+
+<body>
+<div id="nav">
+  <a href="http://www.brackeen.com/"><img src="../images/logo.png" alt="David Brackeen" /></a>
+</div>
+
+<div id="header">
+  <a href="index.html">256-Color VGA Programming in C</a>
+ 
+  <h1>FAQ and Troubleshooting</h1>
+  
+  <p>Contents in this section:</p>
+  <ul>
+    <li><a href="#1">Introduction</a></li>
+    <li><a href="#2">How do I compile the source code using DJGPP 2.0?</a></li>
+    <li><a href="#3">How do I compile the source code using Watcom C/C++ 10.6?</a></li>
+    <li><a href="#4">How do I compile the source code using Turbo C 2.01?</a></li>
+    <li><a href="#5">How do I compile the source code using an older version of Turbo C or Borland C?</a></li>
+    <li><a href="#6">How do I compile the source code using Quick C?</a></li>
+    <li><a href="#7">How do I compile the source code using GCC?</a></li>
+    <li><a href="#8">How do I compile the source code using Visual C++?</a></li>
+    <li><a href="#9">The code compiles fine, but I run the program the screen goes black and/or Windows locks up.</a></li>
+    <li><a href="#10">When I compile, I get the error &ldquo;Code has no effect in function&rdquo; and it points to the outp() function.</a></li>
+    <li><a href="#11">When I run the program, I get the error &ldquo;Not enough memory for double buffer&rdquo;.</a></li>
+    <li><a href="#12">I have Borland C++ 5.0 for Windows 95 and I can't get the programs to compile. It says undefined structure 'REGS'.</a></li>
+    <li><a href="#13">The programs only seem to work with the bitmaps that come with each program (i.e. rocket.bmp and mset.bmp).</a></li>
+    <li><a href="#14">How do you display text in mode 0x13?</a></li>
+    <li><a href="#15">What is a good graphics program?</a></li>
+    <li><a href="#16">Could you please send me information on 640x480 or 800x600 or [enter your favorite video mode here]?</a></li>
+    <li><a href="#17">ARGH! Help me! I've got an assignment due tomorrow, could you please modify your code to my assignment's specifications and send it to me?</a></li>
+  </ul>
+</div>
+<div id="content">
+
+  <h2><a name="1">Introduction</a></h2>
+
+  <p>Here are some tidbits about a few compilers and some solutions to common VGA programming
+  problems. Some of this information
+  is from my experiences, other information is from people e-mailing me about
+  their experiences. If anyone has any information about getting the code at this
+  site to work with a particular compiler, let me know.</p>
+  
+  <h2><a name="2">How do I compile the source code using DJGPP 2.0?</a></h2>
+  
+  <p>Well, the good news is that <a href="http://www.delorie.com/djgpp/">DJGPP</a>
+  source is now included on the site. In case you are wondering, here are the
+  changes.</p>
+  <p>DJGPP creates protected mode programs, so you can't access the video segment
+  directly without some trickery. You can use the <code>__djgpp_nearptr_enable()</code>
+  function to get access to the first 640K of memory. So, in <code>main()</code>
+  add these lines at the beggining:</p>
+<pre>if (__djgpp_nearptr_enable() == 0)
+  exit(-1);
+  
+VGA=(byte *)(0xa0000 + __djgpp_conventional_base);
+my_clock=(word *)(0x0046c + __djgpp_conventional_base);
+</pre>
+  <p>At the end of the program, use <code>__djgpp_nearptr_disable();</code> to get
+  the program back to regular protected mode. Also, don't forget to #include <code>&lt;sys/nearptr.h&gt;</code>.</p>
+  <p>This should get all of the programs to work except <code>mouse.c</code>.</p>
+  
+  <h2><a name="3">How do I compile the source code using Watcom C/C++ 10.6?</a></h2>
+  
+  <p>Like DJGPP, Watcom C/C++ creates protected-mode programs, but the first
+  megabyte or memory can be access directly by your program without any changes.
+  Memory is linear instead of based on segments and offsets. So, change this</p>
+<pre>byte *VGA=(byte*)0xA0000000L;
+</pre>
+  <p>to this:</p>
+<pre>byte *VGA=(byte*)0xA0000L;
+</pre>
+  <p>Also, chage all <code>int86();</code> functions to <code>int386();</code> and
+  make sure you #include <code>&lt;i86.h&gt;</code>.</p>
+  <p>In the <code>plot_pixel_slow();</code> function in <code>pixel.c</code>,
+  change this</p>
+<pre>regs.x.cx = x;
+regs.x.dx = y;
+</pre>
+  <p>to this:</p>
+<pre>regs.w.cx = x;
+regs.w.dx = y;
+</pre>
+  <p>That should do it! All the programs should work except <code>mouse.c</code>.</p>
+  
+  <h2><a name="4">How do I compile the source code using Turbo C 2.01?</a></h2>
+ 
+  <p>Compiling the code at this site with <a
+  href="http://dn.codegear.com/article/20841">Turbo C 2.01</a> (a
+  free compiler from Borland) is fairly straightforward. In modes.c and unchain.c,
+  change every instance of <b>outpw</b> to <b>outport</b>. Be sure to compile in
+  the large memory model, like so:</p>
+<pre>tcc -ml -N filename.c</pre>
+  
+  <h2><a name="5">How do I compile the source code using an older version of Turbo C or Borland C?</a></h2>
+ 
+  <p>Some people have told me the Turbo C compiler does not accept direct
+  pointers. For those of you with Turbo C, every section of code that looks like
+  this:</p>
+<pre>byte *VGA=(byte *)0xA0000000L;
+word *my_clock=(word *)0x0000046C;
+</pre>
+  <p>Should be changed to:</p>
+<pre>byte *VGA=(byte *)MK_FP(0xA000,0);
+word *my_clock=(word *)MK_FP(0,0x046C);
+</pre>
+  <p>Also, make sure to include <code>&lt;dos.h&gt;</code>.</p>
+  
+  <h2><a name="6">How do I compile the source code using Quick C?</a></h2>
+  
+  <p>For users of Quick C, change <code>#include &lt;mem.h&gt;</code> to <code>#include
+  &lt;memory.h&gt;</code></p>
+  
+  <h2><a name="7">How do I compile the source code using GCC?</a></h2>
+  
+  <p>You can't. The code is DOS-mode only, so you'll need a DOS compiler. GCC on Linux
+  or other operating systems won't work, and the Windows port of GCC (<a
+  href="http://www.cygwin.com/">Cygwin</a>)
+  won't work either. Try <a href="http://www.delorie.com/djgpp/">DJGPP</a>, which
+  is a DOS port of GCC.</p>
+  
+  <h2><a name="8">How do I compile the source code using Visual C++?</a></h2>
+ 
+  <p>You'll need Visual C++ 1.42, which isn't available anymore.
+  Visual C++ 2.0 and above are for Windows only. </p>
+  
+  <h2><a name="9">The code compiles fine, but I run the program the screen goes black and/or Windows locks up.</a></h2>
+ 
+  <p>For Turbo C, Borland C, and a few others, the programs must be compiled in the LARGE memory model.
+  Otherwise, the programs will
+  crash when they try to access the video memory area.</p>
+  
+  <h2><a name="10">When I compile, I get the error &ldquo;Code has no effect in function&rdquo; and it points to the outp() function.</a></h2>
+ 
+  <p>I've heard about this happening in Turbo C 3.0, and Borland C 4.5. At the top of the
+  program, insert the code <code>#undef outp</code>.</p>
+  
+  <h2><a name="11">When I run the program, I get the error &ldquo;Not enough memory for double buffer&rdquo;.</a></h2>
+ 
+  <p>I thinks this only happens in older versions of Borland C/Turbo C. If you are
+  running the program from the IDE, there is not enough <em>conventional</em>
+  memory to run both the IDE and the program at the same time. After you compile,
+  either exit Borland C to run the program or go to a dos shell to run the
+  program.</p>
+  <p>Some people wrote in and said this: Change the debugger memory. Go to the
+  options menu, then debugger. Change the program heap size to around 350K or so.</p>
+  
+  <h2><a name="12">I have Borland C++ 5.0 for Windows 95 and I can't get the programs to compile. It says undefined structure 'REGS'.</a></h2>
+
+  <p>Make sure you compile the programs for DOS, not Windows.</p>
+  
+  <h2><a name="13">The programs only seem to work with the bitmaps that come with each program (i.e. rocket.bmp and mset.bmp).</a></h2>
+
+  <p>Here are four reasons your bitmaps may not be working:</p>
+  <ol>
+    <li>Make sure the bitmap's width is divisible by 4 (for example, a width of 24
+      is okay but a width of 25 is not)</li>
+    <li>In your paint program, do not save your bitmaps as compressed or RLE
+      bitmaps. The code can only handle uncompressed format BMP files.</li>
+    <li>In your paint program, make sure you save in 256-color (8 bit) format.</li>
+    <li>Use the code from palette.c (rather than bitmap.c) if your bitmap uses a
+      non-standard palette.</li>
+  </ol>
+  <p>If you've done these four things and you are still
+  having a problem, email me the bitmap and I will try to figure it out.</p>
+  
+  <h2><a name="14">How do you display text in mode 0x13?</a></h2>
+  
+  <p>You can use the BIOS fonts, but it's best to write your own font routines.
+  You can easily create a bitmap for the ASCII
+  characters in a paint program, and then write the code to read the bitmaps and
+  display a string. Plus, bitmap fonts look a lot better than the BIOS fonts.</p>
+  
+  <h2><a name="15">What is a good graphics program?</a></h2>
+  
+  <p>Paint Shop Pro is a great graphics program for Windows, and I use it all the time.
+  Download the shareware version at <a href="http://www.corel.com">www.corel.com</a>.
+  You could use Microsoft Paint that comes with Windows, but you'll be better
+  off with a more powerful graphics program.</p>
+  
+  <h2><a name="16">Could you please send me information on 640x480 or 800x600 or [enter your favorite video mode here]?</a></h2>
+  
+  <p>Sorry, I really don't have any VESA SVGA code to give out. Check out <a
+  href="http://www.geocities.com/SiliconValley/Park/9784/index.html">Steel's
+  page</a> and look at the &ldquo;VESA&rdquo; programming information.</p>
+  
+  <h2><a name="17">ARGH! Help me! I've got an assignment due tomorrow, could you please modify your code to my assignment's specifications and send it to me?</a></h2>
+  
+  <p>This always makes me laugh. The funny thing is, this question gets asked
+  quite often. Short answer: No. Long answer: Do your own work.</p>
+
+</div>
+
+<div id="footer">
+  <hr />
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="intro.html">Introduction</a></li>
+    <li><a href="basics.html">VGA Basics</a></li>
+    <li><a href="shapes.html">Primitive Shapes &amp; Lines</a></li>
+    <li><a href="bitmaps.html">Bitmaps &amp; Palette Manipulation</a></li>
+    <li><a href="mouse.html">Mouse Support &amp; Animation</a></li>
+    <li><a href="unchain.html">Double Buffering, Page Flipping, &amp; Unchained Mode</a></li>
+  </ul>
+  <ul>
+    <li><a href="resource.html">Links and Other Resources</a></li>
+    <li><a href="download.html">Download</a></li>
+    <li class="youarehere">FAQ and Troubleshooting</li>
+  </ul>
+  
+  <div id="license">
+    <!--Creative Commons License-->
+    <a rel="license" href="http://creativecommons.org/licenses/by-sa/2.5/"><img alt="Creative Commons License" src="http://creativecommons.org/images/public/somerights20.png"/></a><br/>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/2.5/">Creative Commons Attribution-ShareAlike 2.5 License</a>.
+    <!--/Creative Commons License-->
+    <!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+        <Work rdf:about="">
+          <license rdf:resource="http://creativecommons.org/licenses/by-sa/2.5/" />
+      <dc:type rdf:resource="http://purl.org/dc/dcmitype/Text" />
+        </Work>
+        <License rdf:about="http://creativecommons.org/licenses/by-sa/2.5/"><permits rdf:resource="http://web.resource.org/cc/Reproduction"/><permits rdf:resource="http://web.resource.org/cc/Distribution"/><requires rdf:resource="http://web.resource.org/cc/Notice"/><requires rdf:resource="http://web.resource.org/cc/Attribution"/><permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/><requires rdf:resource="http://web.resource.org/cc/ShareAlike"/></License></rdf:RDF> -->
+    </div>
+</div>
+
+</body>
+</html>

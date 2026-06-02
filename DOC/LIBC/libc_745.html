@@ -1,0 +1,96 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_745.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_744.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_746.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> statfs </H2>
+<!--docid::SEC3873::-->
+<A NAME="SEC3874"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC3874::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;sys/vfs.h&#62;
+
+int statfs(const char *filename, struct statfs *buf);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3875"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC3875::-->
+<P>
+
+This function returns information about the given "filesystem".  The
+drive letter of the given <VAR>filename</VAR>, or the default drive if none
+is given, is used to retrieve the following structure:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct statfs
+{
+    long	f_type;   /* 0 */
+    long	f_bsize;  /* bytes per cluster */
+    long	f_blocks; /* clusters on drive */
+    long	f_bfree;  /* available clusters */
+    long	f_bavail; /* available clusters */
+    long	f_files;  /* clusters on drive */
+    long	f_ffree;  /* available clusters */
+    fsid_t	f_fsid;   /* array: [0]=drive_number, [1]=MOUNT_UFS */
+    long	f_magic;  /* FS_MAGIC */
+};
+</pre></td></tr></table></P><P>
+
+Note that if INT 21h is hooked by a TSR, the total size is limited
+to approximately 2GB (see section <A HREF="libc_747.html">statvfs</A>).
+</P><P>
+
+Note that there is a POSIX-compliant function <CODE>statvfs</CODE>
+(see section <A HREF="libc_747.html">statvfs</A>), which returns similar information.
+</P><P>
+
+<A NAME="SEC3876"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC3876::-->
+<P>
+
+Zero on success, nonzero on failure.
+</P><P>
+
+<A NAME="SEC3877"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC3877::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3878"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC3878::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct statfs fs;
+unsigned long long bfree, bsize;
+
+statfs("anything", &#38;fs);
+bfree = fs.f_bfree;
+bsize = fs.f_bsize;
+printf("%llu bytes left\n", bfree * bsize);
+</pre></td></tr></table></P><P>
+
+<A NAME="_status87"></A>
+<!--#perl sub="trailer" -->

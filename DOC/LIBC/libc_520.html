@@ -1,0 +1,90 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_520.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_519.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_521.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> l64a </H2>
+<!--docid::SEC2638::-->
+<A NAME="SEC2639"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC2639::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdlib.h&#62;
+
+char *l64a(long value);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2640"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC2640::-->
+<P>
+
+This function takes a <CODE>long</CODE> argument and returns a pointer to its
+radix-64 representation.  Negative values are supported as well.
+The resulting string can be turned back into a <CODE>long</CODE> value by the
+<CODE>a64l</CODE> function (see section <A HREF="libc_36.html">a64l</A>).
+</P><P>
+
+<A NAME="SEC2641"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC2641::-->
+<P>
+
+A pointer to a static buffer containing the radix-64 representation of
+<VAR>value</VAR>.  Subsequent calls will overwrite the contents of this buffer.
+If <VAR>value</VAR> is <CODE>0L</CODE>, this function returns an empty string.
+</P><P>
+
+<A NAME="SEC2642"></A>
+<H3> Radix-64 </H3>
+<!--docid::SEC2642::-->
+<P>
+
+The radix-64 ASCII representation is a notation whereby 32-bit integers
+are represented by up to 6 ASCII characters; each character represents
+a single radix-64 digit.  Radix-64 refers to the fact that each digit in this
+representation can take 64 different values.
+If the <CODE>long</CODE> type is more than 32 bits in size, only the low-order
+32 bits are used.
+The characters used to represent digits are <SAMP>`.'</SAMP> (dot) for 0, <SAMP>`/'</SAMP>
+for 1, <SAMP>`0'</SAMP> through <SAMP>`9'</SAMP> for 2 to 11, <SAMP>`A'</SAMP> through <SAMP>`Z'</SAMP> for
+12 to 37, and <SAMP>`a'</SAMP> through <SAMP>`z'</SAMP> for 38 to 63.
+</P><P>
+
+Note that this is <EM>not</EM> the same encoding used by either uuencode or the
+MIME base64 encoding.
+</P><P>
+
+<A NAME="SEC2643"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC2643::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001 (see note 1)
+</TR></TABLE>
+<P>
+
+Notes:
+</P><P>
+
+<OL>
+<LI>
+This function is new to the Posix 1003.1-200x draft
+</OL>
+<A NAME="labs"></A>
+<!--#perl sub="trailer" -->

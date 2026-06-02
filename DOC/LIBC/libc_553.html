@@ -1,0 +1,150 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_553.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_552.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_554.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> malloc_debug </H2>
+<!--docid::SEC2819::-->
+<A NAME="SEC2820"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC2820::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdlib.h&#62;
+
+int malloc_debug(int level);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2821"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC2821::-->
+<P>
+
+This function sets the level of error diagnosis and reporting during
+subsequent calls to <CODE>malloc</CODE>, <CODE>free</CODE>, <CODE>realloc</CODE>, and all
+functions which call them internally.  The argument <VAR>level</VAR> is
+interpreted as follows:
+</P><P>
+
+<DL COMPACT>
+<DT>Level 0
+<DD>No checking; the memory allocation functions behave as they do if
+<CODE>malloc_debug</CODE> was never called.  Memory in use by the application
+which was allocated while level 0 was in effect cannot be checked by
+<CODE>malloc_verify</CODE> unless it is <CODE>free</CODE>d first.
+<P>
+
+<DT>Level 1
+<DD>Each one of the allocated blocks is recorded in a special structure,
+where <CODE>malloc_verify</CODE> can test them for corruption, even if these
+blocks were not yet <CODE>free</CODE>d.  If errors are detected by
+<CODE>malloc_verify</CODE>, it prints diagnostic messages to the standard
+error stream, with address and size of the offending block and other
+pertinent information.  This level slows down memory allocation to some
+extent due to additional overhead of calling special functions which
+record extra debugging info.
+<P>
+
+<DT>Level 2
+<DD>Like level 1, but in addition the consistency of the entire heap is
+verified (by calling <CODE>malloc_verify</CODE>) on every call to the memory
+allocation functions.  <EM>Warning: this may significantly slow down
+the application.</EM>
+<P>
+
+<DT>Level 3
+<DD>Like level 2, except that the program is aborted whenever a heap
+corruption is detected.  In addition, failed allocations (i.e. when
+<CODE>malloc</CODE> returns <CODE>NULL</CODE> because it cannot satisfy a request)
+are reported to standard error.  Also, if the storage where allocated
+blocks are recorded is exhausted, a message to that effect is printed.
+<P>
+
+<DT>Level 4
+<DD>Like level 3, but calls to <CODE>free</CODE> with a <CODE>NULL</CODE> pointer as an
+argument are also reported.
+</DL>
+<P>
+
+When <CODE>malloc_debug</CODE> is first called with a positive argument, it
+allocates storage for recording blocks in use.  To avoid reentrancy
+problems, this storage is allocated via a direct call to <CODE>sbrk</CODE>,
+and its size is fixed.  The size used to allocate this storage is by
+default 400KB, which is enough to record 100 thousand allocated blocks.
+You can tailor the size to your needs by setting the environment
+variable <CODE>MALLOC_DEBUG</CODE> to the maximum number of blocks you want to
+be able to track.  (The value of <CODE>MALLOC_DEBUG</CODE> should only be as
+large as the maximum number of allocations which is expected to be in
+use at any given time, because when a buffer is freed, it is removed
+from this storage and its cell can be reused for another allocation.)
+Note that the larger this storage size, the more slow-down will your
+program experience when the diagnostic level is set to a non-zero value,
+since the debugging code needs to search the list of recorded blocks in
+use each time you call <CODE>malloc</CODE> or <CODE>free</CODE>.
+</P><P>
+
+<A NAME="SEC2822"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC2822::-->
+<P>
+
+<CODE>malloc_debug</CODE> returns the previous error diagnostic level.  The
+default level is 0.
+</P><P>
+
+<A NAME="SEC2823"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC2823::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No (see note 1)
+</TR></TABLE>
+<P>
+
+Notes:
+</P><P>
+
+<OL>
+<LI>
+This function is available on many Unix systems.
+</OL>
+<P>
+
+<A NAME="SEC2824"></A>
+<H3> Example                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC2824::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre> malloc_debug(2);
+ ...
+ malloc_verify();
+</pre></td></tr></table></P><P>
+
+<A NAME="malloc_verify"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_552.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_554.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

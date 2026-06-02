@@ -1,0 +1,81 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_143.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_142.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_144.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __djgpp_set_page_attributes </H2>
+<!--docid::SEC625::-->
+<A NAME="SEC626"></A>
+<H3> Syntax                                                                                                             </H3>
+<!--docid::SEC626::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dpmi.h&#62;
+
+int __djgpp_set_page_attributes(void *our_addr, unsigned long num_bytes,
+			        unsigned short attributes);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC627"></A>
+<H3> Description                                                                                                            </H3>
+<!--docid::SEC627::-->
+<P>
+
+This function sets the DPMI page attributes for the pages in a range
+of memory.  <VAR>our_addr</VAR> and <VAR>num_bytes</VAR> must be page-aligned.
+If they are not page-aligned, <CODE>errno</CODE> will be set to <CODE>EINVAL</CODE>
+and the routine will fail.
+</P><P>
+
+Consult DPMI documentation on function 0507H for the meaning of the
+<VAR>attributes</VAR> argument.  Note: since 0507H is a DPMI service new
+with DPMI 1.0, this call will fail on most DPMI 0.9 servers.  For your
+program to work on a wide range of systems, you should not assume this
+call will succeed.
+</P><P>
+
+Even on failure, this routine may affect a subset of the pages specified.
+</P><P>
+
+<A NAME="SEC628"></A>
+<H3> Return Value                                                                                              </H3>
+<!--docid::SEC628::-->
+<P>
+
+0 on success, -1 on failure.  On failure, <CODE>errno</CODE> will be set to
+<CODE>EINVAL</CODE> for illegal input parameters, or <CODE>EACCES</CODE> if the
+DPMI server rejected the attribute setting.
+</P><P>
+
+<A NAME="SEC629"></A>
+<H3> Portability                                                                                                            </H3>
+<!--docid::SEC629::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC630"></A>
+<H3> Example                                                          </H3>
+<!--docid::SEC630::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>if (__djgpp_set_page_attributes (my_page_aligned_memory, 16384, 0))
+  printf ("Failed to make pages uncommitted!\n");
+</pre></td></tr></table><A NAME="__djgpp_set_sigint_key"></A>
+<!--#perl sub="trailer" -->

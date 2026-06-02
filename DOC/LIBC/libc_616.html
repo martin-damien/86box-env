@@ -1,0 +1,118 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_616.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_615.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_617.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> pipe </H2>
+<!--docid::SEC3150::-->
+<A NAME="SEC3151"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC3151::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;unistd.h&#62;
+
+int pipe(int fildes[2]);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3152"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC3152::-->
+<P>
+
+This function creates a pipe and places a file descriptor for the read end
+of the pipe in <CODE><VAR>fildes</VAR>[0]</CODE>, and another for the write end in
+<CODE><VAR>fildes</VAR>[1]</CODE>.  Data written to <CODE><VAR>fildes</VAR>[1]</CODE> will be read
+from <CODE><VAR>fildes</VAR>[0]</CODE> on a first-in first-out (FIFO) basis.
+</P><P>
+
+Note this pipe implementation won't help port instances of
+<CODE>fork</CODE>/<CODE>exec</CODE> or any other methods that require support for
+multitasking.
+</P><P>
+
+<A NAME="SEC3153"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC3153::-->
+<P>
+
+Zero for success, otherwise -1 is returned and <CODE>errno</CODE> is set to indicate
+the error.
+</P><P>
+
+<A NAME="SEC3154"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC3154::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3155"></A>
+<H3> Example                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC3155::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>
+#include &#60;unistd.h&#62;
+#include &#60;process.h&#62;
+
+/* Pipe the output of program to the input of another. */
+
+int main()
+{
+  int pipe_fds[2];
+  int stdin_save, stdout_save;
+  
+  if (pipe(pipe_fds) &#60; 0)
+    return -1;
+
+  /* Duplicate stdin and stdout so we can restore them later. */
+  stdin_save = dup(STDIN_FILENO);
+  stdout_save = dup(STDOUT_FILENO);
+
+  /* Make the write end of the pipe stdout. */
+  dup2(pipe_fds[1], STDOUT_FILENO);
+
+  /* Run the program. Its output will be written to the pipe. */
+  spawnl(P_WAIT, "/dev/env/DJDIR/bin/ls.exe", "ls.exe", NULL);
+
+  /* Close the write end of the pipe. */
+  close(pipe_fds[1]);
+
+  /* Restore stdout. */
+  dup2(stdout_save, STDOUT_FILENO);
+
+  /* Make the read end of the pipe stdin. */
+  dup2(pipe_fds[0], STDIN_FILENO);
+
+  /* Run another program. Its input will come from the output of the
+     first program. */
+  spawnl(P_WAIT, "/dev/env/DJDIR/bin/less.exe", "less.exe", "-E", NULL);
+
+  /* Close the read end of the pipe. */
+  close(pipe_fds[0]);
+
+  /* Restore stdin. */
+  dup2(stdin_save, STDIN_FILENO);
+  
+  return 0;
+}
+
+</pre></td></tr></table><A NAME="popen"></A>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,77 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_387.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_386.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_388.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> getdate </H2>
+<!--docid::SEC1927::-->
+<A NAME="SEC1928"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC1928::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dos.h&#62;
+
+void getdate(struct date *);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1929"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC1929::-->
+<P>
+
+This function gets the current date.  The return structure is as follows:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct date {
+  short da_year;
+  char  da_day;
+  char  da_mon;
+};
+</pre></td></tr></table></P><P>
+
+See section <A HREF="libc_696.html">setdate</A>. See section <A HREF="libc_420.html">gettime</A>.
+</P><P>
+
+<A NAME="SEC1930"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC1930::-->
+<P>
+
+None.
+</P><P>
+
+<A NAME="SEC1931"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC1931::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1932"></A>
+<H3> Example                                                                                                                                                                      </H3>
+<!--docid::SEC1932::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct date d;
+getdate(&#38;d);
+</pre></td></tr></table></P><P>
+
+<A NAME="getdfree"></A>
+<!--#perl sub="trailer" -->

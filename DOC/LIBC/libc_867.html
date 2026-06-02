@@ -1,0 +1,110 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_867.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_866.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_868.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _write </H2>
+<!--docid::SEC4556::-->
+<A NAME="SEC4557"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC4557::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;io.h&#62;
+
+ssize_t _write(int fildes, const void *buf, size_t nbyte);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC4558"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC4558::-->
+<P>
+
+This is a direct connection to the MS-DOS write function call, int
+0x21, %ah = 0x40.  No conversion is done on the data; it is written as
+raw binary data.  This function can be hooked by the File-system
+extensions, see <A HREF="libc_321.html">File System Extensions</A>.  If you don't want this,
+you should use <CODE>_dos_write</CODE> instead, see <A HREF="libc_185.html">_dos_write</A>.
+</P><P>
+
+<A NAME="SEC4559"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC4559::-->
+<P>
+
+The number of bytes written, or -1 (and <CODE>errno</CODE> set) in case of
+failure.
+</P><P>
+
+Note that DOS doesn't return an error indication when the target disk is
+full; therefore if the disk fills up while the data is written,
+<CODE>_write</CODE> does <STRONG>not</STRONG> return -1, it returns the number of
+bytes it succeeded to write.  If you need to detect the disk full
+condition reliably, call <CODE>_write</CODE> again to try to write the rest of
+the data.  This will cause DOS to return zero as the number of written
+bytes, and <EM>then</EM> <CODE>_write</CODE> will return -1 and set <CODE>errno</CODE>
+to <CODE>ENOSPC</CODE>.  The example below shows one way of doing this.
+</P><P>
+
+<A NAME="SEC4560"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC4560::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC4561"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC4561::-->
+<P>
+
+This example shows how to call <CODE>_write</CODE> in a way which ensures that
+<CODE>errno</CODE> will be set to <CODE>ENOSPC</CODE> if the target filesystem is or
+becomes full:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>  char *buf_ptr;    /* the buffer to write */
+  size_t buf_len;   /* the number of bytes to write */
+  int desc;         /* the file descriptor to write to */
+
+  while (buf_len &#62; 0)
+  {
+    int written = _write (desc, buf_ptr, buf_len);
+    if (written &#60;= 0)
+      break;
+
+    buf_ptr += written;
+    buf_len -= written;
+  }
+</pre></td></tr></table></P><P>
+
+<A NAME="write_child"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_866.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_868.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

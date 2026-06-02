@@ -1,0 +1,97 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_147.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_146.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_148.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __djgpp_spawn </H2>
+<!--docid::SEC647::-->
+<A NAME="SEC648"></A>
+<H3> Syntax                                                                                                                 </H3>
+<!--docid::SEC648::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;process.h&#62;
+
+int __djgpp_spawn(int mode, const char *path, char *const argv[],
+                  char *const envp[], unsigned long flags);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC649"></A>
+<H3> Description                                                                                                                </H3>
+<!--docid::SEC649::-->
+<P>
+
+This function runs other programs like <CODE>spawnve</CODE> (see section <A HREF="libc_736.html">spawn*</A>) except
+that an additional parameter <VAR>flags</VAR> is passed.  <VAR>flags</VAR> can
+include the following flags to control the details of finding the program
+to run:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>SPAWN_EXTENSION_SRCH</CODE>
+<DD><P>
+
+If an extension is not included in <VAR>path</VAR>, search for a file <VAR>path</VAR>
+with the extensions <TT>`.com'</TT>, <TT>`.exe'</TT>, <TT>`.bat'</TT>, and <TT>`.btm'</TT>.
+</P><P>
+
+<DT><CODE>SPAWN_NO_EXTENSION_SRCH</CODE>
+<DD><P>
+
+Do not perform an extension search.  If the file has an extension, it must
+already be included in <VAR>path</VAR>.
+</P><P>
+
+</DL>
+<P>
+
+<A NAME="SEC650"></A>
+<H3> Return Value                                                                                                 </H3>
+<!--docid::SEC650::-->
+<P>
+
+See section <A HREF="libc_736.html">spawn*</A>.
+</P><P>
+
+<A NAME="SEC651"></A>
+<H3> Portability                                                                                                                </H3>
+<!--docid::SEC651::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC652"></A>
+<H3> Example                                                             </H3>
+<!--docid::SEC652::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>char *args[] = {
+  "gcc.exe",
+  "-v",
+  "hello.c",
+  0
+};
+
+__djgpp_spawn(P_WAIT, "/dev/env/DJDIR/bin/gcc.exe", args, NULL,
+              SPAWN_NO_EXTENSION_SRCH);
+</pre></td></tr></table></P><P>
+
+<A NAME="__djgpp_traceback_exit"></A>
+<!--#perl sub="trailer" -->

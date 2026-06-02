@@ -1,0 +1,75 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_133.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_132.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_134.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> disable </H2>
+<!--docid::SEC572::-->
+<A NAME="SEC573"></A>
+<H3> Syntax                                                                                                   </H3>
+<!--docid::SEC573::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dos.h&#62;
+
+int disable(void);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC574"></A>
+<H3> Description                                                                                                  </H3>
+<!--docid::SEC574::-->
+<P>
+
+This function disables interrupts.
+</P><P>
+
+See section <A HREF="libc_289.html">enable</A>.
+</P><P>
+
+<A NAME="SEC575"></A>
+<H3> Return Value                                                                                        </H3>
+<!--docid::SEC575::-->
+<P>
+
+Returns nonzero if the interrupts had been enabled before this call,
+zero if they were already disabled.
+</P><P>
+
+<A NAME="SEC576"></A>
+<H3> Portability                                                                                                  </H3>
+<!--docid::SEC576::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC577"></A>
+<H3> Example                                                   </H3>
+<!--docid::SEC577::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>int ints_were_enabled;
+
+ints_were_enabled = disable();
+. . . do some stuff . . .
+if (ints_were_enabled)
+  enable();
+</pre></td></tr></table></P><P>
+
+<A NAME="div"></A>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,70 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_343.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_342.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_344.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __fpclassifyld </H2>
+<!--docid::SEC1679::-->
+<A NAME="SEC1680"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC1680::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+
+int __fpclassifyld(long double);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1681"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC1681::-->
+<P>
+
+Returns the kind of the floating point value supplied. You should use
+the type generic macro <CODE>fpclassify</CODE> (see section <A HREF="libc_340.html">fpclassify</A>) instead
+of this function.
+</P><P>
+
+<A NAME="SEC1682"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC1682::-->
+<P>
+
+<CODE>FP_INFINITE</CODE>, <CODE>FP_NAN</CODE>, <CODE>FP_NORMAL</CODE>,
+<CODE>FP_SUBNORMAL</CODE>, <CODE>FP_ZERO</CODE> or <CODE>FP_UNNORMAL</CODE>.
+</P><P>
+
+<A NAME="SEC1683"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC1683::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C99; not C89
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1684"></A>
+<H3> Example                                                                                                                                          </H3>
+<!--docid::SEC1684::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>if( __fpclassifyld(0.0L) != FP_ZERO )
+{
+  printf("Something is wrong with the implementation!\n");
+}
+
+</pre></td></tr></table></P><P>
+
+<A NAME="_fpreset"></A>
+<!--#perl sub="trailer" -->

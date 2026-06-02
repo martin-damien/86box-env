@@ -1,0 +1,109 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_656.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_655.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_657.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> regerror </H2>
+<!--docid::SEC3380::-->
+<A NAME="SEC3381"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC3381::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>
+#include &#60;sys/types.h&#62;
+#include &#60;regex.h&#62;
+
+size_t regerror(int errcode, const regex_t *preg,
+                char *errbuf, size_t errbuf_size);
+
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3382"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC3382::-->
+<P>
+
+<CODE>regerror</CODE> maps a non-zero value of <VAR>errcode</VAR> from either
+<CODE>regcomp</CODE> (Return Value, see section <A HREF="libc_655.html">regcomp</A>) or <CODE>regexec</CODE>
+(Return Value, see section <A HREF="libc_657.html">regexec</A>) to a human-readable, printable message.
+</P><P>
+
+If <VAR>preg</VAR> is non-<CODE>NULL</CODE>, the error code should have arisen from
+use of the variable of the type <CODE>regex_t</CODE> pointed to by <VAR>preg</VAR>,
+and if the error code came from <CODE>regcomp</CODE>, it should have been the
+result from the most recent <CODE>regcomp</CODE> using that <CODE>regex_t</CODE>
+variable.  (<CODE>regerror</CODE> may be able to supply a more detailed
+message using information from the <CODE>regex_t</CODE> than from
+<VAR>errcode</VAR> alone.)  <CODE>regerror</CODE> places the <CODE>NUL</CODE>-terminated
+message into the buffer pointed to by <VAR>errbuf</VAR>, limiting the length
+(including the <CODE>NUL</CODE>) to at most <VAR>errbuf_size</VAR> bytes.  If the
+whole message won't fit, as much of it as will fit before the
+terminating <CODE>NUL</CODE> is supplied.  In any case, the returned value is
+the size of buffer needed to hold the whole message (including
+terminating <CODE>NUL</CODE>).  If <VAR>errbuf_size</VAR> is 0, <VAR>errbuf</VAR> is
+ignored but the return value is still correct.
+</P><P>
+
+If the <VAR>errcode</VAR> given to <CODE>regerror</CODE> is first ORed with
+<CODE>REG_ITOA</CODE>, the "message" that results is the printable name of
+the error code, e.g. "REG_NOMATCH", rather than an explanation
+thereof.  If <VAR>errcode</VAR> is <CODE>REG_ATOI</CODE>, then <VAR>preg</VAR> shall be
+non-NULL and the <CODE>re_endp</CODE> member of the structure it points to
+must point to the printable name of an error code
+(e.g. "REG_ECOLLATE"); in this case, the result in <VAR>errbuf</VAR> is the
+decimal representation of the numeric value of the error code (0 if the
+name is not recognized).  <CODE>REG_ITOA</CODE> and <CODE>REG_ATOI</CODE> are
+intended primarily as debugging facilities; they are extensions,
+compatible with but not specified by POSIX 1003.2, and should be
+used with caution in software intended to be portable to other systems.
+Be warned also that they are considered experimental and changes are
+possible.
+</P><P>
+
+<A NAME="SEC3383"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC3383::-->
+<P>
+
+The size of buffer needed to hold the message (including terminating
+<CODE>NUL</CODE>) is always returned, even if <VAR>errbuf_size</VAR> is zero.
+</P><P>
+
+<A NAME="SEC3384"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC3384::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="regexec"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_655.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_657.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

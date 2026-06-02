@@ -1,0 +1,78 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_173.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_172.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_174.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _dos_gettime </H2>
+<!--docid::SEC784::-->
+<A NAME="SEC785"></A>
+<H3> Syntax                                                                                                                                           </H3>
+<!--docid::SEC785::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dos.h&#62;
+
+void _dos_gettime(struct dostime_t *time);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC786"></A>
+<H3> Description                                                                                                                                        </H3>
+<!--docid::SEC786::-->
+<P>
+
+This function gets the current time and fills the <VAR>time</VAR> structure
+with these values.
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct dostime_t {
+  unsigned char hour;     /* 0-23 */
+  unsigned char minute;   /* 0-59 */
+  unsigned char second;   /* 0-59 */
+  unsigned char hsecond;  /* 0-99 */
+};
+</pre></td></tr></table></P><P>
+
+See section <A HREF="libc_182.html">_dos_settime</A>. See section <A HREF="libc_168.html">_dos_getdate</A>. See section <A HREF="libc_178.html">_dos_setdate</A>.
+</P><P>
+
+<A NAME="SEC787"></A>
+<H3> Return Value                                                                                                                      </H3>
+<!--docid::SEC787::-->
+<P>
+
+None.
+</P><P>
+
+<A NAME="SEC788"></A>
+<H3> Portability                                                                                                                                          </H3>
+<!--docid::SEC788::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC789"></A>
+<H3> Example                                                                           </H3>
+<!--docid::SEC789::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct dostime_t time;
+
+_dos_gettime(&#38;time);
+</pre></td></tr></table><A NAME="_dos_lk64"></A>
+<!--#perl sub="trailer" -->

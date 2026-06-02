@@ -1,0 +1,62 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_467.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_466.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_468.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> imaxabs </H2>
+<!--docid::SEC2372::-->
+<A NAME="SEC2373"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC2373::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;inttypes.h&#62;
+
+intmax_t imaxabs (intmax_t x);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2374"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC2374::-->
+<P>
+
+This function takes the absolute value of <VAR>x</VAR>.
+</P><P>
+
+<CODE>abs</CODE> (see section <A HREF="libc_38.html">abs</A>) operates on an <CODE>int</CODE>.  This function
+operates on a greatest-width integer.
+</P><P>
+
+<A NAME="SEC2375"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC2375::-->
+<P>
+
+<CODE>|<VAR>x</VAR>|</CODE>
+</P><P>
+
+<A NAME="SEC2376"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC2376::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C99; not C89
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.1-2001; not 1003.2-1992
+</TR></TABLE>
+<P>
+
+<A NAME="imaxdiv"></A>
+<!--#perl sub="trailer" -->

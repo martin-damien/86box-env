@@ -1,0 +1,53 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_460.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_459.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_461.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> gppconio_init </H2>
+<!--docid::SEC2336::-->
+<A NAME="SEC2337"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC2337::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;conio.h&#62;
+
+void gppconio_init(void);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2338"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC2338::-->
+<P>
+
+Initialize the screen.  This is called automatically at program start-up
+if you use any of the <CODE>conio</CODE> functions, but there may be
+times when you need to call it again, typically after calling some video
+BIOS function which affects screen parameters.
+</P><P>
+
+<A NAME="SEC2339"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC2339::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="__has_fd_properties"></A>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,79 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_661.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_660.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_662.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _rename </H2>
+<!--docid::SEC3407::-->
+<A NAME="SEC3408"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC3408::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdio.h&#62;
+
+int _rename(const char *oldname, const char *newname);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3409"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC3409::-->
+<P>
+
+This function renames an existing file or directory <VAR>oldname</VAR> to
+<VAR>newname</VAR>.  It is much smaller that <CODE>rename</CODE> (see section <A HREF="libc_662.html">rename</A>),
+but it can only rename a directory so it stays under the same parent, it
+cannot move directories between different branches of the directory
+tree.  This means that in the following example, the first call will
+succeed, while the second will fail:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>_rename("c:/path1/mydir", "c:/path1/yourdir");
+_rename("c:/path1/mydir", "c:/path2");
+</pre></td></tr></table></P><P>
+
+On systems that support long filenames (see section <A HREF="libc_843.html">_use_lfn</A>),
+<CODE>_rename</CODE> can also move directories (so that both calls in the
+above example succeed there), unless the <SAMP>`LFN'</SAMP> environment variable
+is set to <KBD>n</KBD>, or the <CODE>_CRT0_FLAG_NO_LFN</CODE> is set in the
+<CODE>_crt0_startup_flags</CODE> variable, See section <A HREF="libc_124.html">_crt0_startup_flags</A>.
+</P><P>
+
+If you don't need the extra functionality offered by <CODE>rename</CODE>
+(which usually is only expected by Unix-born programs), you can use
+<CODE>_rename</CODE> instead and thus make your program a lot smaller.
+</P><P>
+
+<A NAME="SEC3410"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC3410::-->
+<P>
+
+Zero on success, nonzero on failure.
+</P><P>
+
+<A NAME="SEC3411"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC3411::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="rename"></A>
+<!--#perl sub="trailer" -->

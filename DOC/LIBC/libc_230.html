@@ -1,0 +1,77 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_230.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_229.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_231.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __dpmi_get_multiple_descriptors </H2>
+<!--docid::SEC1084::-->
+<A NAME="SEC1085"></A>
+<H3> Syntax                                                                                                                                                                                                  </H3>
+<!--docid::SEC1085::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dpmi.h&#62;
+
+int __dpmi_get_multiple_descriptors(int count, void *buffer);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1086"></A>
+<H3> Description                                                                                                                                                                                               </H3>
+<!--docid::SEC1086::-->
+<P>
+
+Please refer to the DPMI Specification (see section <A HREF="libc_200.html">DPMI Specification</A>)
+for details on DPMI function call operation.  Also see
+the DPMI Overview (see section <A HREF="libc_199.html">DPMI Overview</A>) for general information.
+</P><P>
+
+DPMI function AX = 0x000e (DPMI 1.0 only).  Not supported by CWSDPMI and
+Windows.
+</P><P>
+
+This function gets a list of selectors' parameters.  The buffer pointed
+to by <VAR>buffer</VAR> must be prefilled with selector values, and will
+contain the parameters on return:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>[0x00:2] selector #1 (pass)
+[0x02:8] parameters #1 (returned)
+[0x0a:2] selector #2 (pass)
+[0x0c:8] parameters #2 (returned)
+...
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1087"></A>
+<H3> Return Value                                                                                                                                                                            </H3>
+<!--docid::SEC1087::-->
+<P>
+
+Returns <VAR>count</VAR> if successful, the negative of the number of
+descriptors copied if failure.
+</P><P>
+
+<A NAME="SEC1088"></A>
+<H3> Portability                                                                                                                                                                                                 </H3>
+<!--docid::SEC1088::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="__dpmi_get_page_attributes"></A>
+<!--#perl sub="trailer" -->

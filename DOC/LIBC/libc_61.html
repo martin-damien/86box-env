@@ -1,0 +1,73 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_61.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_60.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_62.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> bdos </H2>
+<!--docid::SEC179::-->
+<A NAME="SEC180"></A>
+<H3> Syntax                           </H3>
+<!--docid::SEC180::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dos.h&#62;
+
+int bdos(int func, unsigned dx, unsigned al);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC181"></A>
+<H3> Description                          </H3>
+<!--docid::SEC181::-->
+<P>
+
+Calls function <VAR>func</VAR> of the software interrupt 0x21, passing it
+<VAR>al</VAR> as the subfunction and (the lower 16 bit of) <VAR>dx</VAR> in the
+<CODE>DX</CODE> register.  This function will only work for a subset of DOS
+functions which require no arguments at all, or take non-pointer arguments
+in the <CODE>AL</CODE> and <CODE>DX</CODE> registers only.  For functions which
+require a pointer in the <CODE>DX</CODE> register, use <CODE>bdosptr</CODE>
+(see section <A HREF="libc_62.html">bdosptr</A>).
+</P><P>
+
+<A NAME="SEC182"></A>
+<H3> Return Value                          </H3>
+<!--docid::SEC182::-->
+<P>
+
+Whatever the called function returns in the AX register.
+</P><P>
+
+<A NAME="SEC183"></A>
+<H3> Portability                           </H3>
+<!--docid::SEC183::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC184"></A>
+<H3> Example                 </H3>
+<!--docid::SEC184::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>/* read a character */
+int ch = bdos(1, 0, 0) &#38; 0xff;
+</pre></td></tr></table></P><P>
+
+<A NAME="bdosptr"></A>
+<!--#perl sub="trailer" -->

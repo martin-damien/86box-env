@@ -1,0 +1,77 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_403.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_402.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_404.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> getlogin </H2>
+<!--docid::SEC2015::-->
+<A NAME="SEC2016"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC2016::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;unistd.h&#62;
+
+char *getlogin(void);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2017"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC2017::-->
+<P>
+
+Get the login ID of the user.
+</P><P>
+
+<A NAME="SEC2018"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC2018::-->
+<P>
+
+Returns the value of the <CODE>USERNAME</CODE> environment variable if it is
+defined, else the <CODE>LOGNAME</CODE> environment variable, else the
+<CODE>USER</CODE> environment variable, else <CODE>"dosuser"</CODE>.
+</P><P>
+
+<CODE>USERNAME</CODE> is set automatically by Windows NT and Windows 2000.
+None of these environment variables are set automatically on DOS,
+Windows 95 or Windows 98.
+</P><P>
+
+The stock version of the file <TT>`DJGPP.ENV'</TT> defines <CODE>USER</CODE> with
+the value <CODE>"dosuser"</CODE>.
+</P><P>
+
+<A NAME="SEC2019"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC2019::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2020"></A>
+<H3> Example                                                                                                                                                                              </H3>
+<!--docid::SEC2020::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>printf("I am %s\n", getlogin());
+</pre></td></tr></table></P><P>
+
+<A NAME="getlongpass"></A>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,76 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_331.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_330.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_332.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _flush_disk_cache </H2>
+<!--docid::SEC1612::-->
+<A NAME="SEC1613"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC1613::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;io.h&#62;
+
+void _flush_disk_cache (void);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1614"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC1614::-->
+<P>
+
+Attempts to update the disk with the data cached in the write-behind
+disk caches (such as <CODE>SmartDrv</CODE> and the built-in Windows 95 disk
+cache).
+</P><P>
+
+Note that this does <STRONG>not</STRONG> flush the DOS buffers.  You need to
+call <CODE>fsync</CODE> (see section <A HREF="libc_365.html">fsync</A>) or <CODE>close</CODE> (see section <A HREF="libc_104.html">close</A>) to
+force DOS to commit the file data to the disk; <CODE>sync</CODE>
+(see section <A HREF="libc_798.html">sync</A>) does that for all open files, and also calls
+<CODE>_flush_disk_cache</CODE>.
+</P><P>
+
+<A NAME="SEC1615"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC1615::-->
+<P>
+
+None.
+</P><P>
+
+<A NAME="SEC1616"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC1616::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1617"></A>
+<H3> Example                                                                                                                                 </H3>
+<!--docid::SEC1617::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>  /* Make sure all cached data for a handle FD is actually
+     written to disk.  */
+  fsync (fd);
+  _flush_disk_cache ();
+</pre></td></tr></table><A NAME="fmod"></A>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,76 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_518.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_517.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_519.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> kbhit </H2>
+<!--docid::SEC2627::-->
+<A NAME="SEC2628"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC2628::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;pc.h&#62;
+
+int kbhit(void);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2629"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC2629::-->
+<P>
+
+If the user has hit a key, this function will detect it.  This function
+is very fast when there is no key waiting, so it may be used inside
+loops as needed. 
+</P><P>
+
+If you test shift/alt/ctrl status with bios calls (e.g., using
+<CODE>bioskey (2)</CODE> or <CODE>bioskey (0x12)</CODE>) then you should also use
+bios calls for testing for keys.  This can be done with by
+<CODE>bioskey (1)</CODE> or <CODE>bioskey (0x11)</CODE>.  Failing to do so can
+cause trouble in multitasking environments like DESQview/X.
+</P><P>
+
+<A NAME="SEC2630"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC2630::-->
+<P>
+
+Nonzero if a key has been hit, else zero.
+</P><P>
+
+<A NAME="SEC2631"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC2631::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2632"></A>
+<H3> Example                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC2632::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>while (!kbhit())
+  do_stuff();
+</pre></td></tr></table></P><P>
+
+<A NAME="kill"></A>
+<!--#perl sub="trailer" -->

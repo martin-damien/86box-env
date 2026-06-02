@@ -1,0 +1,78 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_491.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_490.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_492.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __internal_readlink </H2>
+<!--docid::SEC2489::-->
+<A NAME="SEC2490"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC2490::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;libc/symlink.h&#62;
+
+int __internal_readlink(const char * path, int fhandle,
+                        char * buf, size_t max)
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2491"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC2491::-->
+In general applications shouldn't call this function; use <CODE>readlink</CODE> 
+instead (see section <A HREF="libc_647.html">readlink</A>).  However, there is one exception: if you have
+a <CODE>FSEXT</CODE> <CODE>fstat</CODE> file handler, and do not want do anything special
+about symlinks.  In this case you should call this function from your handler
+to set properly <CODE>S_IFLNK</CODE> bit in <CODE>st_mode</CODE>.  This function operates
+on either <VAR>path</VAR> <STRONG>or</STRONG> <VAR>fhandle</VAR>. In any case, the other arg
+should be set to <CODE>NULL</CODE> or 0.
+<P>
+
+<A NAME="SEC2492"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC2492::-->
+<P>
+
+Number of copied characters; value -1 is returned in case of
+error and <CODE>errno</CODE> is set.  When value returned is equal to 
+<VAR>size</VAR>, you cannot determine if there was enough room to 
+copy whole name.  So increase <VAR>size</VAR> and try again.
+</P><P>
+
+<A NAME="SEC2493"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC2493::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2494"></A>
+<H3> Example                                                                                                                                                                                                                          </H3>
+<!--docid::SEC2494::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>char buf[FILENAME_MAX + 1];
+if (__internal_readlink(0, "/dev/env/DJDIR/bin/sh.exe",
+                        buf, FILENAME_MAX) == -1)
+   if (errno == EINVAL)
+      puts("/dev/env/DJDIR/bin/sh.exe is not a symbolic link.");
+</pre></td></tr></table></P><P>
+
+<A NAME="_invent_inode"></A>
+<!--#perl sub="trailer" -->

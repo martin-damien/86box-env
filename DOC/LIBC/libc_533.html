@@ -1,0 +1,80 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_533.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_532.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_534.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> lldiv </H2>
+<!--docid::SEC2709::-->
+<A NAME="SEC2710"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC2710::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdlib.h&#62;
+
+lldiv_t lldiv(long long int numerator, long long int denominator);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2711"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC2711::-->
+<P>
+
+Returns the quotient and remainder of the division <VAR>numerator</VAR>
+divided by <VAR>denominator</VAR>.  The return type is as follows:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>typedef struct {
+  long long int quot;
+  long long int rem;
+} lldiv_t;
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2712"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC2712::-->
+<P>
+
+The results of the division are returned.
+</P><P>
+
+<A NAME="SEC2713"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC2713::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C99; not C89
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.1-2001; not 1003.2-1992
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2714"></A>
+<H3> Example                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC2714::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>lldiv_t l = lldiv(42, 3);
+printf("42 = %lld x 3 + %lld\n", l.quot, l.rem);
+
+lldiv(+40, +3) = { +13, +1 }
+lldiv(+40, -3) = { -13, +1 }
+lldiv(-40, +3) = { -13, -1 }
+lldiv(-40, -3) = { +13, -1 }
+
+</pre></td></tr></table></P><P>
+
+<A NAME="llockf"></A>
+<!--#perl sub="trailer" -->

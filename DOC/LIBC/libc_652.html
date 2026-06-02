@@ -1,0 +1,170 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_652.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_651.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_653.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> redir_debug_init </H2>
+<!--docid::SEC3354::-->
+<P>
+
+<A NAME="SEC3355"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC3355::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;debug/redir.h&#62;
+
+int redir_debug_init (cmdline_t *cmd);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3356"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC3356::-->
+<P>
+
+This function initializes the data structure in the <VAR>cmd</VAR> variable
+required to save and restore debugger's standard handles across
+invocations of <CODE>run_child</CODE> (see section <A HREF="libc_667.html">run_child</A>).  The debugger will
+then typically call <CODE>redir_to_child</CODE> and <CODE>redir_to_debugger</CODE>.
+</P><P>
+
+These functions are needed when a debugger wants to redirect standard
+handles of the debuggee, or if the debuggee redirects some of its
+standard handles, because the debuggee is not a separate process, we
+just pretend it is by jumping between two threads of execution.  But, as
+far as DOS is concerned, the debugger and the debuggee are a single
+process, and they share the same <EM>Job File Table</EM> (JFT).  The JFT is
+a table maintained by DOS in the program's PSP where, for each open
+handle, DOS stores the index into the SFT, the <EM>System File Table</EM>.
+(The SFT is an internal data structure where DOS maintains everything it
+knows about a certain open file/device.)  A handle that is returned by
+<CODE>open</CODE>, <CODE>_open</CODE> and other similar functions is simply an index
+into the JFT where DOS stored the SFT entry index for the file or device
+that the program opened.
+</P><P>
+
+When a program starts, the first 5 entries in the JFT are preconnected
+to the standard devices.  Any additional handles opened by either the
+debugger or the debuggee use handles beyond the first 5 (unless one of
+the preconnected handles is deliberately closed).  Here we mostly deal
+with handles 0, 1 and 2, the standard input, standard output, and
+standard error; they all start connected to the console device (unless
+somebody redirects the debugger's I/O from the command line).
+</P><P>
+
+Since both the debugger and the debuggee share the same JFT, their
+handles 0, 1 and 2 point to the same JFT entries and thus are connected
+to the same files/devices.  Therefore, if the debugger redirects its
+standard output, the standard output of the debuggee is also
+automagically redirected to the same file/device!  Similarly, if the
+debuggee redirects its stdout to a file, you won't be able to see
+debugger's output (it will go to the same file where the debuggee has
+its output); and if the debuggee closes its standard input, you will
+lose the ability to talk to debugger!
+</P><P>
+
+The debugger redirection support attempts to solve all these problems by
+creating an illusion of two separate sets of standard handles.  Each
+time the debuggee is about to be run or resumed, it should call
+<CODE>redir_to_child</CODE> to redirect debugger's own standard handles to the
+file specified in the command-line (as given by e.g. the "run" command
+of GDB) before running the debuggee, then call <CODE>redir_to_debugger</CODE>
+to redirect them back to the debugger's original input/output when the
+control is returned from the debuggee (e.g. after a breakpoint is hit).
+Although the debugger and the debuggee have two separate copies of the
+file-associated data structures, the debugger still can redirect
+standard handles of the debuggee because they use the same JFT entries
+as debugger's own standard handles.
+</P><P>
+
+The <CODE>cmdline_t</CODE> structure is declared in the header
+<TT>`debug/redir.h'</TT> as follows:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct dbg_redirect {
+  int inf_handle;   /* debuggee's handle */
+  int our_handle;   /* debugger's handle */
+  char *file_name;  /* file name where debuggee's handle is
+                     * redirected */
+  int mode;         /* mode used to open() the above file */
+  off_t filepos;    /* file position of debuggee's handle; unused */
+};
+
+typedef struct _cmdline {
+  char *command;		    /* command line with redirection removed */
+  int redirected;		    /* 1 if handles redirected for child */
+  struct dbg_redirect **redirection;/* info about redirected handles */
+} cmdline_t;
+</pre></td></tr></table></P><P>
+
+In the <CODE>cmdline_t</CODE> structure, the <CODE>redirection</CODE> member points
+to an array of 3 <CODE>dbg_redirect</CODE> structures, one each for each one
+of the 3 standard handles.  The <CODE>inf_handle</CODE> and <CODE>our_handle</CODE>
+members of those structures are used to save the handle used,
+respectively, by the debuggee (a.k.a. <EM>the inferior process</EM>) and
+by the debugger.
+</P><P>
+
+The <VAR>cmd</VAR> variable is supposed to be defined by the debugger's
+application code.  <CODE>redir_debug_init</CODE> is called to initialize that
+variable.  It calls <CODE>redir_cmdline_delete</CODE> to close any open
+handles held in <VAR>cmd</VAR> and to free any allocated storage; then it
+fills <VAR>cmd</VAR> with the trivial information (i.e., every standard
+stream is connected to the usual handles 0, 1, and 2).
+</P><P>
+
+<A NAME="SEC3357"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC3357::-->
+<P>
+
+<CODE>redir_debug_init</CODE> returns zero in case of success, or -1
+otherwise.
+</P><P>
+
+<A NAME="SEC3358"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC3358::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3359"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC3359::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre> if (redir_debug_init (&#38;child_cmd) == -1)
+   fatal ("Cannot allocate redirection storage: not enough memory.\n");
+</pre></td></tr></table></P><P>
+
+<A NAME="redir_to_child"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_651.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_653.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

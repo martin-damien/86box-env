@@ -1,0 +1,300 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+  <meta name="keywords" content="VGA, VGA programming, game programming, C, mouse, lines, circles, rectangles, polygons,  bitmaps, vertical retrace, animation, 256 color, pixel plotting, mode 13, mode x, double buffering, page flipping, unchained mode, flicker-free" />
+  <meta name="description" content="VGA basics, lines and shapes, bitmaps, mouse, double buffering, page flipping, unchained mode, and more" />
+  <link rel="stylesheet" type="text/css" media="all" href="default.css" />
+  <link rel="stylesheet" type="text/css" media="print" href="print.css" />
+  <title>256-Color VGA Programming in C - Mouse Support &amp; Animation</title>
+</head>
+
+<body>
+<div id="nav">
+  <a href="http://www.brackeen.com/"><img src="../images/logo.png" alt="David Brackeen" /></a>
+</div>
+
+<div id="header">
+  <a href="index.html">256-Color VGA Programming in C</a>
+ 
+  <h1>Mouse Support &amp; Animation</h1>
+  
+  <p>Contents in this section:</p>
+  <ul>
+  <li><a href="#1">Why a mouse?</a></li>
+  <li><a href="#2">Initializing the mouse</a></li>
+  <li><a href="#3">Mouse status</a></li>
+  <li><a href="#4">Mouse motion</a></li>
+  <li><a href="#5">Mouse buttons</a></li>
+  <li><a href="#6">Animation</a></li>
+  <li><a href="#7">Program: mouse.c</a></li>
+  </ul>
+</div>
+<div id="content">
+  
+  <h2><a name="1">Why a mouse?</a></h2>
+  
+  <p>If a program that is meant to have an easy-to-use interface
+  does not have mouse support, some would say it would not (and
+  could not) be an easy-to-use interface. Programming the mouse is
+  fairly simple on the low level, but there is a lot to deal with
+  when considering buttons and animated mouse pointers, all of
+  which will be covered in this section. </p>
+  
+  <p>There are two ways to communicate with the mouse: </p>
+  
+  <ul>
+      <li>with the serial port itself, or </li>
+      <li>with the installed mouse driver through interrupt 0x33. </li>
+  </ul>
+  
+  <p>Reading the serial port can be cumbersome because the mouse
+  must be detected, not to mention there are usually two or more
+  serial ports on a computer, each of which could be connected to
+  the mouse. Not to mention some mice use a PS/2 port or USB port.</p>
+  
+  <p>The mouse driver, if installed on the user's machine, provides
+  an easy way to detect the mouse's existence and poll messages
+  like when a mouse button has been pressed and when the mouse has
+  moved. Using the mouse driver also ensures the code will work no
+  matter what type of mouse the user has. The driver also provides
+  mouse pointer support, but it is limited to two-color mouse
+  pointers. The program <code>mouse.c</code> at the end of this
+  section uses all of its own mouse pointers instead of the
+  driver's.</p>
+  
+  <h2><a name="2">Initializing the mouse</a></h2>
+  
+  <p>Initializing the mouse is as easy as setting <code>AX</code>
+  to zero and calling interrupt 0x33. If the mouse is installed, <code>AX</code>
+  is set to FFFFh on return. The <code>BX</code> register returns
+  the number of mouse buttons.</p>
+  
+<pre>union REGS regs;
+
+regs.x.ax = 0;
+int86(0x33, &amp;regs, &amp;regs);
+mouse_on = regs.x.ax;
+num_buttons = regs.x.bx;
+</pre>
+  
+  <p>This also sets the mouse driver's internal mouse position to
+  the center of the screen. The center of the screen, according to
+  the mouse driver, is not (160,100), it is (320,100). This is
+  because the mouse driver maps the <i>x</i> position of the mouse
+  from 0 to 639 and the <i>y</i> position from 0 to 199, no matter
+  what video mode is currently active. </p>
+  
+  <h2><a name="3">Mouse status</a></h2>
+  
+  <p>To get the mouse's current status, set <code>AX</code> to 3
+  and call interrupt 0x33. The <i>x</i> value is returned in <code>CX</code>
+  and the <i>y</i> value is returned in <code>DX</code>. <code>BX</code>
+  contains the status of the mouse buttons (Figure 17). </p>
+  
+  <dl class="image">
+    <dt>
+      <img src="images/img00027.gif" alt="The status of the mouse buttons" width="281" height="137" />
+    </dt>
+    <dd><b>Figure 17.</b>
+       The status of the mouse buttons returned in <code>BL</code> after calling function 3.
+    </dd>
+  </dl>
+  
+  <p>The following program segment is a basic mouse handler than
+  uses a pixel as the mouse pointer. The program exits when a mouse
+  button is pressed. </p>
+  
+<pre>union REGS regs;
+
+regs.x.ax = 0;
+int86(0x33, &amp;regs, &amp;regs);
+mouse_on = regs.x.ax;
+if (!mouse_on) 
+{
+  printf(&quot;Mouse not found.\n&quot;);
+  exit(1);
+}
+
+buttons=0;
+while (!buttons)
+{
+  regs.x.ax=3;
+  int86(0x33, &amp;regs, &amp;regs);
+  cx = regs.x.cx;
+  dx = regs.x.dx;
+  offset = (cx&gt;&gt;1)+(dx&lt;&lt;8)+(dx&lt;&lt;6);
+  VGA[offset] = 15;
+  if (regs.x.bx) buttons=1;
+}
+</pre>
+  
+  <h2><a name="4">Mouse Motion</a></h2>
+  
+  <p>Using the mouse driver's mouse position is easy, but it is not
+  very portable to other video modes, like 320<tt>x</tt>240 or 640<tt>x</tt>480.
+  An alternate way to keep track of the mouse position is to let
+  the program do it, using function 0xB to get the motion that the
+  mouse has moved. This function returns the motion the mouse has
+  moved horizontally in <code>CX</code>, and the motion the mouse
+  has moved vertically in <code>DX</code>. The following program
+  segment uses function 0xB keep track of the mouse pointer. The
+  loop exits when the mouse is placed in the upper-left corner. </p>
+  
+<pre>union REGS reg;
+
+x=160;
+y=100;
+while (x&gt;0 || y&gt;0)
+{
+  /*... display mouse here ...*/
+
+  reg.x.ax=0x0B;
+  int86(0x33,&amp;regs,&amp;regs);  
+  x += (int)reg.x.cx;
+  y += (int)reg.x.dx;    
+  if (x&lt;0) x=0;
+  if (y&lt;0) y=0;
+  if (x&gt;319) x=319;
+  if (y&gt;199) y=199;
+}
+</pre>
+  
+  <h2><a name="5">Mouse buttons</a></h2>
+  
+  <p>Sometimes it does not matter if a mouse button is up or down,
+  only if it was just <i>pressed</i>. With functions 5 and 6,
+  instead of reading when a button is <i>down</i>, they read when a
+  button is first <i>pressed</i> and finally <i>released</i>. To do
+  this, set <code>BX</code> to the button (0=left, 1=right,
+  2=middle) and call interrupt 0x33. The function returns the
+  number of presses or releases that have occurred in <code>BX</code>.
+  The following code displays the status of the left button. The
+  loop exits when the right button is released. </p>
+  
+<pre>printf(&quot;Press right button to quit\n&quot;);
+do
+{
+  regs.x.ax=5;
+  regs.x.bx=0;
+  int86(0x33,&amp;regs,&amp;regs);
+  if (regs.x.bx)
+    printf(&quot;Left button pressed.\n&quot;);
+  regs.x.ax=6;
+  regs.x.bx=0;
+  int86(0x33,&amp;regs,&amp;regs);
+  if (regs.x.bx)
+    printf(&quot;Left button released.\n&quot;);
+  regs.x.ax=6;
+  regs.x.bx=1;
+  int86(0x33,&amp;regs,&amp;regs);
+} while (!regs.x.bx)
+</pre>
+  
+  <h2><a name="6">Animation</a></h2>
+  
+  <p>In a user-friendly interface, when the user selects a command
+  that takes a while to execute, the mouse pointer might become an
+  animated clock that lets the user know the computer is working.
+  This technique is demonstrated in <code>mouse.c</code>. The mouse
+  bitmap is stored in a structure that has a pointer to another
+  mouse pointer, which is the next bitmap in the animation. </p>
+  
+  <p>The vertical retrace is monitored to eliminate flickering of
+  the mouse pointer as well. </p>
+  
+  <p>All the button bitmaps and mouse pointers are stored in a
+  single file, <code>images.bmp</code> (Figure 18). The BMP file is
+  read, then the separate icons are extracted from it. </p>
+  
+  <dl class="image">
+    <dt>
+      <img src="images/img00028.gif" alt="images.bmp" width="288" height="48" />
+    </dt>
+    <dd>
+      <b>Figure 18.</b>
+      Bitmap <code>images.bmp</code>.
+    </dd>
+  </dl>
+  
+  <h2><a name="7">Program: mouse.c</a></h2>
+  
+   <div class="download">
+  
+    <dl>
+      <dt>DJGPP 2.0</dt>
+      <dd><a href="source/djgpp20/mouse.c.html">View mouse.c</a><br />
+      <a href="download/djgpp20/mouse.zip">Download mouse.zip</a> (Contains mouse.c, mouse.exe, images.bmp)</dd>
+    
+      <dt>Borland C, Turbo C, etc.</dt>
+      <dd><a href="source/bc31/mouse.c.html">View mouse.c</a><br />
+      <a href="download/bc31/mouse.zip">Download mouse.zip</a> (Contains mouse.c, mouse.exe, images.bmp)</dd>
+      
+    </dl>
+  
+    <p>Having trouble compiling or running the program? 
+    See the <a href="trouble.html">Troubleshooting</a> page.</p>
+  </div>
+  
+  <dl class="image">
+    <dt>
+      <img src="images/img00029.gif" alt="Output from mouse.exe" width="320" height="200" />
+    </dt>
+    <dd>
+      <b>Figure 19.</b>
+      Output from <code>mouse.exe</code>.
+    </dd>
+  </dl>
+  
+  <p>The previous program is the most substantial program in this
+  tutorial. It covers everything from this section and the previous
+  section, and actually demonstrates a solid user interface,
+  although the program does not do anything useful. With the ideas
+  from these past three programs, a pull-down menu system could be
+  created. </p>
+  
+  <p>However, the scheme used to reduce flickering in this program
+  is not very accurate at times. To create flicker-free programs,
+  one of two techniques should be used: double buffering or page
+  flipping. Both of these techniques are discussed in the next
+  section.</p>
+  
+  <div class="linkprev"><a href="bitmaps.html">&laquo; Previous: Bitmaps &amp; Palette Manipulation</a></div>
+  <div class="linknext"><a href="unchain.html">Next: Double Buffering, Page Flipping, &amp; Unchained Mode &raquo;</a></div>
+
+</div>
+
+<div id="footer">
+  <hr />
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="intro.html">Introduction</a></li>
+    <li><a href="basics.html">VGA Basics</a></li>
+    <li><a href="shapes.html">Primitive Shapes &amp; Lines</a></li>
+    <li><a href="bitmaps.html">Bitmaps &amp; Palette Manipulation</a></li>
+    <li class="youarehere">Mouse Support &amp; Animation</li>
+    <li><a href="unchain.html">Double Buffering, Page Flipping, &amp; Unchained Mode</a></li>
+  </ul>
+  <ul>
+    <li><a href="resource.html">Links and Other Resources</a></li>
+    <li><a href="download.html">Download</a></li>
+    <li><a href="trouble.html">FAQ and Troubleshooting</a></li>
+  </ul>
+  
+  <div id="license">
+    <!--Creative Commons License-->
+    <a rel="license" href="http://creativecommons.org/licenses/by-sa/2.5/"><img alt="Creative Commons License" src="http://creativecommons.org/images/public/somerights20.png"/></a><br/>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/2.5/">Creative Commons Attribution-ShareAlike 2.5 License</a>.
+    <!--/Creative Commons License-->
+    <!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+        <Work rdf:about="">
+          <license rdf:resource="http://creativecommons.org/licenses/by-sa/2.5/" />
+      <dc:type rdf:resource="http://purl.org/dc/dcmitype/Text" />
+        </Work>
+        <License rdf:about="http://creativecommons.org/licenses/by-sa/2.5/"><permits rdf:resource="http://web.resource.org/cc/Reproduction"/><permits rdf:resource="http://web.resource.org/cc/Distribution"/><requires rdf:resource="http://web.resource.org/cc/Notice"/><requires rdf:resource="http://web.resource.org/cc/Attribution"/><permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/><requires rdf:resource="http://web.resource.org/cc/ShareAlike"/></License></rdf:RDF> -->
+    </div>
+</div>
+
+</body>
+</html>

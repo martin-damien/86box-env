@@ -1,0 +1,136 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_602.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_601.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_603.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> opendir </H2>
+<!--docid::SEC3085::-->
+<A NAME="SEC3086"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC3086::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dirent.h&#62;
+
+extern int __opendir_flags;
+
+DIR *opendir(char *name);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3087"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC3087::-->
+<P>
+
+This function "opens" a directory so that you can read the list of file
+names in it.  The pointer returned must be passed to <CODE>closedir</CODE>
+when you are done with it.  See section <A HREF="libc_646.html">readdir</A>.
+</P><P>
+
+The global variable <CODE>__opendir_flags</CODE> can be set to include the
+following values to control the operation of <CODE>opendir</CODE>:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>__OPENDIR_PRESERVE_CASE</CODE>
+<DD>Do not change the case of files to lower case.  Just in case Micros*ft
+decides to support case-sensitive file systems some day.
+<P>
+
+You can also use this flag if you want the names of files like
+<TT>`README'</TT> and <TT>`FAQ'</TT> from Unix distributions to be returned in
+upper-case on Windows 9X filesystems.  See section <A HREF="libc_622.html">_preserve_fncase</A>, for
+other ways of achieving this and for more detailed description of the
+automatic letter-case conversion by DJGPP library functions.
+</P><P>
+
+<DT><CODE>__OPENDIR_NO_HIDDEN</CODE>
+<DD>Do not include hidden files and directories in the search.  By default,
+all files and directories are included.
+<P>
+
+<DT><CODE>__OPENDIR_FIND_HIDDEN</CODE>
+<DD>Provided for back-compatibility with previous DJGPP versions, where
+hidden files and directories were by default skipped.  In versions 2.02
+and later, this flag has no effect.
+<P>
+
+<DT><CODE>__OPENDIR_FIND_LABEL</CODE>
+<DD>Include volume labels in the search.  By default, these are skipped.
+<P>
+
+<DT><CODE>__OPENDIR_NO_D_TYPE</CODE>
+<DD>Do not compute the <CODE>d_type</CODE> member of <CODE>struct dirent</CODE>.  If
+this flag is set, all files will get <CODE>DT_UNKNOWN</CODE> in the
+<CODE>d_type</CODE> member.  By default, this flag is reset.  See section <A HREF="libc_646.html">readdir</A>.
+</DL>
+<P>
+
+You can simply put <SAMP>`int __opendir_flags = ...;'</SAMP> in your code.  The
+default is to let it get set to zero as an uninitialized variable.
+</P><P>
+
+<A NAME="SEC3088"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC3088::-->
+<P>
+
+The open directory structure, or <CODE>NULL</CODE> on error.
+</P><P>
+
+<A NAME="SEC3089"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC3089::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001 (see note 1)
+</TR></TABLE>
+<P>
+
+Notes:
+</P><P>
+
+<OL>
+<LI>
+The <CODE>__opendir_flags</CODE> variable is DJGPP-specific.
+</OL>
+<P>
+
+<A NAME="SEC3090"></A>
+<H3> Example                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC3090::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>DIR *d = opendir(".");
+closedir(d);
+</pre></td></tr></table></P><P>
+
+<A NAME="outb"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_601.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_603.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

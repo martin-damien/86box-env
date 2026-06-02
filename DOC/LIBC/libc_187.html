@@ -1,0 +1,62 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_187.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_186.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_188.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _doserrno </H2>
+<!--docid::SEC864::-->
+<A NAME="SEC865"></A>
+<H3> Syntax                                                                                                                                                         </H3>
+<!--docid::SEC865::-->
+ 
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;errno.h&#62;
+ 
+extern int _doserrno;
+</pre></td></tr></table> 
+<A NAME="SEC866"></A>
+<H3> Description                                                                                                                                                      </H3>
+<!--docid::SEC866::-->
+<P>
+
+Whenever a DOS call returns a failure indication, this variable is
+assigned the value of the error code returned by the failed DOS call.
+</P><P>
+
+For a list of the error codes and their short descriptions, see
+<A HREF="libc_189.html">dosexterr</A>.
+</P><P>
+
+<A NAME="SEC867"></A>
+<H3> Portability                                                                                                                                                        </H3>
+<!--docid::SEC867::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC868"></A>
+<H3> Example                                                                                     </H3>
+<!--docid::SEC868::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre> _doserrno = 0;
+ fprintf (stdprn, "Hello, world!\r\n\f");
+ if (_doserrno == 0x1c)
+   fprintf (stderr, "The printer is out of paper!\n");
+</pre></td></tr></table><A NAME="__dosexec_find_on_path"></A>
+<!--#perl sub="trailer" -->

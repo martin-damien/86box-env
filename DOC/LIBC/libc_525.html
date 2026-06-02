@@ -1,0 +1,76 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_525.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_524.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_526.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> lfilelength </H2>
+<!--docid::SEC2666::-->
+<A NAME="SEC2667"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC2667::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;io.h&#62;
+
+long long lfilelength(int fhandle);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2668"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC2668::-->
+<P>
+
+This function returns the size, in bytes, of a file whose handle is
+specified in the argument <VAR>fhandle</VAR>.  To get the handle of a file
+opened by <CODE>fopen</CODE> (see section <A HREF="libc_337.html">fopen</A>) or <CODE>freopen</CODE> (see section <A HREF="libc_351.html">freopen</A>),
+you can use <CODE>fileno</CODE> macro (see section <A HREF="libc_325.html">fileno</A>).
+</P><P>
+
+<A NAME="SEC2669"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC2669::-->
+<P>
+
+The size of the file in bytes, or (if any error occured) -1LL and
+<CODE>errno</CODE> set to a value describing the cause of the failure.
+</P><P>
+
+The return value is of type <CODE>long long</CODE> which allows file sizes of
+<EM>2^63-1</EM> bytes to be returned.  Note that FAT16 limits files to near
+<EM>2^31</EM> bytes and FAT32 limits files to <EM>2^32-2</EM> bytes.
+</P><P>
+
+<A NAME="SEC2670"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC2670::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2671"></A>
+<H3> Example                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC2671::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>  printf("Size of file to which STDIN is redirected is %ld\n", 
+          lfilelength(0));
+</pre></td></tr></table></P><P>
+
+<A NAME="_lfn_gen_short_fname"></A>
+<!--#perl sub="trailer" -->

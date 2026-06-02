@@ -1,0 +1,126 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_229.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_228.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_230.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __dpmi_get_memory_information </H2>
+<!--docid::SEC1079::-->
+<A NAME="SEC1080"></A>
+<H3> Syntax                                                                                                                                                                                                 </H3>
+<!--docid::SEC1080::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre>#include &#60;dpmi.h&#62;
+
+int __dpmi_get_memory_information(__dpmi_memory_info *buffer);
+</FONT></pre></td></tr></table></P><P>
+
+<A NAME="SEC1081"></A>
+<H3> Description                                                                                                                                                                                              </H3>
+<!--docid::SEC1081::-->
+<P>
+
+Please refer to the DPMI Specification (see section <A HREF="libc_200.html">DPMI Specification</A>)
+for details on DPMI function call operation.  Also see
+the DPMI Overview (see section <A HREF="libc_199.html">DPMI Overview</A>) for general information.
+</P><P>
+
+DPMI function AX = 0x050b (DPMI 1.0 only).  Not supported by CWSDPMI and
+Windows.
+</P><P>
+
+This function returns virtual memory information, as follows:
+</P><P>
+
+<DL COMPACT>
+<DT><CODE>total_allocated_bytes_of_physical_memory_host</CODE>
+<DD>The total amount of allocated physical memory controlled by the DPMI
+host.
+<P>
+
+<DT><CODE>total_allocated_bytes_of_virtual_memory_host</CODE>
+<DD>The total amount of allocated virtual memory controlled by the DPMI
+host.
+<P>
+
+<DT><CODE>total_available_bytes_of_virtual_memory_host</CODE>
+<DD>The total amount of available virtual memory controlled by the DPMI
+host.
+<P>
+
+<DT><CODE>total_allocated_bytes_of_virtual_memory_vcpu</CODE>
+<DD>The amount of virtual memory allocated by the DPMI host for the current
+virtual machine.
+<P>
+
+<DT><CODE>total_available_bytes_of_virtual_memory_vcpu</CODE>
+<DD>The amount of virtual memory available for the current virtual machine.
+<P>
+
+<DT><CODE>total_allocated_bytes_of_virtual_memory_client</CODE>
+<DD>The amount of virtual memory allocated by the DPMI host for the current
+client (that is, for the calling program).
+<P>
+
+<DT><CODE>total_available_bytes_of_virtual_memory_client</CODE>
+<DD>The amount of virtual memory available to the current client.
+<P>
+
+<DT><CODE>total_locked_bytes_of_memory_client</CODE>
+<DD>The amount of memory locked by the calling program.
+<P>
+
+<DT><CODE>max_locked_bytes_of_memory_client</CODE>
+<DD>Maximum locked memory for the current client.
+<P>
+
+<DT><CODE>highest_linear_address_available_to_client</CODE>
+<DD>The highest linear address available to the calling program.
+<P>
+
+<DT><CODE>size_in_bytes_of_largest_free_memory_block</CODE>
+<DD>Size of the largest available memory block.
+<P>
+
+<DT><CODE>size_of_minimum_allocation_unit_in_bytes</CODE>
+<DD>Size of the smallest block that can be allocated.
+<P>
+
+<DT><CODE>size_of_allocation_alignment_unit_in_bytes</CODE>
+<DD>The alignment of allocated memory blocks.
+</DL>
+<P>
+
+<A NAME="SEC1082"></A>
+<H3> Return Value                                                                                                                                                                           </H3>
+<!--docid::SEC1082::-->
+<P>
+
+-1 on error, else zero.
+</P><P>
+
+<A NAME="SEC1083"></A>
+<H3> Portability                                                                                                                                                                                                </H3>
+<!--docid::SEC1083::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="__dpmi_get_multiple_descriptors"></A>
+<!--#perl sub="trailer" -->

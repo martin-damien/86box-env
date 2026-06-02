@@ -1,0 +1,74 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_280.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_279.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_281.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> DTTOIF </H2>
+<!--docid::SEC1336::-->
+<A NAME="SEC1337"></A>
+<H3> Syntax                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC1337::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dirent.h&#62;
+
+struct dirent *de;
+mode_t file_mode = DTTOIF(de-&#62;d_type)
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1338"></A>
+<H3> Description                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC1338::-->
+<P>
+
+This macro converts the <CODE>d_type</CODE> member of a <CODE>struct dirent</CODE>
+variable, as returned by <CODE>readdir</CODE> (see section <A HREF="libc_646.html">readdir</A>) to an
+equivalent value of the <CODE>st_mode</CODE> member of a <CODE>struct stat</CODE>
+variable (see section <A HREF="libc_744.html">stat</A>).
+</P><P>
+
+Note that the access rights are not set in the result returned by this
+macro.  Only the file-type information is copied.
+</P><P>
+
+<A NAME="SEC1339"></A>
+<H3> Return Value                                                                                                                                                                                                                              </H3>
+<!--docid::SEC1339::-->
+<P>
+
+The file's mode bits are returned.  If the argument has the value
+<CODE>DT_UNKNOWN</CODE>, the result will be <CODE>S_IFREG</CODE>.
+</P><P>
+
+<A NAME="SEC1340"></A>
+<H3> Portability                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC1340::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No (see note 1)
+</TR></TABLE>
+<P>
+
+Notes:
+</P><P>
+
+<OL>
+<LI>
+This macro is available on systems which support the <CODE>d_type</CODE> member in <CODE>struct dirent</CODE>.
+</OL>
+<A NAME="dup"></A>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,68 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_158.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_157.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_159.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> dlsym </H2>
+<!--docid::SEC698::-->
+<A NAME="SEC699"></A>
+<H3> Syntax                                                                                                                            </H3>
+<!--docid::SEC699::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dlfcn.h&#62;
+
+void *dlsym (void *handle, const char *symbol_name);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC700"></A>
+<H3> Description                                                                                                                         </H3>
+<!--docid::SEC700::-->
+<P>
+
+This function get the address of a symbol defined in a shared loadable
+image.  
+</P><P>
+
+The <VAR>handle</VAR> argument is the value returned from a call to
+<CODE>dlopen</CODE>, or the special value <CODE>RTLD_DEFAULT</CODE> which will
+search all symbols in the global scope.
+</P><P>
+
+The <VAR>symbol_name</VAR> is the assembler name, not the C name.  For 
+DJGPP/COFF prepend an underscore in front.
+</P><P>
+
+<A NAME="SEC701"></A>
+<H3> Return Value                                                                                                       </H3>
+<!--docid::SEC701::-->
+<P>
+
+Returns <CODE>NULL</CODE> on failure, pointer to requested symbol on success.
+</P><P>
+
+<A NAME="SEC702"></A>
+<H3> Portability                                                                                                                           </H3>
+<!--docid::SEC702::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.1-2001; not 1003.2-1992
+</TR></TABLE>
+<P>
+
+<A NAME="dlsymresolver"></A>
+<!--#perl sub="trailer" -->

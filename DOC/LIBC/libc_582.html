@@ -1,0 +1,111 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_582.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_581.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_583.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> monstartup </H2>
+<!--docid::SEC2979::-->
+<A NAME="SEC2980"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC2980::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;sys/gmon.h&#62;
+
+int monstartup (unsigned long lowpc, unsigned long highpc);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2981"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC2981::-->
+<P>
+
+This function allows to selectively collect profiling information for a
+specific range of addresses.  The arguments specify the address range
+that is to be sampled: the lowest address is given by <VAR>lowpc</VAR> and
+the highest is just below <VAR>highpc</VAR>.  <CODE>monstartup</CODE> arranges for
+the profiling data to be gathered and written at program exit time, and
+then calls the <CODE>moncontrol</CODE> function (see section <A HREF="libc_578.html">moncontrol</A>) to start
+profiling.
+</P><P>
+
+The call graph printed by the
+<CODE>gprof</CODE> utility will only include functions in this range compiled
+with the <SAMP>`-pg'</SAMP> option, but <CODE>EIP</CODE> sampling triggered by the
+timer tick will measure execution time of all the functions in the
+specified range.
+</P><P>
+
+This function should be called by a program which was not linked with
+the <SAMP>`-pg'</SAMP> linker switch.  If <SAMP>`-pg'</SAMP> <EM>was</EM> used during
+linking, <CODE>monstartup</CODE> is called automatically by the startup code
+with arguments which span the entire range of executable addresses in
+the program, from the program's entry point to the highest code segment
+address.
+</P><P>
+
+Only the first call to this function has an effect; any further calls
+will do nothing and return a failure indication.  (In particular, in a
+program linked with <SAMP>`-pg'</SAMP>, this function always fails, since the
+startup code already called it.)  This is because <CODE>monstartup</CODE> sets
+up some internal data structures which cannot be resized if a different
+address range is requested.
+</P><P>
+
+Profiling begins on return from this function.  You can use
+<CODE>moncontrol</CODE> (see section <A HREF="libc_578.html">moncontrol</A>) to turn profiling off and on.
+</P><P>
+
+<A NAME="SEC2982"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC2982::-->
+<P>
+
+Zero on success, non-zero on failure.
+</P><P>
+
+<A NAME="SEC2983"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC2983::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2984"></A>
+<H3> Example                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC2984::-->
+<P>
+
+See section <A HREF="libc_578.html">moncontrol</A>.
+</P><P>
+
+<A NAME="movedata"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_581.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_583.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,87 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_824.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_823.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_825.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> tmpnam </H2>
+<!--docid::SEC4318::-->
+<A NAME="SEC4319"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC4319::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdio.h&#62;
+
+char *tmpnam(char *s);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC4320"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC4320::-->
+<P>
+
+This function generates a string that is a valid file name and that
+is not the same as the name of an existing file.  A different string is
+guaranteed to be produced each time it is called, up to <CODE>TMP_MAX</CODE>
+times (<CODE>TMP_MAX</CODE> is defined on stdio.h).  If <CODE>tmpnam</CODE> is called
+more than TMP_MAX times, the behavior is implementation-dependent (ours
+just wraps around and tries to reuse the same file names from the
+beginning).
+</P><P>
+
+This function examines the environment to determine the directory in which
+the temporary file will be opened.  It looks for one of the variables
+<CODE>"TMPDIR"</CODE>, <CODE>"TEMP"</CODE> and <CODE>"TMP"</CODE>, in that order.  The first
+one which is found in the environment will be used on the assumption that
+it points to a directory.  If neither of the above variables is defined,
+<CODE>tmpnam</CODE> defaults to the "c:/" directory (which under MS-DOS might
+mean that it fails to generate TMP_MAX unique names, because DOS root
+directories cannot grow beyond certain limits).
+</P><P>
+
+<A NAME="SEC4321"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC4321::-->
+<P>
+
+If <VAR>s</VAR> is a null pointer, <CODE>tmpnam</CODE> leaves its result in an
+internal static buffer and returns a pointer to that buffer.  If <VAR>s</VAR>
+is not a null pointer, it is assumed to point to an array of at least
+<CODE>L_tmpnam</CODE> characters, and <CODE>tmpnam</CODE> writes its result in that
+array and returns a pointer to it as its value.
+</P><P>
+
+<A NAME="SEC4322"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC4322::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C89; C99
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC4323"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC4323::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>char buf[L_tmpnam];
+char *s = tmpnam(buf);
+</pre></td></tr></table></P><P>
+
+<A NAME="toascii"></A>
+<!--#perl sub="trailer" -->

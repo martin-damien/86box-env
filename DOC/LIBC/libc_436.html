@@ -1,0 +1,69 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_436.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_435.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_437.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _go32_dpmi_free_iret_wrapper </H2>
+<!--docid::SEC2203::-->
+<A NAME="SEC2204"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC2204::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dpmi.h&#62;
+
+int _go32_dpmi_free_iret_wrapper(_go32_dpmi_seginfo *info);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2205"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC2205::-->
+<P>
+
+See section <A HREF="libc_199.html">DPMI Overview</A>.
+</P><P>
+
+This function frees the memory used by the wrapper created by
+<CODE>_go32_dpmi_allocate_iret_wrapper</CODE>.  You should not free a wrapper
+that is still in use.
+</P><P>
+
+<A NAME="SEC2206"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC2206::-->
+<P>
+
+Zero on success, nonzero on failure.
+</P><P>
+
+<A NAME="SEC2207"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC2207::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2208"></A>
+<H3> Example                                                                                                                                                                                                    </H3>
+<!--docid::SEC2208::-->
+<P>
+
+See section <A HREF="libc_431.html">_go32_dpmi_allocate_iret_wrapper</A>.
+<A NAME="_go32_dpmi_free_real_mode_callback"></A>
+<!--#perl sub="trailer" -->

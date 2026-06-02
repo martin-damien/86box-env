@@ -1,0 +1,88 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_845.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_844.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_846.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> utime </H2>
+<!--docid::SEC4436::-->
+<A NAME="SEC4437"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC4437::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;utime.h&#62;
+
+int utime(const char *file, const struct utimbuf *time);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC4438"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC4438::-->
+<P>
+
+This function sets the modification timestamp on the <VAR>file</VAR>.  The
+new time is stored in this structure:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct utimbuf
+{
+    time_t  actime;  /* access time (unused on FAT filesystems) */
+    time_t  modtime; /* modification time */
+};
+</pre></td></tr></table></P><P>
+
+Note that, as under DOS a file only has a single timestamp, the
+<CODE>actime</CODE> field of <CODE>struct utimbuf</CODE> is ignored by this
+function, and only <CODE>modtime</CODE> field is used.  On filesystems which
+support long filenames, both fields are used and both access and
+modification times are set.
+</P><P>
+
+If <VAR>file</VAR> is a directory, the function always fails, except on
+Windows 2000 and Windows XP, because other systems don't allow changing
+the time stamp of a directory.
+</P><P>
+
+<A NAME="SEC4439"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC4439::-->
+<P>
+
+Zero for success, nonzero for failure.
+</P><P>
+
+<A NAME="SEC4440"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC4440::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC4441"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC4441::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct utimbuf t;
+t.modtime = time(0);
+utime("data.txt", &#38;t);
+</pre></td></tr></table></P><P>
+
+<A NAME="utimes"></A>
+<!--#perl sub="trailer" -->

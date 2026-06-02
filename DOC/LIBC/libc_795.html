@@ -1,0 +1,138 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_795.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_794.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_796.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> syms_name2val </H2>
+<!--docid::SEC4163::-->
+<P>
+
+<A NAME="SEC4164"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC4164::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;debug/syms.h&#62;
+extern int undefined_symbol;
+extern int syms_printwhy;
+
+unsigned long syms_name2val (const char *string);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC4165"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC4165::-->
+<P>
+
+This function returns the address of a symbol specified by <VAR>string</VAR>.
+<VAR>string</VAR> may be one of the following:
+</P><P>
+
+<UL>
+<LI>
+A number, with or without a sign, in which case the number specifies the
+address or an offset from an address.
+<P>
+
+<LI>
+A file name and a line number: <CODE><VAR>file</VAR>#[<VAR>line</VAR>]</CODE>, where
+<VAR>file</VAR> is the name of one of the source files linked into the
+program whose symbols were read by <CODE>syms_init</CODE>, and <VAR>line</VAR> is a
+line number in that <VAR>file</VAR>.  If <VAR>line</VAR> is omitted, it defaults
+to zero.
+<P>
+
+Note that the COFF format supported by DJGPP only stores the basename of
+the source files, so do not specify <VAR>file</VAR> with leading directories.
+</P><P>
+
+<LI>
+A symbol name as a string.  The name can be specified either with or
+without the leading underscore <SAMP>`_'</SAMP>.
+<P>
+
+<LI>
+A register name <CODE>%<VAR>reg</VAR></CODE>.  <VAR>reg</VAR> specifies the value of one
+of the debuggee's registers saved in the external variable <CODE>a_tss</CODE>
+(see section <A HREF="libc_667.html">run_child</A>).
+<P>
+
+<LI>
+Any sensible combination of the above elements, see the example below.
+</UL>
+<P>
+
+<CODE>syms_name2val</CODE> looks up the specified file, line, and symbol in
+the symbol table prepared by <CODE>syms_init</CODE>, finds their addresses,
+adds the offset, if any, and returns the result.
+</P><P>
+
+If the specified file, line, or symbol cannot be found,
+<CODE>syms_name2val</CODE> returns zero and sets the global variable
+<CODE>undefined_symbol</CODE> to a non-zero value.  If the global variable
+<CODE>syms_printwhy</CODE> is non-zero, an error message is printed
+telling which part of the argument <VAR>string</VAR> was invalid.
+</P><P>
+
+You must call <CODE>syms_init</CODE> (see section <A HREF="libc_791.html">syms_init</A>) before calling any of
+the other <CODE>syms_*</CODE> functions for the first time.
+</P><P>
+
+<A NAME="SEC4166"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC4166::-->
+<P>
+
+The address specified by <VAR>string</VAR>, or zero, if none found.
+</P><P>
+
+<A NAME="SEC4167"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC4167::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC4168"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC4168::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre> unsigned long addr1, addr2, addr3;
+
+ syms_init ("foo.exe");
+ addr1 = syms_name2val ("foo.c#256+12");
+ addr2 = syms_name2val ("_main");
+ addr3 = syms_name2val ("struct_a_var+%eax+4");
+</pre></td></tr></table></P><P>
+
+<A NAME="syms_val2line"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_794.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_796.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

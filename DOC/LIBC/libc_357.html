@@ -1,0 +1,87 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_357.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_356.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_358.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __FSEXT_alloc_fd </H2>
+<!--docid::SEC1755::-->
+<A NAME="SEC1756"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC1756::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;sys/fsext.h&#62;
+
+int __FSEXT_alloc_fd(__FSEXT_Function *_function);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1757"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC1757::-->
+<P>
+
+This function is part of the <A HREF="libc_321.html">File System Extensions</A>.  It is used
+by extensions that fully emulate the I/O functions, and thus don't
+have a corresponding DOS file handle.  Upon the first call, this
+function opens DOS's <SAMP>`NUL'</SAMP> device, so as to allocate a handle that
+DOS won't then reuse.  Upon subsequent calls, that handle is duplicated
+by calling the DOS <CODE>dup</CODE> function; this makes all of the handles
+use a single entry in the System File Table, and thus be independent of
+what the <SAMP>`FILES='</SAMP> parameter of <TT>`CONFIG.SYS'</TT> says.
+<CODE>__FSEXT_alloc_fd</CODE> also assigns the handler function for the handle
+it returns.
+</P><P>
+
+The module is responsible for calling <CODE>_close</CODE> on the descriptor
+after setting the handler function to zero in the extended close
+handler.
+</P><P>
+
+<A NAME="SEC1758"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC1758::-->
+<P>
+
+If successful, a new file descriptor is returned. On error, a negative number
+is returned and <CODE>errno</CODE> is set to indicate the error.
+</P><P>
+
+<A NAME="SEC1759"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC1759::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1760"></A>
+<H3> Example                                                                                                                                                  </H3>
+<!--docid::SEC1760::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>
+int socket()
+{
+  int fd = __FSEXT_alloc_fd(socket_handler);
+  init_socket(fd);
+  return fd;
+}
+</pre></td></tr></table></P><P>
+
+<A NAME="__FSEXT_call_open_handlers"></A>
+<!--#perl sub="trailer" -->

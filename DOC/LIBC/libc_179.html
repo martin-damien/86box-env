@@ -1,0 +1,73 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_179.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_178.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_180.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _dos_setdrive </H2>
+<!--docid::SEC818::-->
+<A NAME="SEC819"></A>
+<H3> Syntax                                                                                                                                                 </H3>
+<!--docid::SEC819::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dos.h&#62;
+
+void _dos_setdrive(unsigned int drive, unsigned int *p_drives);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC820"></A>
+<H3> Description                                                                                                                                              </H3>
+<!--docid::SEC820::-->
+<P>
+
+This function set the current default drive based on <VAR>drive</VAR>
+(1=A:, 2=B:, etc.) and determines the number of available logical
+drives and fills <VAR>p_drives</VAR> with it.
+</P><P>
+
+See section <A HREF="libc_170.html">_dos_getdrive</A>.
+</P><P>
+
+<A NAME="SEC821"></A>
+<H3> Return Value                                                                                                                            </H3>
+<!--docid::SEC821::-->
+<P>
+
+None.
+</P><P>
+
+<A NAME="SEC822"></A>
+<H3> Portability                                                                                                                                                </H3>
+<!--docid::SEC822::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC823"></A>
+<H3> Example                                                                               </H3>
+<!--docid::SEC823::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>unsigned int available_drives;
+
+/* The current drive will be A: */
+_dos_setdrive(1, &#38;available_drives);
+printf("Number of available logical drives %u.\n", available_drives);
+</pre></td></tr></table><A NAME="_dos_setfileattr"></A>
+<!--#perl sub="trailer" -->

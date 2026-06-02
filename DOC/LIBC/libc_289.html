@@ -1,0 +1,75 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_289.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_288.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_290.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> enable </H2>
+<!--docid::SEC1384::-->
+<A NAME="SEC1385"></A>
+<H3> Syntax                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC1385::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dos.h&#62;
+
+int enable(void);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1386"></A>
+<H3> Description                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC1386::-->
+<P>
+
+This function enables interrupts.
+</P><P>
+
+See section <A HREF="libc_133.html">disable</A>.
+</P><P>
+
+<A NAME="SEC1387"></A>
+<H3> Return Value                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC1387::-->
+<P>
+
+Returns nonzero if the interrupts were already enabled, zero if they
+had been disabled before this call.
+</P><P>
+
+<A NAME="SEC1388"></A>
+<H3> Portability                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC1388::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1389"></A>
+<H3> Example                                                                                                          </H3>
+<!--docid::SEC1389::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>int ints_were_enabled;
+
+ints_were_enabled = enable();
+. . . do some stuff . . .
+if (!ints_were_enabled)
+  disable();
+</pre></td></tr></table></P><P>
+
+<A NAME="endgrent"></A>
+<!--#perl sub="trailer" -->

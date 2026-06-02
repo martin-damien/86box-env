@@ -1,0 +1,77 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_258.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_257.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_259.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __dpmi_segment_to_descriptor </H2>
+<!--docid::SEC1225::-->
+<A NAME="SEC1226"></A>
+<H3> Syntax                                                                                                                                                                                                                              </H3>
+<!--docid::SEC1226::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dpmi.h&#62;
+
+int __dpmi_segment_to_descriptor(int _segment);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1227"></A>
+<H3> Description                                                                                                                                                                                                                           </H3>
+<!--docid::SEC1227::-->
+<P>
+
+Please refer to the DPMI Specification (see section <A HREF="libc_200.html">DPMI Specification</A>)
+for details on DPMI function call operation.  Also see
+the DPMI Overview (see section <A HREF="libc_199.html">DPMI Overview</A>) for general information.
+</P><P>
+
+DPMI function AX = 0x0002
+</P><P>
+
+This function returns a selector that maps to what the real-mode
+segment provided would have referenced.  Warning: this is a scarce
+resource.
+</P><P>
+
+<A NAME="SEC1228"></A>
+<H3> Return Value                                                                                                                                                                                                        </H3>
+<!--docid::SEC1228::-->
+<P>
+
+-1 on error, else the selector.
+</P><P>
+
+<A NAME="SEC1229"></A>
+<H3> Portability                                                                                                                                                                                                                             </H3>
+<!--docid::SEC1229::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1230"></A>
+<H3> Example                                                                                                    </H3>
+<!--docid::SEC1230::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>short video = __dpmi_segment_to_descriptor(0xa000);
+movedata(_my_ds(), buffer, video, 0, 320*200);
+</pre></td></tr></table></P><P>
+
+<A NAME="__dpmi_serialize_on_shared_memory"></A>
+<!--#perl sub="trailer" -->

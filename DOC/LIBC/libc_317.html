@@ -1,0 +1,68 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_317.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_316.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_318.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> fgetc </H2>
+<!--docid::SEC1538::-->
+<A NAME="SEC1539"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC1539::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdio.h&#62;
+
+int fgetc(FILE *file);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1540"></A>
+<H3> Description                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC1540::-->
+<P>
+
+Returns the next character in the given <VAR>file</VAR> as an unsigned char. 
+</P><P>
+
+<A NAME="SEC1541"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC1541::-->
+<P>
+
+The given char (value 0..255) or <CODE>EOF</CODE> at end-of-file.
+</P><P>
+
+<A NAME="SEC1542"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC1542::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C89; C99
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1543"></A>
+<H3> Example                                                                                                                         </H3>
+<!--docid::SEC1543::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>int c;
+while((c=fgetc(stdin)) != EOF)
+  fputc(c, stdout);
+</pre></td></tr></table></P><P>
+
+<A NAME="fgetgrent"></A>
+<!--#perl sub="trailer" -->

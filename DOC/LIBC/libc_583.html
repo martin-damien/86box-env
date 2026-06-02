@@ -1,0 +1,87 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_583.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_582.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_584.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> movedata </H2>
+<!--docid::SEC2985::-->
+<A NAME="SEC2986"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC2986::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;sys/movedata.h&#62;
+
+void movedata(unsigned source_selector, unsigned source_offset,
+              unsigned dest_selector, unsigned dest_offset,
+              size_t length);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2987"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC2987::-->
+<P>
+
+This function allows the caller to directly transfer information
+between conventional and linear memory, and among each as well.  The
+selectors passed are <EM>not</EM> segment values like in DOS.  They are
+protected mode selectors that can be obtained by the <CODE>_my_ds</CODE> and
+<CODE>_go32_info_block.selector_for_linear_memory</CODE> (or just
+<CODE>_dos_ds</CODE>, which is defined in the include file go32.h) functions
+(<A HREF="libc_590.html">_my_ds</A>, see section <A HREF="libc_451.html">_go32_info_block</A>).
+The offsets are linear offsets.  If the selector is for the program's
+data area, this offset corresponds to the address of a buffer (like
+<CODE>(unsigned)&#38;something</CODE>).  If the selector is for the conventional
+memory area, the offset is the physical address of the memory, which
+can be computed from a traditional segment/offset pair as
+<CODE>segment</CODE>*16+<CODE>offset</CODE>.  For example, the color text screen
+buffer is at offset 0xb8000.
+</P><P>
+
+<A NAME="SEC2988"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC2988::-->
+<P>
+
+None.
+</P><P>
+
+<A NAME="SEC2989"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC2989::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2990"></A>
+<H3> Example                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC2990::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>short blank_row_buf[ScreenCols()];
+/* scroll screen */
+movedata(_dos_ds, 0xb8000 + ScreenCols()*2,
+         _dos_ds, 0xb8000,
+         ScreenCols() * (ScreenRows()-1) * 2);
+/* fill last row */
+movedata(_my_ds(), (unsigned)blank_row_buf,
+         _dos_ds, 0xb8000 + ScreenCols()*(ScreenRows()-1)*2,
+          ScreenCols() * 2);
+</pre></td></tr></table><A NAME="movedatab"></A>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,196 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_744.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_743.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_745.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> stat </H2>
+<!--docid::SEC3866::-->
+<A NAME="SEC3867"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC3867::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;sys/stat.h&#62;
+
+int stat(const char *file, struct stat *sbuf);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3868"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC3868::-->
+<P>
+
+This function obtains the status of the file <VAR>file</VAR> and stores
+it in <VAR>sbuf</VAR>.  <CODE>stat</CODE> follows symbolic links.  To get
+information about a symbolic link, use <CODE>lstat</CODE> (see section <A HREF="libc_549.html">lstat</A>)
+instead.
+</P><P>
+
+<VAR>sbuf</VAR> has this structure:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre>struct  stat {
+        time_t    st_atime;     /* time of last access       */
+        time_t    st_ctime;     /* time of file's creation   */
+        dev_t     st_dev;       /* The drive number (0 = a:) */
+        gid_t     st_gid;       /* what getgid() returns */
+        ino_t     st_ino;       /* starting cluster or unique identifier */
+        mode_t    st_mode;      /* file mode - S_IF* and S_IRUSR/S_IWUSR */
+        time_t    st_mtime;     /* time that the file was last written */
+        nlink_t   st_nlink;     /* 2 + number of subdirs, or 1 for files */
+        off_t     st_size;      /* size of file in bytes */
+        blksize_t st_blksize;   /* block size in bytes*/
+        uid_t     st_uid;       /* what getuid() returns */
+	dev_t     st_rdev;      /* The drive number (0 = a:) */
+};
+</FONT></pre></td></tr></table></P><P>
+
+The <CODE>st_atime</CODE>, <CODE>st_ctime</CODE> and <CODE>st_mtime</CODE> have different
+values only when long file names are supported (e.g. on Windows 9X);
+otherwise, they all have the same value: the time that the file was last
+written<A NAME="DOCF3" HREF="libc_fot.html#FOOT3">(3)</A>.  Most Windows 9X VFAT filesystems only support the date of
+the file's last access (the time is set to zero); therefore, the DJGPP
+implementation of <CODE>stat</CODE> sets the <CODE>st_atime</CODE> member to the
+same value as <CODE>st_mtime</CODE> if the time part of <CODE>st_atime</CODE>
+returned by the filesystem is zero (to prevent the situation where the
+file appears to have been created <EM>after</EM> it was last accessed,
+which doesn't look good).
+</P><P>
+
+The <CODE>st_size</CODE> member is an signed 32-bit integer type, so it will
+overflow on FAT32 volumes for files that are larger than 2GB.
+Therefore, if your program needs to support large files, you should
+treat the value of <CODE>st_size</CODE> as an unsigned value.
+</P><P>
+
+For some drives <CODE>st_blksize</CODE> has a default value, to improve
+performance.  The floppy drives A: and B: default to a block size
+of 512 bytes.  Network drives default to a block size of 4096 bytes.
+</P><P>
+
+Some members of <CODE>struct stat</CODE> are very expensive to compute.  If
+your application is a heavy user of <CODE>stat</CODE> and is too slow, you can
+disable computation of the members your application doesn't need, as
+described in <A HREF="libc_151.html">_djstat_flags</A>.
+</P><P>
+
+<A NAME="SEC3869"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC3869::-->
+<P>
+
+Zero on success, nonzero on failure (and <CODE>errno</CODE> set).
+</P><P>
+
+<A NAME="SEC3870"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC3870::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3871"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC3871::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct stat s;
+stat("data.txt", &#38;s);
+if (S_ISDIR(s.st_mode))
+  printf("is directory\n");
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3872"></A>
+<H3> Implementation Notes     </H3>
+<!--docid::SEC3872::-->
+<P>
+
+Supplying a 100% Unix-compatible <CODE>stat</CODE> function under DOS is an
+implementation nightmare.  The following notes describe some of the
+obscure points specific to <CODE>stat</CODE>s behavior in DJGPP.
+</P><P>
+
+1. The <SAMP>`drive'</SAMP> for character devices (like <CODE>con</CODE>, <CODE>/dev/null</CODE>
+and others is returned as -1.  For drives networked by Novell Netware, it
+is returned as -2.
+</P><P>
+
+2. The starting cluster number of a file serves as its inode number.  For
+files whose starting cluster number is inaccessible (empty files, files on
+Windows 9X, on networked drives, etc.) the <CODE>st_inode</CODE> field will be
+<EM>invented</EM>
+in a way which guarantees that no two different files will get the same
+inode number (thus it is unique).  This invented inode will also be
+different from any real cluster number of any local file.  However, only
+on plain DOS, and only for local, non-empty files/directories the inode
+is guaranteed to be consistent between <CODE>stat</CODE>, <CODE>fstat</CODE> and
+<CODE>lstat</CODE> function calls.  (Note that two files whose names are
+identical but for the drive letter, will get the same invented inode,
+since each filesystem has its own independent inode numbering, and
+comparing files for identity should include the value of <CODE>st_dev</CODE>.)
+</P><P>
+
+3. The WRITE access mode bit is set only for the user (unless the file is
+read-only, hidden or system).  EXECUTE bit is set for directories,  files
+which can be executed from the DOS prompt (batch files, .com, .dll and .exe
+executables) or run by <CODE>go32-v2</CODE>.
+</P><P>
+
+4. Size of directories is reported as the number of its files (sans `.' and
+`..' entries) multiplied by 32 bytes (the size of directory entry).  On FAT
+filesystems that support the LFN API (such as Windows 9X), the reported
+size of the directory accounts for additional space used to store the long
+file names.
+</P><P>
+
+5. Time stamp for root directories is taken from the volume label entry,
+if that's available; otherwise, it is reported as 1-Jan-1980.
+</P><P>
+
+6. The variable <CODE>_djstat_flags</CODE> (see section <A HREF="libc_151.html">_djstat_flags</A>) controls
+what hard-to-get fields of <CODE>struct stat</CODE> are needed by the
+application.
+</P><P>
+
+7. <CODE>stat</CODE> should not be used to get an up-to-date info about a file
+which is open and has been written to, because <CODE>stat</CODE> will only
+return correct data after the file is closed.  Use <CODE>fstat</CODE>
+(see section <A HREF="libc_363.html">fstat</A>) while the file is open.  Alternatively, you can call
+<CODE>fflush</CODE> and <CODE>fsync</CODE> to make the OS flush all the file's data
+to the disk, before calling <CODE>stat</CODE>.
+</P><P>
+
+8. The number of links <CODE>st_nlink</CODE> is always 1 for files other than
+directories.  For directories, it is the number of subdirectories plus
+2.  This is so that programs written for Unix that depend on this to
+optimize recursive traversal of the directory tree, will still work.
+<A NAME="statfs"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_743.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_745.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

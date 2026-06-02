@@ -1,0 +1,75 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_69.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_68.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_70.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _bios_timeofday </H2>
+<!--docid::SEC226::-->
+<A NAME="SEC227"></A>
+<H3> Syntax                                   </H3>
+<!--docid::SEC227::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;bios.h&#62;
+
+unsigned _bios_timeofday(unsigned cmd, unsigned long *timeval);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC228"></A>
+<H3> Description                                  </H3>
+<!--docid::SEC228::-->
+<P>
+
+The _bios_timeofday routine uses INT 0x1A to get or set the clock
+count (which is the number of 18.2 Hz ticks since midnight). The
+<VAR>cmd</VAR> argument can be either the _TIME_GETCLOCK or _TIME_SETCLOCK
+manifest constant.
+</P><P>
+
+<A NAME="SEC229"></A>
+<H3> Return Value                                 </H3>
+<!--docid::SEC229::-->
+<P>
+
+If the argument is _TIME_GETCLOCK, the routine returns a nonzero
+value if midnight was passed since last read, or zero if midnight
+was not passed. If the argument is _TIME_SETCLOCK, the return
+value is undefined.
+</P><P>
+
+<A NAME="SEC230"></A>
+<H3> Portability                                   </H3>
+<!--docid::SEC230::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC231"></A>
+<H3> Example                         </H3>
+<!--docid::SEC231::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>unsigned hour, min, sec, hsec;
+unsigned long ticks;
+...
+ticks = (unsigned long)(hour * 65543.33) + (min * 1092.38) +
+        (sec * 18.21) + (hsec * 0.182);
+_bios_timeofday(_TIME_SETCLOCK, &#38;ticks);
+</pre></td></tr></table><A NAME="bioscom"></A>
+<!--#perl sub="trailer" -->

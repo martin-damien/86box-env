@@ -1,0 +1,73 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_56.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_55.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_57.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _atold </H2>
+<!--docid::SEC149::-->
+<A NAME="SEC150"></A>
+<H3> Syntax                      </H3>
+<!--docid::SEC150::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdlib.h&#62;
+
+long double _atold(const char *string);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC151"></A>
+<H3> Description                     </H3>
+<!--docid::SEC151::-->
+<P>
+
+Convert as much of the string as possible to an equivalent long double
+precision real number.
+</P><P>
+
+This function is almost like <CODE>_strtold(string, NULL)</CODE> (see section <A HREF="libc_782.html">_strtold</A>).
+</P><P>
+
+<A NAME="SEC152"></A>
+<H3> Return Value                     </H3>
+<!--docid::SEC152::-->
+<P>
+
+The equivalent value, or zero if the string does not represent a number. 
+</P><P>
+
+<A NAME="SEC153"></A>
+<H3> Portability                      </H3>
+<!--docid::SEC153::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC154"></A>
+<H3> Example            </H3>
+<!--docid::SEC154::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>main(int argc, char **argv)
+{
+  long double d = _atold(argv[1]);
+  <small>...</small>
+</pre></td></tr></table></P><P>
+
+<A NAME="atoll"></A>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,139 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_646.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_645.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_647.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> readdir </H2>
+<!--docid::SEC3319::-->
+<A NAME="SEC3320"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC3320::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dirent.h&#62;
+
+struct dirent *readdir(DIR *dir);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3321"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC3321::-->
+<P>
+
+This function reads entries from a directory opened by <CODE>opendir</CODE>
+(see section <A HREF="libc_602.html">opendir</A>).  It returns the information in a static buffer with
+this format:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct dirent {
+  unsigned short d_namlen;  /* The length of the name (like strlen) */
+  char d_name[MAXNAMLEN+1]; /* The name */
+  mode_t d_type;            /* The file's type */
+};
+</pre></td></tr></table></P><P>
+
+Note that some directory entries might be skipped by <CODE>readdir</CODE>,
+depending on the bits set in the global variable
+<CODE>__opendir_flags</CODE>.  See section <A HREF="libc_602.html">opendir</A>.
+</P><P>
+
+The possible values of the <CODE>d_type</CODE> member are:
+</P><P>
+
+<DL COMPACT>
+<DT><CODE>DT_REG</CODE>
+<DD>This is a regular file.
+<DT><CODE>DT_BLK</CODE>
+<DD>The file is a block device.
+<DT><CODE>DT_CHR</CODE>
+<DD>The file is a character device.
+<DT><CODE>DT_DIR</CODE>
+<DD>The file is a directory.
+<DT><CODE>DT_FIFO</CODE>
+<DD>This is a pipe (never happens in DJGPP).
+<DT><CODE>DT_LABEL</CODE>
+<DD>The file is a volume label.
+<DT><CODE>DT_LNK</CODE>
+<DD>The file is a symlink.
+<DT><CODE>DT_SOCK</CODE>
+<DD>The file is a socket.
+<DT><CODE>DT_UNKNOWN</CODE>
+<DD>The file's type is unknown.  This value is put into the <CODE>d_type</CODE>
+member if the exact file's type is too expensive to compute.  If the
+<CODE>__OPENDIR_NO_D_TYPE</CODE> flag is set in the global variable
+<CODE>__opendir_flags</CODE>, <EM>all</EM> files get marked with
+<CODE>DT_UNKNOWN</CODE>.
+</DL>
+<P>
+
+The macro <CODE>DTTOIF</CODE> (see section <A HREF="libc_280.html">DTTOIF</A>) can be used to convert the
+<CODE>d_type</CODE> member to the equivalent value of the <CODE>st_mode</CODE>
+member of <CODE>struct stat</CODE>, see <A HREF="libc_744.html">stat</A>.
+</P><P>
+
+<A NAME="SEC3322"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC3322::-->
+<P>
+
+A pointer to a static buffer that is overwritten with each call.
+</P><P>
+
+<A NAME="SEC3323"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC3323::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001 (see note 1)
+</TR></TABLE>
+<P>
+
+Notes:
+</P><P>
+
+<OL>
+<LI>
+The <CODE>__opendir_flags</CODE> variable is DJGPP-specific.  The <CODE>d_type</CODE> member is an extension available on some systems such as GNU/Linux.
+</OL>
+<P>
+
+<A NAME="SEC3324"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC3324::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>DIR *d = opendir(".");
+struct dirent *de;
+while (de = readdir(d))
+  puts(de-&#62;d_name);
+closedir(d);
+</pre></td></tr></table></P><P>
+
+<A NAME="readlink"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_645.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_647.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

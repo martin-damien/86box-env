@@ -1,0 +1,83 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_43.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_42.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_44.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> alarm </H2>
+<!--docid::SEC76::-->
+<A NAME="SEC77"></A>
+<H3> Syntax         </H3>
+<!--docid::SEC77::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;unistd.h&#62;
+
+unsigned alarm(unsigned seconds);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC78"></A>
+<H3> Description        </H3>
+<!--docid::SEC78::-->
+<P>
+
+This function causes the signal <CODE>SIGALRM</CODE> to be raised in
+<VAR>seconds</VAR> seconds.  A value of zero for <VAR>seconds</VAR> cancels any
+pending alarm.  If an alarm has previously been set, the new alarm delay
+will supercede the prior call.
+</P><P>
+
+Note that signals in DJGPP are deferred when the program is inside a
+real-mode (e.g., DOS) call or isn't touching its data; see <A HREF="libc_724.html">signal</A>,
+for more details.
+</P><P>
+
+A misfeature of Windows 9X prevents the timer tick interrupt from being
+delivered to programs that are in the background (i.e. don't have the
+focus), even though the program itself might continue to run, if you
+uncheck the <CITE>Background: Always suspend</CITE> property in the Property
+Sheets.  Therefore, <CODE>alarm</CODE> will not work in background programs on
+Windows 9X.
+</P><P>
+
+<A NAME="SEC79"></A>
+<H3> Return Value        </H3>
+<!--docid::SEC79::-->
+<P>
+
+The number of seconds remaining on the timer (i.e. always <VAR>seconds</VAR>).
+</P><P>
+
+<A NAME="SEC80"></A>
+<H3> Portability         </H3>
+<!--docid::SEC80::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC81"></A>
+<H3> Example    </H3>
+<!--docid::SEC81::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>signal(SIGALRM,my_alarm_routine);
+alarm(5);
+</pre></td></tr></table></P><P>
+
+<A NAME="alloca"></A>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,184 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_150.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_149.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_151.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _djstat_fail_bits </H2>
+<!--docid::SEC664::-->
+<A NAME="SEC665"></A>
+<H3> Syntax                                                                                                                    </H3>
+<!--docid::SEC665::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;sys/stat.h&#62;
+
+extern unsigned short   _djstat_fail_bits;
+</pre></td></tr></table></P><P>
+
+As proper operation of <CODE>stat</CODE> (see section <A HREF="libc_744.html">stat</A>) and <CODE>fstat</CODE>
+(see section <A HREF="libc_363.html">fstat</A>) depend on undocumented DOS features, they could fail in
+some incompatible environment or a future DOS version.  If they do, the
+<CODE>_djstat_fail_bits</CODE> variable will have some of its bits set.  Each
+bit describes a single feature which was used and failed.  The function
+<CODE>_djstat_describe_lossage</CODE> (see section <A HREF="libc_149.html">_djstat_describe_lossage</A>)
+may be called to print a human-readable description of the bits
+which were set by the last call to <CODE>f?stat</CODE>.  This should make
+debugging <CODE>f?stat</CODE> failures in an unanticipated environment
+a lot easier.
+</P><P>
+
+The following bits are currently defined:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>_STFAIL_SDA</CODE>
+<DD><P>
+
+Indicates that Get SDA call failed.
+</P><P>
+
+<DT><CODE>_STFAIL_OSVER</CODE>
+<DD><P>
+
+Indicates an unsupported DOS version (less than 3.10 for <CODE>stat</CODE> or
+less than 2.0 for <CODE>fstat</CODE>).
+</P><P>
+
+<DT><CODE>_STFAIL_BADSDA</CODE>
+<DD><P>
+
+The pointer to SDA was found to be bogus.
+</P><P>
+
+<DT><CODE>_STFAIL_TRUENAME</CODE>
+<DD><P>
+
+Indicates that <CODE>_truename</CODE> (see section <A HREF="libc_828.html">_truename</A>) function call
+failed.
+</P><P>
+
+<DT><CODE>_STFAIL_HASH</CODE>
+<DD><P>
+
+Indicates that the starting cluster of the file is unavailable, and inode
+number was computed by hashing its name.
+</P><P>
+
+<DT><CODE>_STFAIL_LABEL</CODE>
+<DD><P>
+
+The application requested the time stamp of a root dir, but no volume
+label was found.
+</P><P>
+
+<DT><CODE>_STFAIL_DCOUNT</CODE>
+<DD><P>
+
+The number of SDA reported is ridiculously large (probably an unsupported
+DOS clone).
+</P><P>
+
+<DT><CODE>_STFAIL_WRITEBIT</CODE>
+<DD><P>
+
+<CODE>fstat</CODE> was asked to get write access bit of a file, but couldn't.
+</P><P>
+
+<DT><CODE>_STFAIL_DEVNO</CODE>
+<DD><P>
+
+<CODE>fstat</CODE> failed to get device number.
+</P><P>
+
+<DT><CODE>_STFAIL_BADSFT</CODE>
+<DD><P>
+
+An SFT entry for this file was found by <CODE>fstat</CODE>, but its contents
+can't be trusted because it didn't match file size and time stamp as
+reported by DOS.
+</P><P>
+
+<DT><CODE>_STFAIL_SFTIDX</CODE>
+<DD><P>
+
+The SFT index in Job File Table in program's PSP is negative.
+</P><P>
+
+<DT><CODE>_STFAIL_SFTNF</CODE>
+<DD><P>
+
+The file entry was not found in the SFT array.
+</P><P>
+
+</DL>
+<P>
+
+Below are some explanations of terminology and abbreviations used by the
+printed messages, which will further clarify the meaning of the above bits
+and their descriptions printed by <CODE>_djstat_describe_lossage</CODE>
+(see section <A HREF="libc_149.html">_djstat_describe_lossage</A>).
+</P><P>
+
+  SDA (<EM>Swappable Data Area</EM>) -- this is an internal DOS structure.
+<CODE>stat</CODE> uses it to get the full directory entry (including the
+starting cluster number) of a file.  The pointer to SDA found by
+<CODE>stat</CODE> is trusted only if we find the pathname of our file at a
+specific offset in that SDA.
+</P><P>
+
+  SFT (<EM>System File Table</EM>) -- another internal DOS structure, used
+in file operations.  <CODE>fstat</CODE> uses it to get full information on a file
+given its handle.  An SFT entry which is found by <CODE>fstat</CODE> is only
+trusted if it contains files size and time stamp like those returned by
+DOS functions 57h and 42h.  Novell NetWare 3.x traps DOS file operations
+in such a way they never get to SFT, so some failure messages refer
+specifically to Novell.
+</P><P>
+
+  Hashing -- the fall-back method of returning a unique inode number for
+each file.  It is used whenever the starting cluster of a file couldn't be
+reliably determined.  The full pathname of the file is looked up in a
+table of files seen earlier (hashing is used to speed the lookup
+process).  If found, the inode from the table is returned; this ensures
+that a given file will get the same inode number.  Otherwise a new inode
+number is invented, recorded in the table and returned to caller.
+</P><P>
+
+<A NAME="SEC666"></A>
+<H3> Portability                                                                                                                   </H3>
+<!--docid::SEC666::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="_djstat_flags"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_149.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_151.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

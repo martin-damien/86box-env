@@ -1,0 +1,80 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_433.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_432.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_434.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _go32_dpmi_allocate_real_mode_callback_retf </H2>
+<!--docid::SEC2185::-->
+<A NAME="SEC2186"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC2186::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dpmi.h&#62;
+
+int _go32_dpmi_allocate_real_mode_callback_retf(
+        _go32_dpmi_seginfo *info, _go32_dpmi_registers *regs
+);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2187"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC2187::-->
+<P>
+
+See section <A HREF="libc_199.html">DPMI Overview</A>.
+</P><P>
+
+This function allocates a "real-mode callback".  Fill in the
+<CODE>pm_offset</CODE> field of <VAR>info</VAR> and call this function.  It will
+fill in the <CODE>rm_segment</CODE> and <CODE>rm_offset</CODE> fields.  Any time a
+real-mode program calls the real-mode address, your function gets
+called.  The registers in effect will be stored in <VAR>regs</VAR>, which
+should be a global, and will be passed to your function.  Any changes in
+<VAR>regs</VAR> will be reflected back into real mode.  A wrapper will be
+added to your function to simulate the effects of a far return, such
+as the callback for the packet driver receiver.
+</P><P>
+
+<A NAME="SEC2188"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC2188::-->
+<P>
+
+Zero on success, nonzero on failure.
+</P><P>
+
+<A NAME="SEC2189"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC2189::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2190"></A>
+<H3> Example                                                                                                                                                                                                 </H3>
+<!--docid::SEC2190::-->
+<P>
+
+See section <A HREF="libc_432.html">_go32_dpmi_allocate_real_mode_callback_iret</A>, for an example of
+usage.
+</P><P>
+
+<A NAME="_go32_dpmi_chain_protected_mode_interrupt_vector"></A>
+<!--#perl sub="trailer" -->

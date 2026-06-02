@@ -1,0 +1,66 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_347.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_346.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_348.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> fputc </H2>
+<!--docid::SEC1699::-->
+<A NAME="SEC1700"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC1700::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdio.h&#62;
+
+int fputc(int character, FILE *file);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1701"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                    </H3>
+<!--docid::SEC1701::-->
+<P>
+
+This function writes the given <VAR>character</VAR> to the given <CODE>file</CODE>.
+</P><P>
+
+<A NAME="SEC1702"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC1702::-->
+<P>
+
+The given character [0..255] or <CODE>EOF</CODE>.
+</P><P>
+
+<A NAME="SEC1703"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC1703::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C89; C99
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1704"></A>
+<H3> Example                                                                                                                                           </H3>
+<!--docid::SEC1704::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>fputc('\n', stdout);
+</pre></td></tr></table></P><P>
+
+<A NAME="fputs"></A>
+<!--#perl sub="trailer" -->

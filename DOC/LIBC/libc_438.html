@@ -1,0 +1,91 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_438.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_437.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_439.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _go32_dpmi_get_free_memory_information </H2>
+<!--docid::SEC2215::-->
+<A NAME="SEC2216"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC2216::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dpmi.h
+
+int _go32_dpmi_get_free_memory_information(_go32_dpmi_meminfo *info);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2217"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC2217::-->
+<P>
+
+This function fills in the following structure:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>typedef struct {
+  u_long available_memory;
+  u_long available_pages;
+  u_long available_lockable_pages;
+  u_long linear_space;
+  u_long unlocked_pages;
+  u_long available_physical_pages;
+  u_long total_physical_pages;
+  u_long free_linear_space;
+  u_long max_pages_in_paging_file;
+  u_long reserved[3];
+} _go32_dpmi_meminfo;
+</pre></td></tr></table></P><P>
+
+The only field that is guaranteed to have useful data is
+<CODE>available_memory</CODE>.  Any unavailable field has -1 in it. 
+</P><P>
+
+<A NAME="SEC2218"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC2218::-->
+<P>
+
+Zero on success, nonzero on failure.
+</P><P>
+
+<A NAME="SEC2219"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC2219::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2220"></A>
+<H3> Example                                                                                                                                                                                                      </H3>
+<!--docid::SEC2220::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>int phys_mem_left()
+{
+  _go32_dpmi_meminfo info;
+  _go32_dpmi_get_free_memory_information(&#38;info);
+  if (info.available_physical_pages != -1)
+    return info.available_physical_pages * 4096;
+  return info.available_memory;
+}
+</pre></td></tr></table></P><P>
+
+<A NAME="_go32_dpmi_get_protected_mode_interrupt_vector"></A>
+<!--#perl sub="trailer" -->

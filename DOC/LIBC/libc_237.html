@@ -1,0 +1,77 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_237.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_236.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_238.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __dpmi_get_segment_base_address </H2>
+<!--docid::SEC1119::-->
+<A NAME="SEC1120"></A>
+<H3> Syntax                                                                                                                                                                                                         </H3>
+<!--docid::SEC1120::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dpmi.h&#62;
+
+int __dpmi_get_segment_base_address(int _selector,
+                                    unsigned long *_addr);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1121"></A>
+<H3> Description                                                                                                                                                                                                      </H3>
+<!--docid::SEC1121::-->
+<P>
+
+Please refer to the DPMI Specification (see section <A HREF="libc_200.html">DPMI Specification</A>)
+for details on DPMI function call operation.  Also see
+the DPMI Overview (see section <A HREF="libc_199.html">DPMI Overview</A>) for general information.
+</P><P>
+
+DPMI function AX = 0x0006
+</P><P>
+
+The physical base address of the selector is stored in <VAR>*addr</VAR>.
+</P><P>
+
+<A NAME="SEC1122"></A>
+<H3> Return Value                                                                                                                                                                                   </H3>
+<!--docid::SEC1122::-->
+<P>
+
+-1 on error, else zero.
+</P><P>
+
+<A NAME="SEC1123"></A>
+<H3> Portability                                                                                                                                                                                                        </H3>
+<!--docid::SEC1123::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1124"></A>
+<H3> Example                                                                                                   </H3>
+<!--docid::SEC1124::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>unsigned long addr;
+if (__dpmi_get_segment_base_address(selector, &#38;addr))
+  ...
+</pre></td></tr></table></P><P>
+
+<A NAME="__dpmi_get_segment_limit"></A>
+<!--#perl sub="trailer" -->

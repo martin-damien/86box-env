@@ -1,0 +1,71 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_417.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_416.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_418.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> gets </H2>
+<!--docid::SEC2093::-->
+<A NAME="SEC2094"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC2094::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdio.h&#62;
+
+char *gets(char *buffer);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2095"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC2095::-->
+<P>
+
+Reads characters from <CODE>stdin</CODE>, storing them in <VAR>buffer</VAR>, until
+either end of file or a newline is encountered.  If any characters were
+stored, the <VAR>buffer</VAR> is then <CODE>NULL</CODE> terminated and its address
+is returned, else <CODE>NULL</CODE> is returned.
+</P><P>
+
+<A NAME="SEC2096"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC2096::-->
+<P>
+
+The address of the buffer, or <CODE>NULL</CODE>.
+</P><P>
+
+<A NAME="SEC2097"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC2097::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C89; C99
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2098"></A>
+<H3> Example                                                                                                                                                                                      </H3>
+<!--docid::SEC2098::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>char buf[1000];
+while (gets(buf))
+  puts(buf);
+</pre></td></tr></table></P><P>
+
+<A NAME="gettext"></A>
+<!--#perl sub="trailer" -->

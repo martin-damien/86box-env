@@ -1,0 +1,60 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_137.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_136.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_138.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __djgpp_memory_handle </H2>
+<!--docid::SEC595::-->
+<A NAME="SEC596"></A>
+<H3> Syntax                                                                                                       </H3>
+<!--docid::SEC596::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;crt0.h&#62;
+
+__djgpp_sbrk_handle *__djgpp_memory_handle(unsigned address);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC597"></A>
+<H3> Description                                                                                                      </H3>
+<!--docid::SEC597::-->
+<P>
+
+This function returns a pointer to a structure containing the memory 
+handle and program relative offset associated with the address passed.
+It is just a convenient way to process the __djgpp_memory_handle_list.
+</P><P>
+
+<A NAME="SEC598"></A>
+<H3> Return Value                                                                                           </H3>
+<!--docid::SEC598::-->
+<P>
+
+A pointer to the __djgpp_sbrk_handle associated with a particular address.
+</P><P>
+
+<A NAME="SEC599"></A>
+<H3> Portability                                                                                                      </H3>
+<!--docid::SEC599::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="__djgpp_memory_handle_list"></A>
+<!--#perl sub="trailer" -->

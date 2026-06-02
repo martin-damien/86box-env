@@ -1,0 +1,87 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_246.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_245.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_247.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __dpmi_int </H2>
+<!--docid::SEC1165::-->
+<A NAME="SEC1166"></A>
+<H3> Syntax                                                                                                                                                                                                                  </H3>
+<!--docid::SEC1166::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dpmi.h&#62;
+
+int __dpmi_int(int _vector, __dpmi_regs *_regs);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1167"></A>
+<H3> Description                                                                                                                                                                                                               </H3>
+<!--docid::SEC1167::-->
+<P>
+
+Please refer to the DPMI Specification (see section <A HREF="libc_200.html">DPMI Specification</A>)
+for details on DPMI function call operation.  Also see
+the DPMI Overview (see section <A HREF="libc_199.html">DPMI Overview</A>) for general information.
+</P><P>
+
+DPMI function AX = 0x0300
+</P><P>
+
+This function performs a software interrupt in real mode after filling
+in <EM>most</EM> the registers from the given structure.  %ss, %esp, and
+%eflags are automatically taken care of, unlike
+<A HREF="libc_273.html">__dpmi_simulate_real_mode_interrupt</A>.
+</P><P>
+
+The following variables can be used to tune this function.  By
+default, these variables are all zero.
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>__dpmi_int_ss</CODE>
+<DD><DT><CODE>__dpmi_int_sp</CODE>
+<DD><DT><CODE>__dpmi_int_flags</CODE>
+<DD><P>
+
+These hold the values stored in the appropriate field in the
+<CODE>__dpmi_regs</CODE> structure.
+</P><P>
+
+</DL>
+<P>
+
+<A NAME="SEC1168"></A>
+<H3> Return Value                                                                                                                                                                                            </H3>
+<!--docid::SEC1168::-->
+<P>
+
+-1 on error, else zero.
+</P><P>
+
+<A NAME="SEC1169"></A>
+<H3> Portability                                                                                                                                                                                                                 </H3>
+<!--docid::SEC1169::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="__dpmi_lock_linear_region"></A>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,78 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_546.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_545.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_547.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> longjmp </H2>
+<!--docid::SEC2779::-->
+<A NAME="SEC2780"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC2780::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;setjmp.h&#62;
+
+void longjmp(jmp_buf env, int val);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2781"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC2781::-->
+<P>
+
+This function reverts back to a CPU state that was stored in <VAR>env</VAR>
+by <CODE>setjmp</CODE> (see section <A HREF="libc_703.html">setjmp</A>).  The state includes all CPU registers,
+so any variable in a register when <CODE>setjmp</CODE> was called will be
+preserved, and all else will be indeterminate.
+</P><P>
+
+The value passed as <VAR>val</VAR> will be the return value of <CODE>setjmp</CODE>
+when it resumes processing there.  If <VAR>val</VAR> is zero, the return
+value will be one. 
+</P><P>
+
+<A NAME="SEC2782"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC2782::-->
+<P>
+
+This function does not return.
+</P><P>
+
+<A NAME="SEC2783"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC2783::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C89; C99
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2784"></A>
+<H3> Example                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC2784::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>jmp_buf j;
+if (setjmp(j))
+  return;
+do_something();
+longjmp(j, 1);
+</pre></td></tr></table></P><P>
+
+<A NAME="lowvideo"></A>
+<!--#perl sub="trailer" -->

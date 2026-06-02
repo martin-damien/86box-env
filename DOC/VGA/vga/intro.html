@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+  <meta name="keywords" content="VGA, VGA programming, game programming, C, mouse, lines, circles, rectangles, polygons,  bitmaps, vertical retrace, animation, 256 color, pixel plotting, mode 13, mode x, double buffering, page flipping, unchained mode, flicker-free" />
+  <meta name="description" content="VGA basics, lines and shapes, bitmaps, mouse, double buffering, page flipping, unchained mode, and more" />
+  <link rel="stylesheet" type="text/css" media="all" href="default.css" />
+  <link rel="stylesheet" type="text/css" media="print" href="print.css" />
+  <title>256-Color VGA Programming in C - Introduction</title>
+</head>
+
+<body>
+<div id="nav">
+  <a href="http://www.brackeen.com/"><img src="../images/logo.png" alt="David Brackeen" /></a>
+</div>
+
+<div id="header">
+  <a href="index.html">256-Color VGA Programming in C</a>
+   
+  <h1>Introduction</h1>
+  
+  <p>Contents in this section:</p>
+  <ul>
+  <li><a href="#1">Who this tutorial is for</a></li>
+  <li><a href="#2">Materials needed</a></li>
+  <li><a href="#3">Document Syntax</a></li>
+  </ul>
+</div>
+
+<div id="content">
+  <h2><a name="1">Who this tutorial is for</a></h2>
+  
+  <p>This tutorial covers many topics in VGA programming in the C
+  programming language. Users of this tutorial should have a
+  comprehensive understanding of C and should also have a
+  familiarity with DOS and BIOS function calls and interrupts. </p>
+  
+  <p>A general knowledge of trigonometry and/or geometry would be
+  helpful in the second section, <a href="shapes.html">Primitive Shapes &amp;
+  Lines</a></p>
+  
+  <p>As with any sort of programming, an understanding of the
+  hexadecimal number system would be helpful. </p>
+  
+  <h2><a name="2">Materials needed</a></h2>
+  
+  <p>All the code in this tutorial was complied using Borland C/C++
+  3.1 and <a href="http://www.delorie.com/djgpp/">DJGPP 2.0</a>. The code was made to be as portable as
+  possible, sticking close to the ANSI C standard, except for the
+  DOS function calls and direct memory access. The programs should
+  compile without a problem with the DOS 16-bit compilers Microsoft
+  C (not Visual C++), Turbo C, and Borland C. For other compilers,
+  see the <a href="trouble.html">Troubleshooting</a> page.</p>
+  
+  <p>The programs require DOS running on a 286 or better computer with a VGA or better
+  video card. You can emulate this environment on almost any type of hardware
+  by using the <a href="http://dosbox.sourceforge.net/">DOSBox</a> emualtor.</p>
+  
+  <h2><a name="3">Document Syntax</a></h2>
+  
+  <p>Text in <code>monospace type</code> is a program, a program
+  segment, a DOS file name, or refers to a variable in a program or
+  program segment. </p>
+  
+  <p>Text in <i>italics</i> is a variable, usually in a formula. </p>
+  
+  <p>Hexadecimal numbers will have an &ldquo;0x&rdquo; prepended to
+  them, like 0x3CF.</p>
+  
+  <div class="linknext"><a href="basics.html">Next: VGA Basics &raquo;</a></div>
+</div>
+
+<div id="footer">
+  <hr />
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li class="youarehere">Introduction</li>
+    <li><a href="basics.html">VGA Basics</a></li>
+    <li><a href="shapes.html">Primitive Shapes &amp; Lines</a></li>
+    <li><a href="bitmaps.html">Bitmaps &amp; Palette Manipulation</a></li>
+    <li><a href="mouse.html">Mouse Support &amp; Animation</a></li>
+    <li><a href="unchain.html">Double Buffering, Page Flipping, &amp; Unchained Mode</a></li>
+  </ul>
+  <ul>
+    <li><a href="resource.html">Links and Other Resources</a></li>
+    <li><a href="download.html">Download</a></li>
+    <li><a href="trouble.html">FAQ and Troubleshooting</a></li>
+  </ul>
+  
+  <div id="license">
+    <!--Creative Commons License-->
+    <a rel="license" href="http://creativecommons.org/licenses/by-sa/2.5/"><img alt="Creative Commons License" src="http://creativecommons.org/images/public/somerights20.png"/></a><br/>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/2.5/">Creative Commons Attribution-ShareAlike 2.5 License</a>.
+    <!--/Creative Commons License-->
+    <!-- <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+        <Work rdf:about="">
+          <license rdf:resource="http://creativecommons.org/licenses/by-sa/2.5/" />
+      <dc:type rdf:resource="http://purl.org/dc/dcmitype/Text" />
+        </Work>
+        <License rdf:about="http://creativecommons.org/licenses/by-sa/2.5/"><permits rdf:resource="http://web.resource.org/cc/Reproduction"/><permits rdf:resource="http://web.resource.org/cc/Distribution"/><requires rdf:resource="http://web.resource.org/cc/Notice"/><requires rdf:resource="http://web.resource.org/cc/Attribution"/><permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/><requires rdf:resource="http://web.resource.org/cc/ShareAlike"/></License></rdf:RDF> -->
+    </div>
+</div>
+
+</body>
+</html>

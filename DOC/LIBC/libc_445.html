@@ -1,0 +1,78 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_445.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_444.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_446.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _go32_dpmi_resize_dos_memory </H2>
+<!--docid::SEC2255::-->
+<A NAME="SEC2256"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC2256::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dpmi.h&#62;
+
+int _go32_dpmi_resize_dos_memory(_go32_dpmi_seginfo *info);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2257"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC2257::-->
+<P>
+
+See section <A HREF="libc_199.html">DPMI Overview</A>.
+</P><P>
+
+The <VAR>info</VAR> structure is the same one used to allocate the memory. 
+Fill in a new value for <CODE>size</CODE> and call this function.  If there is
+not enough memory to satisfy the request, the largest size is filled in
+to the <CODE>size</CODE> field, the memory is not resized, and this function
+fails. 
+</P><P>
+
+<A NAME="SEC2258"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC2258::-->
+<P>
+
+Zero on success, nonzero on failure.
+</P><P>
+
+<A NAME="SEC2259"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC2259::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2260"></A>
+<H3> Example                                                                                                                                                                                                           </H3>
+<!--docid::SEC2260::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>_go32_dpmi_seginfo info;
+info.size = 10;
+_go32_dpmi_allocate_dos_memory(&#38;info);
+info.size = 20;
+_go32_dpmi_resize_dos_memory(&#38;info);
+_go32_dpmi_free_dos_memory(&#38;info);
+</pre></td></tr></table></P><P>
+
+<A NAME="_go32_dpmi_set_protected_mode_interrupt_vector"></A>
+<!--#perl sub="trailer" -->

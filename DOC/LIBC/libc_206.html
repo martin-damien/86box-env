@@ -1,0 +1,79 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_206.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_205.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_207.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __dpmi_allocate_shared_memory </H2>
+<!--docid::SEC963::-->
+<A NAME="SEC964"></A>
+<H3> Syntax                                                                                                                                                                          </H3>
+<!--docid::SEC964::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre>#include &#60;dpmi.h&#62;
+
+int __dpmi_allocate_shared_memory(__dpmi_shminfo *info);
+</FONT></pre></td></tr></table></P><P>
+
+<A NAME="SEC965"></A>
+<H3> Description                                                                                                                                                                       </H3>
+<!--docid::SEC965::-->
+<P>
+
+Please refer to the DPMI Specification (see section <A HREF="libc_200.html">DPMI Specification</A>)
+for details on DPMI function call operation.  Also see
+the DPMI Overview (see section <A HREF="libc_199.html">DPMI Overview</A>) for general information.
+</P><P>
+
+DPMI function AX = 0x0d00 (DPMI 1.0 only).  Not supported by CWSDPMI and
+Windows.
+</P><P>
+
+This function allocates a shared memory block that can be accessed from
+different virtual machines.  Fill the required length in
+<CODE><VAR>info</VAR>-&#62;size_requested</CODE>.  The function fills the rest of the
+structure: allocated length in <CODE><VAR>info</VAR>-&#62;size</CODE>, block handle in
+<CODE><VAR>info</VAR>-&#62;handle</CODE>, linear address in <CODE><VAR>info</VAR>-&#62;address</CODE>,
+and the selector:offset of an ASCIIZ block name (up to 128 bytes
+long) in <CODE><VAR>info</VAR>-&#62;name_selector</CODE> and
+<CODE><VAR>info</VAR>-&#62;name_offset</CODE>, respectively.
+</P><P>
+
+The access to the shared memory block can be serialized by calling
+the <CODE>__dpmi_serialize_on_shared_memory</CODE> function
+(see section <A HREF="libc_259.html">__dpmi_serialize_on_shared_memory</A>).
+</P><P>
+
+<A NAME="SEC966"></A>
+<H3> Return Value                                                                                                                                                    </H3>
+<!--docid::SEC966::-->
+<P>
+
+-1 on error, else zero.
+</P><P>
+
+<A NAME="SEC967"></A>
+<H3> Portability                                                                                                                                                                         </H3>
+<!--docid::SEC967::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="__dpmi_allocate_specific_ldt_descriptor"></A>
+<!--#perl sub="trailer" -->

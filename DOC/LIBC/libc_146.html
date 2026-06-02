@@ -1,0 +1,115 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_146.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_145.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_147.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __djgpp_share_flags </H2>
+<!--docid::SEC643::-->
+<P>
+
+<A NAME="SEC644"></A>
+<H3> Syntax                                                                                                                </H3>
+<!--docid::SEC644::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;fcntl.h&#62;
+
+int __djgpp_share_flags = ...;
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC645"></A>
+<H3> Description                                                                                                               </H3>
+<!--docid::SEC645::-->
+<P>
+
+This variable controls the share flags used by <CODE>open</CODE> (and hence
+<CODE>fopen</CODE>) when opening a file.
+</P><P>
+
+If you assign any value other than 0 to this variable libc will use
+that value for the sharing bits when if calls DOS to open the file.
+But if you specify any share flag in the <CODE>open</CODE> call then these
+flags will remain untouched. In this way <CODE>__djgpp_share_flags</CODE>
+acts just like a default and by default is 0 ensuring maximum
+compatibility with older versions of djgpp.
+</P><P>
+
+If you don't know how the share flags act consult any DOS reference. They
+allow to share or protect a file when it's opened more than once by the
+same task or by two or more tasks. The exact behavior depends on the exact
+case. One interesting thing is that when the file is opened by two tasks
+under Windows the results are different if you use Windows 3.1 or Windows 95.
+To add even more complexity Windows 3.1 is affected by <CODE>SHARE.EXE</CODE>.
+</P><P>
+
+The available flags are:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>SH_COMPAT	0x0000</CODE>
+<DD><P>
+
+That's the compatible mode.
+</P><P>
+
+<DT><CODE>SH_DENYRW	0x0010</CODE>
+<DD><P>
+
+Deny read and deny write.
+</P><P>
+
+<DT><CODE>SH_DENYWR	0x0020</CODE>
+<DD><P>
+
+Deny write.
+</P><P>
+
+<DT><CODE>SH_DENYRD	0x0030</CODE>
+<DD><P>
+
+Deny read.
+</P><P>
+
+<DT><CODE>SH_DENYNO	0x0040</CODE>
+<DD><P>
+
+No deny.
+</P><P>
+
+</DL>
+<P>
+
+Of course these flags are DOS specific and doesn't exist under other OSs;
+and as you can imagine <CODE>__djgpp_share_flags</CODE> is djgpp specific.
+</P><P>
+
+See section <A HREF="libc_600.html">open</A>.
+See section <A HREF="libc_337.html">fopen</A>.
+</P><P>
+
+<A NAME="SEC646"></A>
+<H3> Portability                                                                                                               </H3>
+<!--docid::SEC646::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="__djgpp_spawn"></A>
+<!--#perl sub="trailer" -->

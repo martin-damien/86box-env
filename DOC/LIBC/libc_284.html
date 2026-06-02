@@ -1,0 +1,75 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_284.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_283.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_285.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _dxe_load </H2>
+<!--docid::SEC1358::-->
+<A NAME="SEC1359"></A>
+<H3> Syntax                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC1359::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;sys/dxe.h&#62;
+
+void *_dxe_load(char *dxe_filename);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC1360"></A>
+<H3> Description                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC1360::-->
+<P>
+
+This function loads a dynamic executable image, whose file name is
+pointed to by <VAR>dxe_filename</VAR>, into memory and returns the
+entry point for the symbol associated with the image.  The symbol may point
+to a structure or a function.
+</P><P>
+
+<A NAME="SEC1361"></A>
+<H3> Return Value                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC1361::-->
+<P>
+
+0 on failure, the address of the loaded symbol on success.
+</P><P>
+
+<A NAME="SEC1362"></A>
+<H3> Portability                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC1362::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC1363"></A>
+<H3> Example                                                                                                       </H3>
+<!--docid::SEC1363::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>  static int (*add)(int a, int b);
+
+  add = _dxe_load("add.dxe");
+  if (add == 0)
+    printf("Cannot load add.dxe\n");
+  else
+    printf("Okay, 3 + 4 = %d\n", add(3,4));
+</pre></td></tr></table></P><P>
+
+<A NAME="DXE_macros"></A>
+<!--#perl sub="trailer" -->

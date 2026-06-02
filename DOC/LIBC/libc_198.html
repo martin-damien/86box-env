@@ -1,0 +1,138 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_198.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_197.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_199.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> dostrerr </H2>
+<!--docid::SEC929::-->
+<A NAME="SEC930"></A>
+<H3> Syntax                                                                                                                                                                    </H3>
+<!--docid::SEC930::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dos.h&#62;
+
+int dostrerr(struct DOSERROR *p_error, struct DOSERROR_str *p_str);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC931"></A>
+<H3> Description                                                                                                                                                                 </H3>
+<!--docid::SEC931::-->
+<P>
+
+This function accepts the extended error structure from DOS (e.g., from
+the returned parameter from function <CODE>dosexterr</CODE>,
+see section <A HREF="libc_189.html">dosexterr</A>) and returns the strings which describes that error
+structure in the structure pointed to by the second parameter.  This
+function is a DOS analogue of the ANSI function <CODE>strerror</CODE>
+(see section <A HREF="libc_759.html">strerror</A>), and can be used to print descriptive messages
+corresponding to the errors described in the <CODE>DOSERROR</CODE> structure.
+</P><P>
+
+For a list of the strings returned for each error number and type, see
+<A HREF="libc_189.html">dosexterr</A>.
+</P><P>
+
+<VAR>p_error</VAR> must point to the following structure:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct DOSERROR {
+  int  exterror;
+  char class;
+  char action;
+  char locus;
+};
+</pre></td></tr></table></P><P>
+
+<VAR>p_str</VAR> must point to the following structure:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct DOSERROR_STR {
+  char *exterror_str;
+  char *class_str;
+  char *action_str;
+  char *locus_str;
+};
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC932"></A>
+<H3> Return Value                                                                                                                                              </H3>
+<!--docid::SEC932::-->
+<P>
+
+If either pointer parameter is <CODE>NULL</CODE>, returns -1 and sets
+<CODE>errno</CODE> to EINVAL.  If both parameters are not <CODE>NULL</CODE>, checks
+the value of each member of the <CODE>DOSERROR</CODE> parameter <VAR>p_error</VAR>.
+If each value is within the limits of valid error codes for that member,
+sets parameter <VAR>p_str</VAR> member fields with the corresponding string
+describing the error code.  If any error code is outside of the valid
+values for that code, sets the corresponding <VAR>p_str</VAR> member to the
+string "Unknown error: " followed by the decimal numeric value of the
+error code.
+</P><P>
+
+<A NAME="SEC933"></A>
+<H3> Portability                                                                                                                                                                   </H3>
+<!--docid::SEC933::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC934"></A>
+<H3> Example                                                                                                </H3>
+<!--docid::SEC934::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdio.h&#62;
+#include &#60;dos.h&#62;
+
+int main(void)
+{
+  FILE *fp;
+  struct DOSERROR de;
+  struct DOSERROR_STR se;
+
+  fp = fopen("EXAMPLE.DAT","r");
+  if ( fp == NULL )
+  {
+    puts("Unable to open file for reading.");
+    dosexterr(&#38;de);
+    dostrerr(&#38;de, &#38;se);
+    printf("Extended DOS error information:\n");
+    printf("Extended error: %i : %s\n",de.exterror,se.exterror_str);
+    printf("Class:          %x : %s\n",de.class,se.class_str);
+    printf("Action:         %x : %s\n",de.action,se.action_str);
+    printf("Error Locus:    %x : %s\n",de.locus,se.locus_str);
+  }
+  return 0;
+}
+</pre></td></tr></table><A NAME="DPMI Overview"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_197.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_199.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

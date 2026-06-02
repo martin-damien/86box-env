@@ -1,0 +1,91 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_259.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_258.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_260.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> __dpmi_serialize_on_shared_memory </H2>
+<!--docid::SEC1231::-->
+<A NAME="SEC1232"></A>
+<H3> Syntax                                                                                                                                                                                                                               </H3>
+<!--docid::SEC1232::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre>#include &#60;dpmi.h&#62;
+
+int __dpmi_serialize_on_shared_memory(unsigned long handle, int flags);
+</FONT></pre></td></tr></table></P><P>
+
+<A NAME="SEC1233"></A>
+<H3> Description                                                                                                                                                                                                                            </H3>
+<!--docid::SEC1233::-->
+<P>
+
+Please refer to the DPMI Specification (see section <A HREF="libc_200.html">DPMI Specification</A>)
+for details on DPMI function call operation.  Also see
+the DPMI Overview (see section <A HREF="libc_199.html">DPMI Overview</A>) for general information.
+</P><P>
+
+DPMI function AX = 0x0d02 (DPMI 1.0 only).  Not supported by CWSDPMI and
+Windows.
+</P><P>
+
+This function serializes access to a shared memory block whose handle is
+given in <VAR>handle</VAR>.  The bit-mapped variable <VAR>flags</VAR> defines the
+following bits:
+</P><P>
+
+<DL COMPACT>
+<DT>bit 0
+<DD>If set, return immediately if serialization is unavailable.  If cleared,
+the program is suspended until the serialization becomes available.
+<P>
+
+<DT>bit 1
+<DD>If set, perform shared serialization.  If cleared, perform exclusive
+serialization.
+<P>
+
+<DT>bits 2-15
+<DD>Reserved (should be zero).
+</DL>
+<P>
+
+An <EM>exclusive serialization</EM> blocks <EM>any</EM> serialization
+attempts for the same memory block from other virtual machines.  A
+<EM>shared serialization</EM> blocks only <EM>exclusive</EM> serialization
+attempts from other virtual machines.
+</P><P>
+
+<A NAME="SEC1234"></A>
+<H3> Return Value                                                                                                                                                                                                         </H3>
+<!--docid::SEC1234::-->
+<P>
+
+-1 on error, else zero.
+</P><P>
+
+<A NAME="SEC1235"></A>
+<H3> Portability                                                                                                                                                                                                                              </H3>
+<!--docid::SEC1235::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="__dpmi_set_coprocessor_emulation"></A>
+<!--#perl sub="trailer" -->

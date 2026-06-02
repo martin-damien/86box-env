@@ -1,0 +1,72 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_523.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_522.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_524.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> ldexp </H2>
+<!--docid::SEC2654::-->
+<A NAME="SEC2655"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC2655::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+
+double ldexp(double val, int exp);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2656"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC2656::-->
+<P>
+
+This function computes <EM><VAR>val</VAR>*2^<VAR>exp</VAR></EM>.
+</P><P>
+
+<A NAME="SEC2657"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC2657::-->
+<P>
+
+<EM><VAR>val</VAR>*2^<VAR>exp</VAR></EM>.  <CODE>ldexp(0., exp)</CODE> returns 0 for all
+values of <CODE>exp</CODE>, without setting <CODE>errno</CODE>.  For non-zero values
+of <VAR>val</VAR>, <CODE>errno</CODE> is set to <CODE>ERANGE</CODE> if the result cannot
+be accurately represented by a <CODE>double</CODE>, and the return value is
+then the nearest representable <CODE>double</CODE> (possibly, an <CODE>Inf</CODE>).
+If <VAR>val</VAR> is a <CODE>NaN</CODE> or <CODE>Inf</CODE>, the return value is
+<CODE>NaN</CODE> and <CODE>errno</CODE> is set to <CODE>EDOM</CODE>.
+</P><P>
+
+<A NAME="SEC2658"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC2658::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C89; C99
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2659"></A>
+<H3> Example                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC2659::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>ldexp(3.5,4) == 3.5 * (2^4) == 56.0
+</pre></td></tr></table></P><P>
+
+<A NAME="ldiv"></A>
+<!--#perl sub="trailer" -->

@@ -1,0 +1,90 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_649.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_648.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_650.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> realpath </H2>
+<!--docid::SEC3337::-->
+<A NAME="SEC3338"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   </H3>
+<!--docid::SEC3338::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdlib.h&#62;
+
+void realpath(const char *in_path, char *out_path);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3339"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC3339::-->
+<P>
+
+This function canonicalizes the input path <VAR>in_path</VAR> and stores the
+result in the buffer pointed to by <VAR>out_path</VAR>.
+</P><P>
+
+The path is canonicialized by removing consecutive and trailing slashes,
+making the path absolute if it's relative by prepending the current drive
+letter and working directory, removing "." components, collapsing
+".." components, adding a drive specifier if needed, and converting all
+slashes to '/'.  DOS-style 8+3 names of directories which are part of
+the pathname, as well as its final filename part, are returned
+lower-cased in <VAR>out_path</VAR>, but long filenames are left intact.
+See section <A HREF="libc_622.html">_preserve_fncase</A>, for more details on letter-case conversions in
+filenames.
+</P><P>
+
+Since the returned path name can be longer than the original one, the
+caller should ensure there is enough space in the buffer pointed to by
+<VAR>out_path</VAR>.  Use of ANSI-standard constant <CODE>FILENAME_MAX</CODE>
+(defined on <TT>`stdio.h'</TT>) or Posix-standard constant <CODE>PATH_MAX</CODE>
+(defined on <TT>`limits.h'</TT>) is recommended.
+</P><P>
+
+<A NAME="SEC3340"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC3340::-->
+<P>
+
+If successful, a pointer to the result buffer is returned. Otherwise,
+<CODE>NULL</CODE> is returned and <CODE>errno</CODE> is set to indicate which error
+was detected.
+</P><P>
+
+<A NAME="SEC3341"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC3341::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3342"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC3342::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>char oldpath[100], newpath[PATH_MAX];
+scanf("%s", oldpath);
+realpath(oldpath, newpath);
+printf("that really is %s\n", newpath);
+</pre></td></tr></table></P><P>
+
+<A NAME="redir_cmdline_delete"></A>
+<!--#perl sub="trailer" -->

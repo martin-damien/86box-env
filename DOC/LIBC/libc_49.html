@@ -1,0 +1,63 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_49.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_48.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_50.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> atan </H2>
+<!--docid::SEC110::-->
+<A NAME="SEC111"></A>
+<H3> Syntax               </H3>
+<!--docid::SEC111::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+
+double atan(double x);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC112"></A>
+<H3> Description              </H3>
+<!--docid::SEC112::-->
+<P>
+
+This function computes the angle, in the range <CODE>[-Pi/2..Pi/2]</CODE>
+radians, whose tangent is <VAR>x</VAR>.
+</P><P>
+
+<A NAME="SEC113"></A>
+<H3> Return Value              </H3>
+<!--docid::SEC113::-->
+<P>
+
+The arc tangent, in radians, of <VAR>x</VAR>.  If <VAR>x</VAR> is a <CODE>NaN</CODE>,
+the return value is <CODE>NaN</CODE> and <CODE>errno</CODE> is set to <CODE>EDOM</CODE>.
+If <VAR>x</VAR> is a positive or negative <CODE>Inf</CODE>, the return value is
+equal to positive or negative <CODE>Pi/2</CODE>, respectively, and
+<CODE>errno</CODE> is left unchanged.
+</P><P>
+
+<A NAME="SEC114"></A>
+<H3> Portability               </H3>
+<!--docid::SEC114::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C89; C99
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="atan2"></A>
+<!--#perl sub="trailer" -->

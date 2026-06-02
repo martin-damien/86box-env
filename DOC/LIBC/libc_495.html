@@ -1,0 +1,85 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_495.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_494.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_496.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> ioctl (UNIX) </H2>
+<!--docid::SEC2507::-->
+<A NAME="SEC2508"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC2508::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;sys/ioctl.h&#62;
+
+int ioctl(int fd, int cmd, ... );
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2509"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC2509::-->
+The UNIX version first checks if an FSEXT handler is associated with the file
+descriptor <VAR>fd</VAR>. If so, it calls the handler in the usual way
+(see section <A HREF="libc_321.html">File System Extensions</A>).
+<P>
+
+Otherwise,the operation specified by <VAR>cmd</VAR> is performed on the file open
+on handle <VAR>fd</VAR>.  The following operations are defined
+by the header <TT>`sys/ioctl.h'</TT>:
+</P><P>
+
+<DL COMPACT>
+<DT><CODE>TIOCGWINSZ</CODE>
+<DD>Fill in the <CODE>winsize</CODE> structure pointed to by the third argument
+with the screen width and height.
+<P>
+
+The <CODE>winsize</CODE> structure is defined in <TT>`sys/ioctl.h'</TT>
+as follows:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct winsize
+{
+  unsigned short ws_row;	/* rows, in characters */
+  unsigned short ws_col;	/* columns, in characters */
+  unsigned short ws_xpixel;	/* horizontal size, pixels */
+  unsigned short ws_ypixel;	/* vertical size, pixels */
+};
+</pre></td></tr></table></P><P>
+
+</DL>
+<P>
+
+<A NAME="SEC2510"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC2510::-->
+Zero for <CODE>TIOCGWINSZ</CODE>. Otherwise, -1 is returned and <CODE>errno</CODE> is set
+to <CODE>ENOSYS</CODE> for all others.
+<P>
+
+<A NAME="SEC2511"></A>
+<H3> Example                                                                                                                                                                                                                            </H3>
+<!--docid::SEC2511::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;sys/ioctl.h&#62;
+#include &#60;stdio.h&#62;
+int main(int argc, char **argv)
+{
+  struct winsize sz;
+
+  ioctl(0, TIOCGWINSZ, &#38;screen_size);
+  printf("Screen width: %i  Screen height: %i\n", sz.ws_col, sz.ws_row);
+  return 0;
+}
+</pre></td></tr></table><A NAME="_is_cdrom_drive"></A>
+<!--#perl sub="trailer" -->

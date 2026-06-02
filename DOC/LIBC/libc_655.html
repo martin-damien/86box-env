@@ -1,0 +1,504 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_655.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_654.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_656.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> regcomp </H2>
+<!--docid::SEC3372::-->
+<A NAME="SEC3373"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC3373::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;sys/types.h&#62;
+#include &#60;regex.h&#62;
+
+int regcomp(regex_t *preg, const char *pattern, int cflags);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3374"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </H3>
+<!--docid::SEC3374::-->
+<P>
+
+This function is part of the implementation of POSIX 1003.2 regular
+expressions (<EM>RE</EM>s).
+</P><P>
+
+<CODE>regcomp</CODE> compiles the regular expression contained in the
+<VAR>pattern</VAR> string, subject to the flags in <VAR>cflags</VAR>, and places
+the results in the <CODE>regex_t</CODE> structure pointed to by <VAR>preg</VAR>.
+(The regular expression syntax, as defined by POSIX 1003.2, is
+described below.)
+</P><P>
+
+The parameter <VAR>cflags</VAR> is the bitwise OR of zero or more of the
+following flags:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>REG_EXTENDED</CODE>
+<DD><P>
+
+Compile modern (<EM>extended</EM>) REs, rather than the obsolete
+(<EM>basic</EM>) REs that are the default.
+</P><P>
+
+<DT><CODE>REG_BASIC</CODE>
+<DD><P>
+
+This is a synonym for 0, provided as a counterpart to
+<CODE>REG_EXTENDED</CODE> to improve readability.
+This is an extension, compatible with but not specified by
+POSIX 1003.2, and should be used with caution in software
+intended to be portable to other systems.
+</P><P>
+
+<DT><CODE>REG_NOSPEC</CODE>
+<DD><P>
+
+Compile with recognition of all special characters turned off.  All
+characters are thus considered ordinary, so the RE in <VAR>pattern</VAR> is a
+literal string.  This is an extension, compatible with but not specified
+by POSIX 1003.2, and should be used with caution in software
+intended to be portable to other systems.  <CODE>REG_EXTENDED</CODE> and
+<CODE>REG_NOSPEC</CODE> may not be used in the same call to <CODE>regcomp</CODE>.
+</P><P>
+
+<DT><CODE>REG_ICASE</CODE>
+<DD><P>
+
+Compile for matching that ignores upper/lower case distinctions.  See
+the description of regular expressions below for details of
+case-independent matching.
+</P><P>
+
+<DT><CODE>REG_NOSUB</CODE>
+<DD><P>
+
+Compile for matching that need only report success or failure, not what
+was matched.
+</P><P>
+
+<DT><CODE>REG_NEWLINE</CODE>
+<DD><P>
+
+Compile for newline-sensitive matching.  By default, newline is a
+completely ordinary character with no special meaning in either REs or
+strings.  With this flag, <SAMP>`[^'</SAMP> bracket expressions and <SAMP>`.'</SAMP>
+never match newline, a <SAMP>`^'</SAMP> anchor matches the null string after any
+newline in the string in addition to its normal function, and the
+<SAMP>`$'</SAMP> anchor matches the null string before any newline in the string
+in addition to its normal function.
+</P><P>
+
+<DT><CODE>REG_PEND</CODE>
+<DD><P>
+
+The regular expression ends, not at the first NUL, but just before the
+character pointed to by the <CODE>re_endp</CODE> member of the structure
+pointed to by <VAR>preg</VAR>.  The <CODE>re_endp</CODE> member is of type
+<CODE>const char *</CODE>.  This flag permits inclusion of NULs in the RE;
+they are considered ordinary characters.  This is an extension,
+compatible with but not specified by POSIX 1003.2, and should be
+used with caution in software intended to be portable to other systems.
+</P><P>
+
+</DL>
+<P>
+
+When successful, <CODE>regcomp</CODE> returns 0 and fills in the structure
+pointed to by <VAR>preg</VAR>.  One member of that structure (other than
+<CODE>re_endp</CODE>) is publicized: <CODE>re_nsub</CODE>, of type <CODE>size_t</CODE>,
+contains the number of parenthesized subexpressions within the RE
+(except that the value of this member is undefined if the
+<CODE>REG_NOSUB</CODE> flag was used).
+</P><P>
+
+Note that the length of the RE does matter; in particular, there is a
+strong speed bonus for keeping RE length under about 30 characters,
+with most special characters counting roughly double.
+</P><P>
+
+<A NAME="SEC3375"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           </H3>
+<!--docid::SEC3375::-->
+<P>
+
+If <CODE>regcomp</CODE> succeeds, it returns zero; if it fails, it returns a
+non-zero error code, which is one of these:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>REG_BADPAT</CODE>
+<DD><P>
+
+invalid regular expression
+</P><P>
+
+<DT><CODE>REG_ECOLLATE</CODE>
+<DD><P>
+
+invalid collating element
+</P><P>
+
+<DT><CODE>REG_ECTYPE</CODE>
+<DD><P>
+
+invalid character class
+</P><P>
+
+<DT><CODE>REG_EESCAPE</CODE>
+<DD><P>
+
+<SAMP>`\'</SAMP> applied to unescapable character
+</P><P>
+
+<DT><CODE>REG_ESUBREG</CODE>
+<DD><P>
+
+invalid backreference number (e.g., larger than the number of
+parenthesized subexpressions in the RE)
+</P><P>
+
+<DT><CODE>REG_EBRACK</CODE>
+<DD><P>
+
+brackets [ ] not balanced
+</P><P>
+
+<DT><CODE>REG_EPAREN</CODE>
+<DD><P>
+
+parentheses ( ) not balanced
+</P><P>
+
+<DT><CODE>REG_EBRACE</CODE>
+<DD><P>
+
+braces { } not balanced
+</P><P>
+
+<DT><CODE>REG_BADBR</CODE>
+<DD><P>
+
+invalid repetition count(s) in { }
+</P><P>
+
+<DT><CODE>REG_ERANGE</CODE>
+<DD><P>
+
+invalid character range in [ ]
+</P><P>
+
+<DT><CODE>REG_ESPACE</CODE>
+<DD><P>
+
+ran out of memory (an RE like, say,
+<SAMP>`((((a{1,100}){1,100}){1,100}){1,100}){1,100}''</SAMP> will
+eventually run almost any existing machine out of swap space)
+</P><P>
+
+<DT><CODE>REG_BADRPT</CODE>
+<DD><P>
+
+?, *, or + operand invalid
+</P><P>
+
+<DT><CODE>REG_EMPTY</CODE>
+<DD><P>
+
+empty (sub)expression
+</P><P>
+
+<DT><CODE>REG_ASSERT</CODE>
+<DD><P>
+
+"can't happen" (you found a bug in <CODE>regcomp</CODE>)
+</P><P>
+
+<DT><CODE>REG_INVARG</CODE>
+<DD><P>
+
+invalid argument (e.g. a negative-length string)
+</P><P>
+
+</DL>
+<P>
+
+<A NAME="SEC3376"></A>
+<H3> Regular Expressions' Syntax </H3>
+<!--docid::SEC3376::-->
+<P>
+
+Regular expressions (<EM>RE</EM>s), as defined in POSIX 1003.2, come
+in two forms: modern REs (roughly those of <CODE>egrep</CODE>; 1003.2 calls
+these <EM>extended</EM> REs) and obsolete REs (roughly those of <CODE>ed</CODE>;
+1003.2 <EM>basic</EM> REs).  Obsolete REs mostly exist for backward
+compatibility in some old programs; they will be discussed at the end.
+1003.2 leaves some aspects of RE syntax and semantics open; `(*)' marks
+decisions on these aspects that may not be fully portable to other
+1003.2 implementations.
+</P><P>
+
+A (modern) RE is one(*) or more non-empty(*) <EM>branches</EM>, separated
+by <SAMP>`|'</SAMP>.  It matches anything that matches one of the branches.
+</P><P>
+
+A branch is one(*) or more <EM>pieces</EM>, concatenated.  It matches a
+match for the first, followed by a match for the second, etc.
+</P><P>
+
+A piece is an <EM>atom</EM> possibly followed by a single(*) <SAMP>`*'</SAMP>,
+<SAMP>`+'</SAMP>, <SAMP>`?'</SAMP>, or <EM>bound</EM>.  An atom followed by <SAMP>`*'</SAMP>
+matches a sequence of 0 or more matches of the atom.  An atom followed
+by <SAMP>`+'</SAMP> matches a sequence of 1 or more matches of the atom.  An
+atom followed by <SAMP>`?'</SAMP> matches a sequence of 0 or 1 matches of the
+atom.
+</P><P>
+
+A <EM>bound</EM> is <SAMP>`{'</SAMP> followed by an unsigned decimal integer,
+possibly followed by <SAMP>`,'</SAMP> possibly followed by another unsigned
+decimal integer, always followed by <SAMP>`}'</SAMP>.  The integers must lie
+between 0 and <CODE>RE_DUP_MAX</CODE> (255(*)) inclusive, and if there are two
+of them, the first may not exceed the second.  An atom followed by a
+bound containing one integer <SAMP>`i'</SAMP> and no comma matches a sequence of
+exactly <SAMP>`i'</SAMP> matches of the atom.  An atom followed by a bound
+containing one integer <SAMP>`i'</SAMP> and a comma matches a sequence of
+<SAMP>`i'</SAMP> or more matches of the atom.  An atom followed by a bound
+containing two integers <SAMP>`i'</SAMP> and <SAMP>`j'</SAMP> matches a sequence of
+<SAMP>`i'</SAMP> through <SAMP>`j'</SAMP> (inclusive) matches of the atom.
+</P><P>
+
+An atom is a regular expression enclosed in <SAMP>`()'</SAMP> (matching a match
+for the regular expression), an empty set of <SAMP>`()'</SAMP> (matching the
+null string(*)), a <EM>bracket expression</EM> (see below), <SAMP>`.'</SAMP>
+(matching any single character), <SAMP>`^'</SAMP> (matching the null string at
+the beginning of a line), <SAMP>`$'</SAMP> (matching the null string at the end
+of a line), a <SAMP>`\'</SAMP> followed by one of the characters
+<SAMP>`^.[$()|*+?{\\'</SAMP> (matching that character taken as an ordinary
+character), a <SAMP>`\'</SAMP> followed by any other character(*) (matching
+that character taken as an ordinary character, as if the <SAMP>`\'</SAMP> had
+not been present(*)), or a single character with no other significance
+(matching that character).  A <SAMP>`{'</SAMP> followed by a character other
+than a digit is an ordinary character, not the beginning of a bound(*).
+It is illegal to end an RE with <SAMP>`\'</SAMP>.
+</P><P>
+
+A <EM>bracket expression</EM> is a list of characters enclosed in
+<SAMP>`[]'</SAMP>.  It normally matches any single character from the list (but
+see below).  If the list begins with <SAMP>`^'</SAMP>, it matches any single
+character (but see below) <EM>not</EM> from the rest of the list.  If two
+characters in the list are separated by <SAMP>`-'</SAMP>, this is shorthand for
+the full <EM>range</EM> of characters between those two (inclusive) in the
+collating sequence, e.g. <SAMP>`[0-9]'</SAMP> in ASCII matches any decimal
+digit.  It is illegal(*) for two ranges to share an endpoint,
+e.g. <SAMP>`a-c-e'</SAMP>.  Ranges are very collating-sequence-dependent, and
+portable programs should avoid relying on them.
+</P><P>
+
+To include a literal <SAMP>`]'</SAMP> in the list, make it the first character
+(following a possible <SAMP>`^'</SAMP>).  To include a literal <SAMP>`-'</SAMP>, make it
+the first or last character, or the second endpoint of a range.  To use
+a literal <SAMP>`-'</SAMP> as the first endpoint of a range, enclose it in
+<SAMP>`[.'</SAMP> and <SAMP>`.]'</SAMP> to make it a collating element (see below).
+With the exception of these and some combinations using <SAMP>`['</SAMP> (see
+next paragraphs), all other special characters, including <SAMP>`\'</SAMP>,
+lose their special significance within a bracket expression.
+</P><P>
+
+Within a bracket expression, a collating element (a character, a
+multi-character sequence that collates as if it were a single character,
+or a collating-sequence name for either) enclosed in <SAMP>`[.'</SAMP> and
+<SAMP>`.]'</SAMP>  stands for the sequence of characters of that collating
+element.  The sequence is a single element of the bracket expression's
+list.  A bracket expression containing a multi-character collating
+element can thus match more than one character, e.g. if the collating
+sequence includes a <SAMP>`ch'</SAMP> collating element, then the RE
+<SAMP>`[[.ch.]]*c'</SAMP> matches the first five characters of "chchcc".
+</P><P>
+
+Within a bracket expression, a collating element enclosed in <SAMP>`[='</SAMP>
+and <SAMP>`=]'</SAMP> is an equivalence class, standing for the sequences of
+characters of all collating elements equivalent to that one, including
+itself.  (If there are no other equivalent collating elements, the
+treatment is as if the enclosing delimiters were <SAMP>`[.'</SAMP> and
+<SAMP>`.]'</SAMP>.)  For example, if <SAMP>`o'</SAMP> and <SAMP>`^'</SAMP> are the members of an
+equivalence class, then <SAMP>`[[=o=]]'</SAMP>, <SAMP>`[[=^=]]'</SAMP>, and <SAMP>`[o^]'</SAMP>
+are all synonymous.  An equivalence class may <EM>not</EM> be an endpoint
+of a range.
+</P><P>
+
+Within a bracket expression, the name of a <EM>character class</EM>
+enclosed in <SAMP>`[:'</SAMP> and <SAMP>`:]'</SAMP> stands for the list of all characters
+belonging to that class.
+Standard character class names are:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>alnum	digit	punct
+alpha	graph	space
+blank	lower	upper
+cntrl	print	xdigit
+</pre></td></tr></table></P><P>
+
+These stand for the character classes defined by <CODE>isalnum</CODE>
+(see section <A HREF="libc_503.html">isalnum</A>), <CODE>isdigit</CODE> (see section <A HREF="libc_509.html">isdigit</A>), <CODE>ispunct</CODE>
+(see section <A HREF="libc_513.html">ispunct</A>), <CODE>isalpha</CODE> (see section <A HREF="libc_504.html">isalpha</A>), <CODE>isgraph</CODE>
+(see section <A HREF="libc_510.html">isgraph</A>), <CODE>isspace</CODE> (see section <A HREF="libc_514.html">isspace</A>) (<CODE>blank</CODE> is the
+same as <CODE>space</CODE>), <CODE>islower</CODE> (see section <A HREF="libc_511.html">islower</A>), <CODE>isupper</CODE>
+(see section <A HREF="libc_515.html">isupper</A>), <CODE>iscntrl</CODE> (see section <A HREF="libc_508.html">iscntrl</A>), <CODE>isprint</CODE>
+(see section <A HREF="libc_512.html">isprint</A>), and <CODE>isxdigit</CODE> (see section <A HREF="libc_516.html">isxdigit</A>),
+respectively.  A locale may provide others.  A character class may not
+be used as an endpoint of a range.
+</P><P>
+
+There are two special cases(*) of bracket expressions: the bracket
+expressions <SAMP>`[[:&#60;:]]'</SAMP> and <SAMP>`[[:&#62;:]]'</SAMP> match the null string at the
+beginning and end of a word respectively.  A word is defined as a
+sequence of word characters which is neither preceded nor followed by
+word characters.  A word character is an <CODE>alnum</CODE> character (as
+defined by <CODE>isalnum</CODE> library function) or an underscore.  This is
+an extension, compatible with but not specified by POSIX 1003.2,
+and should be used with caution in software intended to be portable to
+other systems.
+</P><P>
+
+In the event that an RE could match more than one substring of a given
+string, the RE matches the one starting earliest in the string.  If the
+RE could match more than one substring starting at that point, it
+matches the longest.  Subexpressions also match the longest possible
+substrings, subject to the constraint that the whole match be as long as
+possible, with subexpressions starting earlier in the RE taking priority
+over ones starting later.  Note that higher-level subexpressions thus
+take priority over their lower-level component subexpressions.
+</P><P>
+
+Match lengths are measured in characters, not collating elements.  A
+null string is considered longer than no match at all.  For example,
+<SAMP>`bb*'</SAMP> matches the three middle characters of "abbbc", 
+<SAMP>`(wee|week)(knights|nights)'</SAMP> matches all ten characters of
+"weeknights", when <SAMP>`(.*).*'</SAMP> is matched against "abc" the
+parenthesized subexpression matches all three characters, and when
+<SAMP>`(a*)*'</SAMP> is matched against "bc" both the whole RE and the
+parenthesized subexpression match the null string.
+</P><P>
+
+If case-independent matching is specified, the effect is much as if all
+case distinctions had vanished from the alphabet.  When an alphabetic
+that exists in multiple cases appears as an ordinary character outside a
+bracket expression, it is effectively transformed into a bracket
+expression containing both cases, e.g. <SAMP>`x'</SAMP> becomes <SAMP>`[xX]'</SAMP>.
+When it appears inside a bracket expression, all case counterparts of it
+are added to the bracket expression, so that (e.g.) <SAMP>`[x]'</SAMP> becomes
+<SAMP>`[xX]'</SAMP> and <SAMP>`[^x]'</SAMP> becomes <SAMP>`[^xX]'</SAMP>.
+</P><P>
+
+No particular limit is imposed on the length of REs(*).  Programs
+intended to be portable should not employ REs longer than 256 bytes,
+as an implementation can refuse to accept such REs and remain
+POSIX-compliant.
+</P><P>
+
+Obsolete (<EM>basic</EM>) regular expressions differ in several respects.
+<SAMP>`|'</SAMP>, <SAMP>`+'</SAMP>, and <SAMP>`?'</SAMP> are ordinary characters and there is no
+equivalent for their functionality.  The delimiters for bounds are
+<SAMP>`\{'</SAMP> and <SAMP>`\}'</SAMP>, with <SAMP>`{'</SAMP> and <SAMP>`}'</SAMP> by themselves
+ordinary characters.  The parentheses for nested subexpressions are
+<SAMP>`\('</SAMP> and <SAMP>`\)'</SAMP>, with <SAMP>`('</SAMP> and <SAMP>`)'</SAMP> by themselves
+ordinary characters.  <SAMP>`^'</SAMP> is an ordinary character except at the
+beginning of the RE or(*) the beginning of a parenthesized
+subexpression, <SAMP>`$'</SAMP> is an ordinary character except at the end of
+the RE or(*) the end of a parenthesized subexpression, and <SAMP>`*'</SAMP> is
+an ordinary character if it appears at the beginning of the RE or the
+beginning of a parenthesized subexpression (after a possible leading
+<SAMP>`^'</SAMP>).  Finally, there is one new type of atom, a <EM>back
+reference</EM>: <SAMP>`\'</SAMP> followed by a non-zero decimal digit <EM>d</EM>
+matches the same sequence of characters matched by the <EM>d</EM>th
+parenthesized subexpression (numbering subexpressions by the positions
+of their opening parentheses, left to right), so that (e.g.)
+<SAMP>`\([bc]\)\1'</SAMP> matches "bb" or "cc" but not "bc".
+</P><P>
+
+<A NAME="SEC3377"></A>
+<H3> History </H3>
+<!--docid::SEC3377::-->
+<P>
+
+This implementation of the POSIX regexp functionality was written
+by <A HREF="mailto:henry@zoo.toronto.edu">Henry Spencer</A>.
+</P><P>
+
+<A NAME="SEC3378"></A>
+<H3> Bugs  </H3>
+<!--docid::SEC3378::-->
+<P>
+
+The locale is always assumed to be the default one of 1003.2, and only
+the collating elements etc. of that locale are available.
+</P><P>
+
+<CODE>regcomp</CODE> implements bounded repetitions by macro expansion,
+which is costly in time and space if counts are large or bounded
+repetitions are nested.
+</P><P>
+
+An RE like, say,
+<SAMP>`((((a{1,100}){1,100}){1,100}){1,100}){1,100}'</SAMP>,
+will (eventually) run almost any existing machine out of swap space.
+</P><P>
+
+There are suspected problems with response to obscure error conditions.
+Notably, certain kinds of internal overflow, produced only by truly
+enormous REs or by multiply nested bounded repetitions, are probably not
+handled well.
+</P><P>
+
+Due to a mistake in 1003.2, things like <SAMP>`a)b'</SAMP> are legal REs because
+<SAMP>`)'</SAMP> is a special character only in the presence of a previous
+unmatched <SAMP>`('</SAMP>.  This can't be fixed until the spec is fixed.
+</P><P>
+
+The standard's definition of back references is vague.  For example,
+does <SAMP>`a\e(\e(b\e)*\e2\e)*d'</SAMP> match "abbbd"?  Until the standard
+is clarified, behavior in such cases should not be relied on.
+</P><P>
+
+<A NAME="SEC3379"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </H3>
+<!--docid::SEC3379::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="regerror"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_654.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_656.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

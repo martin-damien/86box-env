@@ -1,0 +1,333 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_724.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_723.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_725.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> signal </H2>
+<!--docid::SEC3759::-->
+<A NAME="SEC3760"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC3760::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;signal.h&#62;
+
+void	(*signal(int sig, void (*func)(int)))(int);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3761"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC3761::-->
+<P>
+
+Signals are generated in response to some exceptional behavior of the
+program, such as division by 0.  A signal can also report some
+asynchronous event outside the program, such as someone pressing a
+<KBD>Ctrl-<KBD>BREAK</KBD></KBD> key combination.
+</P><P>
+
+Signals are numbered 0..255 for software interrupts and 256..287 for
+exceptions (exception number plus 256); other implementation-specific
+codes are specified in <CODE>&#60;signal.h&#62;</CODE> (see below).  Every signal is
+given a mnemonic which you should use for portable programs.
+</P><P>
+
+By default, signal <CODE>SIGQUIT</CODE> is discarded.  This is so programs
+ported from other DOS environments, where <CODE>SIGQUIT</CODE> is generally
+not supported, continue to work as they originally did.  If you want
+<CODE>SIGQUIT</CODE> to abort with a traceback, install
+<CODE>__djgpp_traceback_exit</CODE> as its handler
+(see section <A HREF="libc_148.html">__djgpp_traceback_exit</A>).
+</P><P>
+
+The default handling for the rest of the signals is to print a traceback (a
+stack dump which describes the sequence of function calls leading to the
+generation of the signal) and abort the program by calling <CODE>_exit</CODE>
+(see section <A HREF="libc_296.html">_exit</A>).  As an exception, the default handler for the signal
+<CODE>SIGINT</CODE> doesn't print the traceback, and calls <CODE>exit</CODE> instead
+of <CODE>_exit</CODE>, when the INTR key (<KBD>Ctrl-C</KBD> by default) is pressed,
+so that programs could be shut down safely in this manner.
+<CODE>SIGINT</CODE> raised by <KBD>Ctrl-<KBD>BREAK</KBD></KBD> does generate the
+traceback.
+</P><P>
+
+The function <CODE>signal</CODE> allows you to change the default behavior for
+a specific signal.  It registers <VAR>func</VAR> as a signal handler for
+signal number <VAR>sig</VAR>.  After you register your function as the
+handler for a particular signal, it will be called when that signal
+occurs.  The execution of the program will be suspended until the
+handler returns or calls <CODE>longjmp</CODE> (see section <A HREF="libc_546.html">longjmp</A>).
+</P><P>
+
+The state of the floating-point unit (FPU) is not saved, before
+entering a signal handler.  It can be extremely costly to save
+the FPU state.  Most signal handlers do not use floating-point
+operations, so the overhead of saving FPU state is avoided.
+An example of a signal handler that saves the FPU state is
+the function <CODE>dbgsig</CODE> in <TT>`src/debug/common/dbgcom.c'</TT>
+in the DJGPP sources.
+</P><P>
+
+You may pass <CODE>SIG_DFL</CODE> as the value of <VAR>func</VAR> to reset the
+signal handling for the signal <VAR>sig</VAR> to default (also
+See section <A HREF="libc_135.html">__djgpp_exception_toggle</A>, for a quick way to restore all the
+signals' handling to default), <CODE>SIG_ERR</CODE> to force an error when
+that signal happens, or <CODE>SIG_IGN</CODE> to ignore that signal.  Signal
+handlers that you write are regular C functions, and may call any
+function that the ANSI/POSIX specs say are valid for signal handlers.
+For maximum portability, a handler for hardware interrupts and processor
+exceptions should only make calls to <CODE>signal</CODE>, assign values to
+data objects of type <CODE>volatile sig_atomic_t</CODE> (defined as <CODE>int</CODE>
+on <CODE>&#60;signal.h&#62;</CODE>) and return.  Handlers for hardware interrupts need
+also be locked in memory (so that the operation of virtual memory
+mechanism won't swap them out), See section <A HREF="libc_247.html">locking memory regions</A>.  Handlers for software interrupts can also terminate by
+calling <CODE>abort</CODE>, <CODE>exit</CODE> or <CODE>longjmp</CODE>.
+</P><P>
+
+The following signals are defined on <CODE>&#60;signal.h&#62;</CODE>:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>SIGABRT</CODE>
+<DD><P>
+
+The Abort signal.  Currently only used by the <CODE>assert</CODE> macro to
+terminate the program when an assertion fails (see section <A HREF="libc_48.html">assert</A>), and by
+the <CODE>abort</CODE> function (see section <A HREF="libc_37.html">abort</A>).
+</P><P>
+
+<DT><CODE>SIGFPE</CODE>
+<DD><P>
+
+The Floating Point Error signal.  Generated in case of divide by zero
+exception (Int 00h), overflow exception (Int 04h), and any x87
+co-processor exception, either generated by the CPU (Int 10h), or by the
+co-processor itself (Int 75h).  The co-processor status word is printed
+by the default handler for this signal.  See section <A HREF="libc_746.html">_status87</A>, for the
+definition of the individual bits of the status word.
+</P><P>
+
+The DJGPP startup code masks all numeric exceptions, so this signal is
+usually only triggered by an integer divide by zero operation.  If you
+want to unmask some of the numeric exceptions, see <A HREF="libc_112.html">_control87</A>.
+</P><P>
+
+<DT><CODE>SIGILL</CODE>
+<DD><P>
+
+The Invalid Execution signal.  Currently only generated for
+unknown/invalid exceptions.
+</P><P>
+
+<DT><CODE>SIGINT</CODE>
+<DD><P>
+
+The Interrupt signal.  Generated when an INTR key (<KBD>Ctrl-C</KBD> by
+default) or <KBD>Ctrl-<KBD>BREAK</KBD></KBD> (Int 1Bh) key is hit.
+Note that when you open the console in binary
+mode, or switch it to binary mode by a call to <CODE>setmode</CODE>
+(see section <A HREF="libc_707.html">setmode</A>), generation of <CODE>SIGINT</CODE> as result of <KBD>Ctrl-C</KBD>
+key is disabled.  This is so for programs (such as Emacs) which want to
+be able to read the <SAMP>`^C'</SAMP> character as any other character.  Use the
+library function <CODE>__djgpp_set_ctrl_c</CODE> to restore <CODE>SIGINT</CODE>
+generation when <KBD>Ctrl-C</KBD> is hit, if you need this.
+See section <A HREF="libc_142.html">__djgpp_set_ctrl_c</A>, for details on how this should be done.
+<KBD>Ctrl-<KBD>BREAK</KBD></KBD> always generates <CODE>SIGINT</CODE>.
+</P><P>
+
+DJGPP hooks the keyboard hardware interrupt (Int 09h) to be able to
+generate <CODE>SIGINT</CODE> in response to the INTR key; you should be
+aware of this when you install a handler for the keyboard interrupt.
+</P><P>
+
+Note that the key which generates <CODE>SIGINT</CODE> can be changed with a
+call to <CODE>__djgpp_set_sigint_key</CODE> function.
+See section <A HREF="libc_144.html">__djgpp_set_sigint_key</A>.
+</P><P>
+
+<DT><CODE>SIGSEGV</CODE>
+<DD><P>
+
+The invalid storage access (Segmentation Violation) signal.  Generated
+in response to any of the following exceptions: Bound range exceeded in
+BOUND instruction (Int 05h), Double Exception or an exception in the
+exception handler (Int 08h), Segment Boundary violation by co-processor
+(Int 09h), Invalid TSS (Int 0Ah), Segment Not Present (Int 0Bh), Stack
+Fault (Int 0Ch), General Protection Violation (Int 0Dh), or Page Fault
+(Int 0Eh).  Note that Int 09h is only generated on 80386 processor; i486
+and later CPUs cause Int 0Dh when the co-processor accesses memory out
+of bounds.  The Double Exception, Invalid TSS, Segment Not Present,
+Stack Fault, GPF, and Page Fault exceptions will cause an error code to
+be printed, if it is non-zero.
+</P><P>
+
+<DT><CODE>SIGTERM</CODE>
+<DD><P>
+
+The Termination Request signal.  Currently unused.
+</P><P>
+
+The signals below this are not defined by ANSI C, and cannot be used
+when compiling under <SAMP>`-ansi'</SAMP> option to <SAMP>`gcc'</SAMP>.
+</P><P>
+
+<DT><CODE>SIGALRM</CODE>
+<DD><P>
+
+The Alarm signal.  Generated after certain time period has passed after
+a call to <CODE>alarm</CODE> library function (see section <A HREF="libc_43.html">alarm</A>).
+</P><P>
+
+<DT><CODE>SIGHUP</CODE>
+<DD><P>
+
+The Hang-up signal.  Currently unused.
+</P><P>
+
+<DT><CODE>SIGKILL</CODE>
+<DD><P>
+
+The Kill signal.  Currently unused.
+</P><P>
+
+<DT><CODE>SIGPIPE</CODE>
+<DD><P>
+
+The Broken Pipe signal.  Currently unused.
+</P><P>
+
+<DT><CODE>SIGQUIT</CODE>
+<DD><P>
+
+The Quit signal.  Generated when the QUIT key (<KBD>Ctrl-\</KBD> by default)
+is hit.  The key that raises the signal can be changed with a call to
+<CODE>__djgpp_set_sigquit_key</CODE> function.
+See section <A HREF="libc_145.html">__djgpp_set_sigquit_key</A>.  By default, <CODE>SIGQUIT</CODE> is
+discarded, even if its handler is <CODE>SIG_DFL</CODE>, so that DOS programs
+which don't expect it do not break.  You can change the effect of
+<CODE>SIGQUIT</CODE> to abort with traceback by installing
+<CODE>__djgpp_traceback_exit</CODE> as its handler.
+See section <A HREF="libc_148.html">__djgpp_traceback_exit</A>.
+</P><P>
+
+DJGPP hooks the keyboard hardware interrupt (Int 09h) to be able to
+generate <CODE>SIGQUIT</CODE> in response to the QUIT key; you should be
+aware of this when you install a handler for the keyboard interrupt.
+</P><P>
+
+<DT><CODE>SIGUSR1</CODE>
+<DD><P>
+
+User-defined signal no. 1.
+</P><P>
+
+<DT><CODE>SIGUSR2</CODE>
+<DD><P>
+
+User-defined signal no. 2.
+</P><P>
+
+The signals below are not defined by ANSI C and POSIX, and cannot be
+used when compiling under either <SAMP>`-ansi'</SAMP> or <SAMP>`-posix'</SAMP> options
+to <SAMP>`gcc'</SAMP>.
+</P><P>
+
+<DT><CODE>SIGTRAP</CODE>
+<DD><P>
+
+The Trap Instruction signal.  Generated in response to the Debugger
+Exception (Int 01h) or Breakpoint Exception (Int 03h).
+</P><P>
+
+<DT><CODE>SIGNOFP</CODE>
+<DD><P>
+
+The No Co-processor signal.  Generated if a co-processor (floating-point)
+instruction is encountered when no co-processor is installed (Int 07h).
+</P><P>
+
+<DT><CODE>SIGTIMR</CODE>
+<DD><P>
+
+The Timer signal.  Used by the <CODE>setitimer</CODE> and <CODE>alarm</CODE> functions
+(See section <A HREF="libc_702.html">setitimer</A>, and see section <A HREF="libc_43.html">alarm</A>).
+</P><P>
+
+<DT><CODE>SIGPROF</CODE>
+<DD><P>
+
+The Profiler signal.  Used by the execution profile gathering code in a
+program compiled with <SAMP>`-pg'</SAMP> option to <SAMP>`gcc'</SAMP>.
+</P><P>
+
+</DL>
+<P>
+
+<A NAME="SEC3762"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC3762::-->
+<P>
+
+The previous handler for signal <VAR>sig</VAR>, or <CODE>SIG_ERR</CODE> if the
+value of <VAR>sig</VAR> is outside legal limits.
+</P><P>
+
+<A NAME="SEC3763"></A>
+<H3> Signal Mechanism Implementation Notes </H3>
+<!--docid::SEC3763::-->
+<P>
+
+Due to subtle aspects of protected-mode programs operation under MS-DOS,
+signal handlers cannot be safely called from hardware interrupt
+handlers.  Therefore, DJGPP exception-handling mechanism arranges for
+the signal handler to be called on the first occasion that the program
+is in protected mode and touches any of its data.  This means that if
+the exception occurs while the processor is in real mode, like when your
+program calls some DOS service, the signal handler won't be called until
+that call returns.  For instance, if you call <CODE>read</CODE> (or
+<CODE>scanf</CODE>, or <CODE>gets</CODE>) to read text from the console and press
+<KBD>Ctrl-C</KBD>, you will have to press <KBD>Enter</KBD> to terminate the
+<CODE>read</CODE> call to cause the signal handler for <CODE>SIGINT</CODE> to be
+called.  Another significant implication of this implementation is that
+when the program isn't touching any of its data (like in very tight
+loops which only use values in the registers), it cannot be interrupted.
+</P><P>
+
+<A NAME="SEC3764"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC3764::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C89; C99
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+<A NAME="sigpending"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_723.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_725.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

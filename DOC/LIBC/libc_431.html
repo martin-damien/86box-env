@@ -1,0 +1,92 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_431.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_430.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_432.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _go32_dpmi_allocate_iret_wrapper </H2>
+<!--docid::SEC2173::-->
+<A NAME="SEC2174"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC2174::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dpmi.h&#62;
+
+int _go32_dpmi_allocate_iret_wrapper(_go32_dpmi_seginfo *info);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2175"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC2175::-->
+<P>
+
+See section <A HREF="libc_199.html">DPMI Overview</A>.
+</P><P>
+
+This function creates a small assembler function that handles the
+overhead of servicing an interrupt.  To use, put the address of your
+servicing function in the <CODE>pm_offset</CODE> field of <VAR>info</VAR> and call
+this function.  The <CODE>pm_field</CODE> will get replaced with the address
+of the wrapper function, which you pass to both
+<CODE>_go32_dpmi_set_protected_mode_interrupt_vector</CODE> and
+<CODE>_go32_dpmi_free_iret_wrapper</CODE>.
+</P><P>
+
+<STRONG>Warning!</STRONG> Because of the way DPMI works, you may <EM>not</EM>
+<CODE>longjmp</CODE> out of an interrupt handler or perform any system calls
+(such as <CODE>printf</CODE>) from within an interrupt handler.
+</P><P>
+
+Do not enable interrupts with <CODE>enable()</CODE> or <CODE>asm("sti")</CODE> in your function.
+</P><P>
+
+See also <A HREF="libc_446.html">_go32_dpmi_set_protected_mode_interrupt_vector</A>,
+and <A HREF="libc_436.html">_go32_dpmi_free_iret_wrapper</A>.
+</P><P>
+
+<A NAME="SEC2176"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC2176::-->
+<P>
+
+Zero on success, nonzero on failure.
+</P><P>
+
+<A NAME="SEC2177"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC2177::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2178"></A>
+<H3> Example                                                                                                                                                                                               </H3>
+<!--docid::SEC2178::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>_go32_dpmi_seginfo info;
+info.pm_offset = my_handler;
+_go32_dpmi_allocate_iret_wrapper(&#38;info);
+_go32_dpmi_set_protected_mode_interrupt_handler(0x75, &#38;info);
+<small>...</small>
+_go32_dpmi_free_iret_wrapper(&#38;info);
+</pre></td></tr></table></P><P>
+
+<A NAME="_go32_dpmi_allocate_real_mode_callback_iret"></A>
+<!--#perl sub="trailer" -->

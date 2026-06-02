@@ -1,0 +1,152 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_119.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_118.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_120.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _creatnew </H2>
+<!--docid::SEC501::-->
+<A NAME="SEC502"></A>
+<H3> Syntax                                                                                     </H3>
+<!--docid::SEC502::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;fcntl.h&#62;
+#include &#60;dir.h&#62;
+#include &#60;io.h&#62;
+
+int _creatnew(const char *path, int attrib, int flags);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC503"></A>
+<H3> Description                                                                                    </H3>
+<!--docid::SEC503::-->
+<P>
+
+This function creates a file given by <VAR>path</VAR> and opens it, like
+<CODE>_creat</CODE> does, but only if it didn't already exist.  If the named
+file exists, <CODE>_creatnew</CODE> fails.  (In contrast, <CODE>_creat</CODE> opens
+existing files and overwrites their contents, see <A HREF="libc_118.html">_creat</A>.)
+</P><P>
+
+The attributes of the created file are determined by <VAR>attrib</VAR>.  The
+file is usually given the normal attribute (00H).  If <VAR>attrib</VAR> is
+non-zero, additional attributes will be set.  The following macros,
+defined on <CODE>&#60;dir.h&#62;</CODE>, can be used to control the attributes of the
+created file (the associated numeric values appear in parentheses):
+</P><P>
+
+<DL COMPACT>
+<DT><CODE>FA_RDONLY (1)</CODE>
+<DD>The file is created with the read-only bit set.
+<P>
+
+<DT><CODE>FA_HIDDEN (2)</CODE>
+<DD>The file is created with the hidden bit set.  Such files will not appear
+in directory listings unless you use special options to the commands
+which list files.
+<P>
+
+<DT><CODE>FA_SYSTEM (4)</CODE>
+<DD>The file is created with the system bit set.  Such files will not appear
+in directory listings unless you use special options to the commands
+which list files.
+</DL>
+<P>
+
+Other bits (<CODE>FA_LABEL</CODE> and <CODE>FA_DIREC</CODE>) are ignored by DOS.
+</P><P>
+
+The argument <VAR>flags</VAR> controls the sharing mode and the fine details
+of how the file is handled by the operating system.  The following
+macros, defined on <CODE>&#60;fcntl.h&#62;</CODE>, can be used for this (associated
+numeric values are given in parentheses):
+</P><P>
+
+<DL COMPACT>
+<DT><CODE>SH_COMPAT (00h)</CODE>
+<DD>Opens the file in compatibility mode, which allows any other process to
+open the file and read from the file any number of times.
+<P>
+
+<DT><CODE>SH_DENYRW (10h)</CODE>
+<DD>Denies both read and write access by other processes.
+<P>
+
+<DT><CODE>SH_DENYWR (20h)</CODE>
+<DD>Denies write access by other processes.
+<P>
+
+<DT><CODE>SH_DENYRD (30h)</CODE>
+<DD>Denies read access by other processes.
+<P>
+
+<DT><CODE>SH_DENYNO (40h)</CODE>
+<DD>Allows read and write access by other processes, but prevents other
+processes from opening the file in compatibility mode.
+</DL>
+<P>
+
+Note that the file is always open for both reading and writing;
+<CODE>_creatnew</CODE> ignores any bits in the lower nibble of <VAR>flags</VAR>
+(<CODE>O_RDONLY</CODE>, <CODE>O_WRONLY</CODE>, etc.).
+</P><P>
+
+<CODE>_creatnew</CODE> calls DOS function 716Ch when long file names are
+supported, 6C00h otherwise.  (On DOS version 3.x, function 5B00h is
+called which ignores the value of <VAR>flags</VAR>, since function 6C00h is
+only supported by DOS 4.0 and later.)
+</P><P>
+
+The file handle returned by <CODE>_creatnew</CODE> is set to binary mode. 
+</P><P>
+
+This function can be hooked by the Filesystem Extensions handlers, as
+described in <A HREF="libc_321.html">File System Extensions</A>.  If you don't want this, you
+should use <CODE>_dos_creatnew</CODE> (see section <A HREF="libc_165.html">_dos_creatnew</A>) instead.
+</P><P>
+
+<A NAME="SEC504"></A>
+<H3> Return Value                                                                                </H3>
+<!--docid::SEC504::-->
+<P>
+
+The new file descriptor, else -1 on error.
+</P><P>
+
+<A NAME="SEC505"></A>
+<H3> Portability                                                                                    </H3>
+<!--docid::SEC505::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="crlf2nl"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_118.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_120.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

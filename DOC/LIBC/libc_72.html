@@ -1,0 +1,87 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_72.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_71.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_73.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> biosequip </H2>
+<!--docid::SEC244::-->
+<A NAME="SEC245"></A>
+<H3> Syntax                                      </H3>
+<!--docid::SEC245::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;bios.h&#62;
+
+int biosequip(void);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC246"></A>
+<H3> Description                                     </H3>
+<!--docid::SEC246::-->
+<P>
+
+This function returns the equipment word from BIOS request 0x11.  The
+bits correspond to the following values:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>1111 1100 0000 0000
+5432 1098 7654 3210  Meaning
+
+---- ---- ---- ---X  1 = disk drive(s) installed
+---- ---- ---- --X-  1 = math coprocessor installed
+---- ---- ---- XX--  System memory: 00=16k, 01=32k, 10=48k,
+                                    11=64k (non PS/2)
+---- ---- ---- -X--  1 = pointing device installed (PS/2)
+---- ---- ---- X---  not used on PS/2
+---- ---- --XX ----  initial video mode: 01=CO40 10=CO80 11=MONO
+---- ---- XX-- ----  disk drives 00=1 01=2 10=3 11=4 (zero if bit 1=0)
+---- ---X ---- ----  1 = no DMA available
+---- XXX- ---- ----  number of serial ports installed (000=0 001=1 etc)
+---X ---- ---- ----  1 = game port adapter installed
+--X- ---- ---- ----  1 = internal modem installed (PS/2)
+--X- ---- ---- ----  1 = serial printer attached (non PS/2)
+XX-- ---- ---- ----  number of printers installed (00=0 01=1 10=2 11=3)
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC247"></A>
+<H3> Return Value                                    </H3>
+<!--docid::SEC247::-->
+<P>
+
+The equipment word.
+</P><P>
+
+<A NAME="SEC248"></A>
+<H3> Portability                                      </H3>
+<!--docid::SEC248::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC249"></A>
+<H3> Example                            </H3>
+<!--docid::SEC249::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>if (biosequip() &#38; 0xc000)
+  do_printing();
+</pre></td></tr></table></P><P>
+
+<A NAME="bioskey"></A>
+<!--#perl sub="trailer" -->

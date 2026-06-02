@@ -1,0 +1,60 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_485.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_484.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_486.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> int386x </H2>
+<!--docid::SEC2458::-->
+<A NAME="SEC2459"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC2459::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dos.h&#62;
+
+int int386x(int ivec, union REGS *in, union REGS *out,
+            struct SREGS *seg);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2460"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC2460::-->
+<P>
+
+This function is equal to <CODE>int86x</CODE>.
+See <A HREF="libc_486.html">int86</A>, for further description.
+</P><P>
+
+<A NAME="SEC2461"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC2461::-->
+<P>
+
+The value of <CODE>EAX</CODE> is returned.
+</P><P>
+
+<A NAME="SEC2462"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC2462::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="int86"></A>
+<!--#perl sub="trailer" -->

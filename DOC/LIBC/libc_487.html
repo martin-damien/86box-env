@@ -1,0 +1,91 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_487.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_486.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_488.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> int86x </H2>
+<!--docid::SEC2469::-->
+<A NAME="SEC2470"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC2470::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;dos.h&#62;
+
+int int86x(int ivec, union REGS *in, union REGS *out,
+           struct SREGS *seg);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2471"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                               </H3>
+<!--docid::SEC2471::-->
+<P>
+
+The <CODE>struct SREGS</CODE> is defined by <CODE>&#60;dos.h&#62;</CODE> as follows:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>struct SREGS {
+  unsigned short es;
+  unsigned short ds;
+  unsigned short fs;
+  unsigned short gs;
+  unsigned short cs;
+  unsigned short ss;
+};
+</pre></td></tr></table></P><P>
+
+This function is just like <CODE>int86</CODE> (see section <A HREF="libc_486.html">int86</A>) except that
+values you pass in <VAR>seg</VAR> are used for the segment registers instead
+of the defaults.
+</P><P>
+
+See also <A HREF="libc_486.html">int86</A>, <A HREF="libc_488.html">intdos</A>, and <A HREF="libc_61.html">bdos</A>.
+</P><P>
+
+<A NAME="SEC2472"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC2472::-->
+<P>
+
+The value of <CODE>EAX</CODE> is returned.
+</P><P>
+
+<A NAME="SEC2473"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                 </H3>
+<!--docid::SEC2473::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC2474"></A>
+<H3> Example                                                                                                                                                                                                                         </H3>
+<!--docid::SEC2474::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>union REGS r;
+struct SREGS s;
+r.h.ah = 0x31;
+r.h.dl = 'c';
+r.x.si = si_val;
+s.ds = ds_val;
+int86x(0x21, &#38;r, &#38;r, &#38;s);
+</pre></td></tr></table></P><P>
+
+<A NAME="intdos"></A>
+<!--#perl sub="trailer" -->

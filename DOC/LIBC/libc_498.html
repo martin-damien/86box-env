@@ -1,0 +1,102 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_498.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_497.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_499.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> _is_executable </H2>
+<!--docid::SEC2523::-->
+<A NAME="SEC2524"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </H3>
+<!--docid::SEC2524::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;sys/stat.h&#62;
+
+int _is_executable(const char *path, int fhandle,
+                   const char *extension);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC2525"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC2525::-->
+<P>
+
+This function determines if a file is executable under DOS/DJGPP
+environment.  The file may be given either by its <VAR>path</VAR> or its file
+handle <VAR>fhandle</VAR>.  If <VAR>extension</VAR> is non-NULL and non-empty, it
+is used first to look up in a list of known extensions which determine
+whether the file is executable.  (If the <CODE>_STAT_EXEC_EXT</CODE> bit of
+the <CODE>_djstat_flags</CODE> global variable (see section <A HREF="libc_151.html">_djstat_flags</A>) is not
+set, this step is skipped.)  If <VAR>extension</VAR> is unavailable or not
+enough to determine the result, the first 2 bytes of the file are
+checked to contain one of the known <CITE>magic numbers</CITE> identifying the
+file as executable.  If the file's 2 first bytes need to be read but the
+read fails, 0 is returned and errno is set.  (The file is only searched
+for magic number if the <CODE>_STAT_EXEC_MAGIC</CODE> bit of the
+<CODE>_djstat_flags</CODE> variable is set.)
+</P><P>
+
+Note that if <CODE>_STAT_EXEC_MAGIC</CODE> is set, but <CODE>_STAT_EXEC_EXT</CODE>
+is not, some files which shouldn't be flagged as executables (e.g., COFF
+<TT>`*.o'</TT> object files) will have their execute bit set, because they
+have the magic number signature at their beginning.  Therefore, only use
+the above combination if you want to debug the list of extensions
+provided in <TT>`is_exec.c'</TT> file from the library sources.
+</P><P>
+
+If the file passed by its handle was open as write-only, and the extension
+alone isn't enough to determine whether the file is executable, then this
+function returns 0, because it cannot look at the <CITE>magic number</CITE>.
+</P><P>
+
+This function is used internally by <CODE>f?stat</CODE>; you are not supposed
+to call it directly.  However, if you call it, and pass file through 
+<VAR>path</VAR>, it's up to you to resolve symlinks there.
+</P><P>
+
+<A NAME="SEC2526"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC2526::-->
+<P>
+
+1 for executable file, 0 otherwise (including in case of errors in
+accessing the file).
+</P><P>
+
+<A NAME="SEC2527"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC2527::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="_is_fat32"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_497.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_499.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

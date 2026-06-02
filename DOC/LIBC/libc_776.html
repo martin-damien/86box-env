@@ -1,0 +1,140 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_776.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_775.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_777.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> strtod </H2>
+<!--docid::SEC4053::-->
+<A NAME="SEC4054"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </H3>
+<!--docid::SEC4054::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;stdlib.h&#62;
+
+double strtod(const char *s, char **endp);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC4055"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              </H3>
+<!--docid::SEC4055::-->
+<P>
+
+This function converts as many characters of <VAR>s</VAR> as look like a
+floating point number into that number.  It also recognises
+(case-insensitively) "Inf", "Infinity", "NaN",
+"NaN(<VAR>optional decimal-number</VAR>)",
+"NaN(<VAR>optional octal-number</VAR>)"
+and "NaN(<VAR>optional hex-number</VAR>)".  If <VAR>endp</VAR> is not a null
+pointer, a pointer to the first unconverted character will be stored
+in the location pointed to by <VAR>endp</VAR>.
+</P><P>
+
+<A NAME="SEC4056"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC4056::-->
+<P>
+
+The value represented by <VAR>s</VAR>.
+</P><P>
+
+If <VAR>s</VAR> is "Inf" or "Infinity", with any variations of
+case and optionally prefixed with "+" or "-", the return value is
+<CODE>INFINITY</CODE> (if no prefix or a "+" prefix) or <CODE>-INFINITY</CODE>
+(if the prefix is "-").
+</P><P>
+
+If <VAR>s</VAR> is "NaN" or "NaN()", with any variations of case
+and optionally prefixed with "+" or "-", the return value is
+<CODE>(double)NAN</CODE>.  If the prefix is "-" the sign bit in the NaN
+will be set to 1.
+</P><P>
+
+If <VAR>s</VAR> is "NaN(<VAR>decimal-number</VAR>)", "NaN(<VAR>octal-number</VAR>)"
+or "NaN(<VAR>hex-number</VAR>)", with any variations of
+case and optionally prefixed with "+" or "-", the return value is
+a NaN with the mantissa bits set to the lower 52 bits
+of <VAR>decimal-number</VAR>, <VAR>octal-number</VAR> or <VAR>hex-number</VAR>
+(the mantissa for doubles consists of 52 bits).  Use
+at most 16 hexadecimal digits in <VAR>hex-number</VAR> or the internal
+conversion will overflow, which results in a mantissa with all bits
+set.  If the bit pattern given is 0 (which won't work as a
+representation of a NaN) <CODE>(double)NAN</CODE> will be returned.  If the
+prefix is "-" the sign bit in the NaN will be set to 1.  Testing
+shows that SNaNs might be converted into QNaNs (most significant bit
+will be set in the mantissa).  
+</P><P>
+
+If a number represented by <VAR>s</VAR> doesn't fit into the range of values
+representable by the type <CODE>double</CODE>, the function returns either
+<CODE>-HUGE_VAL</CODE> (if <VAR>s</VAR> begins with the character <CODE>-</CODE>) or
+<CODE>+HUGE_VAL</CODE>, and sets <CODE>errno</CODE> to <CODE>ERANGE</CODE>.
+</P><P>
+
+<A NAME="SEC4057"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC4057::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> C89; C99 (see note 1)
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> 1003.2-1992; 1003.1-2001
+</TR></TABLE>
+<P>
+
+Notes:
+</P><P>
+
+<OL>
+<LI>
+Support for "Inf", "Infinity", "NaN" and
+"NaN(<small>...</small>)" was standardised in ANSI C99.
+<P>
+
+</OL>
+<P>
+
+<A NAME="SEC4058"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                                                                                </H3>
+<!--docid::SEC4058::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>char buf[] = "123ret";
+char buf2[] = "0x123ret";
+char buf3[] = "NAN(123)";
+char buf4[] = "NAN(0x123)";
+char *bp;
+double x, x2, x3, x4;
+
+x = strtod(buf, &#38;bp);
+x2 = strtod(buf2, &#38;bp);
+x3 = strtod(buf3, &#38;bp);
+x4 = strtod(buf4, &#38;bp);
+</pre></td></tr></table></P><P>
+
+<A NAME="strtof"></A>
+<HR SIZE=1>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_775.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_777.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<!--#perl sub="trailer" -->

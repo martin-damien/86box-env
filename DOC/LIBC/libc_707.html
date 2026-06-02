@@ -1,0 +1,89 @@
+<!--#perl sub="header" arg="libc.a reference" -->
+<A NAME="libc_707.html"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_706.html"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_708.html"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_34.html"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_873.html"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_toc.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_874.html">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libc_abt.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<HR SIZE=1>
+<H2> setmode </H2>
+<!--docid::SEC3672::-->
+<A NAME="SEC3673"></A>
+<H3> Syntax                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             </H3>
+<!--docid::SEC3673::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;io.h&#62;
+
+int setmode(int file, int mode);
+</pre></td></tr></table></P><P>
+
+<A NAME="SEC3674"></A>
+<H3> Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </H3>
+<!--docid::SEC3674::-->
+<P>
+
+This function sets the mode of the given <VAR>file</VAR> to <VAR>mode</VAR>, which
+is either <CODE>O_TEXT</CODE> or <CODE>O_BINARY</CODE>.  It will also set the file
+into either cooked or raw mode accordingly, and set any <CODE>FILE*</CODE>
+objects that use this file into text or binary mode. 
+</P><P>
+
+When called to put <VAR>file</VAR> that refers to the console into binary
+mode, <CODE>setmode</CODE> will disable the generation of the signals
+<CODE>SIGINT</CODE> and <CODE>SIGQUIT</CODE> when you press, respectively,
+<KBD>Ctrl-<KBD>C</KBD></KBD> and <KBD>Ctrl-<KBD>\</KBD></KBD> (<KBD>Ctrl-<KBD>BREAK</KBD></KBD> will
+still cause <CODE>SIGINT</CODE>), because many programs that use binary reads
+from the console will also want to get the <SAMP>`^C'</SAMP> and <SAMP>`^\'</SAMP> keys.
+You can use the  <CODE>__djgpp_set_ctrl_c</CODE> library function
+(see section <A HREF="libc_142.html">__djgpp_set_ctrl_c</A>) if you want <KBD>Ctrl-<KBD>C</KBD></KBD> and
+<KBD>Ctrl-<KBD>\</KBD></KBD> to generate signals while console is read in
+binary mode.
+</P><P>
+
+Note that, for buffered streams (<CODE>FILE*</CODE>), you must call
+<CODE>fflush</CODE> (see section <A HREF="libc_315.html">fflush</A>) before <CODE>setmode</CODE>, or call
+<CODE>setmode</CODE> before writing anything to the file, for proper
+operation.
+</P><P>
+
+<A NAME="SEC3675"></A>
+<H3> Return Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </H3>
+<!--docid::SEC3675::-->
+<P>
+
+When successful, the function will return the previous mode of the
+given <VAR>file</VAR>.  In case of failure, -1 is returned and <CODE>errno</CODE>
+is set.
+</P><P>
+
+<A NAME="SEC3676"></A>
+<H3> Portability                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </H3>
+<!--docid::SEC3676::-->
+<P>
+
+<TABLE>
+<TR><TD>ANSI/ISO C</TD>
+</TD><TD> No
+</TR>
+<TR><TD>POSIX</TD>
+</TD><TD> No
+</TR></TABLE>
+<P>
+
+<A NAME="SEC3677"></A>
+<H3> Example                                                                                                                                                                                                                                                                                                                                                       </H3>
+<!--docid::SEC3677::-->
+<P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>setmode(0, O_BINARY);
+</pre></td></tr></table></P><P>
+
+<A NAME="setpgid"></A>
+<!--#perl sub="trailer" -->
